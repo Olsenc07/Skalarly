@@ -20,7 +20,7 @@ export class AuthorizeService {
   }
 
   // search email
-  searchEmails(): Observable<boolean> {
+  searchEmails(email: string): Observable<boolean> {
     return this.http.get(
       'http://localhost:4200/login' ||
         'https://www.skalarly.com/api/authorize/emailValidation'

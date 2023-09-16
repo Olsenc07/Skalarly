@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { Observable } from 'rxjs';
+import { AuthorizeService } from '../services/authorize.service';
 
 // import { MatCardModule } from '@angular/material/card';
 
@@ -28,8 +30,10 @@ import { MatSelectModule } from '@angular/material/select';
   ]
 })
 export class LoginComponent implements OnInit {
-  emailFound: boolean = false;
-  constructor() {}
+  emailFound$: Observable<boolean> = new Observable();
+  constructor(
+    private authorizeService: AuthorizeService
+  ) {}
 
   email: FormControl = new FormControl<string | null>(null, [
     emailValidatorPattern,
@@ -46,22 +50,8 @@ export class LoginComponent implements OnInit {
     this.email.statusChanges.subscribe((Event) => {
       if (Event === 'VALID') {
         const query: string = this.email.value;
-        this.authService.searchEmails(query.trim());
-        this.authService
-          .getEmail()
-          // .pipe(map((testing) => {}))
-          // filter using operators
-          // test subjects here and needing to
-          .subscribe((results) => {
-            if (results === true) {
-              console.log('results baby', results);
-              // this shou;ld be with an async pipe and not called with each function
-              this.emailMatches = results;
-            } else {
-              console.log('nuts', results);
-              this.emailMatches = false;
-            }
-          });
+        this.authorizeService.searchEmails(query.trim());
+       
       }
     });
   }
