@@ -1,0 +1,37 @@
+@use 'universal-reusable-styles/common' as universal;
+@use "sass:math";
+
+// state change of navigation icons
+@mixin active($state, $active){
+    @include universal.common;
+    align-items: center;
+    color: $state;
+@if $active{
+    font-size: 1.5em;
+}
+} 
+// mat-toolbar
+@mixin toolbar{
+    display: flex;
+    position: sticky;
+    z-index: 2;
+    height: 4em;
+}
+.footer{
+@include toolbar;
+bottom: 0;
+}
+.header{
+@include toolbar;
+top: 0;
+}
+.navigation{
+    @include universal.common;
+    @include universal.pageSize
+}
+.navigation-icon{
+    @include active(#f5f5f5, $active: false);
+}
+.navigation-icon-active{
+    @include active(#b8dde9, $active: true);
+}

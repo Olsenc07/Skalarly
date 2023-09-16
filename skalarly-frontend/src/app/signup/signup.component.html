@@ -1,0 +1,39 @@
+<progress id="progress" value="32" max="100"> </progress>
+
+
+<!-- create password -->
+<mat-form-field>
+    <mat-label>
+        <i [class.condition-met]="createPassword.valid" 
+         matSuffix class="fa-solid fa-lock"></i>
+    </mat-label>
+    <input matInput type="password" placeholder="Password" required
+    [formControl]="createPassword" id='createPassword'>
+    <!-- toggle password visibility -->
+    <button matSuffix mat-icon-button *ngIf="passwordVisbile; else hidden" (click)="toggleVisibilty()" matTooltip="Show Password" >
+        <i class="fa-solid fa-eye"></i>
+      </button>
+    <ng-template #hidden>
+    <button matSuffix mat-icon-button (click)="toggleVisibilty()" matTooltip="Hide Password" >
+        <i class="fa-solid fa-eye-slash"></i>
+    </button>
+    </ng-template>
+</mat-form-field>
+
+
+  <!-- Password Requirements -->
+  <!-- unrendered when no value or conditons are met -->
+  <ng-template *ngIf="createPassword.value && createPassword.invalid">
+  <div class="password-requirements">
+    <p>Password Requirements:</p>
+    <ul>
+      <li #length>At least 8 characters</li>
+      <li #uppercase>At least one uppercase letter (A-Z)</li>
+      <li #lowercase>At least one lowercase letter (a-z)</li>
+      <li #digit>At least one digit (0-9)</li>
+      <li #special>At least one special character (e.g., @#$%^&+=!)</li>
+    </ul>
+  </div>
+</ng-template>
+
+<!-- finish login angular expert -->

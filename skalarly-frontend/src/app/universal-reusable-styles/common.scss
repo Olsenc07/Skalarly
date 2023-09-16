@@ -1,0 +1,11 @@
+// common requirements
+$all: 100%;
+@mixin common($flex: flex){
+    display: $flex;
+    justify-content: center;
+}
+@mixin pageSize{
+    height: $all;
+    width: $all;
+    box-sizing: border-box;
+}

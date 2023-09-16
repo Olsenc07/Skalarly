@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Login Page</title>
+</head>
+
+<body>
+<div class="body">
+  <!-- logo and welcoming words -->
+<div class="login-header">
+<figure>
+  <img ngSrc="../../assets/images/Skalar_Hat_Icon.png" fill priority>
+  <figcaption>
+  Skalarly
+  </figcaption>
+</figure>
+<h2> Enhance Your University Experience</h2>
+</div>
+
+<form>
+  <!-- enter email -->
+  <mat-form-field  appearance="outline">
+       <!-- email -->
+    <input matInput [formControl]="email" required type="email"
+    id="skalarlyEmail" />
+    <mat-label [class.email-valid]="email.valid">
+      <i matSuffix class="fa-solid fa-user"></i>
+         Academic Email</mat-label>
+    <mat-error *ngIf="email.errors?.['emailValidatorPattern']">Only academic emails are valid</mat-error>
+    <mat-error *ngIf="incorrectEmail">No account matches this email</mat-error>
+    <ng-template #found>
+  </ng-template>
+  <i matSuffix class="fa-solid fa-circle-info" matTooltip="Skalarly requires an academic email">
+  </i>
+  </mat-form-field>
+</form>
+
+
+
+</div>
+</body>
+</html>

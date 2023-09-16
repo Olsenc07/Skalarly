@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Parent Navigator</title>
+</head>
+
+<body>
+  <!-- navigation bar
+  can add this all in other component file.. -->
+<ng-template  *ngIf="(routerUrl !== ('/home' || '/sign-up' ))">
+<mat-toolbar class="header">
+  <!-- logo -->
+
+  <!-- search bar extended-->
+  <ng-template *ngIf="!orientation; else searchIcon">
+
+    </ng-template>
+
+<!-- search bar icon -->
+    <ng-template #searchIcon>
+
+    </ng-template>
+
+  <nav>
+  <!-- only for landscape -->
+  <ng-template *ngIf="!orientation; else portrait">
+
+
+<!-- profile -->
+  <div class="navigation">
+<button mat-icon-button routerLink="/profile">
+  <mat-icon class="fa-solid fa-graduation-cap navigation-icon"
+  [ngClass]="
+  routerUrl === '/profile' ? 'navigation-icon-active' : 'navigation-icon'
+"></mat-icon>
+</button>
+  </div>
+
+</ng-template>
+
+<!-- settings button -->
+
+</nav>
+
+</mat-toolbar>
+
+
+<!-- only for portrait -->
+<ng-template #portrait>
+  <mat-toolbar class="footer">
+  <nav>
+<div class="navigation">
+<button mat-icon-button routerLink="/profile">
+  <mat-icon class="fa-solid fa-graduation-cap navigation-icon"
+  [ngClass]="
+  routerUrl === '/profile' ? 'navigation-icon-active' : 'navigation-icon'
+"></mat-icon>
+</button>
+  </div>
+  </nav>
+</mat-toolbar>
+</ng-template>
+</ng-template>
+
+  <!-- Render as component based on path of routes -->
+  <!-- [orientation]="orientation" use ngrxlocal state management -->
+  <router-outlet ></router-outlet>  
+</body>
+</html>

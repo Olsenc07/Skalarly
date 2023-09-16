@@ -1,0 +1,66 @@
+@use '../universal-reusable-styles/common' as universal;
+@use '../universal-reusable-styles/break-points' as device;
+
+// mobile-first styles
+.body {
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(whitesmoke,white);
+    @include universal.common;
+    @include universal.pageSize;
+    // dynamic styles
+    @include device.fontAdjustments(16px);
+}
+//ipads & tablets 481px - 768px
+@if only screen and (min-width: device.$tablet){
+    .body {
+    // dynamic styles
+    @include device.fontAdjustments(18px);
+        }
+}
+// labtops & small screens 769px - 1024px
+@if only screen and (min-width: device.$labtops){
+    .body {
+        // dynamic styles
+    @include device.fontAdjustments(20px);
+        }
+}
+// labtops & small screens 769px - 1024px
+@if only screen and (min-width: device.$desktop){
+    .body {
+        // dynamic styles
+    @include device.fontAdjustments(22px);
+        }
+}
+// labtops & small screens 769px - 1024px
+@if only screen and (min-width: device.$tv){
+    .body {
+        // dynamic styles
+    @include device.fontAdjustments(24px);
+        }
+}
+.email-valid{
+    color: #49b569;
+}
+.login-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // everything smaller shoudl have logo at top of screen
+   
+}
+figure{
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+    text-align: center; /* Center text within the figure */
+    position: relative;
+    height: auto;
+    width: universal.$all;
+  }
+figcaption{
+    @include universal.common;
+    background-color: #222;
+    text-align: center;
+    margin-top: 5%;
+}

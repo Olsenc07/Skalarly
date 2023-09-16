@@ -1,0 +1,14 @@
+// Device Breakpoints
+$mobile: 576px; //mobile devices typically 0px - 576px
+$tablet: 768px; //ipads & tablets 577x - 768px
+$labtops: 1024px; // labtops & small screens 769px - 1024px
+$desktops: 1200px; // desktops & large screen 1025px - 1200px
+$tv: 1440px; // tv and extra large screen 1440px & greater 
+
+
+// pre packed common requirements
+@mixin fontAdjustments ($font-size) {
+    font-size: $font-size;
+    line-height: $font-size * 1.5;
+}
+
