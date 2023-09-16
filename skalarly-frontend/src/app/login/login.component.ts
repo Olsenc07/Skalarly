@@ -5,12 +5,12 @@ import {
   emailValidatorPattern,
   trimWhiteSpace
 } from '../validators/email-pattern.validator';
+import { AuthorizeService } from '../services/authorize.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { Observable } from 'rxjs';
-import { AuthorizeService } from '../services/authorize.service';
 
 // import { MatCardModule } from '@angular/material/card';
 
@@ -31,9 +31,9 @@ import { AuthorizeService } from '../services/authorize.service';
 })
 export class LoginComponent implements OnInit {
   emailFound$: Observable<boolean> = new Observable();
-  constructor(
-    private authorizeService: AuthorizeService
-  ) {}
+  constructor(private authorizeService: AuthorizeService) {
+    this.authorizeService = authorizeService;
+  }
 
   email: FormControl = new FormControl<string | null>(null, [
     emailValidatorPattern,
@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
       if (Event === 'VALID') {
         const query: string = this.email.value;
         this.authorizeService.searchEmails(query.trim());
-       
       }
     });
   }

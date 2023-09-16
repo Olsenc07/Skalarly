@@ -14,7 +14,7 @@
       ],
       "parserOptions": {
         "project": [
-          "tsconfig.json",
+          "/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/tsconfig.json",
           "e2e/tsconfig.json"
         ],
         "createDefaultProgram": true
