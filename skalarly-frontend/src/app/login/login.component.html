@@ -28,7 +28,7 @@
       <i matSuffix class="fa-solid fa-user"></i>
          Academic Email</mat-label>
     <mat-error *ngIf="email.errors?.['emailValidatorPattern']">Only academic emails are valid</mat-error>
-    <mat-error *ngIf="(emailFound$ | async)">No account matches this email</mat-error>
+    <mat-error *ngIf="(emailFound$ | async) === false">No account matches this email</mat-error>
     <ng-template #found>
   </ng-template>
   <i matSuffix class="fa-solid fa-circle-info" matTooltip="Skalarly requires an academic email">

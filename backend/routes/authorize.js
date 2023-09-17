@@ -14,16 +14,19 @@ router.get('/emailValidation', async(req,res) => {
     await Skalar.findOne({email: checkEmail})
     .then(search => {
         if(search){
+            console.log('email found', search);
             res.status(200);
             // or change ang send json and chnage the return of observable ins ervice or something
             return true
             }
             else{
+                console.log('email not found');
                 res.status(200);
                 return false
             }
         }).catch(err => {
-            res.status(401)
+            res.status(401);
+            console.log('error', err);
             })
         })
 

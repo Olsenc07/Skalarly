@@ -30,7 +30,7 @@ import { Observable } from 'rxjs';
   ]
 })
 export class LoginComponent implements OnInit {
-  emailFound$: Observable<boolean> = new Observable();
+  emailFound$: Observable<boolean> = new Observable<boolean>();
   constructor(private authorizeService: AuthorizeService) {
     this.authorizeService = authorizeService;
   }
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
     this.email.statusChanges.subscribe((Event) => {
       if (Event === 'VALID') {
         const query: string = this.email.value;
-        this.authorizeService.searchEmails(query.trim());
+        this.emailFound$ = this.authorizeService.searchEmails(query.trim());
       }
     });
   }

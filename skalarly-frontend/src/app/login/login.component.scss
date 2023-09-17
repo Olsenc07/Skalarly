@@ -25,7 +25,7 @@ form{
     }
 }
 // labtops & small screens 769px - 1024px
-@if only screen and (min-width: device.$labtops){
+@if only screen and (min-width: device.$labtop){
     .body {
         // dynamic styles
     @include device.fontAdjustments(20px);
