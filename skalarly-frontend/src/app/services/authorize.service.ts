@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -21,9 +21,13 @@ export class AuthorizeService {
 
   // search email
   searchEmails(email: string): Observable<boolean> {
-    return this.http.get(
+    const queryParams: HttpParams = new HttpParams({ fromString: email });
+    return this.http.get<boolean>(
       'http://localhost:4200/login' ||
-        'https://www.skalarly.com/api/authorize/emailValidation'
+        'https://www.skalarly.com/api/authorize/emailValidation',
+      {
+        params: queryParams
+      }
     );
   }
 }

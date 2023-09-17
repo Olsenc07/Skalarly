@@ -1,8 +1,12 @@
-const express = require('express');
-const router = express.Router();
+import { Router } from 'express';
+const router = Router();
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+
 
 router.get('/emailValidation', async(req,res) => {
     console.log('emailValidation');
 })
 
-module.exports = router;
+export default router;
