@@ -11,18 +11,27 @@
     // dynamic styles
     @include device.fontAdjustments(16px);
 }
-//ipads & tablets 481px - 768px
+form{
+    @include universal.common;
+}
+//ipads & tablets 576px - 768px
 @if only screen and (min-width: device.$tablet){
     .body {
     // dynamic styles
     @include device.fontAdjustments(18px);
         }
+    form {
+        margin: 0% 15%;
+    }
 }
 // labtops & small screens 769px - 1024px
 @if only screen and (min-width: device.$labtops){
     .body {
         // dynamic styles
     @include device.fontAdjustments(20px);
+        }
+    form {
+        margin: 0% 20%;
         }
 }
 // labtops & small screens 769px - 1024px
@@ -31,6 +40,9 @@
         // dynamic styles
     @include device.fontAdjustments(22px);
         }
+    form {
+        margin: 0% 25%;
+        }
 }
 // labtops & small screens 769px - 1024px
 @if only screen and (min-width: device.$tv){
@@ -38,6 +50,9 @@
         // dynamic styles
     @include device.fontAdjustments(24px);
         }
+    form {
+        margin: 0% 30%;
+          }
 }
 .email-valid{
     color: #49b569;
@@ -64,3 +79,4 @@ figcaption{
     text-align: center;
     margin-top: 5%;
 }
+

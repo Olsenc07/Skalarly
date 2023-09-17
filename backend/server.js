@@ -73,7 +73,7 @@ app.get('*', requireHTTPS, (req, res) => {
 });
 // PWA 
 app.get("/worker.js", (req, res) => {
-    res.sendFile('/app/angular-SCHOLARLY/src/worker.js');
+    res.sendFile('/app/skalarly-frontend/src/worker.js');
   });
 
 
