@@ -2,7 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AuthorizeService {
   private isAuthenticated = false;
   constructor(private http: HttpClient) {
@@ -23,6 +25,7 @@ export class AuthorizeService {
   searchEmails(email: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
     return this.http.get<boolean>(
+      // set up mock server to serve local host requests?
       'http://localhost:4200/login' ||
         'https://www.skalarly.com/api/authorize/emailValidation',
       {

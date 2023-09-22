@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { EditingService } from 'src/app/services/editing.service';
+import { EditingService } from 'src/app/custom-architecture-aids/services/editing.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Injectable()

@@ -5,9 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { type PassWordInterface } from '../interfaces/password-interface';
-import { passwordValidator } from '../validators/password.validator';
-import { trimWhiteSpace } from '../validators/email-pattern.validator';
+import { type PassWordInterface } from '../custom-architecture-aids/interfaces/password-interface';
+import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
+import { trimWhiteSpace } from '../custom-architecture-aids/validators/email-pattern.validator';
 // import { MatCardModule } from '@angular/material/card';
 
 @Component({

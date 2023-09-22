@@ -4,8 +4,8 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   emailValidatorPattern,
   trimWhiteSpace
-} from '../validators/email-pattern.validator';
-import { AuthorizeService } from '../services/authorize.service';
+} from '../custom-architecture-aids/validators/email-pattern.validator';
+import { AuthorizeService } from '../custom-architecture-aids/services/authorize.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -50,8 +50,20 @@ export class LoginComponent implements OnInit {
     this.email.statusChanges.subscribe((Event) => {
       if (Event === 'VALID') {
         const query: string = this.email.value;
+        // add switch map
+        // only if different thing rxjs
         this.emailFound$ = this.authorizeService.searchEmails(query.trim());
       }
     });
   }
+  // Use Switch map
+  // HTTP Requests: When you make multiple HTTP requests based on some user interactions, you often want to ignore the responses from previous requests if new interactions occur. switchMap is used to cancel the ongoing HTTP request and switch to a new one when a new interaction happens.
+  //   Autocomplete/Search: In autocomplete or search functionality, as a user types, you may want to cancel the ongoing search for previous input and only consider the results for the latest input.
+  // User Authentication: When a user logs in or out, you might want to cancel any ongoing operations associated with their previous login state and initiate new operations based on their new login state.
+  // Real-time Data: In applications that display real-time data (e.g., chat applications), you can use switchMap to switch to a new stream of data whenever the user changes the conversation.
+  // this.userInput$.pipe(
+  // switchMap(searchTerm => this.http.get(`/api/search?term=${searchTerm}`))
+  // ).subscribe(result => {
+  // Handle the result of the latest HTTP request
+  // });
 }

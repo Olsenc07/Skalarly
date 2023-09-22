@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthorizeService } from 'src/app/services/authorize.service';
+import { AuthorizeService } from 'src/app/custom-architecture-aids/services/authorize.service';
 
 @Injectable()
 export class AuthGuard {

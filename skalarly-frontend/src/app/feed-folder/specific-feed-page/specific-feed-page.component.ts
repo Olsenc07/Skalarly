@@ -2,7 +2,7 @@ import { Component, type OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { type PostInterface } from 'src/app/interfaces/post-interface';
+import { type PostInterface } from 'src/app/custom-architecture-aids/interfaces/post-interface';
 
 @Component({
   standalone: true,

@@ -8,6 +8,11 @@ $skalarly-font: 'Cormorant Garamond', serif;
 $toolbar-shadow-color: rgba(0, 0, 0, 0.25);
 $toolbar-background-color: #282828;
 
+b {
+// for matching search results to an api call list
+// displays light blue for `<b>${match}</b>` bold.pipe implementation
+color: lightblue
+}
 body {
  @include universal.pageSize;
  height: universal.$all;

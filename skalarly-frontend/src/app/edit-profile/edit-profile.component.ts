@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgIf, AsyncPipe } from '@angular/common';
-import { EditingService } from '../services/editing.service';
+import { EditingService } from '../custom-architecture-aids/services/editing.service';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { Observable } from 'rxjs';

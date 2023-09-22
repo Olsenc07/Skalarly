@@ -8,13 +8,21 @@
 <body>
   <!-- navigation bar
   can add this all in other component file.. -->
-<ng-template  *ngIf="(routerUrl !== ('/home' || '/sign-up' ))">
+<ng-container  *ngIf="(routerUrl !== ('/home' || '/sign-up' ))">
 <mat-toolbar class="header">
   <!-- logo -->
 
-  <!-- search bar extended-->
+  <!-- search bar full length mobile-first styles -->
   <ng-template *ngIf="!orientation; else searchIcon">
+<input matInput type="search" [formControl]="searchSkalar">
+    <!-- skalar found -->
+    <ng-container *ngIf="skalars$ | async as skalars"> 
+  <ng-template *ngFor="let skalar of skalars">
+    <span [innerHTML]="skalar.username | bold: searchSkalar.value ">
 
+    </span>
+  </ng-template>
+</ng-container>
     </ng-template>
 
 <!-- search bar icon -->
@@ -61,7 +69,7 @@
   </nav>
 </mat-toolbar>
 </ng-template>
-</ng-template>
+</ng-container>
 
   <!-- Render as component based on path of routes -->
   <!-- [orientation]="orientation" use ngrxlocal state management -->
