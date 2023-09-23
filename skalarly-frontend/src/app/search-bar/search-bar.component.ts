@@ -1,7 +1,15 @@
 import { CommonModule, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable, map, of, switchMap, withLatestFrom } from 'rxjs';
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  switchMap,
+  withLatestFrom
+} from 'rxjs';
 import {
   animate,
   state,
@@ -52,6 +60,8 @@ export class SearchBarComponent implements OnInit {
     this.skalarsService = skalarsService;
     // add old proper database, service path and add rxjs trigger, dif..
     this.skalars$ = this.searchSkalar.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
       withLatestFrom(this.skalarsService.getSkalars(this.searchSkalar.value)), // Combine with latest list of skalars
       // input is form control value of 'searchSkalar'
       // list is from the get api

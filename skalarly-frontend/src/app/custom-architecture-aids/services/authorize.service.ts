@@ -7,6 +7,11 @@ import { Observable } from 'rxjs';
 })
 export class AuthorizeService {
   private isAuthenticated = false;
+  private userId: string | undefined;
+  getUserId(): string | undefined {
+    return this.userId;
+  }
+
   constructor(private http: HttpClient) {
     this.http = http;
   }
@@ -16,9 +21,44 @@ export class AuthorizeService {
     return this.isAuthenticated;
   }
 
-  // login
-  login(): boolean {
-    return (this.isAuthenticated = true);
+  // Login
+  login(email: string, password: string, stayLoggedIn: boolean): any {
+    const authData: AuthData = { email, password, stayLoggedIn };
+    console.log('stayLoggedIn', stayLoggedIn);
+    const sub = this.http
+      .post<{ token: string; expiresIn: number; userId: string }>(
+        'https://www.skalarly.com/api/user/login',
+        authData
+      )
+      .subscribe({
+        next: (response) => {
+          const token = response.token;
+          this.token = token;
+          if (token) {
+            this.router.navigate(['/search']);
+            this.snackBar.open('Welcome Fellow Skalar🎓', '', {
+              duration: 3000,
+            });
+            const expiresInDuration = response.expiresIn;
+            this.setAuthTimer(expiresInDuration);
+            this.isAuthenticated = true;
+            this.userId = response.userId;
+            this.authStatusListener$.next(true);
+            const now = new Date();
+            const expirationDate = new Date(now.getTime() + expiresInDuration);
+
+            this.saveAuthData(token, expirationDate, this.userId);
+            sub.unsubscribe();
+            console.log('love you 78');
+          }
+        },
+        error: (error) => {
+          this.authStatusListener$.next(false);
+          // this.snackBar.open('Failed to login, please try again', 'Will do!!', {
+          //     duration: 4000
+          // });
+        },
+      });
   }
 
   // search email

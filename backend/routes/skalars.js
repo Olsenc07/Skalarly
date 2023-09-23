@@ -1,15 +1,22 @@
 import { Router } from 'express';
 const router = Router();
-
 // Models Used
-const SkalarInfo = require('/app/backend/models/SkalarInfo');
+import { findOne } from '/app/backend/models/SkalarInfo';
+
+// Middleware
+const filterBlockedUsers = require('/app/backend/middleware/filter-blocked-skalars');
 
 
-// Is this a saved email
-router.get('/emailValidation', async(req,res) => {
-    let input = req.query.input;
+
+// searching skalars
+router.get('/skalarsFound', filterBlockedUsers, async(req,res) => {
+    const input = req.query.input;
+    const userId = req.query.userId;
+
     console.log('search input', input);
-    await SkalarInfo.findOne({username: input})
+    console.log('userId', userId);
+
+    await findOne({username: input})
     // make efficent search, non case sensitive?
     // look at old code
     // .then(search => {

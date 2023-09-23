@@ -2,6 +2,12 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  switchMap
+} from 'rxjs';
+import {
   emailValidatorPattern,
   trimWhiteSpace
 } from '../custom-architecture-aids/validators/email-pattern.validator';
@@ -10,9 +16,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { Observable } from 'rxjs';
-
-// import { MatCardModule } from '@angular/material/card';
 
 @Component({
   standalone: true,
@@ -21,7 +24,6 @@ import { Observable } from 'rxjs';
   imports: [
     ReactiveFormsModule,
     MatFormFieldModule,
-    // MatCardModule,
     HttpClientModule,
     MatSelectModule,
     MatButtonModule,
@@ -49,10 +51,11 @@ export class LoginComponent implements OnInit {
     // dont search email unless pattern is proper
     this.email.statusChanges.subscribe((Event) => {
       if (Event === 'VALID') {
-        const query: string = this.email.value;
-        // add switch map
-        // only if different thing rxjs
-        this.emailFound$ = this.authorizeService.searchEmails(query.trim());
+        this.emailFound$ = this.email.valueChanges.pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
+          switchMap((query) => this.authorizeService.searchEmails(query))
+        );
       }
     });
   }
