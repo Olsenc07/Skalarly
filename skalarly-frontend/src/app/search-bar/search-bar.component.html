@@ -6,21 +6,25 @@
 </head>
 
 <body>
-    <!-- *1 mobile first -->
-    <ng-template *ngIf="searchIconClicked; else largeScreen"> 
-        <div class="mobile-screen">
-            <span class="input-row">
+    <!-- *1 *2  but mobile first -->
+    <ng-template> 
+        <div [ngClass]="{'mobile-screen': orientation === 'portrait', 
+        'large-screen' : orientation === 'landscape' }" [@slideInOut]="showResults && (orientation === 'portrait')">
+            <span class="input-row" *ngIf="elementHasClass('mobile-screen'); else largeScreen">
             <button mat-icon-button (click)="iconBackClicked()"> 
         <i class="fa-solid fa-angle-left"></i>
             </button>
         <input matInput type="search" [formControl]="searchSkalar" placeholder="Search Fellow Skalars">
         </span>
+        <ng-template #largeScreen>
+        <input matInput type="search" [formControl]="searchSkalar" placeholder="Search Fellow Skalars">
+        </ng-template>
     <!-- skalar found -->
     <ng-container *ngIf="skalars$ | async as skalars"> 
-  <ng-template *ngFor="let skalar of skalars">
-
-    <span class="results" [@slideInOut]="showResults">
-        <app-skalar-card [skalarInfo]="skalar"> </app-skalar-card>
+  <ng-template *ngFor="let skalar of skalars" >
+<!-- animated when items are added to or removed from the skalars array  -->
+    <span class="results">
+        <app-skalar-card [skalarInfo]="skalar" [@slideInOut]> </app-skalar-card>
 <!-- list of skalars to toggle -->
     </span>
 
@@ -28,23 +32,7 @@
 </ng-container>
 </div>
 </ng-template>
-<!-- *2 -->
-<ng-template #largeScreen>
-    <div class="input-row large-screen">
-    <input matInput type="search" [formControl]="searchSkalar" placeholder="Search Fellow Skalars">
-    <!-- skalar found -->
-  <ng-container *ngIf="skalars$ | async as skalars"> 
-  <ng-template *ngFor="let skalar of skalars">
-    <span [innerHTML]="skalar.username | bold: searchSkalar.value ">
-<!-- list of skalars to toggle -->
-    </span>
-  </ng-template>
-  </ng-container>
-  </div>
 </ng-template>
 
 </body>
 </html>
-
-
-

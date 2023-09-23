@@ -1,11 +1,5 @@
 import { CommonModule, NgClass, NgFor, NgIf } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Observable, map, of, switchMap, withLatestFrom } from 'rxjs';
 import {
@@ -36,25 +30,27 @@ import { SkalarsService } from '../custom-architecture-aids/services/skalars.ser
   ],
   animations: [
     trigger('slideInOut', [
-      state('in', style({ transform: 'translateY(0)' })),
-      state('out', style({ transform: 'translateY(-100%)' })),
+      state('in', style({ opacity: 1, transform: 'translateY(0)' })),
+      state('out', style({ opacity: 0, transform: 'translateY(-100%)' })),
       transition('in => out', animate('300ms ease-in-out')),
       transition('out => in', animate('300ms ease-in-out'))
     ])
   ]
 })
-export class SearchBarComponent implements OnChanges {
+export class SearchBarComponent implements OnInit {
   skalars$: Observable<any[]>;
   searchSkalar: FormControl = new FormControl<string | null>(null);
   // mobile first
   // Recieve data from parent
-  @Input() searchIconClicked!: boolean;
+  @Input({ required: true }) orientation!: boolean;
+
   // Child to parent
   @Output() backEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   showResults: 'in' | 'out' = 'out';
 
   constructor(private skalarsService: SkalarsService) {
     this.skalarsService = skalarsService;
+    // add old proper database, service path and add rxjs trigger, dif..
     this.skalars$ = this.searchSkalar.valueChanges.pipe(
       withLatestFrom(this.skalarsService.getSkalars(this.searchSkalar.value)), // Combine with latest list of skalars
       // input is form control value of 'searchSkalar'
@@ -75,11 +71,10 @@ export class SearchBarComponent implements OnChanges {
       )
     );
   }
-  // recieved value from parent
-  ngOnChanges(): void {
-    if (this.searchIconClicked === true) {
-      this.showResults = 'in';
-    }
+
+  // this.skalars$ has recieved initial data
+  ngOnInit(): void {
+    this.showResults = 'in';
   }
 
   iconBackClicked() {

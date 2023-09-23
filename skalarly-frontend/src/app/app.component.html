@@ -19,7 +19,7 @@
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
       <ng-container *ngIf="searchIconClicked">
-      <app-search-bar [searchIconClicked]="searchIconClicked" (backEvent)="toggleSearch($event)"></app-search-bar>
+      <app-search-bar [orientation]="orientation" (backEvent)="toggleSearch($event)"></app-search-bar>
     </ng-container>
     </ng-template>
 
@@ -27,7 +27,7 @@
   <ng-template #shownSearchBar>
     <!-- for desktop but mobile one should pop up and then search options
     take up full screen -->
-    <app-search-bar></app-search-bar>
+    <app-search-bar [orientation]="orientation"></app-search-bar>
   </ng-template>
 
   <nav>

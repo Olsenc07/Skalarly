@@ -7,6 +7,10 @@
 
 <body>
     <mat-card>
-    [innerHTML]="skalar.username | bold: searchSkalar.value"
-</mat-card>
+        <mat-card-header>
+        <img ngSrc="profilePic" fill priority>
+        <mat-card-title [innerHTML]="skalar.username | bold: searchSkalar.value" >{{'@username'}}</mat-card-title>
+        <mat-card-subtitle>{{'name'}}</mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
 </body>
