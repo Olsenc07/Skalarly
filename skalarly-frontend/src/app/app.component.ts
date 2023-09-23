@@ -1,50 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   NavigationEnd,
   Event as NavigationEvent,
   Router,
   RouterModule
 } from '@angular/router';
-import { NgClass, NgFor, NgIf } from '@angular/common';
-import { Observable, map, of, switchMap, withLatestFrom } from 'rxjs';
-import { BoldPipe } from './custom-architecture-aids/pipes/bold.pipe';
-import { HttpClientModule } from '@angular/common/http';
+import { NgClass, NgIf } from '@angular/common';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { SkalarsService } from './custom-architecture-aids/services/skalars.service';
-
+import { SearchBarComponent } from './search-bar/search-bar.component';
 @Component({
   standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   imports: [
-    BoldPipe,
-    HttpClientModule,
     MatButtonModule,
-    MatIconModule,
     MatToolbarModule,
     NgClass,
     NgIf,
-    NgFor,
-    ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    SearchBarComponent
   ]
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   routerUrl: string | undefined;
+  // mobile first
   orientation: boolean | undefined;
-  skalars$: Observable<any[]>;
-  searchSkalar: FormControl = new FormControl<string | null>(null);
+  searchIconClicked: boolean = false;
 
-  constructor(
-    private router: Router,
-    private skalarsService: SkalarsService
-  ) {
+  constructor(private router: Router) {
     this.router = router;
-    this.skalarsService = skalarsService;
     // tracking skalars current page
     this.router.events.subscribe((event: NavigationEvent) => {
       if (event instanceof NavigationEnd) {
@@ -54,7 +40,7 @@ export class AppComponent implements OnInit {
     // Determing device orientation
     window
       .matchMedia('(orientation: portrait)')
-      .addEventListener('change', (e) => {
+      .addEventListener('change', (e: MediaQueryListEvent) => {
         // true is portrait
         this.orientation = e.matches;
         if (this.orientation) {
@@ -63,30 +49,10 @@ export class AppComponent implements OnInit {
           // desktop, large tablets
         }
       });
-    // add rxjs that triggers only if new value and.. like have in old skalarly log in i beleive
-    this.skalars$ = this.searchSkalar.valueChanges.pipe(
-      withLatestFrom(this.skalarsService.getSkalars(this.searchSkalar.value)), // Combine with latest list of skalars
-      // input is form control value of 'searchSkalar'
-      // list is from the get api
-      // felt I should add switchMap to prevent data leaks etc
-      // But that may already be done with withLatestFrom so could be unneeded
-      switchMap(([input, list]) =>
-        of(list).pipe(
-          // toLowerCase allows for case insensitive search
-          // If the substring is not found, it returns -1
-          map((skalarList) =>
-            skalarList.filter(
-              (s) =>
-                s.username.toLowerCase().indexOf(input.toLowerCase()) !== -1
-            )
-          )
-        )
-      )
-    );
   }
-
-  ngOnInit(): void {
-    console.log('app load');
+  // mobile functions
+  toggleSearch(toggle: boolean): void {
+    this.searchIconClicked = toggle;
   }
 
   // <!-- Terminal -->

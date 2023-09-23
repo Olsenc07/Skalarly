@@ -12,29 +12,45 @@
 <mat-toolbar class="header">
   <!-- logo -->
 
-  <!-- search bar full length mobile-first styles -->
-  <ng-template *ngIf="!orientation; else searchIcon">
-<input matInput type="search" [formControl]="searchSkalar">
-    <!-- skalar found -->
-    <ng-container *ngIf="skalars$ | async as skalars"> 
-  <ng-template *ngFor="let skalar of skalars">
-    <span [innerHTML]="skalar.username | bold: searchSkalar.value ">
+<!-- *1 search bar icon, mobile first  -->
+    <ng-template *ngIf="orientation; else shownSearchBar" >
+      <!-- search icon to display search -->
+      <button mat-icon-button (click)="toggleSearch(true)">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+      <ng-container *ngIf="searchIconClicked">
+      <app-search-bar [searchIconClicked]="searchIconClicked" (backEvent)="toggleSearch($event)"></app-search-bar>
+    </ng-container>
+    </ng-template>
 
-    </span>
+<!-- *2 landscape search bar -->
+  <ng-template #shownSearchBar>
+    <!-- for desktop but mobile one should pop up and then search options
+    take up full screen -->
+    <app-search-bar></app-search-bar>
   </ng-template>
-</ng-container>
-    </ng-template>
-
-<!-- search bar icon -->
-    <ng-template #searchIcon>
-
-    </ng-template>
 
   <nav>
-  <!-- only for landscape -->
-  <ng-template *ngIf="!orientation; else portrait">
+<!-- *1 only for portrait, mobile first -->
+<ng-template *ngIf="orientation; else landscape">
+  <mat-toolbar class="footer">
+  <nav>
+<span class="navigation">
+<button mat-icon-button routerLink="/profile">
+  <mat-icon class="fa-solid fa-graduation-cap navigation-icon"
+  [ngClass]="
+  routerUrl === '/profile' ? 'navigation-icon-active' : 'navigation-icon'
+"></mat-icon>
+</button>
+</span>
+  </nav>
+</mat-toolbar>
+</ng-template>
 
 
+
+  <!-- *2 only for landscape -->
+  <ng-template  #landscape>
 <!-- profile -->
   <div class="navigation">
 <button mat-icon-button routerLink="/profile">
@@ -50,25 +66,7 @@
 <!-- settings button -->
 
 </nav>
-
 </mat-toolbar>
-
-
-<!-- only for portrait -->
-<ng-template #portrait>
-  <mat-toolbar class="footer">
-  <nav>
-<div class="navigation">
-<button mat-icon-button routerLink="/profile">
-  <mat-icon class="fa-solid fa-graduation-cap navigation-icon"
-  [ngClass]="
-  routerUrl === '/profile' ? 'navigation-icon-active' : 'navigation-icon'
-"></mat-icon>
-</button>
-  </div>
-  </nav>
-</mat-toolbar>
-</ng-template>
 </ng-container>
 
   <!-- Render as component based on path of routes -->
