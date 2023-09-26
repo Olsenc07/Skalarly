@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import { findOne } from '/app/backend/models/SkalarInfo';
+import { find } from '/app/backend/models/SkalarInfo';
 
 // Middleware
 const filterBlockedUsers = require('/app/backend/middleware/filter-blocked-skalars');
@@ -11,12 +11,32 @@ const filterBlockedUsers = require('/app/backend/middleware/filter-blocked-skala
 // searching skalars
 router.get('/skalarsFound', filterBlockedUsers, async(req,res) => {
     const input = req.query.input;
-    const userId = req.query.userId;
+    // From Middleware
+    const filteredQuery = req.filteredQuery;
 
     console.log('search input', input);
-    console.log('userId', userId);
+    console.log('filteredQuery', filteredQuery);
 
-    await findOne({username: input})
+    await find({ $and: [
+        {
+     username: { // searching for skalar
+        $regex: new RegExp(input,'gi')
+                }
+            },
+            filteredQuery
+            ]
+        }).limit(7)
+        .then(skalars => {
+            if(skalars){
+                console.log('skalars found', skalars);
+                res.status(200).send(skalars)
+            }
+        })
+        .catch(err =>{
+            return res.status(401).json({
+                message: 'No skalar found', err
+            })
+        })
     // make efficent search, non case sensitive?
     // look at old code
     // .then(search => {

@@ -5,10 +5,7 @@ import {
   Observable,
   debounceTime,
   distinctUntilChanged,
-  map,
-  of,
-  switchMap,
-  withLatestFrom
+  switchMap
 } from 'rxjs';
 import {
   animate,
@@ -17,7 +14,6 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-import { BoldPipe } from '../custom-architecture-aids/pipes/bold.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { SkalarCardComponent } from '../skalar-card/skalar-card.component';
 import { SkalarsService } from '../custom-architecture-aids/services/skalars.service';
@@ -27,7 +23,6 @@ import { SkalarsService } from '../custom-architecture-aids/services/skalars.ser
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss'],
   imports: [
-    BoldPipe,
     CommonModule,
     MatButtonModule,
     NgClass,
@@ -49,40 +44,21 @@ export class SearchBarComponent implements OnInit {
   skalars$: Observable<any[]>;
   searchSkalar: FormControl = new FormControl<string | null>(null);
   // mobile first
-  // Recieve data from parent
+  // Recieve data from parent for animation
   @Input({ required: true }) orientation!: boolean;
-
-  // Child to parent
+  // Child to parent for animation
   @Output() backEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   showResults: 'in' | 'out' = 'out';
 
   constructor(private skalarsService: SkalarsService) {
     this.skalarsService = skalarsService;
-    // add old proper database, service path and add rxjs trigger, dif..
     this.skalars$ = this.searchSkalar.valueChanges.pipe(
-      debounceTime(500),
+      debounceTime(300),
       distinctUntilChanged(),
-      withLatestFrom(this.skalarsService.getSkalars(this.searchSkalar.value)), // Combine with latest list of skalars
-      // input is form control value of 'searchSkalar'
-      // list is from the get api
-      // felt I should add switchMap to prevent data leaks etc
-      // But that may already be done with withLatestFrom so could be unneeded
-      switchMap(([input, list]) =>
-        of(list).pipe(
-          // toLowerCase allows for case insensitive search
-          // If the substring is not found, it returns -1
-          map((skalarList) =>
-            skalarList.filter(
-              (s: { username: string }) =>
-                s.username.toLowerCase().indexOf(input.toLowerCase()) !== -1
-            )
-          )
-        )
-      )
+      switchMap((input: string) => this.skalarsService.getSkalars(input))
     );
   }
 
-  // this.skalars$ has recieved initial data
   ngOnInit(): void {
     this.showResults = 'in';
   }

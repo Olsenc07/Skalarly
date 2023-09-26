@@ -1,6 +1,6 @@
 import { verify } from 'jsonwebtoken';
 
-export default (reg, res, next) => {
+const checkAuthor = async (reg, res, next) => {
     try {
     const token = reg.headers.authorization.split(' ')[1];
     const decodedToken = verify(token, process.env.loveistheanswer);
@@ -10,3 +10,4 @@ export default (reg, res, next) => {
        res.status(401).json({ message: "Your session has timed out. Please relogin!"});
     }
 };
+module.exports = checkAuthor;

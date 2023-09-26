@@ -6,6 +6,8 @@ import {
 } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { ErrorInterceptor } from './custom-architecture-aids/error-handler/error-interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SearchBarComponent } from './search-bar/search-bar.component';
@@ -21,6 +23,9 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     NgIf,
     RouterModule,
     SearchBarComponent
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ]
 })
 export class AppComponent {
