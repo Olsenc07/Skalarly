@@ -21,6 +21,12 @@ export class AuthorizeService {
     return this.isAuthenticated;
   }
 
+  // If api is going to retrive the same thing us pipe(
+  // shareReplay(1) // Cache the latest response
+  // but if new search credentials are given then allow api call and cache new
+  // could cache users recent search results so dont have to save in data base
+  // but still gives a nice ux when on the page for a while
+  // like youtube!
   // Login
   login(email: string, password: string, stayLoggedIn: boolean): any {
     const authData: AuthData = { email, password, stayLoggedIn };
@@ -61,7 +67,18 @@ export class AuthorizeService {
       });
   }
 
-  // search email
+  // save auth data
+  private saveAuthData(
+    token: string,
+    expirationDate: Date,
+    userId: string
+  ): any {
+    localStorage.setItem('token', token);
+    localStorage.setItem('expiration', expirationDate.toISOString());
+    localStorage.setItem('userId', userId);
+  }
+
+  // search email on login
   searchEmails(email: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
     return this.http.get<boolean>(
