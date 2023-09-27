@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +14,14 @@ export class AuthorizeService {
     return this.userId;
   }
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private snackBar: MatSnackBar,
+    private router: Router
+  ) {
     this.http = http;
+    this.snackBar = snackBar;
+    this.router = router;
   }
 
   // check authorization
@@ -28,22 +36,27 @@ export class AuthorizeService {
   // but still gives a nice ux when on the page for a while
   // like youtube!
   // Login
-  login(email: string, password: string, stayLoggedIn: boolean): any {
-    const authData: AuthData = { email, password, stayLoggedIn };
+  login(
+    email: string,
+    password: string,
+    stayLoggedIn?: boolean
+  ): boolean {
+    const authData: any = { email, password, stayLoggedIn };
     console.log('stayLoggedIn', stayLoggedIn);
-    const sub = this.http
-      .post<{ token: string; expiresIn: number; userId: string }>(
-        'https://www.skalarly.com/api/user/login',
-        authData
-      )
-      .subscribe({
+    // return this.http
+    //   .post<{ token: string; expiresIn: number; userId: string }>(
+    //     'https://www.skalarly.com/api/user/login',
+    //     authData
+    //   )
+    // if(login was good)
+    // then trigger the caching of token .. and have is laoding reset if failure
         next: (response) => {
           const token = response.token;
           this.token = token;
           if (token) {
             this.router.navigate(['/search']);
             this.snackBar.open('Welcome Fellow Skalar🎓', '', {
-              duration: 3000,
+              duration: 3000
             });
             const expiresInDuration = response.expiresIn;
             this.setAuthTimer(expiresInDuration);
@@ -54,8 +67,6 @@ export class AuthorizeService {
             const expirationDate = new Date(now.getTime() + expiresInDuration);
 
             this.saveAuthData(token, expirationDate, this.userId);
-            sub.unsubscribe();
-            console.log('love you 78');
           }
         },
         error: (error) => {
@@ -63,12 +74,13 @@ export class AuthorizeService {
           // this.snackBar.open('Failed to login, please try again', 'Will do!!', {
           //     duration: 4000
           // });
-        },
+        }
       });
   }
 
   // save auth data
   private saveAuthData(
+    // cahce this token!!
     token: string,
     expirationDate: Date,
     userId: string

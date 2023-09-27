@@ -18,7 +18,9 @@
 <h2> Enhance Your University Experience</h2>
 </div>
 
-<form>
+<!-- content projection to be used in error handler -->
+<ng-content>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
   <!-- enter email -->
   <mat-form-field  appearance="outline">
        <!-- email -->
@@ -34,9 +36,14 @@
   <i matSuffix class="fa-solid fa-circle-info" matTooltip="Skalarly requires an academic email">
   </i>
   </mat-form-field>
-</form>
 <!-- add rest -->
-
+<button mat-raised-button *ngIf="!isLoading; else loading" type="submit">Login</button>
+<ng-template #loading>
+  <span [class.dot-pulse]="isLoading">
+  </span>
+</ng-template>
+</form>
+</ng-content>
 
 
 </div>

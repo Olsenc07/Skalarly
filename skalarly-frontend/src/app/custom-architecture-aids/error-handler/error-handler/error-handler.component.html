@@ -27,8 +27,11 @@
         <!-- If a server glitch -->
         <button mat-raised-button mat-dialog-close (click)="reloadPg()">Reload</button>
         <!-- direct to login if not authoirze, no userId.. -->
-        <button mat-raised-button mat-dialog-close (click)="reloadPg()">Login</button>
-
+        <!-- Have login on screen
+        Select this part from the  --> 
+        <app-login-format >
+        <button  mat-raised-button routerLink="/sign-up" color="primary" signup>Create A New Account</button>
+    </app-login-format>
     </div>
     </div>
     </div>

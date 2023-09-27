@@ -5,6 +5,12 @@
   <title>Specific Feed</title>
 </head>
 
+<!-- For mobile
+   when scrolling down hide the top nav bar but when
+starting to scroll back up have it appear
+like you tube -->
+
+<!-- Also haveeach post load in/fade in when first viewed and in scroll view -->
 <body>
 <div *ngFor="let post of posts; index as i; trackBy: trackByPosts;"
 (onscroll)="scrolling()">

@@ -4,7 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   standalone: true,
   selector: 'app-error-handler',
   templateUrl: './error-handler.component.html',
-  styleUrls: ['./error-handler.component.scss'],
+  styleUrls: ['./login/login.component.scss'],
   imports: [MatDialogModule]
 })
 export class ErrorHandlerComponent {

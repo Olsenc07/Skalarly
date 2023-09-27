@@ -1,6 +1,11 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import {
   Observable,
   debounceTime,
@@ -19,6 +24,7 @@ import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   standalone: true,
+  selector: 'app-login-format',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   imports: [
@@ -32,32 +38,48 @@ import { MatSelectModule } from '@angular/material/select';
   ]
 })
 export class LoginComponent implements OnInit {
+  isLoading: boolean = false;
   emailFound$: Observable<boolean> = new Observable<boolean>();
+  loginState: boolean = false;
   constructor(private authorizeService: AuthorizeService) {
     this.authorizeService = authorizeService;
   }
 
-  email: FormControl = new FormControl<string | null>(null, [
-    emailValidatorPattern,
-    trimWhiteSpace()
-  ]);
-  password: FormControl = new FormControl<string | null>(null, [
-    Validators.minLength(8),
-    trimWhiteSpace()
-  ]);
+  quizForm: FormGroup = new FormGroup({
+    email: new FormControl<string | null>(null, [
+      emailValidatorPattern,
+      trimWhiteSpace()
+    ]),
+    password: new FormControl<string | null>(null, [
+      Validators.minLength(8),
+      trimWhiteSpace()
+    ])
+  });
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('log in');
     // dont search email unless pattern is proper
-    this.email.statusChanges.subscribe((Event) => {
+    this.quizForm.controls['email'].statusChanges.subscribe((Event) => {
       if (Event === 'VALID') {
-        this.emailFound$ = this.email.valueChanges.pipe(
+        this.emailFound$ = this.quizForm.controls['email'].valueChanges.pipe(
           debounceTime(500),
           distinctUntilChanged(),
           switchMap((query) => this.authorizeService.searchEmails(query))
         );
       }
     });
+  }
+
+  login(): void {
+    // if this fails then
+    this.loginState = this.authorizeService.login(
+      this.quizForm.controls['email'].value,
+      this.quizForm.controls['password'].value
+    );
+    // login failed so reset animation
+    if (!this.loginState) {
+      this.isLoading = false;
+    }
   }
   // Use Switch map
   // HTTP Requests: When you make multiple HTTP requests based on some user interactions, you often want to ignore the responses from previous requests if new interactions occur. switchMap is used to cancel the ongoing HTTP request and switch to a new one when a new interaction happens.
