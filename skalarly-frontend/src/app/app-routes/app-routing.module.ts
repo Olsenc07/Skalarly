@@ -46,15 +46,23 @@ export const routes: Routes = [
       ),
     canDeactivate: [() => inject(AuthGuard).canActivate()]
   },
-
   // skalar profile
   {
     path: 'profile',
     loadComponent: () =>
-      import('../profile/profile.component').then(
+      import('../profiles/profile/profile.component').then(
         (mod) => mod.ProfileComponent
       ),
-    canActivate: [() => inject(AuthGuard).canActivate()]
+    canActivate: [() => inject(AuthGuard).canActivate()],
+    children: [
+      {
+        loadChildren: () =>
+          import(
+            '../custom-architecture-aids/side-bar-info/side-bar-info.component'
+          ).then((mod) => mod.SideBarInfoComponent),
+        outlet: 'sideBarInfoOutlet'
+      }
+    ]
   },
   // edit profile
   {
@@ -65,5 +73,23 @@ export const routes: Routes = [
         (mod) => mod.EditProfileComponent
       ),
     canDeactivate: [() => inject(ConfirmGuard).canDeactivate()]
+  },
+  // other skalar's profile
+  {
+    path: 'skalars/:id',
+    loadComponent: () =>
+      import('../profiles/others-profile/others-profile.component').then(
+        (mod) => mod.OthersProfileComponent
+      ),
+    canActivate: [() => inject(AuthGuard).canActivate()],
+    children: [
+      {
+        loadChildren: () =>
+          import(
+            '../custom-architecture-aids/side-bar-info/side-bar-info.component'
+          ).then((mod) => mod.SideBarInfoComponent),
+        outlet: 'sideBarInfoOutlet'
+      }
+    ]
   }
 ];

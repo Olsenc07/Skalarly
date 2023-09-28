@@ -71,6 +71,7 @@
 
   <!-- Render as component based on path of routes -->
   <!-- [orientation]="orientation" use ngrxlocal state management -->
-  <router-outlet ></router-outlet>  
+  <router-outlet ></router-outlet>  <!-- Primary outlet for main content -->
+  <router-outlet name="sideBarInfoOutlet"></router-outlet> <!-- Secondary outlet for sidebars & later maybe modals/dialog -->
 </body>
 </html>

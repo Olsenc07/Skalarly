@@ -1,5 +1,5 @@
 export interface SkalarInfoInterface {
-  id: string;
-  username: string;
+  readonly id: string;
+  readonly username: string;
   name: string;
 }
