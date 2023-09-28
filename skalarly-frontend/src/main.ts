@@ -2,6 +2,7 @@ import 'zone.js/dist/zone';
 import { AppComponent } from './app/app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { SharedInterceptorModule } from './app/custom-architecture-aids/interceptors/shared-interceptor.module';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
@@ -18,9 +19,10 @@ if (environment.production) {
 // activate first module
 bootstrapApplication(AppComponent, {
   providers: [
+    SharedInterceptorModule, // Interceptors automatically involved all components
     provideRouter(routes),
     importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
-    provideStore()
+    provideStore() // State Management
   ]
 })
   .then((started) => {

@@ -1,15 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, shareReplay } from 'rxjs';
 import { Router } from '@angular/router';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeService {
   private isAuthenticated = false;
-  private userId: string | undefined;
+  private userId: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  private tokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  // Observable for the token
+  token$: Observable<string | null> = this.tokenSubject.pipe(shareReplay(1));
+
   getUserId(): string | undefined {
     return this.userId;
   }
@@ -18,17 +23,15 @@ export class AuthorizeService {
     private http: HttpClient,
     private snackBar: MatSnackBar,
     private router: Router
-  ) {
-    this.http = http;
-    this.snackBar = snackBar;
-    this.router = router;
-  }
+  ) {}
 
   // check authorization
   getIsAuth(): boolean {
     return this.isAuthenticated;
   }
+getToken(): {
 
+}
   // If api is going to retrive the same thing us pipe(
   // shareReplay(1) // Cache the latest response
   // but if new search credentials are given then allow api call and cache new
@@ -52,6 +55,7 @@ export class AuthorizeService {
     // then trigger the caching of token .. and have is laoding reset if failure
         next: (response) => {
           const token = response.token;
+          this.tokenSubject.next(token);
           this.token = token;
           if (token) {
             this.router.navigate(['/search']);
