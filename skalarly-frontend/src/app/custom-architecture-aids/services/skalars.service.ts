@@ -1,4 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
+import {
+  ActivatedRouteSnapshot,
+  Resolve,
+  RouterStateSnapshot
+} from '@angular/router';
 import { AuthorizeService } from '../services/authorize.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -7,7 +12,7 @@ import { type SkalarInfoInterface } from '../interfaces/skalars-info-interface';
 @Injectable({
   providedIn: 'root'
 })
-export class SkalarsService {
+export class SkalarsService implements Resolve<any> {
   userId: string | undefined;
 
   constructor(
@@ -17,6 +22,14 @@ export class SkalarsService {
   ) {
     this.userId = authorizeService.getUserId();
   }
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<any> | Promise<any> | any {
+    // Implement your data fetching logic here
+    // You can use this.myDataService to fetch data from a service or API
+    return this.getSkalarData(id); // Replace with your data-fetching method
+  }
   // If api is going to retrive the same thing us pipe(
   // shareReplay(1) // Cache the latest response
   // but if new search credentials are given then allow api call and cache new
@@ -24,6 +37,10 @@ export class SkalarsService {
   //lists recent searches
   // but still gives a nice ux when on the page for a while
   // like youtube!
+
+  getSkalarData() {
+    console.log('fetch skalarinfo');
+  }
   getSkalars(input: string): Observable<SkalarInfoInterface[]> {
     // fetch userId from auth service that stores id after login
     const queryParams = {

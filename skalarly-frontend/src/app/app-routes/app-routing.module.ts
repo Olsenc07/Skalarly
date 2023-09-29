@@ -22,38 +22,42 @@ export const routes: Routes = [
   // first page loaded on login
   {
     path: 'home',
+    canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
-      import('../home/home.component').then((mod) => mod.HomeComponent),
-    canActivate: [() => inject(AuthGuard).canActivate()]
+      import('../home/home.component').then((mod) => mod.HomeComponent)
   },
   // specific page within a category requested with multiple posts
   {
     path: 'specific-feed',
+    canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
       import(
         '../feed-folder/specific-feed-page/specific-feed-page.component'
-      ).then((mod) => mod.SpecificFeedPageComponent),
-    canActivate: [() => inject(AuthGuard).canActivate()]
+      ).then((mod) => mod.SpecificFeedPageComponent)
   },
   // one single post, able to be viewed by viewers without skalarly accounts
   // any navigation away from this page will require authentication
   {
     path: 'single-feed',
     title: 'single-feed',
+    canDeactivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
       import('../feed-folder/single-feed-page/single-feed-page.component').then(
         (mod) => mod.SingleFeedPageComponent
-      ),
-    canDeactivate: [() => inject(AuthGuard).canActivate()]
+      )
   },
   // skalar profile
   {
     path: 'profile',
+    canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
       import('../profiles/profile/profile.component').then(
         (mod) => mod.ProfileComponent
       ),
-    canActivate: [() => inject(AuthGuard).canActivate()],
+      // needs userId
+    resolve: {
+      userData: UserDataResolver 
+    },
     children: [
       {
         loadChildren: () =>
@@ -68,20 +72,24 @@ export const routes: Routes = [
   {
     path: 'edit-profile',
     title: 'edit-profile',
+    canDeactivate: [() => inject(ConfirmGuard).canDeactivate()],
     loadComponent: () =>
       import('../edit-profile/edit-profile.component').then(
         (mod) => mod.EditProfileComponent
-      ),
-    canDeactivate: [() => inject(ConfirmGuard).canDeactivate()]
+      )
   },
   // other skalar's profile
   {
     path: 'skalars/:id',
+    canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
       import('../profiles/others-profile/others-profile.component').then(
         (mod) => mod.OthersProfileComponent
       ),
-    canActivate: [() => inject(AuthGuard).canActivate()],
+    resolve: {
+      // padd:id
+      userData: UserDataResolver 
+    },
     children: [
       {
         loadChildren: () =>
