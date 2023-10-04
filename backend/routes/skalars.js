@@ -1,15 +1,29 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import { find } from '/app/backend/models/SkalarInfo';
+import { find, findOne } from '/app/backend/models/SkalarInfo';
 
 // Middleware
 const filterBlockedUsers = require('/app/backend/middleware/filter-blocked-skalars');
 
-
-
+// searching self
+router.get('/selfInfo', async(req,res) => {
+    await findOne({Creator: req.query.userId})
+        // .select('-password') if i was fetching user info, dont want password passed on front end
+        .then(documents => {
+            res.status(200).json({
+                message: 'Users fetched succesfully!',
+                infos: documents
+            });
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Fetching users failed!'
+            });
+        });
+})
 // searching skalars
-router.get('/skalarsFound', filterBlockedUsers, async(req,res) => {
+router.get('/skalarsInfo', filterBlockedUsers, async(req,res) => {
     const input = req.query.input;
     // From Middleware
     const filteredQuery = req.filteredQuery;

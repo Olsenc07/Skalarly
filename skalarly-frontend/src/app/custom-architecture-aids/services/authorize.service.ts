@@ -9,19 +9,17 @@ import { error } from 'console';
   providedIn: 'root'
 })
 export class AuthorizeService implements OnDestroy {
-  // Subjects
+  // these variables don't require reactivity/async data
+  userId: string | null = null;
+  // Subjects 
   private tokenSubject$: BehaviorSubject<string | null> = new BehaviorSubject<
   string | null
-  >(null);
-  private userIdSubject$: BehaviorSubject<string | null> = new BehaviorSubject<
-    string | null
   >(null);
   private authStatusSubject$: BehaviorSubject<boolean | null> = new BehaviorSubject<
   boolean | null
   >(null);
   // Observables 
   token$: Observable<string | null> = this.tokenSubject$.pipe(shareReplay(1));
-  userId$: Observable<string | null> = this.userIdSubject$.pipe(shareReplay(1));
   isAuthenticated$: Observable<boolean | null> = this.authStatusSubject$.pipe(shareReplay(1));
 
   // path of url
@@ -32,7 +30,10 @@ export class AuthorizeService implements OnDestroy {
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
- 
+//  
+getUserId(): string | null {
+  return this.userId;
+}
    // search email on login
    searchEmails(email: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
@@ -58,12 +59,10 @@ export class AuthorizeService implements OnDestroy {
         next: (response) => {
           if(response.token){
           this.tokenSubject$.next(response.token);
-          this.userIdSubject$.next(response.userId)
+          // this.userIdSubject$.next(response.userId)
+          this.userId = response.userId;
           this.authStatusSubject$.next(true);
-
-            
           //  look over and add clean up for subjects and obs
-
             this.setAuthTimer(response.expiresIn);
             const expirationDate = new Date(new Date().getTime() + response.expiresIn);
             this.saveAuthData(response.token, expirationDate, response.userId);

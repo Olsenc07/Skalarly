@@ -9,9 +9,8 @@
 <!-- Could I use test 6-7 & ng-content for any of this? -->
 <body>
     <!-- *1 *2  but mobile first -->
-        <div [ngClass]="{'mobile-screen': orientation === 'portrait', 
-        'large-screen' : orientation === 'landscape' }" [@slideInOut]="showResults && (orientation === 'portrait')">
-            <span class="input-row" *ngIf="elementHasClass('mobile-screen'); else largeScreen">
+        <div [ngClass]="orientation ? 'mobile-screen' : 'large-screen'" [@slideInOut]="showResults && orientation">
+            <span class="input-row" *ngIf="orientation; else largeScreen">
             <button mat-icon-button (click)="iconBackClicked()"> 
         <i class="fa-solid fa-angle-left"></i>
             </button>
@@ -25,7 +24,7 @@
   <ng-template *ngFor="let skalar of skalars" >
 <!-- animated when items are added to or removed from the skalars array  -->
     <span class="results">
-        <app-skalar-card [skalarInfo]="skalar" [@slideInOut]> </app-skalar-card>
+        <app-skalar-card [skalarInfo]="skalar" [searchSkalar]="searchSkalar" [@slideInOut]> </app-skalar-card>
     </span>
 
   </ng-template>

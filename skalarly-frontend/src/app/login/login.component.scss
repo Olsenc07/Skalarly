@@ -4,6 +4,9 @@
 button {
     background-image: linear-gradient(to right,#002D62,black);
 }
+button[signup]{
+    color: 002D62 ;
+    }
 .dot-pulse {
         display: inline-block;
         position: relative;

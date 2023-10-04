@@ -1,6 +1,7 @@
 import { AuthGuard } from './route-guards/auth.guard';
 import { ConfirmGuard } from './route-guards/confirm.guard';
 import { Routes } from '@angular/router';
+import { UserProfileResolver } from '../custom-architecture-aids/resolvers/skalar-info-resolver.component';
 import { inject } from '@angular/core';
 
 // lazy loading of standalone components
@@ -48,15 +49,15 @@ export const routes: Routes = [
   },
   // skalar profile
   {
-    path: 'profile',
+    path: 'profile/:id',
     canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
       import('../profiles/profile/profile.component').then(
         (mod) => mod.ProfileComponent
       ),
-      // needs userId
+    // needs userId
     resolve: {
-      userData: UserDataResolver 
+      userData: UserProfileResolver
     },
     children: [
       {
@@ -87,8 +88,7 @@ export const routes: Routes = [
         (mod) => mod.OthersProfileComponent
       ),
     resolve: {
-      // padd:id
-      userData: UserDataResolver 
+      userData: UserProfileResolver
     },
     children: [
       {
