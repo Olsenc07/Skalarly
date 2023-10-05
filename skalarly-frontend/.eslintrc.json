@@ -51,7 +51,15 @@
             "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
             "allowSeparatedGroups": false
           }
-        ]
+        ],
+          // Override the "no-unused-vars" rule for constructors
+        "no-unused-vars": [
+          "error",
+          {
+           "varsIgnorePattern": "^[A-Z][a-zA-Z]*$", // Ignores constructor names
+            "argsIgnorePattern": "^[a-z]" // Ignores parameters starting with a lowercase letter
+        }
+       ]
       }
     },
     {

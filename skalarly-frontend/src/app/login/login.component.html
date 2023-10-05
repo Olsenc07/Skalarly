@@ -19,17 +19,17 @@
 </div>
 
 <!-- content projection to be used in error handler -->
-<ng-content>
+<app-error-handler>
 <form [formGroup]="loginForm" (ngSubmit)="login()">
   <!-- enter email -->
   <mat-form-field  appearance="outline">
        <!-- email -->
-    <input matInput [formControl]="email" required type="email"
+    <input matInput formControlName="email" required type="email"
     id="skalarlyEmail" />
-    <mat-label [class.email-valid]="email.valid">
+    <mat-label [class.email-valid]="loginForm.get('email')!.valid">
       <i matSuffix class="fa-solid fa-user"></i>
          Academic Email</mat-label>
-    <mat-error *ngIf="email.errors?.['emailValidatorPattern']">Only academic emails are valid</mat-error>
+    <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">Only academic emails are valid</mat-error>
     <mat-error *ngIf="(emailFound$ | async) === false">No account matches this email</mat-error>
     <ng-template #found>
   </ng-template>
@@ -37,14 +37,16 @@
   </i>
   </mat-form-field>
 <!-- add rest -->
-<button mat-raised-button *ngIf="!isLoading; else loading" type="submit">Login</button>
+<button mat-raised-button *ngIf="!isLoading; else loading" type="submit"
+[@shakeAnimation]="failedLoginAnimation" >Login</button>
 <ng-template #loading>
   <span [class.dot-pulse]="isLoading">
   </span>
 </ng-template>
 </form>
-</ng-content>
+</app-error-handler>
 
+<div class="welcome-text" [@welcomeAnimation]="animationState">Welcome to Skalarly</div>
 
 </div>
 </body>

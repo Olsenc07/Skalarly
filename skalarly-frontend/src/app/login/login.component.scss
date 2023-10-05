@@ -64,6 +64,9 @@ form{
     form {
         margin: 0% 15%;
     }
+    .welcome-text{
+    font-size: 20px;
+    }
 }
 // *2 labtops & small screens 769px - 1024px
 @if only screen and (min-width: device.$labtop){
@@ -73,6 +76,9 @@ form{
         }
     form {
         margin: 0% 20%;
+        }
+    .welcome-text{
+        font-size: 22px;
         }
 }
 // *2 labtops & small screens 769px - 1024px
@@ -84,6 +90,9 @@ form{
     form {
         margin: 0% 25%;
         }
+    .welcome-text{
+        font-size: 24px;
+        }
 }
 // labtops & small screens 769px - 1024px
 @if only screen and (min-width: device.$tv){
@@ -94,6 +103,9 @@ form{
     form {
         margin: 0% 30%;
           }
+    .welcome-text{
+        font-size: 26px;
+        }
 }
 .email-valid{
     color: #49b569;
@@ -121,3 +133,37 @@ figcaption{
     margin-top: 5%;
 }
 
+// *1 *2
+.welcome-text {
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  .shining {
+    animation: shining 1s infinite alternate;
+  }
+  @keyframes shining {
+    0% {
+      text-shadow: none;
+    }
+    100% {
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+  }
+//   failed login animation
+.failed-login-animation {
+    animation-name: shake; /* Use your animation name here */
+    animation-duration: 0.5s; /* Adjust the duration as needed */
+    animation-timing-function: ease-in-out;
+  }
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    25%, 75% {
+      transform: translateX(-5px); /* Adjust the horizontal shake distance */
+    }
+    50% {
+      transform: translateX(5px); /* Adjust the horizontal shake distance */
+    }
+  }

@@ -26,7 +26,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 export class AppComponent {
   routerUrl: string | undefined;
   // mobile first
-  orientation: boolean | undefined;
+  orientation: boolean = true;
   searchIconClicked: boolean = false;
 
   constructor(private router: Router) {

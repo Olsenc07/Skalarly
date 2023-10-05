@@ -1,9 +1,8 @@
+import { BehaviorSubject, Observable, shareReplay } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, Observable, shareReplay } from 'rxjs';
 import { Router } from '@angular/router';
-import { error } from 'console';
 
 @Injectable({
   providedIn: 'root'
@@ -11,16 +10,15 @@ import { error } from 'console';
 export class AuthorizeService implements OnDestroy {
   // these variables don't require reactivity/async data
   userId: string | null = null;
-  // Subjects 
+  isAuthenticated: boolean = false;
+  // Subjects
   private tokenSubject$: BehaviorSubject<string | null> = new BehaviorSubject<
-  string | null
+    string | null
   >(null);
-  private authStatusSubject$: BehaviorSubject<boolean | null> = new BehaviorSubject<
-  boolean | null
-  >(null);
-  // Observables 
+  private authStatusSubject$: BehaviorSubject<boolean | null> =
+    new BehaviorSubject<boolean | null>(null);
+  // Observables
   token$: Observable<string | null> = this.tokenSubject$.pipe(shareReplay(1));
-  isAuthenticated$: Observable<boolean | null> = this.authStatusSubject$.pipe(shareReplay(1));
 
   // path of url
   private currentRoute: string = '';
@@ -30,12 +28,15 @@ export class AuthorizeService implements OnDestroy {
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
-//  
-getUserId(): string | null {
-  return this.userId;
-}
-   // search email on login
-   searchEmails(email: string): Observable<boolean> {
+  //  recieved credentials
+  getUserId(): string | null {
+    return this.userId;
+  }
+  getIsAuth(): boolean {
+    return this.isAuthenticated;
+  }
+  // search email on login
+  searchEmails(email: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
     return this.http.get<boolean>(
       // set up mock server to serve local host requests?
@@ -50,44 +51,49 @@ getUserId(): string | null {
   login(email: string, password: string, stayLoggedIn?: boolean): boolean {
     const authData: any = { email, password, stayLoggedIn };
     console.log('stayLoggedIn', stayLoggedIn);
-    return this.http
+    this.http
       .post<{ token: string; expiresIn: number; userId: string }>(
         'https://www.skalarly.com/api/user/login',
         authData
       )
       .subscribe({
         next: (response) => {
-          if(response.token){
-          this.tokenSubject$.next(response.token);
-          // this.userIdSubject$.next(response.userId)
-          this.userId = response.userId;
-          this.authStatusSubject$.next(true);
-          //  look over and add clean up for subjects and obs
+          if (response.token) {
+            this.tokenSubject$.next(response.token);
+            this.userId = response.userId;
+            this.isAuthenticated = true;
+            this.authStatusSubject$.next(true);
+            //  look over and add clean up for subjects and obs
             this.setAuthTimer(response.expiresIn);
-            const expirationDate = new Date(new Date().getTime() + response.expiresIn);
+            const expirationDate = new Date(
+              new Date().getTime() + response.expiresIn
+            );
             this.saveAuthData(response.token, expirationDate, response.userId);
             // last step
             this.router.navigate(['/search']);
             this.snackBar.open('Welcome Fellow Skalar🎓', '', {
               duration: 3000
+            });
+            return true;
+          } else {
+            // failed login
+            return false;
           }
-        }
         },
         error: (error) => {
           this.tokenSubject$.next(null);
-          this.userIdSubject$.next(null)
-          this.authStatusSubject$.next(false);
-          // this.snackBar.open('Failed to login, please try again', 'Will do!!', {
-          //     duration: 4000
-          // });
+          this.userId = null;
+          this.isAuthenticated = false;
         }
       });
+    // default return false to handle sync case when login fails immdediately
+    return false;
   }
 
   // Should have a warning when 30s left to have the reauth popup displayed
   // as a dialogRef    private dialogRef: MatDialogRef<ReAuthorizeComponent> in app.compon in old
   private setAuthTimer(duration: number): void {
-      setTimeout(() => {
+    setTimeout(() => {
       // give option to increase duration time
       // using pop screen reauthorize
       console.log('timeout');
@@ -103,6 +109,8 @@ getUserId(): string | null {
     expirationDate: Date,
     userId: string
   ): void {
+    // Could lso use http-only cookies or sesion storage for sensitive info
+
     // should hash or encrpyt when soring and retrieving
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
@@ -115,54 +123,53 @@ getUserId(): string | null {
     if (expirationDate === '0') {
       this.logout();
       this.snackBar.open('Validation Expired', 'Please Relogin', {
-        duration: 3000,
+        duration: 3000
       });
     } else {
       if (!token || !expirationDate) {
         this.logout();
         this.snackBar.open('Welcome To Skalarly 🎓', '', {
-          duration: 3000,
+          duration: 3000
         });
       }
       return {
         token,
         expirationDate: new Date(expirationDate),
-        userId,
+        userId
       };
     }
   }
-// access removal
-private clearAuthData(): void {
-  localStorage.removeItem('token');
-  localStorage.removeItem('expiration');
-  localStorage.removeItem('userId');
-}
-
-// clean up
-logout(): void {
-  this.currentRoute = document.URL;
-  console.log('current url', this.currentRoute);
-  if (
-    this.currentRoute !== 'http://localhost:4200/login' &&
-    this.currentRoute !== 'https://www.skalarly.com/login'
-  ) {
-    this.router.navigate(['/login']);
+  // access removal
+  private clearAuthData(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('expiration');
+    localStorage.removeItem('userId');
   }
-  this.tokenSubject.next(null);
-  this.isAuthenticated = false;
-  this.authStatusListener$.next(false);
-  this.authStatusListener$.complete();
-  this.userId = null;
-  // change activity status to false
 
-  // clear local storage
-  this.clearAuthData();
-}
+  // clean up
+  logout(): void {
+    this.currentRoute = document.URL;
+    console.log('current url', this.currentRoute);
+    if (
+      this.currentRoute !== 'http://localhost:4200/login' &&
+      this.currentRoute !== 'https://www.skalarly.com/login'
+    ) {
+      this.router.navigate(['/login']);
+    }
+    this.tokenSubject.next(null);
+    this.isAuthenticated = false;
+    this.authStatusListener$.next(false);
+    this.authStatusListener$.complete();
+    this.userId = null;
+    // change activity status to false
 
-ngOnDestroy() {
-  this.authStatusListener$.complete();
-  this.destroy$.next();
-  this.destroy$.complete();
-}
- 
+    // clear local storage
+    this.clearAuthData();
+  }
+
+  ngOnDestroy() {
+    this.authStatusListener$.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -13,10 +13,18 @@ import {
   switchMap
 } from 'rxjs';
 import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
+import {
   emailValidatorPattern,
   trimWhiteSpace
 } from '../custom-architecture-aids/validators/email-pattern.validator';
 import { AuthorizeService } from '../custom-architecture-aids/services/authorize.service';
+import { ErrorHandlerComponent } from '../custom-architecture-aids/error-handler/error-handler.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,24 +36,43 @@ import { MatSelectModule } from '@angular/material/select';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   imports: [
-    ReactiveFormsModule,
+    CommonModule,
+    ErrorHandlerComponent,
     MatFormFieldModule,
     HttpClientModule,
     MatSelectModule,
     MatButtonModule,
-    CommonModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ReactiveFormsModule
+  ],
+  animations: [
+    trigger('welcomeAnimation', [
+      state('visible', style({ opacity: 1, transform: 'translateX(0)' })),
+      state('hidden', style({ opacity: 0, transform: 'translateX(-100%)' })),
+      transition('hidden => visible', animate('1s ease-in')),
+      transition('visible => hidden', animate('1s ease-out'))
+    ]),
+    trigger('shakeAnimation', [
+      state('initial', style({ transform: 'translateX(0)', color: 'initial' })),
+      state('left', style({ transform: 'translateX(-5px)', color: 'red' })),
+      state('right', style({ transform: 'translateX(5px)', color: 'red' })),
+      transition('initial => left', animate('0.1s')),
+      transition('left => right', animate('0.1s')),
+      transition('right => initial', animate('0.1s'))
+    ])
   ]
 })
 export class LoginComponent implements OnInit {
+  animationState: 'hidden' | 'visible' = 'hidden';
   isLoading: boolean = false;
+  failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
   emailFound$: Observable<boolean> = new Observable<boolean>();
   loginState: boolean = false;
   constructor(private authorizeService: AuthorizeService) {
     this.authorizeService = authorizeService;
   }
 
-  quizForm: FormGroup = new FormGroup({
+  loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
       emailValidatorPattern,
       trimWhiteSpace()
@@ -57,11 +84,18 @@ export class LoginComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    console.log('log in');
+    // Set a timeout to trigger the animation
+    setTimeout(() => {
+      this.animationState = 'visible';
+      // Set another timeout inside this one to hide the animation after 3 seconds
+      setTimeout(() => {
+        this.animationState = 'hidden';
+      }, 3000);
+    }, 100);
     // dont search email unless pattern is proper
-    this.quizForm.controls['email'].statusChanges.subscribe((Event) => {
+    this.loginForm.controls['email'].statusChanges.subscribe((Event) => {
       if (Event === 'VALID') {
-        this.emailFound$ = this.quizForm.controls['email'].valueChanges.pipe(
+        this.emailFound$ = this.loginForm.controls['email'].valueChanges.pipe(
           debounceTime(500),
           distinctUntilChanged(),
           switchMap((query) => this.authorizeService.searchEmails(query))
@@ -73,14 +107,24 @@ export class LoginComponent implements OnInit {
   login(): void {
     // if this fails then
     this.loginState = this.authorizeService.login(
-      this.quizForm.controls['email'].value,
-      this.quizForm.controls['password'].value
+      this.loginForm.controls['email'].value,
+      this.loginForm.controls['password'].value
     );
     // login failed so reset animation
     if (!this.loginState) {
       this.isLoading = false;
+      this.failedLoginAnimation = 'left';
+      // Reset the animation after a short delay
+      setTimeout(() => {
+        this.failedLoginAnimation = 'right';
+
+        setTimeout(() => {
+          this.failedLoginAnimation = 'initial'; // Reset to the initial state
+        }, 100);
+      }, 100);
     }
   }
+
   // Use Switch map
   // HTTP Requests: When you make multiple HTTP requests based on some user interactions, you often want to ignore the responses from previous requests if new interactions occur. switchMap is used to cancel the ongoing HTTP request and switch to a new one when a new interaction happens.
   //   Autocomplete/Search: In autocomplete or search functionality, as a user types, you may want to cancel the ongoing search for previous input and only consider the results for the latest input.

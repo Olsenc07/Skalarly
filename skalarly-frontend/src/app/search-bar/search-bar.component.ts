@@ -47,7 +47,7 @@ export class SearchBarComponent implements OnInit {
   );
   // mobile first
   // Recieve data from parent for animation
-  @Input({ required: true }) orientation!: boolean;
+  @Input({ required: true }) mobileFirst!: boolean;
   // Child to parent for animation
   @Output() backEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   showResults: 'in' | 'out' = 'out';

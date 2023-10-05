@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthorizeService } from 'src/app/custom-architecture-aids/services/authorize.service';
+import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthGuard {
@@ -19,7 +19,7 @@ export class AuthGuard {
           'Skalarly requries an account to access',
           "Create an account to see what you'r missing",
           {
-            duration: 3000,
+            duration: 3000
           }
         );
         snackBarRef.onAction().subscribe(() => {
