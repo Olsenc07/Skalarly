@@ -14,17 +14,19 @@
             <button mat-icon-button (click)="iconBackClicked()"> 
         <i class="fa-solid fa-angle-left"></i>
             </button>
-        <input matInput type="search" [formControl]="searchSkalar" placeholder="Search Fellow Skalars">
+        <input matInput type="search" [formControl]="searchSkalarForm" placeholder="Search Fellow Skalars">
         </span>
         <ng-template #largeScreen>
-        <input matInput type="search" [formControl]="searchSkalar" placeholder="Search Fellow Skalars">
+        <input matInput type="search" [formControl]="searchSkalarForm" placeholder="Search Fellow Skalars">
         </ng-template>
     <!-- skalar found -->
+    <!-- cache max first 12 accounts clicked on 
+    can display these first on interaction with the input bar before typing -->
     <ng-container *ngIf="skalars$ | async as skalars"> 
   <ng-template *ngFor="let skalar of skalars" >
 <!-- animated when items are added to or removed from the skalars array  -->
     <span class="results">
-        <app-skalar-card [skalarInfo]="skalar" [searchSkalar]="searchSkalar" [@slideInOut]> </app-skalar-card>
+        <app-skalar-card [skalarInfo]="skalar" [searchSkalar]="searchSkalarForm" [@slideInOut]> </app-skalar-card>
     </span>
 
   </ng-template>

@@ -1,10 +1,10 @@
-import { CommonModule, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   Observable,
   debounceTime,
   distinctUntilChanged,
+  filter,
   switchMap
 } from 'rxjs';
 import {
@@ -14,6 +14,7 @@ import {
   transition,
   trigger
 } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { SkalarCardComponent } from '../skalar-card/skalar-card.component';
 import { type SkalarInfoInterface } from '../custom-architecture-aids/interfaces/skalars-info-interface';
@@ -27,9 +28,6 @@ import { SkalarsService } from '../custom-architecture-aids/services/skalars.ser
   imports: [
     CommonModule,
     MatButtonModule,
-    NgClass,
-    NgIf,
-    NgFor,
     ReactiveFormsModule,
     SkalarCardComponent
   ],
@@ -44,7 +42,9 @@ import { SkalarsService } from '../custom-architecture-aids/services/skalars.ser
 })
 export class SearchBarComponent implements OnInit {
   skalars$: Observable<SkalarInfoInterface[]>;
-  searchSkalar: FormControl = new FormControl<string | null>(null);
+  searchSkalarForm: FormControl<string | null> = new FormControl<string | null>(
+    ''
+  );
   // mobile first
   // Recieve data from parent for animation
   @Input({ required: true }) orientation!: boolean;
@@ -52,12 +52,15 @@ export class SearchBarComponent implements OnInit {
   @Output() backEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   showResults: 'in' | 'out' = 'out';
 
+  // eslint-disable-next-line no-unused-vars
   constructor(private skalarsService: SkalarsService) {
-    this.skalarsService = skalarsService;
-    this.skalars$ = this.searchSkalar.valueChanges.pipe(
+    this.skalars$ = this.searchSkalarForm.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap((input: string) => this.skalarsService.getSkalars(input))
+      filter((input: string | null) => !!input), // Skip if input is null or empty
+      switchMap((input: string | null) =>
+        this.skalarsService.getSkalars(input || '')
+      )
     );
   }
 

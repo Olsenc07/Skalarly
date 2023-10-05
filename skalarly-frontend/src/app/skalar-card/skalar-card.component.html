@@ -6,12 +6,41 @@
 </head>
 
 <body>
+  <ng-container *NgFor="let skalar of (skalars$ | async) as skal; index as i; let first = first; trackBy: trackBySkalar">
+  <ng-container *ngIf="first">
+<h2> Top Results: </h2>
+</ng-container>
     <mat-card>
         <mat-card-header>
         <img ngSrc="profilePic" fill priority>
-        <!-- fix this -->
-        <mat-card-title [innerHTML]="skalarInfo.username | bold: searchSkalar" >{{'@username'}}</mat-card-title>
+        <mat-card-title [innerHTML]="skalarInfo.username | bold: searchSkalar.value!" >{{'@username'}}</mat-card-title>
         <mat-card-subtitle>{{'name'}}</mat-card-subtitle>
         </mat-card-header>
+        <mat-card-content>
+          <div class="grid-container">
+            <!-- Skalars 'Major quality to attract other skalars, major or mutual friends' -->
+            <div class="grid-item">{{skalar.major}}</div>
+            <!-- Skalars 'Major quality to attract other skalars, minor or mutual 
+              friends or similar interacted with content' -->
+            <div class="grid-item">{{skalar.minor}}</div>
+            <!-- Skalars 'Activity quality to attract other skalars' -->
+            <div class="grid-item">{{skalar.sport}}</div>
+            <!-- Something is skalar likes that the skaalr searching also finds interesting,
+              maybe a page they both have booked marked' -->
+            <div class="grid-item">{{skalar.club}}</div>
+          </div>
+        </mat-card-content>
+        <button mat-icon-button (click)="displayOptions(i)">
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+        <ng-container *ngIf="toggledInfoOf === i">
+        <mat-card-actions>
+          <!-- Add your interaction buttons here -->
+          <button mat-button (click)="blockSkalar(skalar.id)">Block Skalar</button>
+          <button mat-button (click)="sendMessage(skalar.id)">Message</button>
+          <button mat-button (click)="followSkalar(skalar.id)">Follow</button>
+        </mat-card-actions>
+      </ng-container>
     </mat-card>
+    </ng-container>
 </body>
