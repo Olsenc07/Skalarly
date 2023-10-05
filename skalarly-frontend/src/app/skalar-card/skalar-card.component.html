@@ -30,10 +30,15 @@
             <div class="grid-item">{{skalar.club}}</div>
           </div>
         </mat-card-content>
-        <button mat-icon-button (click)="displayOptions(i)">
+        <button mat-icon-button *ngIf="iconState= 'rest'; else clicked" [@ellipsisHoverAnimation]="iconState" (click)="displayOptions(i)">
           <i class="fa-solid fa-ellipsis-vertical"></i>
         </button>
-        <ng-container *ngIf="toggledInfoOf === i">
+        <ng-template #clicked>
+          *ngClass="clicked" clicked
+          <i class="fa-solid fa-ellipsis-vertical "></i>
+
+        </ng-template>
+        <ng-container *ngIf="toggledInfoOf === i" [@cardOptionsAnimation]="toggledInfoOf === i ? 'open' : 'closed'">
         <mat-card-actions>
           <!-- Add your interaction buttons here -->
           <button mat-button (click)="blockSkalar(skalar.id)">Block Skalar</button>

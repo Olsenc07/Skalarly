@@ -16,6 +16,13 @@ import {
   distinctUntilChanged,
   map
 } from 'rxjs';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
 import { BoldPipe } from '../custom-architecture-aids/pipes/bold.pipe';
 import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
@@ -28,7 +35,21 @@ import { type SkalarInfoInterface } from '../custom-architecture-aids/interfaces
   selector: 'app-skalar-card',
   templateUrl: './skalar-card.component.html',
   styleUrls: ['./skalar-card.component.scss'],
-  imports: [BoldPipe, MatButtonModule, MatCardModule, CommonModule]
+  imports: [BoldPipe, MatButtonModule, MatCardModule, CommonModule],
+  animations: [
+    trigger('cardOptionsAnimation', [
+      state('open', style({ height: '*' })), // Options are open
+      state('closed', style({ height: '0' })), // Options are closed
+      transition('closed => open', animate('0.3s ease-in-out')),
+      transition('open => closed', animate('0.3s ease-in-out'))
+    ]),
+    trigger('ellipsisHoverAnimation', [
+      state('clicked', style({ transform: 'scale(1.2)' })), // Scale up on hover
+      state('rest', style({ transform: 'scale(1)' })), // Normal scale
+      transition('rest => clicked', animate('100ms ease-in')),
+      transition('clicked => rest', animate('100ms ease-out'))
+    ])
+  ]
 })
 export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
   // From search-bar
@@ -43,6 +64,7 @@ export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
 
   // state of skalars interaction options to be displayed
   toggledInfoOf: string | null = null;
+  iconState: 'clicked' | 'rest' = 'rest';
 
   ngOnChanges(changes: SimpleChanges): void {
     // a Change in an input property
@@ -74,6 +96,7 @@ export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   displayOptions(i: string): void {
+    this.iconState = 'clicked';
     // clear old index
     this.toggledInfoOf = null;
     // only should display that cards options
@@ -82,8 +105,8 @@ export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
   }
   closeOptions(): void {
     this.toggledInfoOf = null;
+    this.iconState = 'rest';
   }
-
 
   // add animations
   // Interaction Options
