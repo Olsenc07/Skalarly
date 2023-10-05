@@ -1,13 +1,15 @@
 import { BehaviorSubject, Observable, shareReplay } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ReauthorizeComponent } from '../reauthorize/reauthorize.component';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorizeService implements OnDestroy {
+export class AuthorizeService {
   // these variables don't require reactivity/async data
   userId: string | null = null;
   isAuthenticated: boolean = false;
@@ -15,16 +17,14 @@ export class AuthorizeService implements OnDestroy {
   private tokenSubject$: BehaviorSubject<string | null> = new BehaviorSubject<
     string | null
   >(null);
-  private authStatusSubject$: BehaviorSubject<boolean | null> =
-    new BehaviorSubject<boolean | null>(null);
   // Observables
   token$: Observable<string | null> = this.tokenSubject$.pipe(shareReplay(1));
-
   // path of url
   private currentRoute: string = '';
 
   constructor(
     private http: HttpClient,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router
   ) {}
@@ -62,7 +62,6 @@ export class AuthorizeService implements OnDestroy {
             this.tokenSubject$.next(response.token);
             this.userId = response.userId;
             this.isAuthenticated = true;
-            this.authStatusSubject$.next(true);
             //  look over and add clean up for subjects and obs
             this.setAuthTimer(response.expiresIn);
             const expirationDate = new Date(
@@ -90,19 +89,32 @@ export class AuthorizeService implements OnDestroy {
     return false;
   }
 
-  // Should have a warning when 30s left to have the reauth popup displayed
-  // as a dialogRef    private dialogRef: MatDialogRef<ReAuthorizeComponent> in app.compon in old
   private setAuthTimer(duration: number): void {
+    const warningTime = duration - 30000; // 30 seconds before expiration
     setTimeout(() => {
-      // give option to increase duration time
-      // using pop screen reauthorize
-      console.log('timeout');
-      this.triggerReAuth$.next('reAuth');
-      // this.logout();
-    }, duration);
+      // Calculate the remaining time in seconds
+      const remainingTime = Math.floor((duration - Date.now()) / 1000);
+      // Display a warning dialog when there are 30 seconds left
+      const dialogRef = this.dialog.open(ReauthorizeComponent, {
+        data: { remainingTime }
+      });
+      // Subscribe to dialog result or actions if needed
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result === 'extend') {
+          // reassign setAuthTimer
+          this.setAuthTimer(warningTime);
+        } else {
+          // User didn't extend, you can handle this case accordingly
+          // logout when time runs out
+          this.logout();
+          this.snackBar.open('Validation Expired', 'Please Relogin', {
+            duration: 3000
+          });
+        }
+      });
+    }, warningTime);
   }
 
-  // access
   // needs to be triggered whenever one of these values change
   private saveAuthData(
     token: string,
@@ -110,34 +122,15 @@ export class AuthorizeService implements OnDestroy {
     userId: string
   ): void {
     // Could lso use http-only cookies or sesion storage for sensitive info
-
-    // should hash or encrpyt when soring and retrieving
+    // should hash or encrpyt when sorting and retrieving
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
     localStorage.setItem('userId', userId);
   }
   public getAuthData(): any {
     const token = localStorage.getItem('token');
-    const expirationDate = localStorage.getItem('expiration');
-    const userId = localStorage.getItem('userId');
-    if (expirationDate === '0') {
-      this.logout();
-      this.snackBar.open('Validation Expired', 'Please Relogin', {
-        duration: 3000
-      });
-    } else {
-      if (!token || !expirationDate) {
-        this.logout();
-        this.snackBar.open('Welcome To Skalarly 🎓', '', {
-          duration: 3000
-        });
-      }
-      return {
-        token,
-        expirationDate: new Date(expirationDate),
-        userId
-      };
-    }
+    this.tokenSubject$.next(token);
+    this.userId = localStorage.getItem('userId');
   }
   // access removal
   private clearAuthData(): void {
@@ -156,20 +149,12 @@ export class AuthorizeService implements OnDestroy {
     ) {
       this.router.navigate(['/login']);
     }
-    this.tokenSubject.next(null);
+    this.tokenSubject$.next(null);
     this.isAuthenticated = false;
-    this.authStatusListener$.next(false);
-    this.authStatusListener$.complete();
     this.userId = null;
     // change activity status to false
 
     // clear local storage
     this.clearAuthData();
-  }
-
-  ngOnDestroy() {
-    this.authStatusListener$.complete();
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

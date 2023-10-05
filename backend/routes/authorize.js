@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 // Models Used
 const Skalar = require('/app/backend/models/skalar');
 
-
 // Is this a saved email
 router.get('/emailValidation', async(req,res) => {
     let checkEmail = req.query.email;
@@ -29,5 +28,7 @@ router.get('/emailValidation', async(req,res) => {
             console.log('error', err);
             })
         })
+
+// Login
 
 export default router;
