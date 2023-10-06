@@ -68,9 +68,7 @@ export class LoginComponent implements OnInit {
   failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
   emailFound$: Observable<boolean> = new Observable<boolean>();
   loginState: boolean = false;
-  constructor(private authorizeService: AuthorizeService) {
-    this.authorizeService = authorizeService;
-  }
+  constructor(private authorizeService: AuthorizeService) {}
 
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [

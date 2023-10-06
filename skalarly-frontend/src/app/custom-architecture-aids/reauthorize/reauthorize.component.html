@@ -13,9 +13,9 @@
     <div class="reauthTitle" > 
         Your session is about to expire
     </div>
-    
-     
-    
+    <div class="countdown">
+        Time Remaining: {{ remainingTime | date: 'ss' }}
+      </div>
         <div  mat-dialog-actions>
             <button class="reauthLogout" mat-raised-button  (click)="logOut()">Logout</button>
             <button class="reauthStayIn" mat-raised-button  (click)="reAuthorize()">Remain Logged In</button>
