@@ -5,13 +5,15 @@ import {
   MatDialogRef
 } from '@angular/material/dialog';
 import { LoginComponent } from '../../login/login.component';
+import { dialogAnimation } from '../animations/dialog-animation';
 
 @Component({
   standalone: true,
   selector: 'app-error-handler',
   templateUrl: './error-handler.component.html',
   styleUrls: ['../../login/login.component.scss'],
-  imports: [LoginComponent, MatDialogModule]
+  imports: [LoginComponent, MatDialogModule],
+  animations: [dialogAnimation]
 })
 export class ErrorHandlerComponent {
   constructor(

@@ -113,7 +113,30 @@ if(userInfo){
     }
 })
 })
+});
 
+// stayLoggedIn
+router.post("/stayLoggedIn",  async(reg, res, next) => {
+    console.log('got the jam', reg.body.UserId);
+   await User.findOne({ _id: reg.body.UserId })
+    .then(user => {
+            fetchedUser = user;
+    const token = jwt.sign(
+        { email: fetchedUser.email, userId: fetchedUser._id },
+        process.env.love,
+        { expiresIn: 2.88e+7 }
+    );
+    res.status(200).json({
+        token: token,
+        expiresIn: 2.88e+7,
+        userId: fetchedUser._id
+    });
+})  .catch(err => {
+     res.status(401).json({
+        message: "Invalid authentication credentials!",
+
+    });
+});
 });
 
 export default router;

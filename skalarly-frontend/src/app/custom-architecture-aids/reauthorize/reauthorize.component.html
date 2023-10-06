@@ -6,15 +6,18 @@
 </head>
 
 <body>
-    <div>
+    <div [@dialogAnimation]>
         <header> Session Timeout 
         <div > <i class="fas fa-history "></i> </div>
         </header>
     <div class="reauthTitle" > 
         Your session is about to expire
     </div>
-    <div class="countdown">
-        Time Remaining: {{ remainingTime | date: 'ss' }}
+    <div class="loading-bar-container">
+        <div class="loading-bar" [@loadingBar]="loadingBarState"></div>
+        <div class="time-remaining">
+          Time Remaining: {{ remainingTime | date: 'ss' }}
+        </div>
       </div>
         <div  mat-dialog-actions>
             <button class="reauthLogout" mat-raised-button  (click)="logOut()">Logout</button>
