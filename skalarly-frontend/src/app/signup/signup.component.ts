@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  emailValidatorPattern,
+  trimWhiteSpace
+} from '../custom-architecture-aids/validators/email-pattern.validator';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +11,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { type PassWordInterface } from '../custom-architecture-aids/interfaces/password-interface';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
-import { trimWhiteSpace } from '../custom-architecture-aids/validators/email-pattern.validator';
 // import { MatCardModule } from '@angular/material/card';
 
 @Component({
@@ -24,11 +27,29 @@ import { trimWhiteSpace } from '../custom-architecture-aids/validators/email-pat
     CommonModule
   ]
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnChanges {
+  userInteracted: boolean = false;
+  visiblePassword: boolean = false;
+  // route guard is trying to leave without finishing, warning content will be lost
+  // then delete email or any account info made
+  // must validate email as soon as password and email validate is sent
+  // must match 7 digits given from email
+  //then when email is validated, go to next pg
   // password visibility
-  passwordVisbile: boolean = true;
+
   constructor() {}
 
+  signUpForm: FormGroup = new FormGroup({
+    email: new FormControl<string | null>(null, [
+      emailValidatorPattern,
+      uniqueEmailValidator,
+      trimWhiteSpace()
+    ]),
+    password: new FormControl<string | null>(null, [
+      passwordValidator,
+      trimWhiteSpace()
+    ])
+  });
   // have a nice ux that checks off when then password validtors are met
   createPassword: FormControl = new FormControl<string | null>(null, [
     passwordValidator,
@@ -84,19 +105,19 @@ export class SignUpComponent implements OnInit {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.signUpForm.valueChanges.subscribe(() => {
+      this.userInteracted = true;
+    });
+  }
+  // request to use route guard
+  getRouteGuardStatus(): boolean {
+    return this.userInteracted;
+  }
+
   // toggle password visbility
-  toggleVisibilty(): void {
-    const c: HTMLInputElement = document.getElementById(
-      'createPassword'
-    ) as HTMLInputElement;
-    if (this.passwordVisbile) {
-      // show password
-      c.type = 'text';
-      this.passwordVisbile = !this.passwordVisbile;
-    } else {
-      // hide password
-      c.type = 'password';
-      this.passwordVisbile = !this.passwordVisbile;
-    }
+  // toggle password visbility
+  toggleVisibility(): void {
+    this.visiblePassword = !this.visiblePassword;
   }
 }

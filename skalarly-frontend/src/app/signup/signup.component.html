@@ -10,12 +10,10 @@
     <input matInput type="password" placeholder="Password" required
     [formControl]="createPassword" id='createPassword'>
     <!-- toggle password visibility -->
-    <button matSuffix mat-icon-button *ngIf="passwordVisbile; else hidden" (click)="toggleVisibilty()" matTooltip="Show Password" >
-        <i class="fa-solid fa-eye"></i>
-      </button>
-    <ng-template #hidden>
-    <button matSuffix mat-icon-button (click)="toggleVisibilty()" matTooltip="Hide Password" >
-        <i class="fa-solid fa-eye-slash"></i>
+    <button matSuffix mat-icon-button  [ngClass]="{ 'showing': visiblePassword }"
+    (click)="toggleVisibility()"
+    matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
+      <i class="fa-solid fa-eye"></i>
     </button>
     </ng-template>
 </mat-form-field>

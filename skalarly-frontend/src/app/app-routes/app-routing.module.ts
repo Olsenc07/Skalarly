@@ -1,6 +1,7 @@
 import { AuthGuard } from './route-guards/auth.guard';
 import { ConfirmGuard } from './route-guards/confirm.guard';
 import { Routes } from '@angular/router';
+import { SaveSignUpGuard } from './route-guards/signup-guard';
 import { UserProfileResolver } from '../custom-architecture-aids/resolvers/skalar-info-resolver.component';
 import { inject } from '@angular/core';
 
@@ -17,8 +18,17 @@ export const routes: Routes = [
   // create an new account
   {
     path: 'sign-up',
+    canDeactivate: [() => inject(SaveSignUpGuard).canDeactivate()],
     loadComponent: () =>
       import('../signup/signup.component').then((mod) => mod.SignUpComponent)
+  },
+  // forgot password
+  {
+    path: 'forgot-password',
+    loadComponent: () =>
+      import('../forgot-password/forgot-password.component').then(
+        (mod) => mod.ForgotPasswordComponent
+      )
   },
   // first page loaded on login
   {

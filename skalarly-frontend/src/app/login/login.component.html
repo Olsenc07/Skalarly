@@ -23,7 +23,6 @@
 <form [formGroup]="loginForm" (ngSubmit)="login()">
   <!-- enter email -->
   <mat-form-field  appearance="outline">
-       <!-- email -->
     <input matInput formControlName="email" required type="email"
     id="skalarlyEmail" />
     <mat-label [class.email-valid]="loginForm.get('email')!.valid">
@@ -31,19 +30,41 @@
          Academic Email</mat-label>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">Only academic emails are valid</mat-error>
     <mat-error *ngIf="(emailFound$ | async) === false">No account matches this email</mat-error>
+    <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">This email hasn't been validated yet</mat-error>
+
     <ng-template #found>
   </ng-template>
   <i matSuffix class="fa-solid fa-circle-info" matTooltip="Skalarly requires an academic email">
   </i>
   </mat-form-field>
+  <!-- enter password -->
+  <mat-form-field  appearance="outline">
+    <!-- email -->
+ <input matInput formControlName="password" required type="password"
+ id="skalarlyEmail" />
+ <mat-label [class.email-valid]="loginForm.get('email')!.valid">
+  <i matSuffix class="fa-solid fa-key" [class.condition-met]="loginForm.get('email')!.valid" ></i>
+   Password</mat-label>
+ <mat-error *ngIf="showPasswordError">Please enter a valid Skalarly password</mat-error>
+<button matSuffix mat-icon-button  [ngClass]="{ 'showing': visiblePassword }"
+(click)="toggleVisibility()"
+matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
+  <i class="fa-solid fa-eye"></i>
+</button>
+</mat-form-field>
 <!-- add rest -->
 <button mat-raised-button *ngIf="!isLoading; else loading" type="submit"
-[@shakeAnimation]="failedLoginAnimation" >Login</button>
+[@shakeAnimation]="failedLoginAnimation" (keydown.enter)="enterClicked()">Login</button>
 <ng-template #loading>
   <span [class.dot-pulse]="isLoading">
   </span>
 </ng-template>
 </form>
+
+<button  mat-button disableRipple routerLink="/forgot-password">
+  Forgot Password?
+</button>
+<button mat-raised-button routerLink="/sign-up" color="primary" signup>Create A New Account</button>
 </app-error-handler>
 
 <div class="welcome-text" [@welcomeAnimation]="animationState">Welcome to Skalarly</div>

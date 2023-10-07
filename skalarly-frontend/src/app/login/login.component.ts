@@ -1,5 +1,11 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,6 +14,7 @@ import {
 } from '@angular/forms';
 import {
   Observable,
+  Subscription,
   debounceTime,
   distinctUntilChanged,
   switchMap
@@ -29,6 +36,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 
 @Component({
   standalone: true,
@@ -38,10 +47,11 @@ import { MatSelectModule } from '@angular/material/select';
   imports: [
     CommonModule,
     ErrorHandlerComponent,
-    MatFormFieldModule,
     HttpClientModule,
-    MatSelectModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatTooltipModule,
     NgOptimizedImage,
     ReactiveFormsModule
   ],
@@ -59,11 +69,20 @@ import { MatSelectModule } from '@angular/material/select';
       transition('initial => left', animate('0.1s')),
       transition('left => right', animate('0.1s')),
       transition('right => initial', animate('0.1s'))
+    ]),
+    trigger('toggleAnimation', [
+      state('true', style({ transform: 'rotate(0deg)' })),
+      state('false', style({ transform: 'rotate(180deg)' })),
+      transition('true <=> false', animate('200ms ease-in-out'))
     ])
   ]
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnChanges, OnInit, OnDestroy {
+  // welcome text
   animationState: 'hidden' | 'visible' = 'hidden';
+  visiblePassword: boolean = false;
+  showPasswordError: boolean = false;
+  passwordErrorSub?: Subscription;
   isLoading: boolean = false;
   failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
   emailFound$: Observable<boolean> = new Observable<boolean>();
@@ -76,13 +95,13 @@ export class LoginComponent implements OnInit {
       trimWhiteSpace()
     ]),
     password: new FormControl<string | null>(null, [
-      Validators.minLength(8),
+      passwordValidator,
       trimWhiteSpace()
     ])
   });
 
   ngOnInit(): void {
-    // Set a timeout to trigger the animation
+    // Set a timeout to trigger the animation of welcome text
     setTimeout(() => {
       this.animationState = 'visible';
       // Set another timeout inside this one to hide the animation after 3 seconds
@@ -90,7 +109,10 @@ export class LoginComponent implements OnInit {
         this.animationState = 'hidden';
       }, 3000);
     }, 100);
-    // dont search email unless pattern is proper
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // don't search email unless pattern is proper
     this.loginForm.controls['email'].statusChanges.subscribe((Event) => {
       if (Event === 'VALID') {
         this.emailFound$ = this.loginForm.controls['email'].valueChanges.pipe(
@@ -100,6 +122,15 @@ export class LoginComponent implements OnInit {
         );
       }
     });
+    if (this.loginForm.controls['password'].dirty) {
+      // don't give password error until attempted
+      this.passwordErrorSub = this.loginForm.controls['password'].valueChanges
+        .pipe(debounceTime(500), distinctUntilChanged())
+        .subscribe(() => {
+          // Validate the password and set the error flag
+          this.showPasswordError = this.loginForm.controls['password'].invalid;
+        });
+    }
   }
 
   login(): void {
@@ -122,15 +153,18 @@ export class LoginComponent implements OnInit {
       }, 100);
     }
   }
-
-  // Use Switch map
-  // HTTP Requests: When you make multiple HTTP requests based on some user interactions, you often want to ignore the responses from previous requests if new interactions occur. switchMap is used to cancel the ongoing HTTP request and switch to a new one when a new interaction happens.
-  //   Autocomplete/Search: In autocomplete or search functionality, as a user types, you may want to cancel the ongoing search for previous input and only consider the results for the latest input.
-  // User Authentication: When a user logs in or out, you might want to cancel any ongoing operations associated with their previous login state and initiate new operations based on their new login state.
-  // Real-time Data: In applications that display real-time data (e.g., chat applications), you can use switchMap to switch to a new stream of data whenever the user changes the conversation.
-  // this.userInput$.pipe(
-  // switchMap(searchTerm => this.http.get(`/api/search?term=${searchTerm}`))
-  // ).subscribe(result => {
-  // Handle the result of the latest HTTP request
-  // });
+  // ability to login using enter click
+  enterClicked(): void {
+    if (this.loginForm.valid) {
+      this.login();
+    }
+  }
+  // toggle password visbility
+  toggleVisibility(): void {
+    this.visiblePassword = !this.visiblePassword;
+  }
+  // clean up
+  ngOnDestroy(): void {
+    this.passwordErrorSub?.unsubscribe();
+  }
 }
