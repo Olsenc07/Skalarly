@@ -12,6 +12,8 @@ export function emailValidatorPattern(
   const Test: boolean = UOfToronto.test(email);
   // once a lot of emails are added, add loop for condition
   if (Test) {
+    // make codition to check uniqueness!!
+
     return null;
   } else {
     // validation failed

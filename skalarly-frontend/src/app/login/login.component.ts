@@ -6,12 +6,7 @@ import {
   OnInit,
   SimpleChanges
 } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   Observable,
   Subscription,
@@ -29,7 +24,7 @@ import {
 import {
   emailValidatorPattern,
   trimWhiteSpace
-} from '../custom-architecture-aids/validators/email-pattern.validator';
+} from '../custom-architecture-aids/validators/email.validator';
 import { AuthorizeService } from '../custom-architecture-aids/services/authorize.service';
 import { ErrorHandlerComponent } from '../custom-architecture-aids/error-handler/error-handler.component';
 import { HttpClientModule } from '@angular/common/http';

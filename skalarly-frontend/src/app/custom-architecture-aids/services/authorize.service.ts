@@ -69,7 +69,7 @@ export class AuthorizeService {
               new Date().getTime() + response.expiresIn
             );
             this.saveAuthData(response.token, expirationDate, response.userId);
-            // last step
+            // last step, or could add an animation instead!
             this.router.navigate(['/search']);
             this.snackBar.open('Welcome Fellow Skalar🎓', '', {
               duration: 3000
@@ -89,9 +89,7 @@ export class AuthorizeService {
     // default return false to handle sync case when login fails immdediately
     return false;
   }
-  // stay loggedin
-
-  // clean up!
+  // stay loggedin.. fix ths
   stayLoggedIn(): void {
     const Id = this.userId;
     console.log('followed by userId', Id);
@@ -103,9 +101,7 @@ export class AuthorizeService {
       )
       .subscribe({
         next: (response) => {
-          const token = response.token;
-          this.token = token;
-          if (token) {
+          if (response.token) {
             this.snackBar.open('Thanks for reauthorizing yourself', '✅ ', {
               duration: 3000
             });
@@ -113,16 +109,15 @@ export class AuthorizeService {
             this.setAuthTimer(expiresInDuration);
             this.isAuthenticated = true;
             this.userId = response.userId;
-            this.authStatusListener$.next(true);
             const now = new Date();
             const expirationDate = new Date(now.getTime() + expiresInDuration);
-            this.saveAuthData(token, expirationDate, this.userId);
+            this.saveAuthData(response.token, expirationDate, this.userId);
             sub.unsubscribe();
             console.log('love you reauthorized');
           }
         },
         error: (error) => {
-          this.authStatusListener$.next(false);
+          this.isAuthenticated = false;
           // this.snackBar.open('Failed to login, please try again', 'Will do!!', {
           //     duration: 4000
           // });

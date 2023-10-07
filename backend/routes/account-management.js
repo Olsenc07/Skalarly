@@ -48,7 +48,7 @@ router.get('/uniqueUserName', async(req,res) => {
             console.log('error', err);
             })
         })
-// verify account
+// verify account once 7 digits have been imported
 router.get('/verifyAccount', async (req, res, next) => {
     const token = req.query.token;
     const user = await findOne({ emailToken: token });
