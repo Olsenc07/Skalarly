@@ -1,9 +1,15 @@
+import { AccountManagementService } from 'src/app/custom-architecture-aids/services/account-management.service';
 import { Injectable } from '@angular/core';
 import { SignUpComponent } from 'src/app/signup/signup.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class SaveSignUpGuard {
-  constructor(private signUpComponent: SignUpComponent) {}
+  constructor(
+    private signUpComponent: SignUpComponent,
+    private accountManagementService: AccountManagementService
+  ) {}
   canDeactivate(): boolean | Promise<boolean> {
     const useGuard: boolean = this.signUpComponent.getRouteGuardStatus();
     if (useGuard) {
@@ -13,7 +19,8 @@ export class SaveSignUpGuard {
       );
       if (confirmNavigation) {
         // delete any saved values and navigate out
-        
+        // Delete any saved/cached data
+        this.accountManagementService.clearData();
         return true;
       } else {
         return false;

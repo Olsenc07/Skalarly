@@ -15,7 +15,6 @@ color: lightblue
 }
 body {
  @include universal.pageSize;
- height: universal.$all;
  input, textarea, button {
     font-family: $skalarly-font;
  }
@@ -33,4 +32,12 @@ mat-hint{
 mat-toolbar{
     box-shadow: 0px 2px 5px 0px $toolbar-shadow-color;
     background-color: $toolbar-background-color;
+}
+
+router-outlet[content] {
+    flex: 1; // allow the content area to expand and fill available space 
+@media (orientation: portrait) {
+  padding-bottom: 4em; // adjust this value to match the footer's height in app scss 
+  box-sizing: border-box; // include padding in the content's height calculation 
+}
 }

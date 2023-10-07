@@ -5,7 +5,8 @@ $all: 100%;
     justify-content: center;
 }
 @mixin pageSize{
-    height: $all;
+    // maybe use min-height: 100vh;
+    height: 100vh;
     width: $all;
     box-sizing: border-box;
 }

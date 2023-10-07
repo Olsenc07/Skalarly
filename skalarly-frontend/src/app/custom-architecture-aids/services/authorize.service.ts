@@ -41,7 +41,7 @@ export class AuthorizeService {
     return this.http.get<boolean>(
       // set up mock server to serve local host requests?
       'http://localhost:4200/login' ||
-        'https://www.skalarly.com/api/authorize/emailValidation',
+        'https://www.skalarly.com/api/account-management/emailValidation',
       {
         params: queryParams
       }
@@ -53,7 +53,8 @@ export class AuthorizeService {
     console.log('stayLoggedIn', stayLoggedIn);
     this.http
       .post<{ token: string; expiresIn: number; userId: string }>(
-        'https://www.skalarly.com/api/user/login',
+        'http://localhost:4200/login' ||
+          'https://www.skalarly.com/api/user/login',
         authData
       )
       .subscribe({
@@ -96,7 +97,8 @@ export class AuthorizeService {
     console.log('followed by userId', Id);
     const sub = this.http
       .post<{ token: string; expiresIn: number; userId: string }>(
-        'https://www.skalarly.com/api/user/stayLoggedIn',
+        'http://localhost:4200/login' ||
+          'https://www.skalarly.com/api/user/stayLoggedIn',
         Id
       )
       .subscribe({

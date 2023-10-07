@@ -33,7 +33,8 @@
   <nav>
 <!-- *1 only for portrait, mobile first -->
 <ng-template *ngIf="orientation; else landscape">
-  <mat-toolbar class="footer">
+  <footer class="footer" >
+  <mat-toolbar class="mobile-fade-overlay">
   <nav>
 <span class="navigation">
 <button mat-icon-button routerLink="/profile">
@@ -45,9 +46,8 @@
 </span>
   </nav>
 </mat-toolbar>
+</footer>
 </ng-template>
-
-
 
   <!-- *2 only for landscape -->
   <ng-template  #landscape>
@@ -71,7 +71,8 @@
 
   <!-- Render as component based on path of routes -->
   <!-- [orientation]="orientation" use ngrxlocal state management -->
-  <router-outlet ></router-outlet>  <!-- Primary outlet for main content -->
+  <router-outlet content></router-outlet>  <!-- Primary outlet for main content -->
   <router-outlet name="sideBarInfoOutlet"></router-outlet> <!-- Secondary outlet for sidebars & later maybe modals/dialog -->
 </body>
 </html>
+ 

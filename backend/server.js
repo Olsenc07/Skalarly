@@ -26,7 +26,10 @@ mongoose.connect(process.env.mongodb)
 const webpush = require('web-push');
 
 // Routes
+const accountManagementRoute = require('/app/backend/routes/account-management');
 const authorizeRoute = require('/app/backend/routes/authorize');
+const skalarsRoute = require('/app/backend/routes/skalars');
+
 
 // Server Activation
 server.listen(port, () => {
@@ -37,7 +40,9 @@ server.listen(port, () => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(express.static('build'));
+app.use('/account-management', express.static('/app/backend/account-management'));
 app.use('/authorize', express.static('/app/backend/authorize'));
+app.use('/skalars', express.static('/app/backend/skalars'));
 
 // CORS
 app.use((req, res, next) => {
@@ -47,6 +52,9 @@ app.use((req, res, next) => {
     next();
  });
 app.use("/api/authorize", authorizeRoute);
+app.use("/api/account-management", accountManagementRoute);
+app.use("/api/skalars", skalarsRoute);
+
 
 // Secured ReRouting
 function requireHTTPS(req, res, next) {

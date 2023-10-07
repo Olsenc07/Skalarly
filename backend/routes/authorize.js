@@ -4,30 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // Models Used
-const Skalar = require('/app/backend/models/skalar');
-
-// Is this a saved email
-router.get('/emailValidation', async(req,res) => {
-    let checkEmail = req.query.email;
-    console.log('emailValidation', checkEmail);
-    await Skalar.findOne({email: checkEmail})
-    .then(search => {
-        if(search){
-            console.log('email found', search);
-            res.status(200);
-            // or change ang send json and chnage the return of observable ins ervice or something
-            return true
-            }
-            else{
-                console.log('email not found');
-                res.status(200);
-                return false
-            }
-        }).catch(err => {
-            res.status(401);
-            console.log('error', err);
-            })
-        })
+import { findOne } from '/app/backend/models/skalar';
 
 // Login
 // verify email can be done when seeing if email exist
@@ -38,7 +15,7 @@ router.post("/login", verifyEmail, async(reg, res, next) => {
     console.log('login body stayloggedin', reg.body.stayLoggedIn);
 
 
-    await User.findOne({ email: reg.body.email })
+    await findOne({ email: reg.body.email })
     .then(test1 => {
         console.log('test1', test1)
         UserInfo.findOne({username: test1.username})

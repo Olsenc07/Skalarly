@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { EditingService } from 'src/app/custom-architecture-aids/services/editing.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ConfirmGuard implements OnDestroy {
   private rootSub$: Subscription | undefined;
   private editingService: EditingService;
