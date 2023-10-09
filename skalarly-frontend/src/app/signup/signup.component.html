@@ -1,27 +1,39 @@
 <progress id="progress" value="32" max="100"> </progress>
 
-
+<form [formGroup]="signUpForm">
+  <!-- username -->
+  <mat-form-field>
+    <mat-label>
+      <i [class.condition-met]="createPassword.valid" matSuffix
+       class="fa-solid fa-user-graduate"></i>
+    </mat-label>
+    <input matInput type="text" placeholder="Username" required
+    formControlName="username" >
+    <ng-container *ngIf="signUpForm.get('username')?.hasError">
+    <mat-error *ngIf="signUpForm.get('username')?.hasError('uniqueUserNameError')">Username is already in use. Please try another</mat-error>
+    <mat-error *ngIf="signUpForm.get('username')?.hasError('patternUsernNameError')">Only letters, numbers and underscores are allowed</mat-error>
+  </ng-container>
+  </mat-form-field>
 <!-- create password -->
 <mat-form-field>
     <mat-label>
-        <i [class.condition-met]="createPassword.valid" 
+        <i [class.condition-met]="password.valid" 
          matSuffix class="fa-solid fa-lock"></i>
     </mat-label>
     <input matInput type="password" placeholder="Password" required
-    [formControl]="createPassword" id='createPassword'>
+    formControlName="password">
     <!-- toggle password visibility -->
     <button matSuffix mat-icon-button  [ngClass]="{ 'showing': visiblePassword }"
     (click)="toggleVisibility()"
     matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
       <i class="fa-solid fa-eye"></i>
     </button>
-    </ng-template>
 </mat-form-field>
 
 
   <!-- Password Requirements -->
   <!-- unrendered when no value or conditons are met -->
-  <ng-template *ngIf="createPassword.value && createPassword.invalid">
+  <ng-template *ngIf="signUpForm.get('password')?.value && signUpForm.get('password')?.invalid">
   <div class="password-requirements">
     <p>Password Requirements:</p>
     <ul>
@@ -33,5 +45,5 @@
     </ul>
   </div>
 </ng-template>
-
+</form>
 <!-- finish login angular expert -->

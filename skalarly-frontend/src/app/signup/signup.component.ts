@@ -1,9 +1,11 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import {
   emailValidatorPattern,
   trimWhiteSpace
 } from '../custom-architecture-aids/validators/email.validator';
+
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,6 +35,7 @@ import { usernameValidator } from '../custom-architecture-aids/validators/userna
 export class SignUpComponent implements OnInit, OnChanges {
   userInteracted: boolean = false;
   visiblePassword: boolean = false;
+  private usernameSub?: Subscription;
   // route guard is trying to leave without finishing, warning content will be lost
   // then delete email or any account info made
   // must validate email as soon as password and email validate is sent
@@ -43,10 +46,7 @@ export class SignUpComponent implements OnInit, OnChanges {
   constructor() {}
 
   signUpForm: FormGroup = new FormGroup({
-    username: new FormControl<string | null>(null, [
-      usernameValidator,
-      trimWhiteSpace()
-    ]),
+    username: new FormControl<string | null>(null, [trimWhiteSpace()]),
     email: new FormControl<string | null>(null, [
       emailValidatorPattern,
       trimWhiteSpace()
@@ -56,65 +56,81 @@ export class SignUpComponent implements OnInit, OnChanges {
       trimWhiteSpace()
     ])
   });
-  // have a nice ux that checks off when then password validtors are met
-  createPassword: FormControl = new FormControl<string | null>(null, [
-    passwordValidator,
-    trimWhiteSpace()
-  ]);
 
+  // llok over username suff
   ngOnInit() {
-    this.createPassword.valueChanges.subscribe((newValue: string) => {
-      const password: string = newValue;
-      const requirements: PassWordInterface = {
-        length: password.length >= 8,
-        uppercase: /[A-Z]/.test(password),
-        lowercase: /[a-z]/.test(password),
-        digit: /\d/.test(password),
-        special: /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password)
-      };
+    // username check
+    this.usernameSub = this.signUpForm
+      .get('username')
+      ?.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((username: string | null) => {
+        if (username !== null) {
+          const errors = usernameValidator(
+            this.signUpForm.get('username')?.value
+          );
+          this.signUpForm.get('username')?.setErrors(errors);
+        }
+      });
+    // password check
+    this.signUpForm
+      .get('password')
+      ?.valueChanges.subscribe((newValue: string) => {
+        const password: string = newValue;
+        const requirements: PassWordInterface = {
+          length: password.length >= 8,
+          uppercase: /[A-Z]/.test(password),
+          lowercase: /[a-z]/.test(password),
+          digit: /\d/.test(password),
+          special: /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password)
+        };
 
-      // Update the style of each requirement element based on whether it's met
-      // min length 8
-      if (requirements.length) {
-        document?.getElementById('length')?.classList.add('condition-met');
-      } else {
-        document?.getElementById('length')?.classList.remove('condition-met');
-      }
-      // uppercase letter
-      if (requirements.uppercase) {
-        document?.getElementById('uppercase')?.classList.add('condition-met');
-      } else {
-        document
-          ?.getElementById('uppercase')
-          ?.classList.remove('condition-met');
-      }
-      // lowercase letter
-      if (requirements.lowercase) {
-        document?.getElementById('lowercase')?.classList.add('condition-met');
-      } else {
-        document
-          ?.getElementById('lowercase')
-          ?.classList.remove('condition-met');
-      }
-      // digit
-      if (requirements.digit) {
-        document?.getElementById('digit')?.classList.add('condition-met');
-      } else {
-        document?.getElementById('digit')?.classList.remove('condition-met');
-      }
-      // special
-      if (requirements.special) {
-        document?.getElementById('special')?.classList.add('condition-met');
-      } else {
-        document?.getElementById('special')?.classList.remove('condition-met');
-      }
-    });
+        // Update the style of each requirement element based on whether it's met
+        // min length 8
+        if (requirements.length) {
+          document?.getElementById('length')?.classList.add('condition-met');
+        } else {
+          document?.getElementById('length')?.classList.remove('condition-met');
+        }
+        // uppercase letter
+        if (requirements.uppercase) {
+          document?.getElementById('uppercase')?.classList.add('condition-met');
+        } else {
+          document
+            ?.getElementById('uppercase')
+            ?.classList.remove('condition-met');
+        }
+        // lowercase letter
+        if (requirements.lowercase) {
+          document?.getElementById('lowercase')?.classList.add('condition-met');
+        } else {
+          document
+            ?.getElementById('lowercase')
+            ?.classList.remove('condition-met');
+        }
+        // digit
+        if (requirements.digit) {
+          document?.getElementById('digit')?.classList.add('condition-met');
+        } else {
+          document?.getElementById('digit')?.classList.remove('condition-met');
+        }
+        // special
+        if (requirements.special) {
+          document?.getElementById('special')?.classList.add('condition-met');
+        } else {
+          document
+            ?.getElementById('special')
+            ?.classList.remove('condition-met');
+        }
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.signUpForm.valueChanges.subscribe(() => {
       this.userInteracted = true;
     });
+
+    // un sub when usernameis completed
+    this.usernameSub?.unsubscribe();
   }
   // request to use route guard
   getRouteGuardStatus(): boolean {
@@ -126,4 +142,6 @@ export class SignUpComponent implements OnInit, OnChanges {
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;
   }
+
+  // clean up
 }

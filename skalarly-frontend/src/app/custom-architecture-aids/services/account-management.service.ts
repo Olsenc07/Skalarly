@@ -39,7 +39,7 @@ export class AccountManagementService {
       {
         params: queryParams
       }
-    );
+    )
   }
 //    should be the first form control group of username, email, password
   createAccount(): Observable<AccountCredentials> {
