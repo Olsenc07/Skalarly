@@ -1,5 +1,16 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import {
   emailValidatorPattern,
@@ -13,10 +24,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { type PassWordInterface } from '../custom-architecture-aids/interfaces/password-interface';
+import { SaveSignUpGuard } from './../app-routes/route-guards/signup-guard';
+import { emailUsernameValidator } from '../custom-architecture-aids/validators/email-username.validator';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
-import { usernameValidator } from '../custom-architecture-aids/validators/username.validator';
 // import { MatCardModule } from '@angular/material/card';
-
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
@@ -32,7 +43,7 @@ import { usernameValidator } from '../custom-architecture-aids/validators/userna
     CommonModule
   ]
 })
-export class SignUpComponent implements OnInit, OnChanges {
+export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   userInteracted: boolean = false;
   visiblePassword: boolean = false;
   private usernameSub?: Subscription;
@@ -43,15 +54,18 @@ export class SignUpComponent implements OnInit, OnChanges {
   //then when email is validated, go to next pg
   // password visibility
 
-  constructor() {}
+  constructor(private saveSignUpGuard: SaveSignUpGuard) {}
 
   signUpForm: FormGroup = new FormGroup({
     username: new FormControl<string | null>(null, [trimWhiteSpace()]),
     email: new FormControl<string | null>(null, [
+      Validators.required,
       emailValidatorPattern,
       trimWhiteSpace()
     ]),
     password: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.email,
       passwordValidator,
       trimWhiteSpace()
     ])
@@ -65,8 +79,9 @@ export class SignUpComponent implements OnInit, OnChanges {
       ?.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((username: string | null) => {
         if (username !== null) {
-          const errors = usernameValidator(
-            this.signUpForm.get('username')?.value
+          const errors = emailUsernameValidator(
+            this.signUpForm.get('username')?.value,
+            true
           );
           this.signUpForm.get('username')?.setErrors(errors);
         }
@@ -144,4 +159,8 @@ export class SignUpComponent implements OnInit, OnChanges {
   }
 
   // clean up
+  // if skalar trys to close entire browser before cpmpleting,delete saved content
+  ngOnDestroy(): void {
+    this.saveSignUpGuard.canDeactivate();
+  }
 }
