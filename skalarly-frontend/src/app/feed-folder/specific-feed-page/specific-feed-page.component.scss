@@ -1,8 +1,8 @@
-@use 'src/app/universal-reusable-styles/common' as universal;
-
-.scroll-btn{
-    // be above feed
-    @include universal.common;
+#scrollToTop{
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
     z-index: 2;
 }
 

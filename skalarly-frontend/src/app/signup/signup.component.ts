@@ -71,8 +71,10 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
     ])
   });
 
-  // llok over username suff
+  // look over username suff
   ngOnInit() {
+// get country/institute/email data
+this.country$ = this.quizCategoriesDataService.getCategoryData();
     // username check
     this.usernameSub = this.signUpForm
       .get('username')

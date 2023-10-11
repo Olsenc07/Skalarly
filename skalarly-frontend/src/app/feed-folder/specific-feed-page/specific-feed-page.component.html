@@ -10,22 +10,19 @@
 starting to scroll back up have it appear
 like you tube -->
 
-<!-- Also haveeach post load in/fade in when first viewed and in scroll view -->
+<!-- Also have each post load in/fade in when first viewed and in scroll view -->
 <body>
-<div *ngFor="let post of posts; index as i; trackBy: trackByPosts;"
-(onscroll)="scrolling()">
+<div *ngFor="let post of posts; index as i; trackBy: trackByPosts;">
 
-    <!-- scroll into view -->
-    <!-- make sure the getElementById string 0
-    adn this id: number still connects -->
+    <!-- could add some neat animations using [id]=i -->
     <mat-card [id]=i>
 
     </mat-card>
 </div>
 
-<!-- if scrolled ... px -->
-<ng-template [ngIf]="scrolled > 15">
-<div class="scroll-btn">
+<!-- if scrolled > 100px will appear -->
+<ng-template>
+<div id="scrollToTop">
 <button mat-icon-button  (click)="scrollToTop()">
     <i class="fa-solid fa-circle-up"></i>
 </button>

@@ -1,5 +1,15 @@
 <progress id="progress" value="32" max="100"> </progress>
 
+<!-- choosing the instituiton sets email varification
+have canada, usa at top  -->
+<app-reusable-inputs [label]="'Country of study'" [List$]="categories$"
+(selectedChange)="updateSelection($event)" [hint]="'Which country do you study in?'">
+</app-reusable-inputs>
+<!-- Institution selection -->
+<ng-container *ngIf="subCategoriesLoaded">
+<app-reusable-inputs [label]="'Where do you attend school?'" [List$]="categories$"
+(selectedChange)="updateSelection($event)" [hint]="'Current academic instituiton'">
+</app-reusable-inputs>
 <!-- make this form in a reusable file!! -->
 <form [formGroup]="signUpForm">
   <!-- username -->

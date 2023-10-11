@@ -8,6 +8,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { PullToRefreshComponent } from './pull-to-refresh/pull-to-refresh.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 @Component({
   standalone: true,
@@ -20,6 +21,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     NgClass,
     NgIf,
     RouterModule,
+    PullToRefreshComponent,
     SearchBarComponent
   ]
 })
@@ -30,8 +32,8 @@ export class AppComponent {
   searchIconClicked: boolean = false;
 
   constructor(private router: Router) {
-    this.router = router;
     // tracking skalars current page
+    this.router = router;
     this.router.events.subscribe((event: NavigationEvent) => {
       if (event instanceof NavigationEnd) {
         this.routerUrl = event.url;

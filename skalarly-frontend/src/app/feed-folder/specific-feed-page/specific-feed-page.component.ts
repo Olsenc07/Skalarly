@@ -1,4 +1,4 @@
-import { Component, type OnInit } from '@angular/core';
+import { Component, HostListener, type OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,7 +12,6 @@ import { type PostInterface } from 'src/app/custom-architecture-aids/interfaces/
   imports: [NgFor, NgIf, MatCardModule, MatButtonModule]
 })
 export class SpecificFeedPageComponent implements OnInit {
-  scrolled = 0;
   posts: PostInterface[] | undefined;
 
   ngOnInit(): void {
@@ -20,15 +19,24 @@ export class SpecificFeedPageComponent implements OnInit {
     console.log('posts');
   }
 
-  // check scroll position
-  scrolling(): void {
-    this.scrolled = window.screenY;
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    // Add logic to show/hide the scroll button based on scroll position
+    const scrollToTopElement: HTMLElement | null =
+      document.getElementById('scrollToTop');
+    if (scrollToTopElement) {
+      if (window.scrollY > 100) {
+        // Adjust this value based on your needs
+        scrollToTopElement.style.display = 'block';
+      } else {
+        scrollToTopElement.style.display = 'none';
+      }
+    }
   }
 
   // scroll to top
   scrollToTop(): void {
-    const element = document.getElementById('0');
-    element!.scrollIntoView({ behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   // efficent rendering
