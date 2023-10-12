@@ -3,6 +3,7 @@ import {
   Observable,
   catchError,
   map,
+  of,
   shareReplay
 } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -13,20 +14,31 @@ import { InstitutionDataInterface } from '../interfaces/institution-interface';
   providedIn: 'root'
 })
 export class InstitutionInfoService {
-  private countries$: Observable<string[]> | null = null;
+  private cachedInstitutions: {
+    [country: string]: InstitutionDataInterface[];
+  } = {};
+  // countries
+  private countries$: Observable<InstitutionDataInterface[]> | null = null;
   private filteredCountries$: BehaviorSubject<string[]> = new BehaviorSubject<
     string[]
   >([]);
   private pageSize: number = 7;
+  // institution data
+  private institutions$: Observable<string[]> | null = null;
+
   constructor(private http: HttpClient) {}
   institutionInfo() {
     if (!this.countries$) {
       this.countries$ = this.http
         .get<InstitutionDataInterface[]>(
-          'http://universities.hipolabs.com/search?country'
+          'http://localhost:4200/universities' ||
+            'https://www.skalarly.com/api/schools/universities'
         )
         .pipe(
           map((countries: InstitutionDataInterface[]) => {
+            // cache entire json file and use this for picking insts!!
+            // recieved as json format!!
+
             // display each country once
             let uniqueCountries: string[] = [
               ...new Set(
@@ -63,15 +75,7 @@ export class InstitutionInfoService {
     }
     return this.countries$;
   }
-  filterCountries(filter: string) {
-    if (this.countries$) {
-      const countries = this.filteredCountries$.value.filter((country) =>
-        country.toLowerCase().includes(filter.toLowerCase())
-      );
-      this.filteredCountries$.next(countries.slice(0, this.pageSize));
-    }
-  }
-
+  // infinite scroll
   loadMoreCountries() {
     if (this.countries$) {
       const currentLength = this.filteredCountries$.value.length;
@@ -85,8 +89,28 @@ export class InstitutionInfoService {
       ]);
     }
   }
-
-  getFilteredCountries(): Observable<string[]> {
-    return this.filteredCountries$.asObservable();
+  // list of institutions from country chosen
+  getInstituitonsData(country: string): Observable<InstitutionDataInterface[]> {
+    if (this.cachedInstitutions[country]) {
+      return of(this.cachedInstitutions[country]);
+    } else {
+      return this.http
+        .get<InstitutionDataInterface[]>(
+          // this should just filter from the initial cahce of this giant json file!
+          // instead of making entirely new request
+          `/universities/${country}`
+        )
+        .pipe(
+          catchError((err) => {
+            console.error('Error in institution request:', err);
+            return [];
+          }),
+          map((cachedData) => {
+            // Cache the fetched data for the country
+            this.cachedInstitutions[country] = cachedData;
+            return cachedData;
+          })
+        );
+    }
   }
 }

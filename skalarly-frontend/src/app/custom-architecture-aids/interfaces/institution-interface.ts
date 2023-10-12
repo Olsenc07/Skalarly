@@ -1,6 +1,9 @@
 export interface InstitutionDataInterface {
-  web_page: string;
+  // don't think will use two code
+  alpha_two_code?: string;
   country: string;
-  domain: string | string[];
+  'state-province': string;
+  domains: string | string[];
   name: string;
+  web_pages: string | string[];
 }

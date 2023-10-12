@@ -50,14 +50,23 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   signUpForm: FormGroup;
   userInteracted: boolean = false;
   visiblePassword: boolean = false;
-  country$: Observable<string[]> = new Observable<string[]>();
+  country$: Observable<InstitutionDataInterface[]> = new Observable<
+    InstitutionDataInterface[]
+  >();
   private usernameSub?: Subscription;
-  // route guard is trying to leave without finishing, warning content will be lost
-  // then delete email or any account info made
-  // must validate email as soon as password and email validate is sent
-  // must match 7 digits given from email
-  //then when email is validated, go to next pg
-  // password visibility
+  // Choosing institution
+  institutions$: Observable<InstitutionDataInterface[]> = new Observable<
+    InstitutionDataInterface[]
+  >();
+  private institutionsSub?: Subscription;
+  institutionsLoaded: boolean = false;
+
+  // skalar info forms
+  infoForm: FormGroup = new FormGroup({
+    institution: new FormControl<string | null>('', [Validators.required])
+  });
+  institutions: InstitutionDataInterface[] = [];
+  domain: string[] = [];
 
   constructor(
     private accountManagementService: AccountManagementService,
@@ -74,7 +83,11 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
         Validators.compose([
           Validators.required,
           Validators.email,
-          emailUsernameValidator(this.accountManagementService, false)
+          emailUsernameValidator(
+            this.accountManagementService,
+            false,
+            this.domain
+          )
         ])
       ),
       password: new FormControl<string | null>(null, [
@@ -102,85 +115,93 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
         }
       });
   }
-  updateSelection(category: InstitutionDataInterface): void {
-    // get subCategory list
-    this.subCategories$ = this.quizCategoriesDataService.getSubCategoryData(
-      category.name
+  updateCountrySelection(country: InstitutionDataInterface): void {
+    // get institutions from that country chosen
+    this.institutions$ = this.institutionInfoService.getInstituitonsData(
+      country.country
     );
-    this.subCategorySub = this.subCategories$.subscribe({
-      next: (data) => {
-        if (data.length > 0) {
-          this.subCategoriesLoaded = true;
-          if (this.quizForm.controls['chosenCategory'].value) {
-            this.quizForm.controls['chosenCategory'].reset(null);
-          }
-        } else {
-          this.subCategoriesLoaded = false;
-          // assign category to formcontrol value
-          this.quizForm.controls['chosenCategory'].setValue(category.id);
-        }
-      },
-      error: (error) => {
-        console.error('Error loading subcategories:', error);
-        this.subCategoriesLoaded = false;
-      }
-    });
+  }
+  // assign institution fomr control
+  // and then cache domain options and pass values to email validation
+  chosenInstituition(institution: InstitutionDataInterface): void {
+    this.infoForm.get('institution')!.setValue(institution);
+    // Fetch domains for email validation based on the selected institution
+    const selectedInstitution: InstitutionDataInterface | undefined =
+      this.institutions.find((item) => item.name === institution.name);
+    if (selectedInstitution) {
+      // Cache domains from the selected institution
+      this.domain = Array.isArray(selectedInstitution.domains)
+        ? selectedInstitution.domains
+        : [selectedInstitution.domains];
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.signUpForm.valueChanges.subscribe(() => {
-      this.userInteracted = true;
-    });
-    // password check
-    this.signUpForm
-      .get('password')
-      ?.valueChanges.subscribe((newValue: string) => {
-        const password: string = newValue;
-        const requirements: PassWordInterface = {
-          length: password.length >= 8,
-          uppercase: /[A-Z]/.test(password),
-          lowercase: /[a-z]/.test(password),
-          digit: /\d/.test(password),
-          special: /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password)
-        };
-
-        // Update the style of each requirement element based on whether it's met
-        if (requirements.length) {
-          document?.getElementById('length')?.classList.add('condition-met');
-        } else {
-          document?.getElementById('length')?.classList.remove('condition-met');
-        }
-        // uppercase letter
-        if (requirements.uppercase) {
-          document?.getElementById('uppercase')?.classList.add('condition-met');
-        } else {
-          document
-            ?.getElementById('uppercase')
-            ?.classList.remove('condition-met');
-        }
-        // lowercase letter
-        if (requirements.lowercase) {
-          document?.getElementById('lowercase')?.classList.add('condition-met');
-        } else {
-          document
-            ?.getElementById('lowercase')
-            ?.classList.remove('condition-met');
-        }
-        // digit
-        if (requirements.digit) {
-          document?.getElementById('digit')?.classList.add('condition-met');
-        } else {
-          document?.getElementById('digit')?.classList.remove('condition-met');
-        }
-        // special
-        if (requirements.special) {
-          document?.getElementById('special')?.classList.add('condition-met');
-        } else {
-          document
-            ?.getElementById('special')
-            ?.classList.remove('condition-met');
-        }
+    if (changes['signUpForm'] && !changes['signUpForm'].firstChange) {
+      this.signUpForm.valueChanges.subscribe(() => {
+        this.userInteracted = true;
       });
+    }
+    // password check
+    if (changes['signUpForm'].currentValue.get('password')) {
+      this.signUpForm
+        .get('password')
+        ?.valueChanges.subscribe((newValue: string) => {
+          const password: string = newValue;
+          const requirements: PassWordInterface = {
+            length: password.length >= 8,
+            uppercase: /[A-Z]/.test(password),
+            lowercase: /[a-z]/.test(password),
+            digit: /\d/.test(password),
+            special: /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password)
+          };
+
+          // Update the style of each requirement element based on whether it's met
+          if (requirements.length) {
+            document?.getElementById('length')?.classList.add('condition-met');
+          } else {
+            document
+              ?.getElementById('length')
+              ?.classList.remove('condition-met');
+          }
+          // uppercase letter
+          if (requirements.uppercase) {
+            document
+              ?.getElementById('uppercase')
+              ?.classList.add('condition-met');
+          } else {
+            document
+              ?.getElementById('uppercase')
+              ?.classList.remove('condition-met');
+          }
+          // lowercase letter
+          if (requirements.lowercase) {
+            document
+              ?.getElementById('lowercase')
+              ?.classList.add('condition-met');
+          } else {
+            document
+              ?.getElementById('lowercase')
+              ?.classList.remove('condition-met');
+          }
+          // digit
+          if (requirements.digit) {
+            document?.getElementById('digit')?.classList.add('condition-met');
+          } else {
+            document
+              ?.getElementById('digit')
+              ?.classList.remove('condition-met');
+          }
+          // special
+          if (requirements.special) {
+            document?.getElementById('special')?.classList.add('condition-met');
+          } else {
+            document
+              ?.getElementById('special')
+              ?.classList.remove('condition-met');
+          }
+        });
+    }
   }
   // request to use route guard
   getRouteGuardStatus(): boolean {
@@ -189,8 +210,10 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   // save initial credentials
   firstSubmit(): void {
     // if successfully saved
+
     // un sub when usernameis completed
     this.usernameSub?.unsubscribe();
+    this.institutionsSub?.unsubscribe();
   }
   // toggle password visbility
   // toggle password visbility
@@ -204,5 +227,6 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
     this.saveSignUpGuard.canDeactivate();
     // if not alreayd unsubbed
     this.usernameSub?.unsubscribe();
+    this.institutionsSub?.unsubscribe();
   }
 }

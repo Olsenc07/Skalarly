@@ -2,14 +2,15 @@
 
 <!-- choosing the instituiton sets email varification
 have canada, usa at top  -->
-<app-reusable-inputs [label]="'Country of study'" [List$]="categories$"
-(selectedChange)="updateSelection($event)" [hint]="'Which country do you study in?'">
+<app-reusable-inputs [label]="'Country of study'" [List$]="country$"
+(selectedChange)="updateCountrySelection($event)" [hint]="'Which country do you study in?'">
 </app-reusable-inputs>
 <!-- Institution selection -->
-<ng-container *ngIf="subCategoriesLoaded">
-<app-reusable-inputs [label]="'Where do you attend school?'" [List$]="categories$"
-(selectedChange)="updateSelection($event)" [hint]="'Current academic instituiton'">
+<ng-container *ngIf="institutionsLoaded">
+<app-reusable-inputs [label]="'Where do you attend school?'" [List$]="institutions$"
+(selectedChange)="chosenInstituition($event)" [hint]="'Current academic instituiton'">
 </app-reusable-inputs>
+
 <!-- make this form in a reusable file!! -->
 <form [formGroup]="signUpForm">
   <!-- username --> (ngSubmit)="createQuiz()"

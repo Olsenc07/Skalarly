@@ -26,6 +26,7 @@ import {
 import { BoldPipe } from 'src/app/custom-architecture-aids/pipes/bold.pipe';
 import { CommonModule } from '@angular/common';
 import { type InstitutionDataInterface } from 'src/app/custom-architecture-aids/interfaces/institution-interface';
+import { InstitutionInfoService } from '../../custom-architecture-aids/services/institution-info.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RemoveSpacesPipe } from 'src/app/custom-architecture-aids/pipes/white-space.pipe';
@@ -51,6 +52,7 @@ export class ReusableInputsComponent implements OnInit {
   // used to display drop down filtered options
   typedFilter: FormControl<string | null> = new FormControl<string | null>('');
   @Input() label: string | null = null;
+  labelFlexible: 'country' | 'name';
   @Input() hint: string | null = null;
   @Input() List$!: Observable<InstitutionDataInterface[]>;
   private listSub?: Subscription;
@@ -64,13 +66,23 @@ export class ReusableInputsComponent implements OnInit {
     new EventEmitter<InstitutionDataInterface>();
   @Output() difficultyFormControl: EventEmitter<string> =
     new EventEmitter<string>();
-  constructor(private el: ElementRef) {}
+  constructor(
+    private el: ElementRef,
+    private institutionInfoService: InstitutionInfoService
+  ) {
+    if (this.label === 'Country of study') {
+      this.labelFlexible = 'country';
+    } else {
+      this.labelFlexible = 'name';
+    }
+  }
   ngOnInit(): void {
     this.listSub = this.List$.subscribe(
       (categories: InstitutionDataInterface[]) => {
         this.initialList$.next(categories);
       }
     );
+
     // Filters list
     // startWith('') allows list to be displayed before typing
     this.List$ = combineLatest([
@@ -111,7 +123,6 @@ export class ReusableInputsComponent implements OnInit {
   // Selection has been made
   newSelection(entry: InstitutionDataInterface) {
     // If choice came from difficulty drop down
-
     this.selectedChange.emit(entry);
   }
   // Call this method when the user clicks "Load More"

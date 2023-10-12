@@ -6,7 +6,7 @@ const userInfoSchema = Schema({
     // bio: { type: String },
     // // courseId: { type: Array},
     // // gender: { type: String },
-    // campus: { type: String},
+    institution: { type: String},
     // birthday: { type: String},
     // major: { type: String},
     // minor: { type: String},

@@ -6,22 +6,22 @@
 </head>
 
 <body>
-    <div class="quiz-form-choice">
+    <div class="institutions-form-choice">
         <!-- filter by typing -->
         <mat-form-field appearance="outline">
           <mat-label>{{ label }}</mat-label>
         <input matInput type="text" [formControl]="typedFilter" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
           <ng-container *ngFor="let list  of (List$  | async ) as Lists; index as i; trackBy: trackByList">
-            <mat-option (click)="newSelection(list)" *ngIf="(list.name) as subCat" 
-            [value]="subCat">
+            <mat-option (click)="newSelection(list)" *ngIf="(list[labelFlexible]) as info" 
+            [value]="info">
                 <span 
-                [innerHTML]="subCat | titlecase | bold: typedFilter.value! ">
+                [innerHTML]="info | titlecase | bold: typedFilter.value! ">
                 </span>
             </mat-option>
           </ng-container>
         </mat-autocomplete>
-          <ng-container *ngIf="hint === 'string' ">
+          <ng-container *ngIf="hint !== null ">
             <mat-hint>{{ hint }}</mat-hint>
           </ng-container>
         </mat-form-field>

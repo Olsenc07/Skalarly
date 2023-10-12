@@ -24,7 +24,7 @@ export class AccountManagementService {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
     return this.http.get<boolean>(
       // set up mock server to serve local host requests?
-      'http://localhost:4200/api/account-management/emailValidation' ||
+      'http://localhost:4200/api/accountManagement/emailValidation' ||
         'https://www.skalarly.com/api/account-management/emailValidation',
       {
         params: queryParams
@@ -34,8 +34,8 @@ export class AccountManagementService {
   uniqueUserName(username: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: username });
     return this.http.get<boolean>(
-      'http://localhost:4200/api/account-management/uniqueUserName' ||
-        'https://www.skalarly.com/api/account-management/uniqueUserName',
+      'http://localhost:4200/api/accountManagement/uniqueUserName' ||
+        'https://www.skalarly.com/api/accountManagement/uniqueUserName',
       {
         params: queryParams
       }
@@ -46,8 +46,8 @@ export class AccountManagementService {
     const queryParams: HttpParams = new HttpParams({ fromObject: credentials });
     this.newAccount$ = this.http
       .post<{ username: string; email: string; password: string }>(
-        'http://localhost:4200/api/account-management/createAccount' ||
-        'https://www.skalarly.com/api/account-management/createAccount',
+        'http://localhost:4200/api/accountManagement/createAccount' ||
+        'https://www.skalarly.com/api/accountManagement/createAccount',
         params: queryParams
       )
      .pipe(
@@ -62,8 +62,8 @@ export class AccountManagementService {
   // not actually create then in db
   clearData(): void {
     const deleteUrl =
-    'http://localhost:4200/api/account-management/deleteUncompletedSignUp' ||
-    'https://www.skalarly.com/api/account-management/deleteUncompletedSignUp';
+    'http://localhost:4200/api/accountManagement/deleteUncompletedSignUp' ||
+    'https://www.skalarly.com/api/accountManagement/deleteUncompletedSignUp';
 
   if (this.newAccount$) {
     this.newAccount$.subscribe((data: string) => {
