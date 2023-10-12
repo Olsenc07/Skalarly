@@ -12,7 +12,7 @@ have canada, usa at top  -->
 </app-reusable-inputs>
 <!-- make this form in a reusable file!! -->
 <form [formGroup]="signUpForm">
-  <!-- username -->
+  <!-- username --> (ngSubmit)="createQuiz()"
   <mat-form-field>
     <mat-label>
       <i [class.condition-met]="signUpForm.get('username')?.valid" matSuffix
@@ -71,5 +71,8 @@ have canada, usa at top  -->
     </ul>
   </div>
 </ng-template>
+<button mat-raised-button type="submit" [disabled]="signUpForm.invalid">
+  Validate
+</button>
 </form>
-<!-- finish login angular expert -->
+<!-- Onto Validation 7 digits from email-->

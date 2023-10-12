@@ -55,5 +55,7 @@ export function emailUsernameValidator(
         );
       }
     }
+    // Default return value for control
+    return of(null);
   };
 }

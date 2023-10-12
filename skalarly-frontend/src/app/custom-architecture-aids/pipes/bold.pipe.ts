@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-// Use to match search hastags, other skalars, profs,...
+// Use to match search hashtags, other skalars, profs,...
 @Pipe({
   name: 'bold',
   standalone: true

@@ -11,41 +11,46 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { Subscription, debounceTime, distinctUntilChanged } from 'rxjs';
 import {
-  emailValidatorPattern,
-  trimWhiteSpace
-} from '../custom-architecture-aids/validators/email.validator';
-
+  Observable,
+  Subscription,
+  debounceTime,
+  distinctUntilChanged
+} from 'rxjs';
+import { AccountManagementService } from '../custom-architecture-aids/services/account-management.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { type InstitutionDataInterface } from '../custom-architecture-aids/interfaces/institution-interface';
+import { InstitutionInfoService } from '../custom-architecture-aids/services/institution-info.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { type PassWordInterface } from '../custom-architecture-aids/interfaces/password-interface';
+import { ReusableInputsComponent } from './reusable-inputs/reusable-inputs.component';
 import { SaveSignUpGuard } from './../app-routes/route-guards/signup-guard';
 import { emailUsernameValidator } from '../custom-architecture-aids/validators/email-username.validator';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
-// import { MatCardModule } from '@angular/material/card';
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    // MatCardModule,
     HttpClientModule,
     MatButtonModule,
     MatSelectModule,
     MatTooltipModule,
-    CommonModule
+    ReusableInputsComponent
   ]
 })
 export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
+  signUpForm: FormGroup;
   userInteracted: boolean = false;
   visiblePassword: boolean = false;
+  country$: Observable<string[]> = new Observable<string[]>();
   private usernameSub?: Subscription;
   // route guard is trying to leave without finishing, warning content will be lost
   // then delete email or any account info made
@@ -54,27 +59,35 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   //then when email is validated, go to next pg
   // password visibility
 
-  constructor(private saveSignUpGuard: SaveSignUpGuard) {}
-
-  signUpForm: FormGroup = new FormGroup({
-    username: new FormControl<string | null>(null, [trimWhiteSpace()]),
-    email: new FormControl<string | null>(null, [
-      Validators.required,
-      emailValidatorPattern,
-      trimWhiteSpace()
-    ]),
-    password: new FormControl<string | null>(null, [
-      Validators.required,
-      Validators.email,
-      passwordValidator,
-      trimWhiteSpace()
-    ])
-  });
+  constructor(
+    private accountManagementService: AccountManagementService,
+    private institutionInfoService: InstitutionInfoService,
+    private saveSignUpGuard: SaveSignUpGuard
+  ) {
+    this.signUpForm = new FormGroup({
+      username: new FormControl<string | null>(null, [
+        Validators.required,
+        emailUsernameValidator(this.accountManagementService, true)
+      ]),
+      email: new FormControl<string | null>(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.email,
+          emailUsernameValidator(this.accountManagementService, false)
+        ])
+      ),
+      password: new FormControl<string | null>(null, [
+        Validators.required,
+        passwordValidator
+      ])
+    });
+  }
 
   // look over username suff
   ngOnInit() {
-// get country/institute/email data
-this.country$ = this.quizCategoriesDataService.getCategoryData();
+    // get country/institute/email data
+    this.country$ = this.institutionInfoService.institutionInfo();
     // username check
     this.usernameSub = this.signUpForm
       .get('username')
@@ -88,6 +101,36 @@ this.country$ = this.quizCategoriesDataService.getCategoryData();
           this.signUpForm.get('username')?.setErrors(errors);
         }
       });
+  }
+  updateSelection(category: InstitutionDataInterface): void {
+    // get subCategory list
+    this.subCategories$ = this.quizCategoriesDataService.getSubCategoryData(
+      category.name
+    );
+    this.subCategorySub = this.subCategories$.subscribe({
+      next: (data) => {
+        if (data.length > 0) {
+          this.subCategoriesLoaded = true;
+          if (this.quizForm.controls['chosenCategory'].value) {
+            this.quizForm.controls['chosenCategory'].reset(null);
+          }
+        } else {
+          this.subCategoriesLoaded = false;
+          // assign category to formcontrol value
+          this.quizForm.controls['chosenCategory'].setValue(category.id);
+        }
+      },
+      error: (error) => {
+        console.error('Error loading subcategories:', error);
+        this.subCategoriesLoaded = false;
+      }
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.signUpForm.valueChanges.subscribe(() => {
+      this.userInteracted = true;
+    });
     // password check
     this.signUpForm
       .get('password')
@@ -102,7 +145,6 @@ this.country$ = this.quizCategoriesDataService.getCategoryData();
         };
 
         // Update the style of each requirement element based on whether it's met
-        // min length 8
         if (requirements.length) {
           document?.getElementById('length')?.classList.add('condition-met');
         } else {
@@ -140,20 +182,16 @@ this.country$ = this.quizCategoriesDataService.getCategoryData();
         }
       });
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.signUpForm.valueChanges.subscribe(() => {
-      this.userInteracted = true;
-    });
-
-    // un sub when usernameis completed
-    this.usernameSub?.unsubscribe();
-  }
   // request to use route guard
   getRouteGuardStatus(): boolean {
     return this.userInteracted;
   }
-
+  // save initial credentials
+  firstSubmit(): void {
+    // if successfully saved
+    // un sub when usernameis completed
+    this.usernameSub?.unsubscribe();
+  }
   // toggle password visbility
   // toggle password visbility
   toggleVisibility(): void {
@@ -164,5 +202,7 @@ this.country$ = this.quizCategoriesDataService.getCategoryData();
   // if skalar trys to close entire browser before cpmpleting,delete saved content
   ngOnDestroy(): void {
     this.saveSignUpGuard.canDeactivate();
+    // if not alreayd unsubbed
+    this.usernameSub?.unsubscribe();
   }
 }
