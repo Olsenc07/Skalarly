@@ -5,6 +5,7 @@ have canada, usa at top  -->
 <app-reusable-inputs [label]="'Country of study'" [List$]="country$"
 (selectedChange)="updateCountrySelection($event)" [hint]="'Which country do you study in?'">
 </app-reusable-inputs>
+<!-- if province-state needs to be chosen -->
 <!-- Institution selection -->
 <ng-container *ngIf="institutionsLoaded">
 <app-reusable-inputs [label]="'Where do you attend school?'" [List$]="institutions$"
