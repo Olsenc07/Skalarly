@@ -7,8 +7,13 @@ export interface AccountCredentials {
   readonly password: string;
 }
 export interface SkalarInfoInterface {
-  readonly id: string;
+  readonly id?: string;
   readonly username: string;
-  readonly email: string;
   name: string;
+  readonly skalar?: string;
+}
+export interface InitialAccountInterface {
+  email: string;
+  username: string;
+  password: string;
 }

@@ -13,9 +13,11 @@ import {
 } from '@angular/forms';
 import {
   Observable,
+  Subject,
   Subscription,
   debounceTime,
-  distinctUntilChanged
+  distinctUntilChanged,
+  takeUntil
 } from 'rxjs';
 import { AccountManagementService } from '../custom-architecture-aids/services/account-management.service';
 import { CommonModule } from '@angular/common';
@@ -64,12 +66,17 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
     InstitutionDataInterface[]
   >();
   private institutionsSub?: Subscription;
+  private accountSub$: Subject<void> = new Subject<void>();
+  private skalarInfoSub$: Subject<void> = new Subject<void>();
+
   institutionsLoaded: boolean = false;
 
   // skalar info forms
   infoForm: FormGroup = new FormGroup({
     institution: new FormControl<string | null>(null, [Validators.required]),
-    region: new FormControl<string | null>(null, [Validators.required])
+    region: new FormControl<string | null>(null, [Validators.required]),
+    domains: new FormControl<string[] | null>(null, [Validators.required]),
+    webPages: new FormControl<string[] | null>(null, [Validators.required])
   });
   domain: string[] | undefined = undefined;
 
@@ -247,7 +254,7 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   // save initial credentials
   firstSubmit(): void {
     // if successfully saved
-
+    this.accountManagementService.createAccount(this.signUpForm);
     // un sub when usernameis completed
     this.usernameSub?.unsubscribe();
     this.institutionsSub?.unsubscribe();
@@ -257,7 +264,35 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;
   }
+  // initial submit
+  createAccount(): void {
+    this.accountManagementService
+      .createAccount(this.signUpForm)
+      .pipe(takeUntil(this.accountSub$))
+      .subscribe((success) => {
+        if (success) {
+          // navigate to next page
+        } else {
+          // handle failed creation
+          // try again
+        }
+      });
+  }
 
+  // final submit
+  addSkalarInfo(): void {
+    this.accountManagementService
+      .createAccount(this.infoForm)
+      .pipe(takeUntil(this.skalarInfoSub$))
+      .subscribe((success) => {
+        if (success) {
+          // navigate to home page
+        } else {
+          // handle failed creation
+          // try again
+        }
+      });
+  }
   // clean up
   // if skalar trys to close entire browser before cpmpleting,delete saved content
   ngOnDestroy(): void {
@@ -265,5 +300,9 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
     // if not alreayd unsubbed
     this.usernameSub?.unsubscribe();
     this.institutionsSub?.unsubscribe();
+    this.accountSub$.next();
+    this.accountSub$.complete();
+    this.skalarInfoSub$.next();
+    this.skalarInfoSub$.complete();
   }
 }
