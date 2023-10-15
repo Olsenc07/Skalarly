@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, catchError, shareReplay } from 'rxjs';
 import { AuthorizeService } from '../services/authorize.service';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, shareReplay } from 'rxjs';
 import { SkalarInfoInterface } from '../interfaces/skalars-info-interface';
 
 @Injectable({
@@ -31,7 +31,7 @@ export class GlobalDataService {
       return this.http
         .get<SkalarInfoInterface>(
           // set up mock server to serve local host requests?
-          'http://localhost:4200/' ||
+          'http://localhost:4200/api/skalars/selfInfo' ||
             'https://www.skalarly.com/api/skalars/selfInfo',
           {
             params: queryParams

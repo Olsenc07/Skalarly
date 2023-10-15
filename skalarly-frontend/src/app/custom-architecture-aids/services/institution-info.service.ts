@@ -23,7 +23,6 @@ export class InstitutionInfoService {
   private filteredCountries$: BehaviorSubject<string[]> = new BehaviorSubject<
     string[]
   >([]);
-  private pageSize: number = 7;
   // institution data
   private institutions$: Observable<string[]> | null = null;
 
@@ -32,7 +31,7 @@ export class InstitutionInfoService {
     if (!this.countries$) {
       this.countries$ = this.http
         .get<InstitutionDataInterface[]>(
-          'http://localhost:4200/countries' ||
+          'http://localhost:4200/api/schools/countries' ||
             'https://www.skalarly.com/api/schools/countries'
         )
         .pipe(
@@ -49,30 +48,43 @@ export class InstitutionInfoService {
   // to clean up how many universities are loaded.. over 3000 in usa
   // also can use this info later to display data from uni/college in same state/province as skalar
   // Function to fetch state-provinces based on the selected country
-  fetchStateProvinces(selectedCountry: string) {
-    this.stateProvinces$ = this.http.get<string[]>(
-      `/countries/state-provinces?country=${selectedCountry}`
-    );
-  }
-
-  // Function to fetch institutions based on the selected country and state-province
-  fetchInstitutions(selectedCountry: string, selectedStateProvince?: string) {
-    this.institutions$ = this.http.get<InstitutionDataInterface[]>(
-      `/countries/country?country=${selectedCountry}&stateProvince=${selectedStateProvince}`
-    );
+  fetchStateProvinces(selectedCountry: string): Observable<string[]> {
+    return this.http
+      .get<InstitutionDataInterface[]>(
+        `http://localhost:4200/api/countries/state-provinces?country=${selectedCountry}` ||
+          `https://www.skalarly.com/api/countries/state-provinces?country=${selectedCountry}`
+      )
+      .pipe(
+        map((data) => {
+          // Filter the state-provinces that are not null
+          return data
+            .map((item) => item['state-province'])
+            .filter((stateProvince) => stateProvince !== null);
+        })
+      );
   }
 
   // list of institutions from country--> state-province chosen
-  getInstituitonsData(country: string): Observable<InstitutionDataInterface[]> {
-    if (country === this.selectedCountry && this.cachedInstitutions[country]) {
-      // return cached data for the same country
-      return of(this.cachedInstitutions[country]);
+  getInstituitonsData(
+    country: string,
+    stateProvince?: string
+  ): Observable<InstitutionDataInterface[]> {
+    const region = stateProvince ? `${country}_${stateProvince}` : country;
+
+    if (region === this.selectedCountry && this.cachedInstitutions[region]) {
+      // Return cached data for the same country and state-province
+      return of(this.cachedInstitutions[region]);
     } else {
       return this.http
         .get<InstitutionDataInterface[]>(
           // this should just filter from the initial cache of this giant json file!
           // instead of making entirely new request
-          `/countries/${country}`
+          `http://localhost:4200/api/countries/${country}${
+            stateProvince ? `/${stateProvince}` : ''
+          }` ||
+            `https://www.skalarly.com/api/countries/${country}${
+              stateProvince ? `/${stateProvince}` : ''
+            }`
         )
         .pipe(
           catchError((err) => {
@@ -81,11 +93,28 @@ export class InstitutionInfoService {
           }),
           map((cachedData) => {
             // Cache the fetched data for the country
-            this.cachedInstitutions[country] = cachedData;
-            this.selectedCountry = country; // Update the selected country
+            this.cachedInstitutions[region] = cachedData;
+            this.selectedCountry = region; // Update the selected country
             return cachedData;
           })
         );
     }
+  }
+  // specific info of institute
+  getInstitutionDetails(
+    country: string,
+    institutionName: string
+  ): Observable<InstitutionDataInterface> {
+    return this.http
+      .get<InstitutionDataInterface>(
+        `http://localhost:4200/api/institutions/details?country=${country}&name=${institutionName}` ||
+          `https://www.skalarly.com/api/institutions/details?country=${country}&name=${institutionName}`
+      )
+      .pipe(
+        catchError((error: any) => {
+          console.error('Error fetching institution details:', error);
+          throw 'Failed to fetch institution details' + error;
+        })
+      );
   }
 }

@@ -3,7 +3,7 @@ export interface InstitutionDataInterface {
   alpha_two_code?: string;
   country: string;
   'state-province': string;
-  domains: string | string[];
+  domains: string[];
   name: string;
-  web_pages: string | string[];
+  web_pages: string[];
 }

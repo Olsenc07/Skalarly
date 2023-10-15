@@ -26,10 +26,10 @@
     <input matInput formControlName="email" required type="email"
     id="skalarlyEmail" />
     <mat-label [class.email-valid]="loginForm.get('email')!.valid">
-      <i matSuffix class="fa-solid fa-user"></i>
+      <i matSuffix class="fa-solid fa-at"></i>
          Academic Email</mat-label>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">Only academic emails are valid</mat-error>
-    <mat-error *ngIf="(emailFound$ | async) === false">No account matches this email</mat-error>
+    <mat-error *ngIf="loginForm.get('email')!.hasError?.('invalidEmail')">No account matches this email</mat-error>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">This email hasn't been validated yet</mat-error>
 
     <ng-template #found>

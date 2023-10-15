@@ -53,6 +53,11 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   country$: Observable<InstitutionDataInterface[]> = new Observable<
     InstitutionDataInterface[]
   >();
+  countryChosen: string = '';
+  region$: Observable<InstitutionDataInterface[]> = new Observable<
+    InstitutionDataInterface[]
+  >();
+  displayStateProvince: boolean = false;
   private usernameSub?: Subscription;
   // Choosing institution
   institutions$: Observable<InstitutionDataInterface[]> = new Observable<
@@ -63,10 +68,10 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
 
   // skalar info forms
   infoForm: FormGroup = new FormGroup({
-    institution: new FormControl<string | null>('', [Validators.required])
+    institution: new FormControl<string | null>(null, [Validators.required]),
+    region: new FormControl<string | null>(null, [Validators.required])
   });
-  institutions: InstitutionDataInterface[] = [];
-  domain: string[] = [];
+  domain: string[] | undefined = undefined;
 
   constructor(
     private accountManagementService: AccountManagementService,
@@ -115,25 +120,57 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
         }
       });
   }
-  updateCountrySelection(country: InstitutionDataInterface): void {
-    // get institutions from that country chosen
+  // state-province selection
+  stateSelection(stateProvince: InstitutionDataInterface): void {
     this.institutions$ = this.institutionInfoService.getInstituitonsData(
-      country.country
+      this.countryChosen,
+      stateProvince['state-province']
     );
   }
-  // assign institution fomr control
+  updateCountrySelection(country: InstitutionDataInterface): void {
+    // get institutions from that country chosen
+    // but first check for state-province
+    // then trigger institute data
+    this.institutionInfoService
+      .fetchStateProvinces(country.country)
+      .subscribe((stateProvinces: string[]) => {
+        // check if there are state-provinces, and if not, pass undefined
+        if (stateProvinces.length > 0) {
+          //  choose state-province
+          this.displayStateProvince = true;
+          this.countryChosen = country.country;
+        } else {
+          // If there are no state-provinces, stateProvince is undefined
+          this.infoForm.get('region')!.setValue(null);
+          this.displayStateProvince = false;
+          this.institutions$ = this.institutionInfoService.getInstituitonsData(
+            country.country
+          );
+        }
+      });
+  }
+  regionSelection(countryChosen: string, region: string): void {
+    // after
+    this.institutions$ = this.institutionInfoService.getInstituitonsData(
+      countryChosen,
+      region
+    );
+    this.infoForm.get('region')!.setValue(region);
+  }
+  // assign institution form control
   // and then cache domain options and pass values to email validation
   chosenInstituition(institution: InstitutionDataInterface): void {
     this.infoForm.get('institution')!.setValue(institution);
     // Fetch domains for email validation based on the selected institution
-    const selectedInstitution: InstitutionDataInterface | undefined =
-      this.institutions.find((item) => item.name === institution.name);
-    if (selectedInstitution) {
-      // Cache domains from the selected institution
-      this.domain = Array.isArray(selectedInstitution.domains)
-        ? selectedInstitution.domains
-        : [selectedInstitution.domains];
-    }
+    this.institutionInfoService
+      .getInstitutionDetails(institution.country, institution.name)
+      .subscribe((institutionDetails: InstitutionDataInterface) => {
+        // handle the fetched data, extract web_pages, domains, name, etc.
+        this.domain = institutionDetails.domains;
+        this.infoForm.get('domains')!.setValue(institutionDetails.domains);
+        this.infoForm.get('institution')!.setValue(institutionDetails.name);
+        this.infoForm.get('webPages')!.setValue(institutionDetails.web_pages);
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

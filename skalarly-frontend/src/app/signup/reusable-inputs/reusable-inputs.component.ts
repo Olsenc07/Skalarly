@@ -101,34 +101,13 @@ export class ReusableInputsComponent implements OnInit {
       )
     );
   }
-  // tracks scroll of initial list, and loads more on scroll
-  @HostListener('scroll', ['$event'])
-  onScroll(event: Event): void {
-    // Get a reference to the dropdown panel
-    const panel = this.matAutocomplete.panel.nativeElement;
 
-    // Calculate the scroll position
-    const scrollPosition = panel.scrollTop;
-    const scrollHeight = panel.scrollHeight;
-    const clientHeight = panel.clientHeight;
-
-    // Define a threshold for when to load more items
-    const threshold = 100;
-
-    if (scrollHeight - scrollPosition - clientHeight < threshold) {
-      // Load more items when the user is near the bottom
-      this.institutionInfoService.loadMoreCountries();
-    }
-  }
   // Selection has been made
   newSelection(entry: InstitutionDataInterface) {
     // If choice came from difficulty drop down
     this.selectedChange.emit(entry);
   }
-  // Call this method when the user clicks "Load More"
-  loadMoreCountries() {
-    this.institutionInfoService.loadMoreCountries();
-  }
+
   // efficent rendering
   trackByList(i: number, list: InstitutionDataInterface): string {
     return list.name;

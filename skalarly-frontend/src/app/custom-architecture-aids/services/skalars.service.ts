@@ -39,7 +39,7 @@ export class SkalarsService {
     const params: HttpParams = new HttpParams({ fromObject: queryParams });
     return this.http.get<SkalarInfoInterface[]>(
       // set up mock server to serve local host requests?
-      'http://localhost:4200' ||
+      'http://localhost:4200/api/skalars/skalarsInfo' ||
         'https://www.skalarly.com/api/skalars/skalarsInfo',
       {
         params

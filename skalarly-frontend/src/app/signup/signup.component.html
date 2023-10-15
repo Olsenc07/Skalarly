@@ -6,6 +6,12 @@ have canada, usa at top  -->
 (selectedChange)="updateCountrySelection($event)" [hint]="'Which country do you study in?'">
 </app-reusable-inputs>
 <!-- if province-state needs to be chosen -->
+<ng-container *ngIf="displayStateProvince">
+<app-reusable-inputs [label]="'State or Province'"  [List$]="region$"
+(selectedChange)="stateSelection($event)"  [hint]="'Which State or Province is your school in?'">
+
+</app-reusable-inputs>
+</ng-container>
 <!-- Institution selection -->
 <ng-container *ngIf="institutionsLoaded">
 <app-reusable-inputs [label]="'Where do you attend school?'" [List$]="institutions$"
@@ -31,10 +37,10 @@ have canada, usa at top  -->
   <!-- create email -->
   <mat-form-field>
     <mat-label>
-      <i [class.condition-met]="signUpForm.get('username')?.valid" matSuffix
-       class="fa-solid fa-user-graduate"></i>
+      <i [class.condition-met]="signUpForm.get('email')?.valid" matSuffix
+       class="fa-solid fa-at"></i>
     </mat-label>
-    <input matInput type="email" placeholder="Academic email" required
+    <input matInput type="email" placeholder="name@school" required
     formControlName="email" >
     <ng-container *ngIf="signUpForm.get('email')?.hasError">
     <mat-error *ngIf="signUpForm.get('email')?.hasError('required')">An academic email is required.</mat-error>

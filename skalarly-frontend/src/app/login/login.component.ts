@@ -6,13 +6,20 @@ import {
   OnInit,
   SimpleChanges
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import {
   Observable,
+  Subject,
   Subscription,
   debounceTime,
   distinctUntilChanged,
-  switchMap
+  switchMap,
+  takeUntil
 } from 'rxjs';
 import {
   animate,
@@ -21,10 +28,6 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-import {
-  emailValidatorPattern,
-  trimWhiteSpace
-} from '../custom-architecture-aids/validators/email.validator';
 import { AuthorizeService } from '../custom-architecture-aids/services/authorize.service';
 import { ErrorHandlerComponent } from '../custom-architecture-aids/error-handler/error-handler.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -80,19 +83,17 @@ export class LoginComponent implements OnChanges, OnInit, OnDestroy {
   passwordErrorSub?: Subscription;
   isLoading: boolean = false;
   failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
-  emailFound$: Observable<boolean> = new Observable<boolean>();
+  emailFound: boolean = false;
+  private destroy$: Subject<void> = new Subject<void>();
   loginState: boolean = false;
   constructor(private authorizeService: AuthorizeService) {}
 
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
-      emailValidatorPattern,
-      trimWhiteSpace()
+      Validators.required,
+      Validators.email
     ]),
-    password: new FormControl<string | null>(null, [
-      passwordValidator,
-      trimWhiteSpace()
-    ])
+    password: new FormControl<string | null>(null, [passwordValidator])
   });
 
   ngOnInit(): void {
@@ -108,15 +109,22 @@ export class LoginComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     // don't search email unless pattern is proper
-    this.loginForm.controls['email'].statusChanges.subscribe((Event) => {
-      if (Event === 'VALID') {
-        this.emailFound$ = this.loginForm.controls['email'].valueChanges.pipe(
-          debounceTime(500),
-          distinctUntilChanged(),
-          switchMap((query) => this.authorizeService.searchEmails(query))
-        );
-      }
-    });
+    // need to be found first before turned valid
+    this.loginForm.controls['email'].valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((query) => this.authorizeService.searchEmails(query)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((emailFound: boolean) => {
+        if (emailFound) {
+          this.loginForm.controls['email'].setErrors(null); // Set the control as valid
+        } else {
+          this.loginForm.controls['email'].setErrors({ emailNotFound: true }); // Set an error to indicate it's invalid
+        }
+      });
+
     if (this.loginForm.controls['password'].dirty) {
       // don't give password error until attempted
       this.passwordErrorSub = this.loginForm.controls['password'].valueChanges

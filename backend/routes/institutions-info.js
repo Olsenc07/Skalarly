@@ -56,4 +56,22 @@ app.get('/countries/country', (req, res) => {
     res.json(filteredUniversities);
   });
 
+app.get('/institutions/details', (req, res) => {
+  const { country, name } = req.query;
+
+  if (!country || !name) {
+    return res.status(400).json({ error: 'Country and institution name parameters are required' });
+  }
+
+  // Find the institution with the matching country and name
+  const institution = universitiesData.find((item) => item.country === country && item.name === name);
+
+  if (institution) {
+    res.json(institution);
+  } else {
+    res.status(404).json({ error: 'Institution not found' });
+  }
+});
+
+
 export default router;

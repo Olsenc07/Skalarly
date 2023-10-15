@@ -6,8 +6,10 @@ const userInfoSchema = Schema({
     // bio: { type: String },
     // // courseId: { type: Array},
     // // gender: { type: String },
-    region: { type: String | null}, //state/province
+    region: { type: String | null, default: null}, //state/province
     institution: { type: String},
+    domains: [{type: String}],
+    webPages: [{type: String}],
     // birthday: { type: String},
     // major: { type: String},
     // minor: { type: String},

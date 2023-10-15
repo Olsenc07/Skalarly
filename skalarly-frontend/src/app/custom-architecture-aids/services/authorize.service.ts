@@ -39,8 +39,7 @@ export class AuthorizeService {
   searchEmails(email: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
     return this.http.get<boolean>(
-      // set up mock server to serve local host requests?
-      'http://localhost:4200/emailValidation' ||
+      'http://localhost:4200/api/emailValidation' ||
         'https://www.skalarly.com/api/account-management/emailValidation',
       {
         params: queryParams
@@ -53,7 +52,7 @@ export class AuthorizeService {
     console.log('stayLoggedIn', stayLoggedIn);
     this.http
       .post<{ token: string; expiresIn: number; userId: string }>(
-        'http://localhost:4200/login' ||
+        'http://localhost:4200/api/user/login' ||
           'https://www.skalarly.com/api/user/login',
         authData
       )
@@ -95,7 +94,7 @@ export class AuthorizeService {
     console.log('followed by userId', Id);
     const sub = this.http
       .post<{ token: string; expiresIn: number; userId: string }>(
-        'http://localhost:4200/stayLoggedIn' ||
+        'http://localhost:4200/api/user/stayLoggedIn' ||
           'https://www.skalarly.com/api/user/stayLoggedIn',
         Id
       )
