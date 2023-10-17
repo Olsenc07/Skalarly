@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import { find, findOne } from '/app/backend/models/SkalarInfo';
+import { find, findOne, findById } from '/app/backend/models/SkalarInfo';
 
 // Middleware
 const filterBlockedUsers = require('/app/backend/middleware/filter-blocked-skalars');
@@ -22,15 +22,47 @@ router.get('/selfInfo', async(req,res) => {
             });
         });
 })
-// searching skalars
+// finding skalars info for thier profile
 router.get('/skalarsInfo', filterBlockedUsers, async(req,res) => {
+    const idProfile = req.query.id;
+    // From Middleware
+    const cancelNavigation = req.blocked;
+    console.log('ID', idProfile);
+    console.log('filteredQuery', filteredQuery);
+
+    if (cancelNavigation) {
+        return res.status(400).json({ message: '' });
+      }
+      try {
+        isUserBlocked = req.blocked
+        if (isUserBlocked) {
+            return res.status(403).json({
+              message: 'You do not have permission to access this user\'s profile.',
+            });
+          }
+        const skalars = await findById(idProfile).exec();
+        if (skalars) {
+          console.log('Skalar found', skalars);
+          res.status(200).json(skalars);
+        } else {
+          res.status(404).json({
+            message: 'No Skalar found',
+          });
+        }
+      } catch (err) {
+        console.error('Error finding Skalar:', err);
+        res.status(500).json({
+          message: 'Internal server error',
+        });
+      }
+})
+// searching skalars
+router.get('/skalarsInfoSearch', filterBlockedUsers, async(req,res) => {
     const input = req.query.input;
     // From Middleware
     const filteredQuery = req.filteredQuery;
-
     console.log('search input', input);
     console.log('filteredQuery', filteredQuery);
-
     await find({ $and: [
         {
      username: { // searching for skalar
@@ -43,7 +75,7 @@ router.get('/skalarsInfo', filterBlockedUsers, async(req,res) => {
         .then(skalars => {
             if(skalars){
                 console.log('skalars found', skalars);
-                res.status(200).send(skalars)
+                res.status(200).json(skalars)
             }
         })
         .catch(err =>{
@@ -51,25 +83,6 @@ router.get('/skalarsInfo', filterBlockedUsers, async(req,res) => {
                 message: 'No skalar found', err
             })
         })
-    // make efficent search, non case sensitive?
-    // look at old code
-    // .then(search => {
-    //     if(search){
-    //         console.log('email found', search);
-    //         res.status(200);
-    //         // or change ang send json and chnage the return of observable ins ervice or something
-    //         return true
-    //         }
-    //         else{
-    //             console.log('email not found');
-    //             res.status(200);
-    //             return false
-    //         }
-    //     }).catch(err => {
-    //         res.status(401);
-    //         console.log('error', err);
-    //         })
-    //     })
 })
 
 export default router;

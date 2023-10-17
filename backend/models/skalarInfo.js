@@ -21,7 +21,7 @@ const userInfoSchema = Schema({
     // Following: { type: Number},
     // ProfilePicPath: { type: String},
     // cloudinary_id: { type: String},
-    Creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
+    skalar: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
  });
   
  export default model('SkalarInfo', userInfoSchema);

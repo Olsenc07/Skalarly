@@ -1,19 +1,50 @@
 import { ActivatedRouteSnapshot, ResolveData } from '@angular/router';
+import { Observable, catchError, map, of } from 'rxjs';
 import { GlobalDataService } from '../services/global-data.service';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SkalarInfoInterface } from '../interfaces/skalars-info-interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserProfileResolver implements ResolveData {
-  constructor(private globalDataService: GlobalDataService) {}
+  constructor(
+    private globalDataService: GlobalDataService,
+    private snackBar: MatSnackBar
+  ) {}
 
   // Used for profile and skalars pages for
-  resolve(route: ActivatedRouteSnapshot): Observable<any> | Promise<any> | any {
+  resolve(
+    route: ActivatedRouteSnapshot
+  ): Observable<SkalarInfoInterface | SkalarInfoInterface[]> | void {
     const id: string = route.params['id'];
-    return this.globalDataService(); // Replace with your data-fetching method
-    // could be from a different service
-    // but look up peurpose of resolve
+    if (id) {
+      this.globalDataService.fetchSkalarsData(id).pipe(
+        map((data) => {
+          // Check if data is true and set the 'blocked' value accordingly
+          // Which is accessed by canActivate nav guard and will stop nav and
+          // display message
+          if (typeof data === 'boolean') {
+            this.globalDataService.setBlockedValue(data === true);
+            return null;
+          } else {
+            return data;
+          }
+        }),
+        catchError((error) => {
+          this.snackBar.open(
+            'An error occurred while fetching Skalar data',
+            '',
+            {
+              duration: 3000
+            }
+          );
+          return of(null);
+        })
+      );
+    } else {
+      return this.globalDataService.getSkalarData(); // Replace with your data-fetching method
+    }
   }
 }

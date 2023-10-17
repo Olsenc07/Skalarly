@@ -1,5 +1,12 @@
-<progress id="progress" value="32" max="100"> </progress>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Signup Page</title>
+</head>
 
+<body>
+<progress id="progress" [value]="progressValue" max="100"> </progress>
 <!-- choosing the instituiton sets email varification
 have canada, usa at top  -->
 <app-reusable-inputs [label]="'Country of study'" [List$]="country$"
@@ -9,7 +16,6 @@ have canada, usa at top  -->
 <ng-container *ngIf="displayStateProvince">
 <app-reusable-inputs [label]="'State or Province'"  [List$]="region$"
 (selectedChange)="stateSelection($event)"  [hint]="'Which State or Province is your school in?'">
-
 </app-reusable-inputs>
 </ng-container>
 <!-- Institution selection -->
@@ -17,17 +23,17 @@ have canada, usa at top  -->
 <app-reusable-inputs [label]="'Where do you attend school?'" [List$]="institutions$"
 (selectedChange)="chosenInstituition($event)" [hint]="'Current academic instituiton'">
 </app-reusable-inputs>
-
+</ng-container>
 <!-- make this form in a reusable file!! -->
-<form [formGroup]="signUpForm">
-  <!-- username --> (ngSubmit)="createQuiz()"
+<form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
+  <!-- username -->
   <mat-form-field>
     <mat-label>
       <i [class.condition-met]="signUpForm.get('username')?.valid" matSuffix
        class="fa-solid fa-user-graduate"></i>
     </mat-label>
     <input matInput type="text" placeholder="Username" required
-    formControlName="username" >
+    formControlName="username" [value]="signUpForm.get('username')?.value | removeSpaces">
     <ng-container *ngIf="signUpForm.get('username')?.hasError">
     <mat-error *ngIf="signUpForm.get('username')?.hasError('required')">A username is required.</mat-error>
     <mat-error *ngIf="signUpForm.get('username')?.hasError('uniqueUserNameError')">Username is already in use. Please try another</mat-error>
@@ -41,7 +47,7 @@ have canada, usa at top  -->
        class="fa-solid fa-at"></i>
     </mat-label>
     <input matInput type="email" placeholder="name@school" required
-    formControlName="email" >
+    formControlName="email" [value]="signUpForm.get('email')?.value | removeSpaces">
     <ng-container *ngIf="signUpForm.get('email')?.hasError">
     <mat-error *ngIf="signUpForm.get('email')?.hasError('required')">An academic email is required.</mat-error>
     <mat-error *ngIf="signUpForm.get('email')?.hasError('uniqueEmailError')">Email is already in use. Please try another.</mat-error>
@@ -55,7 +61,7 @@ have canada, usa at top  -->
          matSuffix class="fa-solid fa-lock"></i>
     </mat-label>
     <input matInput type="password" placeholder="Password" required
-    formControlName="password">
+    formControlName="password" [value]="signUpForm.get('password')?.value | removeSpaces"> 
     <!-- toggle password visibility -->
     <button matSuffix mat-icon-button  [ngClass]="{ 'showing': visiblePassword }"
     (click)="toggleVisibility()"
@@ -84,3 +90,4 @@ have canada, usa at top  -->
 </button>
 </form>
 <!-- Onto Validation 7 digits from email-->
+</body>

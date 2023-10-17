@@ -10,6 +10,10 @@ export interface SkalarInfoInterface {
   readonly id?: string;
   readonly username: string;
   name: string;
+  region: string;
+  institution: string;
+  domains: string[];
+  webPages: string[];
   readonly skalar?: string;
 }
 export interface InitialAccountInterface {

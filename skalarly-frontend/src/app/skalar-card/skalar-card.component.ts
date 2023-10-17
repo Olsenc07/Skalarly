@@ -139,7 +139,7 @@ export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
 
   // efficent rendering
   trackBySkalar(i: number, skalar: SkalarInfoInterface): string {
-    return skalar.id;
+    return skalar.username;
   }
   //clean up
   ngOnDestroy(): void {

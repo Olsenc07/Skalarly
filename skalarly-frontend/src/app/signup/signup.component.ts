@@ -27,12 +27,16 @@ import { InstitutionInfoService } from '../custom-architecture-aids/services/ins
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { type PassWordInterface } from '../custom-architecture-aids/interfaces/password-interface';
+import { RemoveSpacesPipe } from '../custom-architecture-aids/pipes/white-space.pipe';
 import { ReusableInputsComponent } from './reusable-inputs/reusable-inputs.component';
+import { Router } from '@angular/router';
 import { SaveSignUpGuard } from './../app-routes/route-guards/signup-guard';
 import { emailUsernameValidator } from '../custom-architecture-aids/validators/email-username.validator';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
+
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
@@ -45,10 +49,12 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     MatButtonModule,
     MatSelectModule,
     MatTooltipModule,
-    ReusableInputsComponent
+    ReusableInputsComponent,
+    RemoveSpacesPipe
   ]
 })
 export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
+  progressValue: number = 0;
   signUpForm: FormGroup;
   userInteracted: boolean = false;
   visiblePassword: boolean = false;
@@ -83,7 +89,9 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private accountManagementService: AccountManagementService,
     private institutionInfoService: InstitutionInfoService,
-    private saveSignUpGuard: SaveSignUpGuard
+    private readonly router: Router,
+    private saveSignUpGuard: SaveSignUpGuard,
+    private snackBar: MatSnackBar
   ) {
     this.signUpForm = new FormGroup({
       username: new FormControl<string | null>(null, [
@@ -109,7 +117,7 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
     });
   }
 
-  // look over username suff
+  // look over username stuff
   ngOnInit() {
     // get country/institute/email data
     this.country$ = this.institutionInfoService.institutionInfo();
@@ -247,6 +255,10 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
         });
     }
   }
+  // toggle password visbility
+  toggleVisibility(): void {
+    this.visiblePassword = !this.visiblePassword;
+  }
   // request to use route guard
   getRouteGuardStatus(): boolean {
     return this.userInteracted;
@@ -259,11 +271,6 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
     this.usernameSub?.unsubscribe();
     this.institutionsSub?.unsubscribe();
   }
-  // toggle password visbility
-  // toggle password visbility
-  toggleVisibility(): void {
-    this.visiblePassword = !this.visiblePassword;
-  }
   // initial submit
   createAccount(): void {
     this.accountManagementService
@@ -272,13 +279,26 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe((success) => {
         if (success) {
           // navigate to next page
+          this.updateProgress(35);
         } else {
           // handle failed creation
           // try again
         }
       });
   }
-
+  validate(code: string): void {
+    // this is triggered as soon as seventh code input as been typed in
+    this.accountManagementService.validateAccount(code).subscribe((success) => {
+      if (success) {
+        // if successful
+        this.updateProgress(70);
+        // allow further signup
+      } else {
+        // handle failed validation
+        // try again
+      }
+    });
+  }
   // final submit
   addSkalarInfo(): void {
     this.accountManagementService
@@ -286,13 +306,36 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
       .pipe(takeUntil(this.skalarInfoSub$))
       .subscribe((success) => {
         if (success) {
+          const messageWithIcon = `
+    <h2>
+    <i class="fa-solid fa-graduation-cap"></i>
+      Welcome to Skalarly!
+      <i class="fa-solid fa-graduation-cap"></i>
+    </h2>
+    <br>
+   <span>
+   We're delighted to have you kick-start your academic journey with us. 
+   Here you're an esteemed member of our vibrant educational community.
+    Get ready to connect with fellow learners, explore enriching content, and embark on a shared academic adventure.
+   </span> `;
+          this.updateProgress(100);
+          // display message
+          this.snackBar.open(messageWithIcon, '', {
+            duration: 5000,
+            panelClass: ['snackbar-cleared-icon'] // add styling
+          });
           // navigate to home page
+          this.router.navigate(['/home']);
         } else {
           // handle failed creation
           // try again
         }
       });
   }
+  updateProgress(value: number) {
+    this.progressValue = value;
+  }
+
   // clean up
   // if skalar trys to close entire browser before cpmpleting,delete saved content
   ngOnDestroy(): void {

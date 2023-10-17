@@ -31,7 +31,6 @@
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">Only academic emails are valid</mat-error>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('invalidEmail')">No account matches this email</mat-error>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">This email hasn't been validated yet</mat-error>
-
     <ng-template #found>
   </ng-template>
   <i matSuffix class="fa-solid fa-circle-info" matTooltip="Skalarly requires an academic email">

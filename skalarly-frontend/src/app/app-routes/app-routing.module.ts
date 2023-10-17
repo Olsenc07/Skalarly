@@ -60,15 +60,14 @@ export const routes: Routes = [
   // skalar profile
   {
     path: 'profile/:id',
+    resolve: {
+      userData: UserProfileResolver
+    },
     canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
       import('../profiles/profile/profile.component').then(
         (mod) => mod.ProfileComponent
       ),
-    // needs userId
-    resolve: {
-      userData: UserProfileResolver
-    },
     children: [
       {
         loadChildren: () =>

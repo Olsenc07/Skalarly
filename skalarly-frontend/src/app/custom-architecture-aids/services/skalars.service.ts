@@ -22,14 +22,13 @@ export class SkalarsService {
   ) {
     this.userId = authorizeService.getUserId();
   }
-  // If api is going to retrive the same thing us pipe(
-  // shareReplay(1) // Cache the latest response
-  // but if new search credentials are given then allow api call and cache new
+
   // could cache users recent search results so dont have to save in data base
   //lists recent searches
   // but still gives a nice ux when on the page for a while
   // like youtube!
 
+  // triggered by search bar input
   getSkalars(input: string): Observable<SkalarInfoInterface[]> {
     // fetch userId from auth service that stores id after login
     const queryParams = {
@@ -38,9 +37,8 @@ export class SkalarsService {
     };
     const params: HttpParams = new HttpParams({ fromObject: queryParams });
     return this.http.get<SkalarInfoInterface[]>(
-      // set up mock server to serve local host requests?
-      'http://localhost:4200/api/skalars/skalarsInfo' ||
-        'https://www.skalarly.com/api/skalars/skalarsInfo',
+      'http://localhost:4200/api/skalars/skalarsInfoSearch' ||
+        'https://www.skalarly.com/api/skalars/skalarsInfoSearch',
       {
         params
       }
