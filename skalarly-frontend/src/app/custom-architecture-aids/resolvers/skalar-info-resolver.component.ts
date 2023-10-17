@@ -18,8 +18,12 @@ export class UserProfileResolver implements ResolveData {
   resolve(
     route: ActivatedRouteSnapshot
   ): Observable<SkalarInfoInterface | SkalarInfoInterface[]> | void {
-    const id: string = route.params['id'];
-    if (id) {
+    const url: string | undefined = route.routeConfig!.path; // Get the URL of the current route
+    if (url === 'profile/:info') {
+      return this.globalDataService.getSkalarData(); // Replace with your data-fetching method
+    } else {
+      // path: 'skalars/:id',
+      const id: string = route.params['id'];
       this.globalDataService.fetchSkalarsData(id).pipe(
         map((data) => {
           // Check if data is true and set the 'blocked' value accordingly
@@ -43,8 +47,6 @@ export class UserProfileResolver implements ResolveData {
           return of(null);
         })
       );
-    } else {
-      return this.globalDataService.getSkalarData(); // Replace with your data-fetching method
     }
   }
 }

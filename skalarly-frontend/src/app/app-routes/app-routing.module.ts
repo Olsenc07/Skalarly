@@ -59,7 +59,8 @@ export const routes: Routes = [
   },
   // skalar profile
   {
-    path: 'profile/:id',
+    path: 'profile',
+    // pathMatch: 'full',
     resolve: {
       userData: UserProfileResolver
     },
@@ -67,16 +68,17 @@ export const routes: Routes = [
     loadComponent: () =>
       import('../profiles/profile/profile.component').then(
         (mod) => mod.ProfileComponent
-      ),
-    children: [
-      {
-        loadChildren: () =>
-          import(
-            '../custom-architecture-aids/side-bar-info/side-bar-info.component'
-          ).then((mod) => mod.SideBarInfoComponent),
-        outlet: 'sideBarInfoOutlet'
-      }
-    ]
+      )
+    //   ,
+    // children: [
+    //   {
+    //     loadChildren: () =>
+    //       import(
+    //         '../custom-architecture-aids/side-bar-info/side-bar-info.component'
+    //       ).then((mod) => mod.SideBarInfoComponent),
+    //     outlet: 'sideBarInfoOutlet'
+    //   }
+    // ]
   },
   // edit profile
   {
@@ -91,6 +93,7 @@ export const routes: Routes = [
   // other skalar's profile
   {
     path: 'skalars/:id',
+    pathMatch: 'full',
     canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
       import('../profiles/others-profile/others-profile.component').then(
@@ -98,15 +101,17 @@ export const routes: Routes = [
       ),
     resolve: {
       userData: UserProfileResolver
-    },
-    children: [
-      {
-        loadChildren: () =>
-          import(
-            '../custom-architecture-aids/side-bar-info/side-bar-info.component'
-          ).then((mod) => mod.SideBarInfoComponent),
-        outlet: 'sideBarInfoOutlet'
-      }
-    ]
+    }
+    // just load these in resolve!!
+    // ,
+    // children: [
+    //   {
+    //     loadChildren: () =>
+    //       import(
+    //         '../custom-architecture-aids/side-bar-info/side-bar-info.component'
+    //       ).then((mod) => mod.SideBarInfoComponent),
+    //     outlet: 'sideBarInfoOutlet'
+    //   }
+    // ]
   }
 ];

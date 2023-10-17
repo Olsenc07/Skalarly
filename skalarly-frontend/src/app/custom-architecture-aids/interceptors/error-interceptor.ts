@@ -31,8 +31,6 @@ export class ErrorInterceptor implements HttpInterceptor {
         this.dialog.open(ErrorHandlerComponent, {
           data: { message: errorMessage }
         });
-        // Throw the error directly using the `throw` operator
-        // return throwError(error); is deprecated for any type
         throw error;
       })
     );

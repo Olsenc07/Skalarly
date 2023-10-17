@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PullToRefreshComponent } from './pull-to-refresh/pull-to-refresh.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+
 @Component({
   standalone: true,
   selector: 'app-root',

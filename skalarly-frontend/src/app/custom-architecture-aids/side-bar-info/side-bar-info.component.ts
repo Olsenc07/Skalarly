@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'app-side-bar-info',
   templateUrl: './side-bar-info.component.html',
   styleUrls: ['./side-bar-info.component.scss']
