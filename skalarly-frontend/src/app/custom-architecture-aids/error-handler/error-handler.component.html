@@ -10,7 +10,7 @@
 <body>
 <div [@dialogAnimation]>
     <div >
-        <div mat-card-title> Hold up, friend</div>
+        <div mat-card-title>We have a message for you</div>
     
         <span class="material-icons-outlined icon">
             self_improvement
@@ -29,8 +29,7 @@
         <!-- direct to login if not authoirze, no userId.. -->
         <!-- Have login on screen
         Select this part from the  --> 
-        <ng-content>
-        </ng-content>
+        <ng-content select="[login-content]"></ng-content>  <!-- login template projected -->
     </div>
     </div>
     </div>

@@ -1,10 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef
-} from '@angular/material/dialog';
-import { LoginComponent } from '../../login/login.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { dialogAnimation } from '../animations/dialog-animation';
 
 @Component({
@@ -12,7 +7,6 @@ import { dialogAnimation } from '../animations/dialog-animation';
   selector: 'app-error-handler',
   templateUrl: './error-handler.component.html',
   styleUrls: ['../../login/login.component.scss'],
-  imports: [LoginComponent, MatDialogModule],
   animations: [dialogAnimation]
 })
 export class ErrorHandlerComponent {

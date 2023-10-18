@@ -19,7 +19,7 @@
 </div>
 
 <!-- content projection to be used in error handler -->
-<app-error-handler>
+  <ng-container login-content>
 <form [formGroup]="loginForm" (ngSubmit)="login()">
   <!-- enter email -->
   <mat-form-field  appearance="outline">
@@ -64,7 +64,7 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
   Forgot Password?
 </button>
 <button mat-raised-button routerLink="/sign-up" color="primary" signup>Create A New Account</button>
-</app-error-handler>
+</ng-container>
 
 <div class="welcome-text" [@welcomeAnimation]="animationState">Welcome to Skalarly</div>
 

@@ -1,9 +1,11 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   Component,
+  Inject,
   OnChanges,
   OnDestroy,
   OnInit,
+  Optional,
   SimpleChanges
 } from '@angular/core';
 import {
@@ -12,6 +14,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   Observable,
   Subject,
@@ -86,7 +89,14 @@ export class LoginComponent implements OnChanges, OnInit, OnDestroy {
   emailFound: boolean = false;
   private destroy$: Subject<void> = new Subject<void>();
   loginState: boolean = false;
-  constructor(private authorizeService: AuthorizeService) {}
+
+  constructor(
+    private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars
+    @Optional() public dialogRef: MatDialogRef<LoginComponent>,
+    // eslint-disable-next-line no-unused-vars
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { message: string }
+  ) {}
 
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [

@@ -16,7 +16,6 @@ import { routes } from './app/app-routes/app-routing.module';
 if (environment.production) {
   enableProdMode();
 }
-
 // avoid having application logic
 // activate first module
 bootstrapApplication(AppComponent, {
@@ -24,6 +23,7 @@ bootstrapApplication(AppComponent, {
     SharedInterceptorModule, // Interceptors automatically involved in all components
     provideRouter(routes),
     importProvidersFrom(
+      // should make modules only available to components that use them
       HttpClientModule,
       BrowserAnimationsModule,
       MatDialogModule,
