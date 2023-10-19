@@ -32,7 +32,8 @@ const filterBlockedUsers = async (req, res, next) =>  {
    next(); // Continue to the next middleware or route handler
   } 
 } catch (error) {
-  res.status(401).json({ message: 'Authentication failed.' });
+  res.status(401).json({ message: 'Authentication failed.'
+});
 }
 };
   // Export the middleware function for use in routes

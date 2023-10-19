@@ -6,7 +6,6 @@
 </head>
 
 
-<!-- Could I use test 6-7 & ng-content for any of this? -->
 <body>
 <div [@dialogAnimation]>
     <div >
@@ -15,20 +14,13 @@
         <span class="material-icons-outlined icon">
             self_improvement
             </span>
-    
     </div>
-    
     <div >
     <div mat-dialog-content>
     <div >{{ data.message }}</div>
     </div>
-    <div mat-dialog-actions >
-        <!-- use ng content perhaps for dif options of error handling btns -->
-        <!-- If a server glitch -->
-     
-        <!-- direct to login if not authoirze, no userId.. -->
-        <!-- Have login on screen
-        Select this part from the  --> 
+    <div >
+        <h2> Need to login?</h2>
         <ng-content select="[login-content]"></ng-content>  <!-- login template projected -->
     </div>
     </div>

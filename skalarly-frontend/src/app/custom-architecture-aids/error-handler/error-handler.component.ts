@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { NgIf } from '@angular/common';
 import { dialogAnimation } from '../animations/dialog-animation';
 
 @Component({
@@ -7,13 +8,15 @@ import { dialogAnimation } from '../animations/dialog-animation';
   selector: 'app-error-handler',
   templateUrl: './error-handler.component.html',
   styleUrls: ['../../login/login.component.scss'],
-  animations: [dialogAnimation]
+  animations: [dialogAnimation],
+  imports: [NgIf]
 })
 export class ErrorHandlerComponent {
   constructor(
     // eslint-disable-next-line no-unused-vars
     public dialogRef: MatDialogRef<ErrorHandlerComponent>,
     // eslint-disable-next-line no-unused-vars
-    @Inject(MAT_DIALOG_DATA) public data: { message: string }
+    @Inject(MAT_DIALOG_DATA)
+    public data: { message: string }
   ) {}
 }

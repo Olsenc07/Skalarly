@@ -10,6 +10,7 @@
   <!-- logo and welcoming words -->
 <div class="login-header">
 <figure>
+  <!-- logo glows on valid login -->
   <img ngSrc="../../assets/images/Skalar_Hat_Icon.png" fill priority>
   <figcaption>
   Skalarly
@@ -40,9 +41,9 @@
   <mat-form-field  appearance="outline">
     <!-- email -->
  <input matInput formControlName="password" required type="password"
- id="skalarlyEmail" />
- <mat-label [class.email-valid]="loginForm.get('email')!.valid">
-  <i matSuffix class="fa-solid fa-key" [class.condition-met]="loginForm.get('email')!.valid" ></i>
+ id="skalarlyPassword" />
+ <mat-label [class.email-valid]="loginForm.get('password')!.valid">
+  <i matSuffix class="fa-solid fa-key" [class.condition-met]="loginForm.get('password')!.valid" ></i>
    Password</mat-label>
  <mat-error *ngIf="showPasswordError">Please enter a valid Skalarly password</mat-error>
 <button matSuffix mat-icon-button  [ngClass]="{ 'showing': visiblePassword }"
@@ -55,6 +56,8 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 <button mat-raised-button *ngIf="!isLoading; else loading" type="submit"
 [@shakeAnimation]="failedLoginAnimation" (keydown.enter)="enterClicked()">Login</button>
 <ng-template #loading>
+  Logging in 
+  <!-- have color change, look at font awesomelog in pg example -->
   <span [class.dot-pulse]="isLoading">
   </span>
 </ng-template>

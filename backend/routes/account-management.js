@@ -73,7 +73,6 @@ router.delete('deleteUncompletedSignUp', async (req, res, next) => {
     
         // Perform the findOneAndDelete operation based on the email
         const result = await findOneAndDelete({ email });
-    
         if (result) {
           // Data was deleted successfully
           res.status(200).json({ message: 'Data deleted successfully' });

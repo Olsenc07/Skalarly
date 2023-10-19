@@ -37,7 +37,8 @@ router.get('/skalarsInfo', filterBlockedUsers, async(req,res) => {
         isUserBlocked = req.blocked
         if (isUserBlocked) {
             return res.status(403).json({
-              message: 'You do not have permission to access this user\'s profile.',
+              message: `You do not have permission to access this user's profile.`
+
             });
           }
         const skalars = await findById(idProfile).exec();
