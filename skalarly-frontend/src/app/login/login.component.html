@@ -27,15 +27,18 @@
     <input matInput formControlName="email" required type="email"
     id="skalarlyEmail" />
     <mat-label [class.email-valid]="loginForm.get('email')!.valid">
-      <i matSuffix class="fa-solid fa-at"></i>
+      <span matSuffix class="material-symbols-outlined">
+        alternate_email
+        </span>
          Academic Email</mat-label>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">Only academic emails are valid</mat-error>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('invalidEmail')">No account matches this email</mat-error>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">This email hasn't been validated yet</mat-error>
     <ng-template #found>
   </ng-template>
-  <i matSuffix class="fa-solid fa-circle-info" matTooltip="Skalarly requires an academic email">
-  </i>
+  <span matSuffix class="material-symbols-outlined" matTooltip="Skalarly requires an academic email">
+    info
+    </span>
   </mat-form-field>
   <!-- enter password -->
   <mat-form-field  appearance="outline">
@@ -43,13 +46,22 @@
  <input matInput formControlName="password" required type="password"
  id="skalarlyPassword" />
  <mat-label [class.email-valid]="loginForm.get('password')!.valid">
-  <i matSuffix class="fa-solid fa-key" [class.condition-met]="loginForm.get('password')!.valid" ></i>
+  <span matSuffix class="material-symbols-outlined" [class.condition-met]="loginForm.get('password')!.valid">
+    key
+    </span>
    Password</mat-label>
  <mat-error *ngIf="showPasswordError">Please enter a valid Skalarly password</mat-error>
 <button matSuffix mat-icon-button  [ngClass]="{ 'showing': visiblePassword }"
-(click)="toggleVisibility()"
+(click)="toggleVisibility()" [@toggleAnimation]="visiblePassword"
 matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
-  <i class="fa-solid fa-eye"></i>
+<span class="material-symbols-outlined">
+  <ng-container *ngIf="visiblePassword; else hide">
+visibility
+</ng-container>
+<ng-template #hide>
+visibility_off
+</ng-template>
+</span>
 </button>
 </mat-form-field>
 <!-- add rest -->

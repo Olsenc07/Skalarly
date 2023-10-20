@@ -5,10 +5,17 @@ import {
   RouterModule
 } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { PullToRefreshComponent } from './pull-to-refresh/pull-to-refresh.component';
+import { PullToRefreshDirective } from './custom-architecture-aids/directives/pull-to-refresh.directive';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 
 @Component({
@@ -22,11 +29,25 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     NgClass,
     NgIf,
     RouterModule,
-    PullToRefreshComponent,
+    PullToRefreshDirective,
     SearchBarComponent
+  ],
+  animations: [
+    trigger('iconChange', [
+      state('initial', style({ transform: 'rotate(0) scale(1)' })),
+      state(
+        'final',
+        style({ transform: 'rotate(360deg) scale(2)', color: 'green' })
+      ),
+      transition('initial => final', animate('300ms ease-in-out')),
+      transition('final => initial', animate('300ms ease-in-out'))
+    ])
   ]
 })
 export class AppComponent {
+  iconState: string = '';
+  reload: number = 0;
+  showIcons: boolean = false;
   routerUrl: string | undefined;
   // mobile first
   orientation: boolean = true;
@@ -53,11 +74,28 @@ export class AppComponent {
         }
       });
   }
+  onDeltaYChange(reload: number): void {
+    console.log('bridges', reload); // Handle the reload value here
+    console.log('icons', this.showIcons);
+    this.reload = reload;
+    if (this.reload < -2) {
+      this.showIcons = true;
+      this.iconState = 'initial';
+      // start to show continue to scroll icon to refresh
+      if (this.reload <= -50) {
+        // User has pulled down by a certain threshold
+        // You can display an icon, perform actions, or trigger a refresh
+        console.log('Pulled down enough for a refresh');
+        location.reload();
+      }
+      // this.showIcons = false; add this when this.reload goes back to -1 or 0
+    }
+  }
+
   // mobile functions
   toggleSearch(toggle: boolean): void {
     this.searchIconClicked = toggle;
   }
-
   // <!-- Terminal -->
   // <!-- <div class="terminal" [ngSwitch]="selection.value">
   //   <pre *ngSwitchDefault>ng generate component xyz</pre>

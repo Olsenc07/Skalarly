@@ -8,7 +8,7 @@
 <body>
   <!-- navigation bar
   can add this all in other component file.. -->
-<ng-container  *ngIf="(routerUrl !== ('/home' || '/sign-up' ))">
+<ng-container  *ngIf="(routerUrl !== ('/login' || '/sign-up' ))">
 <mat-toolbar class="header">
   <!-- logo -->
 
@@ -71,9 +71,32 @@
 
   <!-- Render as component based on path of routes -->
   <!-- [orientation]="orientation" use ngrxlocal state management -->
-  <app-pull-to-refresh></app-pull-to-refresh>
-  <router-outlet content></router-outlet>  <!-- Primary outlet for main content -->
+  <ng-container appPullToRefresh (deltaYChange)="onDeltaYChange($event)">
+    <!-- Display an icon if deltaY is greater than or equal to 50 -->
+      <!-- v17 -->
+<!-- @if ("showIcons &&  (iconState === 'initial'){
+  <span 
+  [@iconChange]="iconState"
+  (@iconChange.done)="iconChangeDone($event)" class="material-symbols-outlined">
+  refresh
+  </span>
+} -->
+<!-- @else if ("showIcons &&  (iconState === 'final')){  <span class="material-symbols-outlined">
+  task_alt
+  </span>} -->
+  <ng-template *ngIf="showIcons && (iconState === 'initial')">
+  <span [@iconChange]="iconState"  class="material-symbols-outlined">
+    refresh
+  </span>
+</ng-template>
+<ng-template *ngIf="showIcons &&  (iconState === 'final')">
+  <span class="material-symbols-outlined">
+    task_alt
+    </span>
+</ng-template>
+
+<router-outlet content ></router-outlet>  <!-- Primary outlet for main content -->
   <router-outlet name="sideBarInfoOutlet"></router-outlet> <!-- Secondary outlet for sidebars & later maybe modals/dialog -->
+</ng-container>
 </body>
 </html>
- 
