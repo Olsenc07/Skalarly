@@ -2,7 +2,7 @@ This repsoitory is the new and improved version of my SkalarlyDeploy respository
 This repository is far cleaner then the last. As I make sure to organize and structure according to Angulars coding style guide. As well as implement standalone components, lazy loading, mobile first design,
 and follow clean rules enforced by eslint plugins.
 
-This week "October 16 - October 23" I will deploy through GitHub so others can have a visual of where the project is at. 
+Soon I will deploy through GitHub so others can have a visual of where the project is at. 
 
 I continue to work on this repsoitory daily and will be deploying it through Heroku at www.skalaraly.com
 Future additions include:
