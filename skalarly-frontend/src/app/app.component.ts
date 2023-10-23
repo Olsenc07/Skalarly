@@ -7,7 +7,7 @@ import {
 import { NgClass, NgIf } from '@angular/common';
 import {
   animate,
-  state,
+  keyframes,
   style,
   transition,
   trigger
@@ -33,20 +33,30 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     SearchBarComponent
   ],
   animations: [
-    trigger('iconChange', [
-      state('initial', style({ transform: 'rotate(0) scale(1)' })),
-      state(
-        'final',
-        style({ transform: 'rotate(360deg) scale(2)', color: 'green' })
-      ),
-      transition('initial => final', animate('300ms ease-in-out')),
-      transition('final => initial', animate('300ms ease-in-out'))
+    trigger('iconRotation', [
+      transition('* => *', [
+        animate(
+          '500ms rotateAndGlow',
+          keyframes([
+            style({
+              transform: 'rotate({{ initialDegree }}deg) scale(1)',
+              offset: 0
+            }),
+            style({
+              transform: 'rotate({{ finalDegree }}deg) scale(2)',
+              offset: 1,
+              color: 'green'
+            })
+          ])
+        )
+      ])
     ])
   ]
 })
 export class AppComponent {
   iconState: string = '';
   reload: number = 0;
+  rotationDegree = 0;
   showIcons: boolean = false;
   routerUrl: string | undefined;
   // mobile first
@@ -80,17 +90,21 @@ export class AppComponent {
     this.reload = reload;
     if (this.reload < -2) {
       this.showIcons = true;
+      this.rotationDegree = -this.reload;
       this.iconState = 'initial';
       // start to show continue to scroll icon to refresh
-      if (this.reload <= -50) {
+      if (this.reload <= -55) {
+        this.iconState = 'final';
         // User has pulled down by a certain threshold
         // You can display an icon, perform actions, or trigger a refresh
         console.log('Pulled down enough for a refresh');
+      }
+      if (this.reload <= -60) {
         location.reload();
       }
-      // this.showIcons = false; add this when this.reload goes back to -1 or 0
     }
   }
+  // this.showIcons = false; add this when this.reload goes back to -1 or 0
 
   // mobile functions
   toggleSearch(toggle: boolean): void {

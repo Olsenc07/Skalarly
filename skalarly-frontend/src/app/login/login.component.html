@@ -11,7 +11,7 @@
 <div class="login-header">
 <figure>
   <!-- logo glows on valid login -->
-  <img ngSrc="../../assets/images/Skalar_Hat_Icon.png" fill priority>
+  <img ngSrc="../../assets/images/Skalar_Hat_Icon.png" fill priority class="logo">
   <figcaption>
   Skalarly
   </figcaption>
@@ -21,7 +21,7 @@
 
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
-<form [formGroup]="loginForm" (ngSubmit)="login()">
+<form [formGroup]="loginForm" (ngSubmit)="login()" class="form">
   <!-- enter email -->
   <mat-form-field  appearance="outline">
     <input matInput formControlName="email" required type="email"
@@ -65,7 +65,7 @@ visibility_off
 </button>
 </mat-form-field>
 <!-- add rest -->
-<button mat-raised-button *ngIf="!isLoading; else loading" type="submit"
+<button mat-raised-button *ngIf="!isLoading; else loading" type="submit" login
 [@shakeAnimation]="failedLoginAnimation" (keydown.enter)="enterClicked()">Login</button>
 <ng-template #loading>
   Logging in 
@@ -78,7 +78,7 @@ visibility_off
 <button  mat-button disableRipple routerLink="/forgot-password">
   Forgot Password?
 </button>
-<button mat-raised-button routerLink="/sign-up" color="primary" signup>Create A New Account</button>
+<button mat-raised-button routerLink="/sign-up" color="primary" btn>Create A New Account</button>
 </ng-container>
 
 <div class="welcome-text" [@welcomeAnimation]="animationState">Welcome to Skalarly</div>

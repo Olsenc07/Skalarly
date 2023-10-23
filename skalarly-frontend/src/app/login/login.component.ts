@@ -26,6 +26,8 @@ import {
 } from 'rxjs';
 import {
   animate,
+  keyframes,
+  // keyframes,
   state,
   style,
   transition,
@@ -62,7 +64,18 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     trigger('welcomeAnimation', [
       state('visible', style({ opacity: 1, transform: 'translateX(0)' })),
       state('hidden', style({ opacity: 0, transform: 'translateX(-100%)' })),
-      transition('hidden => visible', animate('1s ease-in')),
+      transition('hidden => visible', [
+        animate(
+          '1s ease-in',
+          keyframes([
+            style({ transform: 'translateX(-100%)', offset: 0 }),
+            style({ transform: 'translateX(0)', offset: 1 })
+          ])
+        ),
+        animate('4s', style({ fontWeight: 'bold' })),
+        animate('4s', style({ fontWeight: 'normal' })),
+        animate('1s', style({ opacity: 0 }))
+      ]),
       transition('visible => hidden', animate('1s ease-out'))
     ]),
     trigger('shakeAnimation', [
@@ -109,14 +122,7 @@ export class LoginComponent implements OnChanges, OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    // Set a timeout to trigger the animation of welcome text
-    setTimeout(() => {
-      this.animationState = 'visible';
-      // Set another timeout inside this one to hide the animation after 3 seconds
-      setTimeout(() => {
-        this.animationState = 'hidden';
-      }, 3000);
-    }, 100);
+    this.animationState = 'visible';
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -146,6 +152,9 @@ export class LoginComponent implements OnChanges, OnInit, OnDestroy {
           this.showPasswordError = this.loginForm.controls['password'].invalid;
         });
     }
+  }
+  onAnimationDone() {
+    this.animationState = 'hidden';
   }
 
   login(): void {

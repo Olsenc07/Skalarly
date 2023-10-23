@@ -1,11 +1,13 @@
 @use '../universal-reusable-styles/common' as universal;
 @use '../universal-reusable-styles/break-points' as device;
 // *1 *2
-button {
-    background-image: linear-gradient(to right,#002D62,black);
+button[login]:hover {
+  background-image: linear-gradient(to right,rgb(238, 233, 233), #002D62);
+  color: white;
 }
-button[signup]{
-    color: 002D62 ;
+button[btn]{
+  background-image: linear-gradient(to right,#002D62,black);
+  color: 002D62 ;
     }
 .dot-pulse {
         display: inline-block;
@@ -32,6 +34,14 @@ button[signup]{
           transform: scale(1);
         }
       }
+      .logo{ 
+        position: relative;
+          display: block; // Ensure the image is displayed as a block element
+          margin: 0 auto; // Center the image horizontally
+          justify-content: center;
+          max-width: 100%; 
+          height: auto; 
+        }
     //   @keyframes dotPulse {
     //     0%, 100% {
     //       transform: scale(1);
@@ -48,14 +58,35 @@ button[signup]{
     form input[type="email"]:focus,
     form input[type="password"]:focus {
         border-color: #007bff; 
-    }   
+    } 
+    .form{
+      display: flex;
+      flex-direction: column;
+    } 
     .welcome-text {
-        display: inline-block;
-        opacity: 0;
-        transform: translateX(-100%);
-        animation: shining 1s infinite alternate;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      font-weight: normal;
+      position: relative;
+  
+    
+    
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+          white-space: nowrap;
+        }
+        25% {
+          opacity: 0.75;
+        }
+        100% {
+          opacity: 0;
+        }
       }
-
+    }
+  
+      
 // *1 mobile-first styles
 .body {
     flex-direction: column;
@@ -148,15 +179,6 @@ figcaption{
 }
 
 // *1 *2 animations
-// welcome text
-  @keyframes shining {
-    0% {
-      text-shadow: none;
-    }
-    100% {
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    }
-  }
 //   failed login animation
   @keyframes shake {
     0%, 100% {

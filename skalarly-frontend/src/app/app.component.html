@@ -71,7 +71,7 @@
 
   <!-- Render as component based on path of routes -->
   <!-- [orientation]="orientation" use ngrxlocal state management -->
-  <ng-container appPullToRefresh (deltaYChange)="onDeltaYChange($event)">
+  <ng-container appPullToRefresh class="refresh-icon" (deltaYChange)="onDeltaYChange($event)">
     <!-- Display an icon if deltaY is greater than or equal to 50 -->
       <!-- v17 -->
 <!-- @if ("showIcons &&  (iconState === 'initial'){
@@ -84,12 +84,15 @@
 <!-- @else if ("showIcons &&  (iconState === 'final')){  <span class="material-symbols-outlined">
   task_alt
   </span>} -->
-  <ng-template *ngIf="showIcons && (iconState === 'initial')">
-  <span [@iconChange]="iconState"  class="material-symbols-outlined">
+  Hi Chase
+  <ng-template *ngIf="showIcons">
+  <span [@iconRotation]="{ value: reload, params: { initialDegree: rotationDegree, finalDegree: 360 } }" 
+  [ngClass]="{ 'glow-effect': iconState === 'final' }"  class="material-symbols-outlined">
     refresh
+    YOOOO
   </span>
 </ng-template>
-<ng-template *ngIf="showIcons &&  (iconState === 'final')">
+<ng-template *ngIf="showIcons ">
   <span class="material-symbols-outlined">
     task_alt
     </span>

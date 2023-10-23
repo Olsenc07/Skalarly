@@ -18,6 +18,20 @@
     // may need to increase this basd on mobile 50px footer height/tablet 70px fh
     height: 4em;
 }
+// reload animation
+.glow-effect {
+    animation: glow 1s infinite alternate;
+  }
+  
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    }
+    to {
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.9);
+    }
+  }
+  
 // * 1
 .footer{
 @include toolbar;
@@ -51,4 +65,9 @@ top: 0;
 }
 .navigation-icon-active{
     @include active(#b8dde9, $active: true);
+}
+.refresh-icon{
+    @include universal.common;
+    font-size: larger;
+    margin-top: 5%;
 }
