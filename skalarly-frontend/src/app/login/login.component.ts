@@ -72,8 +72,14 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
             style({ transform: 'translateX(0)', offset: 1 })
           ])
         ),
-        animate('4s', style({ fontWeight: 'bold' })),
-        animate('4s', style({ fontWeight: 'normal' })),
+        animate(
+          '1s',
+          style({
+            fontWeight: 'bold',
+            textShadow: '0 0 5px rgba(255, 215, 0, 1)'
+          })
+        ),
+        animate('2s', style({ fontWeight: 'normal', textShadow: 'none' })),
         animate('1s', style({ opacity: 0 }))
       ]),
       transition('visible => hidden', animate('1s ease-out'))

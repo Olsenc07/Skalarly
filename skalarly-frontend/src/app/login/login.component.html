@@ -23,13 +23,14 @@
   <ng-container login-content>
 <form [formGroup]="loginForm" (ngSubmit)="login()" class="form">
   <!-- enter email -->
-  <mat-form-field  appearance="outline">
+  <mat-form-field  appearance="outline" email>
+    <span matPrefix class="material-symbols-outlined">
+      alternate_email
+      </span>
     <input matInput formControlName="email" required type="email"
     id="skalarlyEmail" />
     <mat-label [class.email-valid]="loginForm.get('email')!.valid">
-      <span matSuffix class="material-symbols-outlined">
-        alternate_email
-        </span>
+      
          Academic Email</mat-label>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">Only academic emails are valid</mat-error>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('invalidEmail')">No account matches this email</mat-error>
@@ -41,17 +42,16 @@
     </span>
   </mat-form-field>
   <!-- enter password -->
-  <mat-form-field  appearance="outline">
-    <!-- email -->
+  <mat-form-field  appearance="outline" password>
+    <span matPrefix class="material-symbols-outlined" [class.condition-met]="loginForm.get('password')!.valid">
+      key
+      </span>
  <input matInput formControlName="password" required type="password"
  id="skalarlyPassword" />
  <mat-label [class.email-valid]="loginForm.get('password')!.valid">
-  <span matSuffix class="material-symbols-outlined" [class.condition-met]="loginForm.get('password')!.valid">
-    key
-    </span>
    Password</mat-label>
  <mat-error *ngIf="showPasswordError">Please enter a valid Skalarly password</mat-error>
-<button matSuffix mat-icon-button  [ngClass]="{ 'showing': visiblePassword }"
+<button matSuffix mat-icon-button type="button"  [ngClass]="{ 'showing': visiblePassword }"
 (click)="toggleVisibility()" [@toggleAnimation]="visiblePassword"
 matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 <span class="material-symbols-outlined">

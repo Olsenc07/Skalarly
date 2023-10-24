@@ -55,14 +55,24 @@ button[btn]{
         animation-duration: 0.5s; 
         animation-timing-function: ease-in-out;
       }
-    form input[type="email"]:focus,
-    form input[type="password"]:focus {
-        border-color: #007bff; 
+    form mat-form-field [email]:focus,
+    form mat-form-field [password]:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
     } 
+    // hide red outline when focused.. not working
+    form mat-form-field [email]:focus-within .mat-error,
+    form mat-form-field [password]:focus-within .mat-error {
+      display: none;
+
+  }
     .form{
       display: flex;
       flex-direction: column;
     } 
+    span[matPrefix] { 
+      margin-left: 15%;
+    }
     .welcome-text {
       display: inline-block;
       white-space: nowrap;
