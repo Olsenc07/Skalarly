@@ -37,10 +37,35 @@ export function emailUsernameValidator(
       // match email pattern options for school chosen
       const email = control.value;
       // Check email domains if provided
+      // add alum/alumni after @ for each domain
+      // example @alum.utoronto.ca
       if (domains) {
+       
         const domainMatches = domains.some((domain) => email.endsWith(domain));
         if (!domainMatches) {
-          return of({ patternEmailError: true });
+        const index: number = email.indexOf('@');
+          if (index !== -1) {
+            const localPart = email.slice(0, index);
+            const domainPart = email.slice(index + 1);
+          }
+        //  only wanna dd this test if the input email is somewhat close to this domain without alum
+           const newDomainPart = `alum.${domain}`;
+          //  const new2DomainPart = `alumni.${domain}`; test this to and then condense
+          // code with regex to get any pattern from alum to alumni
+
+          //  then ree match the input to this
+
+          const alumDomainMatches = domains.some((newDomainPart) => email.endsWith(newDomainPart));
+          if( !alumDomainMatches){
+            return of({ patternEmailError: true });
+          }
+        }
+      // const newDomainPart = `alum.${domainPart}`;
+      
+      // Reconstruct the modified email address
+      // const modifiedEmail = `${localPart}@${newDomainPart}`;
+        // and if still no mactehs then
+
         }
 
         return accountManagementService.uniqueEmail(email).pipe(

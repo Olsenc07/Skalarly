@@ -22,35 +22,36 @@
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
 <form [formGroup]="loginForm" (ngSubmit)="login()" class="form">
+  <div class="input-boxes">
   <!-- enter email -->
   <mat-form-field  appearance="outline" email>
-    <span matPrefix class="material-symbols-outlined">
+    <!-- <span matPrefix class="material-symbols-outlined">
       alternate_email
-      </span>
-    <input matInput formControlName="email" required type="email"
+      </span> -->
+    <input matInput formControlName="email" placeholder="Email" required type="email"
     id="skalarlyEmail" />
-    <mat-label [class.email-valid]="loginForm.get('email')!.valid">
-      
+    <mat-label [class.valid]="emailFound" >
          Academic Email</mat-label>
-    <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">Only academic emails are valid</mat-error>
-    <mat-error *ngIf="loginForm.get('email')!.hasError?.('invalidEmail')">No account matches this email</mat-error>
-    <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailValidatorPattern')">This email hasn't been validated yet</mat-error>
-    <ng-template #found>
-  </ng-template>
+    <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailNotFound')">No account matches this email</mat-error>
   <span matSuffix class="material-symbols-outlined" matTooltip="Skalarly requires an academic email">
     info
     </span>
   </mat-form-field>
   <!-- enter password -->
   <mat-form-field  appearance="outline" password>
-    <span matPrefix class="material-symbols-outlined" [class.condition-met]="loginForm.get('password')!.valid">
-      key
+    <span matPrefix class="material-symbols-outlined" [@lockAnimation]="lockState" placeholder="Password" >
+      <ng-container *ngIf="!isPasswordValid; else unlock">
+        lock
+        </ng-container>
+        <ng-template #unlock [class.validG]>
+        lock_open
+        </ng-template>
       </span>
- <input matInput formControlName="password" required type="password"
- id="skalarlyPassword" />
- <mat-label [class.email-valid]="loginForm.get('password')!.valid">
+ <input matInput formControlName="password" placeholder="Password" required type="password"
+ #skalarlyPassword />
+ <mat-label [class.valid]="loginForm.get('password')!.valid">
    Password</mat-label>
- <mat-error *ngIf="showPasswordError">Please enter a valid Skalarly password</mat-error>
+ <mat-error *ngIf="loginForm.get('password')!.hasError?.('invalidPassword')">Please enter a valid Skalarly password</mat-error>
 <button matSuffix mat-icon-button type="button"  [ngClass]="{ 'showing': visiblePassword }"
 (click)="toggleVisibility()" [@toggleAnimation]="visiblePassword"
 matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
@@ -64,6 +65,7 @@ visibility_off
 </span>
 </button>
 </mat-form-field>
+</div>
 <!-- add rest -->
 <button mat-raised-button *ngIf="!isLoading; else loading" type="submit" login
 [@shakeAnimation]="failedLoginAnimation" (keydown.enter)="enterClicked()">Login</button>

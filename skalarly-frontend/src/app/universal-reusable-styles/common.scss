@@ -1,9 +1,11 @@
 // common requirements
 $all: 100%;
-@mixin common($flex: flex){
+@mixin common($flex: flex, $portrait: column){
     display: $flex;
     justify-content: center;
+    flex-direction: $portrait;
 }
+
 @mixin pageSize{
     // maybe use min-height: 100vh;
     height: 100vh;

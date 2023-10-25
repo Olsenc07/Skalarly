@@ -2,11 +2,10 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   Component,
   Inject,
-  OnChanges,
   OnDestroy,
   OnInit,
   Optional,
-  SimpleChanges
+  Renderer2
 } from '@angular/core';
 import {
   FormControl,
@@ -21,6 +20,7 @@ import {
   Subscription,
   debounceTime,
   distinctUntilChanged,
+  of,
   switchMap,
   takeUntil
 } from 'rxjs';
@@ -92,6 +92,22 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
       transition('left => right', animate('0.1s')),
       transition('right => initial', animate('0.1s'))
     ]),
+    trigger('lockAnimation', [
+      state(
+        'closed',
+        style({
+          transform: 'rotate(0deg)'
+        })
+      ),
+      state(
+        'open',
+        style({
+          transform: 'rotate(45deg)'
+        })
+      ),
+      transition('invalid => open', animate('0.3s ease-in')),
+      transition('open => closed', animate('0.3s ease-out'))
+    ]),
     trigger('toggleAnimation', [
       state('true', style({ transform: 'rotate(0deg)' })),
       state('false', style({ transform: 'rotate(180deg)' })),
@@ -99,24 +115,29 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     ])
   ]
 })
-export class LoginComponent implements OnChanges, OnInit, OnDestroy {
-  // welcome text
-  animationState: 'hidden' | 'visible' = 'hidden';
-  visiblePassword: boolean = false;
-  showPasswordError: boolean = false;
-  passwordErrorSub?: Subscription;
+export class LoginComponent implements OnDestroy, OnInit {
   isLoading: boolean = false;
   failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
-  emailFound: boolean = false;
-  private destroy$: Subject<void> = new Subject<void>();
   loginState: boolean = false;
+  // welcome text
+  animationState: 'hidden' | 'visible' = 'hidden';
+  // email
+  emailFound: boolean = false;
+  private emailSub$: Subject<void> = new Subject<void>();
+  // password
+  isPasswordValid: boolean = false;
+  visiblePassword: boolean = false;
+  showPasswordError: boolean = false;
+  private passwordSub$: Subject<void> = new Subject<void>();
+  lockState: 'closed' | 'open' = 'closed';
 
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
     // eslint-disable-next-line no-unused-vars
     @Optional() public dialogRef: MatDialogRef<LoginComponent>,
     // eslint-disable-next-line no-unused-vars
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { message: string }
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { message: string },
+    private render: Renderer2
   ) {}
 
   loginForm: FormGroup = new FormGroup({
@@ -124,40 +145,58 @@ export class LoginComponent implements OnChanges, OnInit, OnDestroy {
       Validators.required,
       Validators.email
     ]),
-    password: new FormControl<string | null>(null, [passwordValidator])
+    password: new FormControl<string | null>(null, [passwordValidator()])
   });
 
   ngOnInit(): void {
     this.animationState = 'visible';
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    // don't search email unless pattern is proper
-    // need to be found first before turned valid
+    // email
     this.loginForm.controls['email'].valueChanges
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
-        switchMap((query) => this.authorizeService.searchEmails(query)),
-        takeUntil(this.destroy$)
+        switchMap((query) => {
+          // don't search email unless pattern is proper
+          if (this.loginForm.controls['email'].valid) {
+            return this.authorizeService.searchEmails(query);
+          } else {
+            return of(false);
+          }
+        }),
+        takeUntil(this.emailSub$)
       )
       .subscribe((emailFound: boolean) => {
         if (emailFound) {
+          this.emailFound = emailFound;
           this.loginForm.controls['email'].setErrors(null); // Set the control as valid
         } else {
           this.loginForm.controls['email'].setErrors({ emailNotFound: true }); // Set an error to indicate it's invalid
         }
       });
-
-    if (this.loginForm.controls['password'].dirty) {
-      // don't give password error until attempted
-      this.passwordErrorSub = this.loginForm.controls['password'].valueChanges
-        .pipe(debounceTime(500), distinctUntilChanged())
-        .subscribe(() => {
-          // Validate the password and set the error flag
-          this.showPasswordError = this.loginForm.controls['password'].invalid;
-        });
-    }
+    // password
+    // Subscribe to password changes
+    this.loginForm
+      .get('password')
+      ?.valueChanges.pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this.passwordSub$)
+      ) // Use takeUntil for this subscription
+      .subscribe((password: string) => {
+        // check validity and then trigger animation
+        this.isPasswordValid = this.loginForm.get('password')!.valid;
+        const isPasswordEmpty: boolean = password === '';
+        if (isPasswordEmpty) {
+          this.loginForm.get('password')!.reset();
+        } else {
+          if (this.isPasswordValid) {
+            this.lockState = 'open';
+          } else {
+            // Password is empty or invalid, reset the animation
+            this.lockState = 'closed';
+          }
+        }
+      });
   }
   onAnimationDone() {
     this.animationState = 'hidden';
@@ -192,9 +231,19 @@ export class LoginComponent implements OnChanges, OnInit, OnDestroy {
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;
+    const passwordType: HTMLInputElement = this.render.selectRootElement(
+      '#skalarlyPassword'
+    ) as HTMLInputElement;
+    if (passwordType) {
+      passwordType.type = this.visiblePassword ? 'password' : 'text';
+    }
   }
-  // clean up
+  //clean up
   ngOnDestroy(): void {
-    this.passwordErrorSub?.unsubscribe();
+    this.emailSub$.next();
+    this.emailSub$.complete();
+    // password
+    this.passwordSub$.next();
+    this.passwordSub$.complete();
   }
 }

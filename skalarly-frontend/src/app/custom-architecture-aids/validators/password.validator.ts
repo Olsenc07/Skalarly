@@ -17,7 +17,6 @@ export function passwordValidator(): ValidatorFn {
       // Password does not meet the criteria
       return { invalidPassword: true };
     }
-
     // Password meets the criteria
     return null;
   };

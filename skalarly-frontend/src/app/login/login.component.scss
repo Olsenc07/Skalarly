@@ -55,21 +55,26 @@ button[btn]{
         animation-duration: 0.5s; 
         animation-timing-function: ease-in-out;
       }
-    form mat-form-field [email]:focus,
-    form mat-form-field [password]:focus {
+     mat-form-field input[email]:focus,
+     mat-form-field input[password]:focus {
         border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
     } 
-    // hide red outline when focused.. not working
-    form mat-form-field [email]:focus-within .mat-error,
-    form mat-form-field [password]:focus-within .mat-error {
-      display: none;
-
-  }
+    mat-form-field mat-error {
+      border-color: transparent; /* Set the border to transparent to hide it */
+      box-shadow: none; /* Remove the box-shadow */
+    }
     .form{
       display: flex;
       flex-direction: column;
     } 
+    .input-boxes{
+     @include universal.common;
+    //  if grater then 576px width
+    @media (min-width: 576px) {
+     @include universal.common(flex, row);
+    }
+    }
     span[matPrefix] { 
       margin-left: 15%;
     }
@@ -162,8 +167,11 @@ form{
         font-size: 26px;
         }
 }
-.email-valid{
+.valid{
     color: #49b569;
+}
+.validG{
+  color: gold;
 }
 .login-header{
     display: flex;
