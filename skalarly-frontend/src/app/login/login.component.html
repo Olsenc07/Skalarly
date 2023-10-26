@@ -6,7 +6,6 @@
 </head>
 
 <body>
-<div class="body">
   <!-- logo and welcoming words -->
 <div class="login-header">
 <figure>
@@ -21,30 +20,39 @@
 
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
-<form [formGroup]="loginForm" (ngSubmit)="login()" class="form">
+<form [formGroup]="loginForm" (ngSubmit)="login()">
   <div class="input-boxes">
   <!-- enter email -->
   <mat-form-field  appearance="outline" email>
     <!-- <span matPrefix class="material-symbols-outlined">
       alternate_email
       </span> -->
-    <input matInput formControlName="email" placeholder="name@institution." type="email"
+    <input matInput formControlName="email" placeholder="ex: name@institution.ca" type="email"
     id="skalarlyEmail" />
     <mat-label [class.condition-met]="emailFound" >
          Academic Email</mat-label>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailNotFound')">No account matches this email</mat-error>
-  <span matSuffix class="material-symbols-outlined" matTooltip="Skalarly requires an academic email">
-    info
-    </span>
+  <mat-icon matPrefix class="material-symbols-outlined" [matTooltip]="'Skalarly requires an academic email'">
+    <ng-container>
+    alternate_email
+    </ng-container>
+    <ng-template> check_circle</ng-template>
+    
+  </mat-icon>
+
   </mat-form-field>
   <!-- enter password -->
   <mat-form-field  appearance="outline" password>
     <span matPrefix class="material-symbols-outlined" [@lockAnimation]="lockState" placeholder="Password" >
       <ng-container *ngIf="!isPasswordValid; else unlock">
+    <mat-icon>
         lock
+    </mat-icon>
         </ng-container>
         <ng-template #unlock>
+    <mat-icon>
         lock_open
+    </mat-icon>
         </ng-template>
       </span>
  <input matInput formControlName="password" placeholder="Password" type="password"
@@ -52,43 +60,52 @@
  <mat-label [class.condition-met]="loginForm.get('password')!.valid">
    Password</mat-label>
  <mat-error *ngIf="loginForm.get('password')!.hasError?.('invalidPassword')">Invalid password</mat-error>
-<button matSuffix mat-icon-button type="button"  [ngClass]="{ 'showing': visiblePassword }"
+<button matSuffix mat-icon-button type="button" 
 (click)="toggleVisibility()" [@toggleAnimation]="visiblePassword"
 matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 <span class="material-symbols-outlined">
   <ng-container *ngIf="visiblePassword; else hide">
-visibility
+    <mat-icon>
+      visibility
+    </mat-icon>
 </ng-container>
 <ng-template #hide>
-visibility_off
+  <mat-icon>
+    visibility_off
+  </mat-icon>
 </ng-template>
 </span>
 </button>
 </mat-form-field>
 </div>
 <!-- Login Button -->
-<button mat-raised-button *ngIf="!isLoading; else loading" type="submit" #loginButton
+<button mat-raised-button type="submit" #loginButton class=""
 [@shakeAnimation]="failedLoginAnimation" [appValidationAnimation]='loginForm.valid'
- (keydown.enter)="enterClicked()" >Login</button>
+ (keydown.enter)="enterClicked()" >
+ <ng-container *ngIf="!isLoading; else loading">
+  Sign in 
+</ng-container>
 <!-- Processing login -->
 <ng-template #loading>
-  Logging in 
-  <!-- have color change, look at font awesomelog in pg example -->
+  Signing in 
   <span [class.dot-pulse]="isLoading">
   </span>
-</ng-template>
+</ng-template></button>
 </form>
-<!-- Keep me logged in -->
-<mat-checkbox [checked]="stayLoggedIn" (change)="stayIn()" >
-  Keep me logged in (for one month)</mat-checkbox>
-<button  mat-button routerLink="/forgot-password">
-  Forgot Password?
-</button>
-<button mat-raised-button routerLink="/sign-up" color="primary" btn>Create A New Account</button>
 </ng-container>
+<!-- other options -->
+<div class="login-options">
+<!-- Keep skalar logged in -->
+<mat-checkbox [checked]="stayLoggedIn" (change)="stayIn()" >
+  Stay logged in (1 month)</mat-checkbox>
+<button  mat-button routerLink="/forgot-password" >
+  <i>Forgot Password?</i>
+</button>
+</div>
+<span class="join-btn">
+<button mat-raised-button routerLink="/sign-up" btn>Join Skalarly</button>
+</span>
 
 <div class="welcome-text" [@welcomeAnimation]="animationState">Welcome to Skalarly</div>
-
-</div>
 </body>
 </html>

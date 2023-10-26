@@ -39,6 +39,7 @@ import { ErrorHandlerComponent } from '../custom-architecture-aids/error-handler
 import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -58,6 +59,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     MatSelectModule,
     MatTooltipModule,
     NgOptimizedImage,

@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@use 'app/universal-reusable-styles/break-points' as device;
 @use 'app/universal-reusable-styles/common' as universal;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
@@ -14,10 +15,21 @@ b {
 color: lightblue
 }
 body {
+ @include device.fontAdjustments(map-get(device.$font-sizes, base));
+ @include universal.common;
  @include universal.pageSize;
  input, textarea, button {
     font-family: $skalarly-font;
  }
+ @each $screen, $size in device.$font-sizes {
+    @if (map-has-key(device.$device-sizes, $screen)) {
+      $min-width: map-get(device.$device-sizes, $screen);
+      @media only screen and (min-width: #{$min-width}) {
+        @include device.fontAdjustments($size);
+      }
+    }
+  }
+  
 }
 .condition-met{
     color: #228B22;
