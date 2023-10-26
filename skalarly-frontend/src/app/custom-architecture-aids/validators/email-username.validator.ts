@@ -26,48 +26,27 @@ export function emailUsernameValidator(
             if (isUnique) {
               return null;
             } else {
-              return { uniqueUsernNameError: true };
+              return { uniqueUserNameError: true };
             }
           })
         );
       } else {
-        return of({ patternUsernNameError: true });
+        return of({ patternUserNameError: true });
       }
     } else {
       // match email pattern options for school chosen
       const email = control.value;
       // Check email domains if provided
-      // add alum/alumni after @ for each domain
-      // example @alum.utoronto.ca
       if (domains) {
-       
         const domainMatches = domains.some((domain) => email.endsWith(domain));
         if (!domainMatches) {
-        const index: number = email.indexOf('@');
-          if (index !== -1) {
-            const localPart = email.slice(0, index);
-            const domainPart = email.slice(index + 1);
-          }
-        //  only wanna dd this test if the input email is somewhat close to this domain without alum
-           const newDomainPart = `alum.${domain}`;
-          //  const new2DomainPart = `alumni.${domain}`; test this to and then condense
-          // code with regex to get any pattern from alum to alumni
-
-          //  then ree match the input to this
-
-          const alumDomainMatches = domains.some((newDomainPart) => email.endsWith(newDomainPart));
-          if( !alumDomainMatches){
+          const newDomainPart = new RegExp(
+            `^(alum|alumni)\\.(?:${domains.join('|')})$`
+          );
+          if (!newDomainPart.test(email)) {
             return of({ patternEmailError: true });
           }
         }
-      // const newDomainPart = `alum.${domainPart}`;
-      
-      // Reconstruct the modified email address
-      // const modifiedEmail = `${localPart}@${newDomainPart}`;
-        // and if still no mactehs then
-
-        }
-
         return accountManagementService.uniqueEmail(email).pipe(
           take(1),
           map((isUnique: boolean) => {
@@ -80,7 +59,7 @@ export function emailUsernameValidator(
         );
       }
     }
-    // Default return value for control
+    // default value if all other conditions do not apply
     return of(null);
   };
 }

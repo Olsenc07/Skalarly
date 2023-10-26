@@ -14,6 +14,7 @@ import {
 } from '@angular/animations';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PullToRefreshDirective } from './custom-architecture-aids/directives/pull-to-refresh.directive';
 import { SearchBarComponent } from './search-bar/search-bar.component';
@@ -25,6 +26,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
   styleUrls: ['./app.component.scss'],
   imports: [
     MatButtonModule,
+    MatCheckboxModule,
     MatToolbarModule,
     NgClass,
     NgIf,

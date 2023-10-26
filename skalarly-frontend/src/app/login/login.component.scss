@@ -1,10 +1,7 @@
 @use '../universal-reusable-styles/common' as universal;
 @use '../universal-reusable-styles/break-points' as device;
+$input-margin: 3%; 
 // *1 *2
-button[login]:hover {
-  background-image: linear-gradient(to right,rgb(238, 233, 233), #002D62);
-  color: white;
-}
 button[btn]{
   background-image: linear-gradient(to right,#002D62,black);
   color: 002D62 ;
@@ -60,21 +57,25 @@ button[btn]{
         border-color: #007bff;
         box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); 
     } 
-    mat-form-field mat-error {
-      border-color: transparent; /* Set the border to transparent to hide it */
-      box-shadow: none; /* Remove the box-shadow */
-    }
+    
     .form{
       display: flex;
       flex-direction: column;
     } 
+
     .input-boxes{
      @include universal.common;
     //  if grater then 576px width
     @media (min-width: 576px) {
      @include universal.common(flex, row);
-    }
-    }
+     mat-form-field {
+      &:first-child {
+        margin-right: $input-margin; 
+      }
+      &:last-child {
+        margin-left: $input-margin; 
+      }
+    }}}
     span[matPrefix] { 
       margin-left: 15%;
     }
@@ -104,7 +105,6 @@ button[btn]{
       
 // *1 mobile-first styles
 .body {
-    flex-direction: column;
     align-items: center;
     background-image: linear-gradient(whitesmoke,white);
     @include universal.common;
@@ -166,12 +166,6 @@ form{
     .welcome-text{
         font-size: 26px;
         }
-}
-.valid{
-    color: #49b569;
-}
-.validG{
-  color: gold;
 }
 .login-header{
     display: flex;

@@ -35,9 +35,9 @@ have canada, usa at top  -->
     <input matInput type="text" placeholder="Username" required
     formControlName="username" [value]="signUpForm.get('username')?.value | removeSpaces">
     <ng-container *ngIf="signUpForm.get('username')?.hasError">
-    <mat-error *ngIf="signUpForm.get('username')?.hasError('required')">A username is required.</mat-error>
+    <mat-error *ngIf="signUpForm.get('username')?.hasError('required')">A Username is required.</mat-error>
     <mat-error *ngIf="signUpForm.get('username')?.hasError('uniqueUserNameError')">Username is already in use. Please try another</mat-error>
-    <mat-error *ngIf="signUpForm.get('username')?.hasError('patternUsernNameError')">Only letters, numbers and underscores are allowed</mat-error>
+    <mat-error *ngIf="signUpForm.get('username')?.hasError('patternUserNameError')">Only letters, numbers and underscores are allowed</mat-error>
   </ng-container>
   </mat-form-field>
   <!-- create email -->

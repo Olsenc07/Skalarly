@@ -1,11 +1,12 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   Component,
+  ElementRef,
   Inject,
   OnDestroy,
   OnInit,
   Optional,
-  Renderer2
+  ViewChild
 } from '@angular/core';
 import {
   FormControl,
@@ -14,6 +15,7 @@ import {
   Validators
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import {
   Observable,
   Subject,
@@ -27,7 +29,6 @@ import {
 import {
   animate,
   keyframes,
-  // keyframes,
   state,
   style,
   transition,
@@ -36,11 +37,12 @@ import {
 import { AuthorizeService } from '../custom-architecture-aids/services/authorize.service';
 import { ErrorHandlerComponent } from '../custom-architecture-aids/error-handler/error-handler.component';
 import { HttpClientModule } from '@angular/common/http';
-import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 
 @Component({
@@ -53,13 +55,16 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     ErrorHandlerComponent,
     HttpClientModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
     NgOptimizedImage,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ValidationAnimationDirective
   ],
+
   animations: [
     trigger('welcomeAnimation', [
       state('visible', style({ opacity: 1, transform: 'translateX(0)' })),
@@ -95,18 +100,57 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     trigger('lockAnimation', [
       state(
         'closed',
-        style({
-          transform: 'rotate(0deg)'
-        })
+        style({ transform: 'rotate(0deg) scale(1)', color: '#333333' })
       ),
       state(
         'open',
+        style({ transform: 'rotate(45deg) scale(1.2)', color: '#FFBF00' })
+      ),
+      transition(
+        'closed => open',
+        animate(
+          '0.5s ease',
+          keyframes([
+            style({ transform: 'rotate(0deg) scale(1)', color: '#333333' }),
+            style({ transform: 'rotate(15deg) scale(1.1)', color: '#B0B000' }),
+            style({ transform: 'rotate(30deg) scale(1.15)', color: '#FFD700' }),
+            style({ transform: 'rotate(45deg) scale(1.2)', color: '#FFB700' })
+          ])
+        )
+      ),
+      transition(
+        'open => closed',
+        animate(
+          '0.5s ease',
+          keyframes([
+            style({ transform: 'rotate(45deg) scale(1.2)', color: '#FFBF00' }),
+            style({ transform: 'rotate(30deg) scale(1.15)', color: '#FFD700' }),
+            style({ transform: 'rotate(15deg) scale(1.1)', color: '#B0B000' }),
+            style({ transform: 'rotate(0deg) scale(1)', color: '#333333' })
+          ])
+        )
+      )
+    ]),
+    trigger('loginBtnAnimation', [
+      state(
+        'normal',
         style({
-          transform: 'rotate(45deg)'
+          'background-repeat': 'no-repeat',
+          'background-size': '0% 100%', // Start with an empty background
+          background: 'rgb(238, 233, 233)',
+          color: 'black'
         })
       ),
-      transition('invalid => open', animate('0.3s ease-in')),
-      transition('open => closed', animate('0.3s ease-out'))
+      state(
+        'hovered',
+        style({
+          'background-repeat': 'no-repeat',
+          'background-size': '100% 100%', // Start with an empty background
+          background: 'linear-gradient(to right, rgb(238, 233, 233), #008080)',
+          color: 'white'
+        })
+      ),
+      transition('normal <=> hovered', animate('1.2s ease'))
     ]),
     trigger('toggleAnimation', [
       state('true', style({ transform: 'rotate(0deg)' })),
@@ -117,8 +161,8 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
 })
 export class LoginComponent implements OnDestroy, OnInit {
   isLoading: boolean = false;
-  failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
-  loginState: boolean = false;
+  @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
+    null;
   // welcome text
   animationState: 'hidden' | 'visible' = 'hidden';
   // email
@@ -130,14 +174,19 @@ export class LoginComponent implements OnDestroy, OnInit {
   showPasswordError: boolean = false;
   private passwordSub$: Subject<void> = new Subject<void>();
   lockState: 'closed' | 'open' = 'closed';
+  @ViewChild('skalarlyPassword', { static: false })
+  skalarlyPassword: ElementRef = new ElementRef(null);
+  // login
+  stayLoggedIn: boolean = false;
+  failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
+  loginState: boolean = false;
 
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
     // eslint-disable-next-line no-unused-vars
     @Optional() public dialogRef: MatDialogRef<LoginComponent>,
     // eslint-disable-next-line no-unused-vars
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { message: string },
-    private render: Renderer2
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { message: string }
   ) {}
 
   loginForm: FormGroup = new FormGroup({
@@ -145,7 +194,10 @@ export class LoginComponent implements OnDestroy, OnInit {
       Validators.required,
       Validators.email
     ]),
-    password: new FormControl<string | null>(null, [passwordValidator()])
+    password: new FormControl<string | null>(null, [
+      Validators.required,
+      passwordValidator()
+    ])
   });
 
   ngOnInit(): void {
@@ -185,23 +237,30 @@ export class LoginComponent implements OnDestroy, OnInit {
       .subscribe((password: string) => {
         // check validity and then trigger animation
         this.isPasswordValid = this.loginForm.get('password')!.valid;
-        const isPasswordEmpty: boolean = password === '';
-        if (isPasswordEmpty) {
-          this.loginForm.get('password')!.reset();
+        if (this.isPasswordValid) {
+          this.lockState = 'open';
         } else {
-          if (this.isPasswordValid) {
-            this.lockState = 'open';
-          } else {
-            // Password is empty or invalid, reset the animation
-            this.lockState = 'closed';
-          }
+          // Password is empty or invalid, reset the animation
+          this.lockState = 'closed';
         }
       });
   }
   onAnimationDone() {
     this.animationState = 'hidden';
   }
-
+  // toggle password visbility
+  toggleVisibility(): void {
+    this.visiblePassword = !this.visiblePassword;
+    const passwordType: HTMLInputElement = this.skalarlyPassword
+      .nativeElement as HTMLInputElement;
+    if (passwordType) {
+      passwordType.type = this.visiblePassword ? 'text' : 'password';
+    }
+  }
+  // remain logged in
+  stayIn(): void {
+    this.stayLoggedIn = !this.stayLoggedIn;
+  }
   login(): void {
     // if this fails then
     this.loginState = this.authorizeService.login(
@@ -228,16 +287,7 @@ export class LoginComponent implements OnDestroy, OnInit {
       this.login();
     }
   }
-  // toggle password visbility
-  toggleVisibility(): void {
-    this.visiblePassword = !this.visiblePassword;
-    const passwordType: HTMLInputElement = this.render.selectRootElement(
-      '#skalarlyPassword'
-    ) as HTMLInputElement;
-    if (passwordType) {
-      passwordType.type = this.visiblePassword ? 'password' : 'text';
-    }
-  }
+
   //clean up
   ngOnDestroy(): void {
     this.emailSub$.next();
