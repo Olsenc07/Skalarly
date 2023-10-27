@@ -17,9 +17,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import {
-  Observable,
   Subject,
-  Subscription,
   debounceTime,
   distinctUntilChanged,
   of,
@@ -38,6 +36,7 @@ import { AuthorizeService } from '../custom-architecture-aids/services/authorize
 import { ErrorHandlerComponent } from '../custom-architecture-aids/error-handler/error-handler.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -57,6 +56,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     HttpClientModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatChipsModule,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
@@ -68,6 +68,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
   ],
 
   animations: [
+    // welcome text
     trigger('welcomeAnimation', [
       state('visible', style({ opacity: 1, transform: 'translateX(0)' })),
       state('hidden', style({ opacity: 0, transform: 'translateX(-100%)' })),
@@ -91,14 +92,15 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
       ]),
       transition('visible => hidden', animate('1s ease-out'))
     ]),
-    trigger('shakeAnimation', [
-      state('initial', style({ transform: 'translateX(0)', color: 'initial' })),
-      state('left', style({ transform: 'translateX(-5px)', color: 'red' })),
-      state('right', style({ transform: 'translateX(5px)', color: 'red' })),
-      transition('initial => left', animate('0.1s')),
-      transition('left => right', animate('0.1s')),
-      transition('right => initial', animate('0.1s'))
+
+    // email validation
+    trigger('spinAndChange', [
+      state('initial', style({ transform: 'rotate(0deg)' })),
+      state('spinning', style({ transform: 'rotate(360deg)' })),
+      state('check', style({ transform: 'rotate(360deg)' })),
+      transition('initial <=> spinning', animate('1s ease')) // Spin animation with reverse
     ]),
+    // password validation
     trigger('lockAnimation', [
       state(
         'closed',
@@ -133,40 +135,64 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
         )
       )
     ]),
-    trigger('loginBtnAnimation', [
-      state(
-        'normal',
-        style({
-          'background-repeat': 'no-repeat',
-          'background-size': '0% 100%', // Start with an empty background
-          background: 'rgb(238, 233, 233)',
-          color: 'black'
-        })
-      ),
-      state(
-        'hovered',
-        style({
-          'background-repeat': 'no-repeat',
-          'background-size': '100% 100%', // Start with an empty background
-          background: 'linear-gradient(to right, rgb(238, 233, 233), #008080)',
-          color: 'white'
-        })
-      ),
-      transition('normal <=> hovered', animate('1.2s ease'))
-    ]),
+    // visble password or not
     trigger('toggleAnimation', [
       state('true', style({ transform: 'rotate(0deg)' })),
       state('false', style({ transform: 'rotate(180deg)' })),
       transition('true <=> false', animate('200ms ease-in-out'))
+    ]),
+    // login button able to click
+    trigger('fingerprintActivation', [
+      state(
+        'normal',
+        style({
+          background:
+            'linear-gradient(to top right, transparent 0%, transparent 100%)', // Start with a transparent gradient
+          color: 'black'
+        })
+      ),
+      state(
+        'activated',
+        style({
+          background:
+            'linear-gradient(to top right, rgb(238, 233, 233) 0%, #008080 100%)', // Change gradient from bottom left to top right when activated
+          color: 'white'
+        })
+      ),
+      transition('normal => activated', [animate('0.5s ease')]),
+      transition('activated => normal', [animate('0.5s ease')])
+    ]),
+    // invalid login
+    trigger('shakeAnimation', [
+      state('initial', style({ transform: 'translateX(0)', color: 'initial' })),
+      state(
+        'left',
+        style({
+          transform: 'translateX(-10px)',
+          color: '#FF5733'
+        })
+      ),
+      state(
+        'right',
+        style({
+          transform: 'translateX(10px)',
+          color: '#FF5733'
+        })
+      ),
+      transition('initial => left', animate('0.1s')),
+      transition('left => right', animate('0.1s')),
+      transition('right => initial', animate('0.1s'))
     ])
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit {
-  isLoading: boolean = false;
+  progressState: 'default' | 'load' | 'complete' = 'default';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
     null;
   // welcome text
   animationState: 'hidden' | 'visible' = 'hidden';
+  // email validity
+  emailState: 'initial' | 'spinning' | 'check' = 'initial';
   // email
   emailFound: boolean = false;
   private emailSub$: Subject<void> = new Subject<void>();
@@ -181,7 +207,6 @@ export class LoginComponent implements OnDestroy, OnInit {
   // login
   stayLoggedIn: boolean = false;
   failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
-  loginState: boolean = false;
 
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
@@ -210,6 +235,7 @@ export class LoginComponent implements OnDestroy, OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         switchMap((query) => {
+          this.emailState = 'spinning';
           // don't search email unless pattern is proper
           if (this.loginForm.controls['email'].valid) {
             return this.authorizeService.searchEmails(query);
@@ -221,9 +247,11 @@ export class LoginComponent implements OnDestroy, OnInit {
       )
       .subscribe((emailFound: boolean) => {
         if (emailFound) {
+          this.emailState = 'check';
           this.emailFound = emailFound;
           this.loginForm.controls['email'].setErrors(null); // Set the control as valid
         } else {
+          this.emailState = 'initial';
           this.loginForm.controls['email'].setErrors({ emailNotFound: true }); // Set an error to indicate it's invalid
         }
       });
@@ -264,24 +292,34 @@ export class LoginComponent implements OnDestroy, OnInit {
     this.stayLoggedIn = !this.stayLoggedIn;
   }
   login(): void {
-    // if this fails then
-    this.loginState = this.authorizeService.login(
-      this.loginForm.controls['email'].value,
-      this.loginForm.controls['password'].value
-    );
-    // login failed so reset animation
-    if (!this.loginState) {
-      this.isLoading = false;
-      this.failedLoginAnimation = 'left';
-      // Reset the animation after a short delay
-      setTimeout(() => {
-        this.failedLoginAnimation = 'right';
-
-        setTimeout(() => {
-          this.failedLoginAnimation = 'initial'; // Reset to the initial state
-        }, 100);
-      }, 100);
-    }
+    this.progressState = 'load';
+    this.authorizeService
+      .login(
+        this.loginForm.controls['email'].value,
+        this.loginForm.controls['password'].value
+      )
+      .subscribe({
+        next: (progress: boolean) => {
+          if (progress) {
+            this.progressState = 'complete';
+            // navigate to home page
+          } else {
+            this.progressState = 'default';
+            this.failedLoginAnimation = 'left';
+            // Reset the animation after a short delay
+            setTimeout(() => {
+              this.failedLoginAnimation = 'right';
+              setTimeout(() => {
+                this.failedLoginAnimation = 'initial'; // Reset to the initial state
+              }, 100);
+            }, 100);
+          }
+        },
+        error: (error) => {
+          // Handle any errors that occurred during login
+          this.progressState = 'default'; // Hide the loading button in case of an error
+        }
+      });
   }
   // ability to login using enter click
   enterClicked(): void {

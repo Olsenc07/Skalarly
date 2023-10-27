@@ -3,24 +3,33 @@
 $input-margin: 3%; 
 // form width based on  device breakpoints
 $form-margins: (
-  base: 0%,     // Adjust this value based on your design
-  tablet: 5%,   // Adjust this value for tablets
-  laptop: 10%,   // Adjust this value for laptops
-  desktop: 20%,  // Adjust this value for desktops
-  tv: 30%        // Adjust this value for TVs
+  base: 0%,     
+  tablet: 5%,  
+  laptop: 10%,   
+  desktop: 20%,  
+  tv: 30%        
 );
 // *1 *2
 body {
   background-image: linear-gradient(whitesmoke,white);
 }
-button[btn]{
-  background-image: linear-gradient(to right,#002D62,#778899);
-  border-radius: 25px;
-  color: white;
+div[loginButton]{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+div[column] {
+  display: flex;
+  flex-direction: column;
+  &:first-of-type {
+    mat-form-field {
+      justify-content: flex-start;
     }
-button[type=submit]{
-  margin: 0% 5%;
-  border-radius: 25px;
+  }
+  &:not(:first-of-type) 
+  mat-form-field {
+    justify-content: flex-end;
+  }
 }
 .dot-pulse {
         display: inline-block;
@@ -47,10 +56,7 @@ button[type=submit]{
           transform: scale(1);
         }
       }
-.join-btn{
-  @include universal.common;
-  margin: 0% 35%
-}
+
 .logo{ 
       position: relative;
       display: block; // Ensure the image is displayed as a block element
@@ -63,48 +69,66 @@ button[type=submit]{
   display: flex;
   align-items: center;
   text-align: center;
-  margin: 0.3% 0%;
-  width: 41%;
-  justify-content: space-evenly;
        }
 .failed-login-animation {
         animation-name: shake; 
         animation-duration: 0.5s; 
         animation-timing-function: ease-in-out;
       }
-     mat-form-field input[email]:focus,
-     mat-form-field input[password]:focus {
-      border-color: transparent;
-      border-image-source: linear-gradient(to right, #007bff, red); /* Set the initial gradient color */
-      animation: borderTrace 7s forwards; 
-      border-image-slice: 1;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 
-    } 
-    @keyframes borderTrace {
-      0% {
-        // border-image-source: linear-gradient(to right, #007bff, red); /* Set the initial gradient color */
-        border-image-slice: 1;
-        // border-color: transparent;
-        // box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-      }
-      100% {
-        border-image-source: none; /* Set the final gradient color */
-        border-image-slice: 0;
-        // border-color: #007bff;
-        // box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-      }
-    }
+// approved login
+/* Define a CSS class for the glowing and scaling animation */
+.glowing-text {
+  animation: glow .5s, scale .5s;
+}
+
+/* Keyframes for the glow animation */
+@keyframes glow {
+  from {
+    color: green;
+    transform: scale(1);
+  }
+  to {
+    color: green;
+    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
+    transform: scale(1.7);
+  }
+}
+
+/* Keyframes for the scaling animation */
+@keyframes scale {
+  from {
+  }
+  to {
+     /* Adjust the scale factor as needed */
+  }
+}
+
+// scaling
   @each $screen, $min-width in device.$device-sizes {
+  @media only screen and (min-width: #{$min-width}) {
     $font-size: map-get(device.$font-sizes, $screen);
+    $font-sub-size: map-get(device.$font-sub-sizes, $screen);
+    $chip-size: map-get(device.$chip-size, $screen);
     $form-margin: map-get($form-margins, $screen);
-  
-    @media only screen and (min-width: #{$min-width}) {
+
+    button{
+      font-size: calc(#{$font-size} + #{$chip-size});
+    &[btn]{
+      background-image: linear-gradient(to right,#002D62,#778899);
+      color: white;
+      font-size: calc(#{$font-size} - #{$chip-size});
+        }
+    }
+
       button[routerLink="/forgot-password"]{
         align-items: center;
+        border: none;
         color: #0073e6;
         display: flex;
-        font-size: calc(#{$font-size} - 75%);
+        text-decoration: none;
+        justify-content: flex-end;
+        font-size: calc(#{$font-size} - #{$font-sub-size});
       }
       form {
         margin: 0% $form-margin;
@@ -113,8 +137,9 @@ button[type=submit]{
       .welcome-text {
         font-size: $font-size;
       }
-    }
+    
   }
+}
     .input-boxes{
      @include universal.common;
     //  if grater then 576px width
@@ -122,7 +147,6 @@ button[type=submit]{
     margin: 0% 2%;
      @include universal.common(flex, row);
      mat-form-field {
-      flex: 1;
       &:first-child {
         margin-right: $input-margin; 
       }
@@ -164,7 +188,7 @@ button[type=submit]{
         }
       }
     }
-  
+
       
 // *1 mobile-first styles
 .login-header{

@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, shareReplay } from 'rxjs';
+import { BehaviorSubject, Observable, of, shareReplay } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,7 +47,11 @@ export class AuthorizeService {
     );
   }
   // Login
-  login(email: string, password: string, stayLoggedIn?: boolean): boolean {
+  login(
+    email: string,
+    password: string,
+    stayLoggedIn?: boolean
+  ): Observable<boolean> {
     const authData: any = { email, password, stayLoggedIn };
     console.log('stayLoggedIn', stayLoggedIn);
     this.http
@@ -86,7 +90,7 @@ export class AuthorizeService {
         }
       });
     // default return false to handle sync case when login fails immdediately
-    return false;
+    return of(false);
   }
   // stay loggedin.. fix ths
   stayLoggedIn(): void {

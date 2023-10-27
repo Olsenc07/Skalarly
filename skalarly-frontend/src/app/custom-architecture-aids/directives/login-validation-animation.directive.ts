@@ -5,10 +5,10 @@ import { Directive, HostBinding, Input } from '@angular/core';
   selector: '[appValidationAnimation]'
 })
 export class ValidationAnimationDirective {
-  @HostBinding('@loginBtnAnimation')
-  animationState: 'normal' | 'hovered' = 'normal';
+  @HostBinding('@fingerprintActivation')
+  animationState: 'normal' | 'activated' = 'normal';
 
   @Input() set appValidationAnimation(valid: boolean) {
-    this.animationState = valid ? 'hovered' : 'normal';
+    this.animationState = valid ? 'activated' : 'normal';
   }
 }

@@ -14,7 +14,22 @@ $font-sizes: (
   desktop: 1.375rem,
   tv: 1.5rem
 );
-
+// sub font sizes chart
+$font-sub-sizes: (
+  base: 10%,
+  tablet: 20%,
+  laptop: 30%,
+  desktop: 40%,
+  tv: 50%
+);
+// chip sizes based off font
+$chip-size: (
+   base: 15%,
+   tablet: 25%,
+   laptop: 35%,
+   desktop: 45%,
+   tv: 55%
+);
 // pre packed common requirements
 @mixin fontAdjustments ($font-size) {
     font-size: $font-size;

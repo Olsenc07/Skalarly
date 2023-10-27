@@ -11,6 +11,10 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import type {
+  InitialAccountInterface,
+  SkalarInfoInterface
+} from '../custom-architecture-aids/interfaces/skalars-info-interface';
 import {
   Observable,
   Subject,
@@ -34,6 +38,7 @@ import { RemoveSpacesPipe } from '../custom-architecture-aids/pipes/white-space.
 import { ReusableInputsComponent } from './reusable-inputs/reusable-inputs.component';
 import { Router } from '@angular/router';
 import { SaveSignUpGuard } from './../app-routes/route-guards/signup-guard';
+
 import { emailUsernameValidator } from '../custom-architecture-aids/validators/email-username.validator';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 
@@ -71,6 +76,7 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   institutions$: Observable<InstitutionDataInterface[]> = new Observable<
     InstitutionDataInterface[]
   >();
+  domain: string[] | undefined = undefined;
   private institutionsSub?: Subscription;
   private accountSub$: Subject<void> = new Subject<void>();
   private skalarInfoSub$: Subject<void> = new Subject<void>();
@@ -79,12 +85,36 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
 
   // skalar info forms
   infoForm: FormGroup = new FormGroup({
-    institution: new FormControl<string | null>(null, [Validators.required]),
-    region: new FormControl<string | null>(null, [Validators.required]),
-    domains: new FormControl<string[] | null>(null, [Validators.required]),
-    webPages: new FormControl<string[] | null>(null, [Validators.required])
+    club: new FormControl<SkalarInfoInterface['club']>(null, [
+      Validators.required
+    ]),
+    domains: new FormControl<SkalarInfoInterface['domains']>(
+      [''],
+      [Validators.required]
+    ),
+    sport: new FormControl<SkalarInfoInterface['sport']>(null, [
+      Validators.required
+    ]),
+    major: new FormControl<SkalarInfoInterface['major']>(null, [
+      Validators.required
+    ]),
+    minor: new FormControl<SkalarInfoInterface['minor']>(null, [
+      Validators.required
+    ]),
+    name: new FormControl<SkalarInfoInterface['name']>('', [
+      Validators.required
+    ]),
+    region: new FormControl<SkalarInfoInterface['region']>('', [
+      Validators.required
+    ]),
+    institution: new FormControl<SkalarInfoInterface['institution']>('', [
+      Validators.required
+    ]),
+    webPages: new FormControl<SkalarInfoInterface['webPages']>(
+      [''],
+      [Validators.required]
+    )
   });
-  domain: string[] | undefined = undefined;
 
   constructor(
     private accountManagementService: AccountManagementService,
@@ -94,11 +124,14 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
     private snackBar: MatSnackBar
   ) {
     this.signUpForm = new FormGroup({
-      username: new FormControl<string | null>(null, [
-        Validators.required,
-        emailUsernameValidator(this.accountManagementService, true)
-      ]),
-      email: new FormControl<string | null>(
+      username: new FormControl<InitialAccountInterface['username'] | null>(
+        null,
+        [
+          Validators.required,
+          emailUsernameValidator(this.accountManagementService, true)
+        ]
+      ),
+      email: new FormControl<InitialAccountInterface['email'] | null>(
         '',
         Validators.compose([
           Validators.required,
@@ -110,10 +143,10 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
           )
         ])
       ),
-      password: new FormControl<string | null>(null, [
-        Validators.required,
-        passwordValidator
-      ])
+      password: new FormControl<InitialAccountInterface['password'] | null>(
+        null,
+        [Validators.required, passwordValidator]
+      )
     });
   }
 

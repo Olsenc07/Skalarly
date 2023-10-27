@@ -11,10 +11,5 @@
     border: 1px solid #ccc;
     margin: 5px;
   }
-  // Media query for responsiveness 
-  @media (max-width: device.$tablet) {
-    .grid-item {
-      flex-basis: calc(100% - 10px); /* Full width for smaller screens */
-    }
-  }
+  
   

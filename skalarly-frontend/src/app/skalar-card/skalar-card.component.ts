@@ -72,7 +72,7 @@ export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
   >([]);
 
   // state of skalars interaction options to be displayed
-  toggledInfoOf: string | null = null;
+  toggledInfoOf: number | null = null;
   iconState: 'clicked' | 'rest' = 'rest';
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -104,7 +104,7 @@ export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
     );
   }
 
-  displayOptions(i: string): void {
+  displayOptions(i: number): void {
     this.iconState = 'clicked';
     // clear old index
     this.toggledInfoOf = null;
