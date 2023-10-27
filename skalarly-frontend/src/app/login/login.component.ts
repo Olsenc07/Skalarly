@@ -42,6 +42,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 
@@ -213,7 +214,8 @@ export class LoginComponent implements OnDestroy, OnInit {
     // eslint-disable-next-line no-unused-vars
     @Optional() public dialogRef: MatDialogRef<LoginComponent>,
     // eslint-disable-next-line no-unused-vars
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { message: string }
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { message: string },
+    private readonly router: Router
   ) {}
 
   loginForm: FormGroup = new FormGroup({
@@ -327,7 +329,10 @@ export class LoginComponent implements OnDestroy, OnInit {
       this.login();
     }
   }
-
+  // forgot password
+  navigate(): void {
+    this.router.navigate(['/forgot-password']);
+  }
   //clean up
   ngOnDestroy(): void {
     this.emailSub$.next();

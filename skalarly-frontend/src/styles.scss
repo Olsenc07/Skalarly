@@ -52,14 +52,14 @@ mat-form-field {
     transition: all 0.3s ease; /* Smooth transition for all styles */
   }
   
-  mat-form-field:focus-within::after {
-    content: "";
+  mat-form-field:focus-within::before {
     position: absolute;
     width: 100%;
     height: 2px;
-    background: linear-gradient(to right, $initialColor, $finalColor);
+    background: linear-gradient(to right, #FF5733, #4A90E2); /* Set your color gradient here */
     animation: magicGlow 7s infinite alternate;
   }
+  
   @keyframes magicGlow {
     0% {
       transform: scaleX(1);

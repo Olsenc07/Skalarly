@@ -121,14 +121,16 @@ div[column] {
         }
     }
 
-      button[routerLink="/forgot-password"]{
+    button[forgot]{
         align-items: center;
+        background: none;
         border: none;
         color: #0073e6;
+        cursor: pointer;
         display: flex;
-        text-decoration: none;
         justify-content: flex-end;
         font-size: calc(#{$font-size} - #{$font-sub-size});
+        text-decoration: underline;
       }
       form {
         margin: 0% $form-margin;

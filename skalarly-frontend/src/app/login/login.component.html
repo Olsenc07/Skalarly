@@ -79,7 +79,7 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 </span>
 </button>
 </mat-form-field>
-<button  mat-button routerLink="/forgot-password" >
+<button type="button" (click)="navigate()" forgot>
   <i>Forgot Password?</i>
 </button>
 </div>
