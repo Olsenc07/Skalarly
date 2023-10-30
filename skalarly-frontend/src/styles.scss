@@ -8,9 +8,6 @@ $skalarly-font: 'Cormorant Garamond', serif;
 
 $toolbar-shadow-color: rgba(0, 0, 0, 0.25);
 $toolbar-background-color: #282828;
-// form field animation focus
-$initialColor: #FF5733; 
-$finalColor: #4A90E2; 
 b {
 // for matching search results to an api call list
 // displays light blue for `<b>${match}</b>` bold.pipe implementation
@@ -47,29 +44,23 @@ mat-toolbar{
     box-shadow: 0px 2px 5px 0px $toolbar-shadow-color;
     background-color: $toolbar-background-color;
 }
-mat-form-field {
-    position: relative;
-    transition: all 0.3s ease; /* Smooth transition for all styles */
-  }
-  
-  mat-form-field:focus-within::before {
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(to right, #FF5733, #4A90E2); /* Set your color gradient here */
-    animation: magicGlow 7s infinite alternate;
-  }
-  
-  @keyframes magicGlow {
-    0% {
-      transform: scaleX(1);
-    }
-    100% {
-      transform: scaleX(1.2);
-      opacity: 0;
+
+// global mat form field animation
+.glowAnimation {
+    animation: glow 2.5s infinite ease-in-out;
+    $shadow-size: 3px;
+    $shadow-size2: 7px;
+    @keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 $shadow-size var(--mdc-outlined-text-field-focus-outline-color);
+          }
+    50% {
+        box-shadow: 0 $shadow-size2 $shadow-size2 var(--mdc-outlined-text-field-focus-outline-color);
+          }
     }
   }
   
+
 .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,

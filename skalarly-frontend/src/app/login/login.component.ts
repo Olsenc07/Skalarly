@@ -34,6 +34,7 @@ import {
 } from '@angular/animations';
 import { AuthorizeService } from '../custom-architecture-aids/services/authorize.service';
 import { ErrorHandlerComponent } from '../custom-architecture-aids/error-handler/error-handler.component';
+import { GlowBorderDirective } from '../custom-architecture-aids/directives/glow-border.directive';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -54,6 +55,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
   imports: [
     CommonModule,
     ErrorHandlerComponent,
+    GlowBorderDirective,
     HttpClientModule,
     MatButtonModule,
     MatCheckboxModule,
@@ -93,7 +95,6 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
       ]),
       transition('visible => hidden', animate('1s ease-out'))
     ]),
-
     // email validation
     trigger('spinAndChange', [
       state('initial', style({ transform: 'rotate(0deg)' })),
@@ -187,6 +188,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit {
+  isGlowing = false;
   progressState: 'default' | 'load' | 'complete' = 'default';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
     null;

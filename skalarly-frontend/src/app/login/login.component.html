@@ -24,9 +24,9 @@
   <div class="input-boxes">
     <div column>
   <!-- enter email -->
-  <mat-form-field  appearance="outline" >
-    <input matInput formControlName="email" placeholder="ex: name@institution.ca" type="email"
-    id="skalarlyEmail" />
+  <mat-form-field  appearance="outline">
+    <input matInput formControlName="email"  placeholder="ex: name@institution.ca" type="email"
+    id="skalarlyEmail" [appGlowBorder]="isGlowing" />
     <mat-label [class.condition-met]="emailFound" >
          Academic Email</mat-label>
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailNotFound')">No account matches this email</mat-error>
@@ -36,16 +36,17 @@
     <ng-container *ngIf="emailState === 'check'">check_circle</ng-container>
   </mat-icon>
   </mat-form-field>
-  <div class="login-options">
+
     <!-- Keep skalar logged in -->
     <mat-checkbox [checked]="stayLoggedIn" (change)="stayIn()" >
       Stay logged in (1 month)</mat-checkbox>
-    </div>
+
     </div>
   <!-- enter password -->
   <div column>
   <mat-form-field appearance="outline">
-    <span matPrefix class="material-symbols-outlined" [@lockAnimation]="lockState" placeholder="Password" >
+    <span matPrefix class="material-symbols-outlined"
+    [@lockAnimation]="lockState" placeholder="Password" >
       <ng-container *ngIf="!isPasswordValid; else unlock">
     <mat-icon>
         lock
@@ -58,7 +59,7 @@
         </ng-template>
       </span>
  <input matInput formControlName="password" placeholder="Password" type="password"
- #skalarlyPassword />
+ #skalarlyPassword [appGlowBorder]="isGlowing" />
  <mat-label [class.condition-met]="loginForm.get('password')!.valid">
    Password</mat-label>
  <mat-error *ngIf="loginForm.get('password')!.hasError?.('invalidPassword')">Invalid password</mat-error>
@@ -87,7 +88,7 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 <!-- Login Button -->
   <div loginButton>
   <button mat-fab type="submit" *ngIf="progressState === 'default'" 
-  [appValidationAnimation]='loginForm.valid'[@shakeAnimation]="failedLoginAnimation"
+  [appValidationAnimation]='loginForm.valid' [@shakeAnimation]="failedLoginAnimation"
   (keydown.enter)="enterClicked()" class="material-symbols-outlined" >
   fingerprint
   </button>

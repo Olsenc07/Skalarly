@@ -56,7 +56,9 @@ div[column] {
           transform: scale(1);
         }
       }
-
+.mat-mdc-checkbox{
+    display: flex;
+  }
 .logo{ 
       position: relative;
       display: block; // Ensure the image is displayed as a block element
@@ -92,15 +94,6 @@ div[column] {
     color: green;
     text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00;
     transform: scale(1.7);
-  }
-}
-
-/* Keyframes for the scaling animation */
-@keyframes scale {
-  from {
-  }
-  to {
-     /* Adjust the scale factor as needed */
   }
 }
 
