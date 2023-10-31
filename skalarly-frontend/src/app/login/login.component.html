@@ -36,11 +36,11 @@
     <ng-container *ngIf="emailState === 'check'">check_circle</ng-container>
   </mat-icon>
   </mat-form-field>
-
+  <div class="login-options">
     <!-- Keep skalar logged in -->
     <mat-checkbox [checked]="stayLoggedIn" (change)="stayIn()" >
       Stay logged in (1 month)</mat-checkbox>
-
+    </div>
     </div>
   <!-- enter password -->
   <div column>

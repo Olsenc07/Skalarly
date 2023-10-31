@@ -44,21 +44,35 @@ mat-toolbar{
     box-shadow: 0px 2px 5px 0px $toolbar-shadow-color;
     background-color: $toolbar-background-color;
 }
-
+$shadow-size: 3px;
+$shadow-size2: 7px;
 // global mat form field animation
 .glowAnimation {
-    animation: glow 2.5s infinite ease-in-out;
-    $shadow-size: 3px;
-    $shadow-size2: 7px;
+    animation: glow 2.5s infinite ease-in-out, sparkle 1.5s ease-in-out;
+  
     @keyframes glow {
-    0%, 100% {
+      0%, 100% {
         box-shadow: 0 0 $shadow-size var(--mdc-outlined-text-field-focus-outline-color);
-          }
-    50% {
+      }
+      50% {
         box-shadow: 0 $shadow-size2 $shadow-size2 var(--mdc-outlined-text-field-focus-outline-color);
-          }
+      }
     }
   }
+  
+  .error-animation {
+    animation: error-glow 2.5s infinite ease-in-out, sparkle 1.5s ease-in-out;
+  
+    @keyframes error-glow {
+      0%, 100% {
+        box-shadow: 0 0 $shadow-size var(--mdc-outlined-text-field-error-outline-color);
+      }
+      50% {
+        box-shadow: 0 $shadow-size2 $shadow-size2 var(--mdc-outlined-text-field-error-outline-color)
+      }
+    }
+  }
+  
   
 
 .material-symbols-outlined {
@@ -75,3 +89,22 @@ router-outlet[content] {
   box-sizing: border-box; // include padding in the content's height calculation 
 }
 }
+// mat form field 
+@keyframes sparkle {
+    0%, 100% {
+      transform: translateX(0) rotate(0deg) scale(1);
+      opacity: 1;
+    }
+    25% {
+      transform: translateX(-5px) rotate(45deg) scale(1.2);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translateX(5px) rotate(90deg) scale(1);
+      opacity: 1;
+    }
+    75% {
+      transform: translateX(-5px) rotate(135deg) scale(1.2);
+      opacity: 0.7;
+    }
+  }

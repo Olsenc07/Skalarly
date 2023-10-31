@@ -56,6 +56,14 @@ div[column] {
           transform: scale(1);
         }
       }
+ form{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        flex-direction: column;
+        align-items: center;
+        background-image: linear-gradient(whitesmoke,white);
+  }
 .mat-mdc-checkbox{
     display: flex;
   }
@@ -136,11 +144,12 @@ div[column] {
   }
 }
     .input-boxes{
-     @include universal.common;
+     @include universal.common(flex, column);
     //  if grater then 576px width
     @media (min-width: 576px) {
     margin: 0% 2%;
      @include universal.common(flex, row);
+    }
      mat-form-field {
       &:first-child {
         margin-right: $input-margin; 
@@ -148,7 +157,7 @@ div[column] {
       &:last-child {
         margin-left: $input-margin; 
       }
-    }}}
+    }}
     span[matPrefix] { 
       margin-left: 15%;
     }
