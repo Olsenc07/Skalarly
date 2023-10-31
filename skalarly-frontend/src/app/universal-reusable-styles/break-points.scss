@@ -4,7 +4,7 @@ $device-sizes: (
  tablet: 768px, //ipads & tablets 577x - 768px
  labtop: 1024px, // labtops & small screens 769px - 1024px
  desktop: 1200px, // desktops & large screen 1025px - 1200px
- tv: 1440px, // tv and extra large screen 1440px & greater 
+ tv: 1440px // tv and extra large screen 1440px & greater 
 );
 // corresponding font sizes
 $font-sizes: (
@@ -23,7 +23,7 @@ $font-sub-sizes: (
   tv: 30%
 );
 // chip sizes based off font
-$chip-size: (
+$chip-sizes: (
    base: 15%,
    tablet: 25%,
    laptop: 35%,

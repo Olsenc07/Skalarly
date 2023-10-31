@@ -14,8 +14,8 @@ import { MatFormField } from '@angular/material/form-field';
 })
 export class GlowBorderDirective implements AfterViewInit {
   private matFormFieldWrapper: Element | null = null;
-  private isGlowingError: boolean = false;
-  private isGlowingDefault: boolean = false;
+  private style: Element | null = null;
+  private readonly styleClassMap: Record<string, boolean> = {};
   private isGlowing: boolean = false;
   @Input() set appGlowBorder(isGlowing: boolean) {
     this.isGlowing = isGlowing;
@@ -28,33 +28,30 @@ export class GlowBorderDirective implements AfterViewInit {
     private matFormField: MatFormField
   ) {}
   ngAfterViewInit(): void {
-    this.matFormFieldWrapper = this.el.nativeElement.querySelector(
+    this.style = this.el.nativeElement.querySelector(
       '.mat-mdc-text-field-wrapper'
     );
+    this.matFormFieldWrapper = this.matFormField._elementRef.nativeElement;
+    console.log('cats', this.matFormFieldWrapper);
   }
 
   private updateGlow(): void {
     if (this.matFormFieldWrapper) {
-      if (this.isGlowing) {
-        if (
-          this.matFormFieldWrapper.classList.contains('mat-form-field-invalid')
-        ) {
-          // Apply error animation only if it's not already applied
-          this.renderer.addClass(this.matFormFieldWrapper, 'error-animation');
-          this.renderer.removeClass(this.matFormFieldWrapper, 'glowAnimation');
-        } else {
-          // Apply default animation only if it's not already applied
-          this.renderer.addClass(this.matFormFieldWrapper, 'glowAnimation');
-          this.renderer.removeClass(
-            this.matFormFieldWrapper,
-            'error-animation'
-          );
-        }
-      } else {
-        // Remove both animations
-        this.renderer.removeClass(this.matFormFieldWrapper, 'glowAnimation');
-        this.renderer.removeClass(this.matFormFieldWrapper, 'error-animation');
-      }
+      const isInvalid = this.matFormFieldWrapper.classList.contains(
+        'mat-form-field-invalid'
+      );
+      this.toggleStyle('error-animation', isInvalid);
+      this.toggleStyle('glowAnimation', !isInvalid);
+    }
+  }
+
+  private toggleStyle(className: string, shouldApply: boolean): void {
+    if (shouldApply && !this.styleClassMap[className]) {
+      this.renderer.addClass(this.style, className);
+      this.styleClassMap[className] = true;
+    } else if (!shouldApply && this.styleClassMap[className]) {
+      this.renderer.removeClass(this.style, className);
+      this.styleClassMap[className] = false;
     }
   }
 

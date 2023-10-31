@@ -10,7 +10,8 @@
 <div class="login-header">
 <figure>
   <!-- logo glows on valid login -->
-  <img ngSrc="../../assets/images/Skalar_Hat_Icon.png" fill priority class="logo">
+  <img ngSrc="../../assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
+   priority  [width]=imageWidth [height]=imageHeight class="logo">
   <figcaption>
   Skalarly
   </figcaption>
@@ -32,7 +33,7 @@
     <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailNotFound')">No account matches this email</mat-error>
   <mat-icon matPrefix class="material-symbols-outlined" 
     [@spinAndChange]="emailState">
-    <ng-container *ngIf="emailState === 'initial'" [matTooltip]="'Skalarly requires an academic email'">alternate_email</ng-container>
+    <ng-container *ngIf="emailState === 'initial'"> alternate_email </ng-container>
     <ng-container *ngIf="emailState === 'check'">check_circle</ng-container>
   </mat-icon>
   </mat-form-field>

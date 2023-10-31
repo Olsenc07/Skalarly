@@ -1,7 +1,8 @@
 @use '../universal-reusable-styles/common' as universal;
 @use '../universal-reusable-styles/break-points' as device;
 $input-margin: 3%; 
-// form width based on  device breakpoints
+// based on device breakpoints
+// forms width 
 $form-margins: (
   base: 0%,     
   tablet: 5%,  
@@ -9,6 +10,49 @@ $form-margins: (
   desktop: 20%,  
   tv: 30%        
 );
+
+// logo and top of login screen
+.login-header {
+  text-align: center; // Center-align text
+  figure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+// reusable stlyles for main screen login box
+@mixin common-styles($font-size, $chip-size, $font-sub-size, $form-margin) {
+  button {
+    font-size: calc(#{$font-size} + #{$chip-size});
+    &[btn] {
+      background-image: linear-gradient(to right,#002D62,#778899);
+      color: white;
+      font-size: calc(#{$font-size} - #{$chip-size});
+    }
+  }
+
+  button[forgot] {
+    align-items: center;
+    background: none;
+    border: none;
+    color: #0073e6;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    font-size: calc(#{$font-size} - #{$font-sub-size});
+    text-decoration: underline;
+  }
+
+  form {
+    margin: 0% $form-margin;
+    @include universal.common;
+    background-image: linear-gradient(whitesmoke, white);
+  }
+
+  .welcome-text {
+    font-size: $font-size;
+  }
+}
 // *1 *2
 body {
   background-image: linear-gradient(whitesmoke,white);
@@ -56,25 +100,9 @@ div[column] {
           transform: scale(1);
         }
       }
- form{
-        display: flex;
-        width: 100%;
-        height: 100%;
-        flex-direction: column;
-        align-items: center;
-        background-image: linear-gradient(whitesmoke,white);
-  }
 .mat-mdc-checkbox{
     display: flex;
   }
-.logo{ 
-      position: relative;
-      display: block; // Ensure the image is displayed as a block element
-      margin: 0 auto; // Center the image horizontally
-      justify-content: center;
-      max-width: 100%; 
-      height: auto; 
-        }
 .login-options {
   display: flex;
   align-items: center;
@@ -107,49 +135,36 @@ div[column] {
 
 // scaling
   @each $screen, $min-width in device.$device-sizes {
-  @media only screen and (min-width: #{$min-width}) {
     $font-size: map-get(device.$font-sizes, $screen);
     $font-sub-size: map-get(device.$font-sub-sizes, $screen);
-    $chip-size: map-get(device.$chip-size, $screen);
+    $chip-size: map-get(device.$chip-sizes, $screen);
     $form-margin: map-get($form-margins, $screen);
-
-    button{
-      font-size: calc(#{$font-size} + #{$chip-size});
-    &[btn]{
-      background-image: linear-gradient(to right,#002D62,#778899);
-      color: white;
-      font-size: calc(#{$font-size} - #{$chip-size});
-        }
-    }
-
-    button[forgot]{
-        align-items: center;
-        background: none;
-        border: none;
-        color: #0073e6;
-        cursor: pointer;
-        display: flex;
-        justify-content: flex-end;
-        font-size: calc(#{$font-size} - #{$font-sub-size});
-        text-decoration: underline;
-      }
-      form {
-        margin: 0% $form-margin;
-        @include universal.common;
-      }
-      .welcome-text {
-        font-size: $font-size;
-      }
-    
+  figcaption {
+    font-size: $font-size; // Set font size for the logo
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent; 
+    background: linear-gradient(to right, #0073e6, #ffffff);
   }
+
+
+h2 {
+  font-size: calc(#{$font-size} + #{$font-sub-size}); 
+}
+  // mobile first
+   @if $screen == 'mobile' {
+      @include common-styles($font-size, $chip-size, $font-sub-size, $form-margin);
+      }
+    @media (min-width: #{$min-width}) {
+      @include common-styles($font-size, $chip-size, $font-sub-size, $form-margin);
+    }
 }
     .input-boxes{
+    margin: 0% 2%;
      @include universal.common(flex, column);
     //  if grater then 576px width
-    @media (min-width: 576px) {
-    margin: 0% 2%;
+    @media only screen and (min-width: 576px) {
      @include universal.common(flex, row);
-    }
      mat-form-field {
       &:first-child {
         margin-right: $input-margin; 
@@ -158,6 +173,8 @@ div[column] {
         margin-left: $input-margin; 
       }
     }}
+  }
+
     span[matPrefix] { 
       margin-left: 15%;
     }
@@ -194,27 +211,7 @@ div[column] {
     }
 
       
-// *1 mobile-first styles
-.login-header{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    // everything smaller shoudl have logo at top of screen
-}
-figure{
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center horizontally */
-    text-align: center; /* Center text within the figure */
-    position: relative;
-    height: auto;
-    width: universal.$all;
-  }
-figcaption{
-    @include universal.common;
-    background-color: #222;
-    text-align: center;
-    margin-top: 5%;
-}
+
+
 
 

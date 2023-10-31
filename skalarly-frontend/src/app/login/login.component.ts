@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   Inject,
+  Input,
   OnDestroy,
   OnInit,
   Optional,
@@ -46,7 +47,21 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
-
+// main logo
+const screenBreakpoints = {
+  mobile: 576,
+  tablet: 768,
+  laptop: 1024,
+  desktop: 1200,
+  tv: 1440
+};
+const imageScaling = {
+  mobile: '100%',
+  tablet: '80%',
+  laptop: '60%',
+  desktop: '50%',
+  tv: '40%'
+};
 @Component({
   standalone: true,
   selector: 'app-login-format',
@@ -188,6 +203,8 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit {
+  imageWidth: string = '100%';
+  imageHeight: string = 'auto';
   isGlowing = false;
   progressState: 'default' | 'load' | 'complete' = 'default';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
@@ -278,10 +295,31 @@ export class LoginComponent implements OnDestroy, OnInit {
           this.lockState = 'closed';
         }
       });
+    const screenWidth = window.innerWidth;
+    this.imageWidth = this.getImageWidth(screenWidth);
+    window.addEventListener('resize', () => {
+      const newScreenWidth = window.innerWidth;
+      this.imageWidth = this.getImageWidth(newScreenWidth);
+    });
   }
   onAnimationDone() {
     this.animationState = 'hidden';
   }
+  // logo size
+  getImageWidth(screenWidth: number): string {
+    if (screenWidth <= screenBreakpoints.mobile) {
+      return imageScaling.mobile;
+    } else if (screenWidth <= screenBreakpoints.tablet) {
+      return imageScaling.tablet;
+    } else if (screenWidth <= screenBreakpoints.laptop) {
+      return imageScaling.laptop;
+    } else if (screenWidth <= screenBreakpoints.desktop) {
+      return imageScaling.desktop;
+    } else {
+      return imageScaling.tv;
+    }
+  }
+
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;
