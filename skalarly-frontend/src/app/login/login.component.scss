@@ -51,7 +51,29 @@ $form-margins: (
 
   .welcome-text {
     font-size: $font-size;
+    color: #0073e6;
+    white-space: nowrap; // Prevent letters from wrapping to a new line
+  
+    $animation-delay: 0;
+    $animation-duration: 0.5s;
+  
+    @for $i from 1 through 3 {
+      $animation-delay: $animation-delay + 0.3s; // Adjust the delay as needed
+      $animation-duration: $animation-duration + 0.3s; // Adjust the duration as needed
+  
+      &:nth-of-type(#{$i}) {
+        animation: glow-animation #{$animation-duration} ease-in-out #{$animation-delay} forwards;
+      }
+    }
   }
+  
+  @keyframes glow-animation {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
 }
 // *1 *2
 body {
@@ -178,12 +200,7 @@ h2 {
     span[matPrefix] { 
       margin-left: 15%;
     }
-    .welcome-text {
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      font-weight: normal;
-      position: relative;
+  
   // animations keyframes
   @keyframes shake {
     0%, 100% {
@@ -208,7 +225,7 @@ h2 {
           opacity: 0;
         }
       }
-    }
+    
 
       
 

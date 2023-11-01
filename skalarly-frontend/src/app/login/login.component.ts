@@ -86,30 +86,6 @@ const imageScaling = {
   ],
 
   animations: [
-    // welcome text
-    trigger('welcomeAnimation', [
-      state('visible', style({ opacity: 1, transform: 'translateX(0)' })),
-      state('hidden', style({ opacity: 0, transform: 'translateX(-100%)' })),
-      transition('hidden => visible', [
-        animate(
-          '1s ease-in',
-          keyframes([
-            style({ transform: 'translateX(-100%)', offset: 0 }),
-            style({ transform: 'translateX(0)', offset: 1 })
-          ])
-        ),
-        animate(
-          '1s',
-          style({
-            fontWeight: 'bold',
-            textShadow: '0 0 5px rgba(255, 215, 0, 1)'
-          })
-        ),
-        animate('2s', style({ fontWeight: 'normal', textShadow: 'none' })),
-        animate('1s', style({ opacity: 0 }))
-      ]),
-      transition('visible => hidden', animate('1s ease-out'))
-    ]),
     // email validation
     trigger('spinAndChange', [
       state('initial', style({ transform: 'rotate(0deg)' })),
