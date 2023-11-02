@@ -18,6 +18,7 @@ $form-margins: (
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0;
   }
 }
 // reusable stlyles for main screen login box
@@ -49,30 +50,50 @@ $form-margins: (
     background-image: linear-gradient(whitesmoke, white);
   }
 
+  // welcome text animations
   .welcome-text {
-    font-size: $font-size;
     color: #0073e6;
+    display: flex;
+    font-size: $font-size;
+    justify-content: center;
     white-space: nowrap; // Prevent letters from wrapping to a new line
   
-    $animation-delay: 0;
-    $animation-duration: 0.5s;
+    @for $i from 1 through 18 { // Adjust the loop count based on the number of letters
+      $animation-delay: $i * 0.3s; 
+      $animation-duration: 0.5s; // Duration for each letter
   
-    @for $i from 1 through 3 {
-      $animation-delay: $animation-delay + 0.3s; // Adjust the delay as needed
-      $animation-duration: $animation-duration + 0.3s; // Adjust the duration as needed
-  
-      &:nth-of-type(#{$i}) {
+      span:nth-child(#{$i}) {
         animation: glow-animation #{$animation-duration} ease-in-out #{$animation-delay} forwards;
       }
     }
   }
+  .sparkle {
+    animation: sparkle-animation 0.5s ease-in-out infinite;
+  }
+  
+  @keyframes sparkle-animation {
+    0% {
+      text-shadow: 0 0 5px rgba(255, 215, 0, 1);
+    }
+    50% {
+      text-shadow: none;
+    }
+    100% {
+      text-shadow: 0 0 5px rgba(255, 215, 0, 1);
+    }
+  }
   
   @keyframes glow-animation {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
     to {
       opacity: 1;
       transform: translateX(0);
     }
   }
+  
   
 }
 // *1 *2
