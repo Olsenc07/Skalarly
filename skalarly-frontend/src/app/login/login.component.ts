@@ -44,6 +44,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Router } from '@angular/router';
 import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
@@ -66,6 +67,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     MatIconModule,
     MatSelectModule,
     MatTooltipModule,
+    NgxSkeletonLoaderModule,
     NgOptimizedImage,
     ReactiveFormsModule,
     ValidationAnimationDirective
@@ -165,6 +167,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit {
+  imgLoaded: boolean = false;
   welcomeText: { letter: string; visible: boolean }[] = [];
   isGlowing = false;
   progressState: 'default' | 'load' | 'complete' = 'default';

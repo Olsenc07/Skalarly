@@ -59,13 +59,15 @@
            "varsIgnorePattern": "^[A-Z][a-zA-Z]*$", // Ignores constructor names
             "argsIgnorePattern": "^[a-z]" // Ignores parameters starting with a lowercase letter
         }
-       ]
+       ],
+       "rxjs-angular/prefer-async-pipe": "error"
       }
     },
     {
       "files": [
         "*.html"
       ],
+      "plugins": ["rxjs-angular"],
       "extends": [
         "plugin:@angular-eslint/template/recommended"
       ],

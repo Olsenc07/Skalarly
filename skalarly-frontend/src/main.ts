@@ -1,10 +1,9 @@
 import 'zone.js/dist/zone';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
+import { AuthInterceptor } from './app/custom-architecture-aids/interceptors/auth-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { SharedInterceptorModule } from './app/custom-architecture-aids/interceptors/shared-interceptor.module';
+import { ErrorInterceptor } from './app/custom-architecture-aids/interceptors/error-interceptor';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
@@ -20,16 +19,19 @@ if (environment.production) {
 // activate first module
 bootstrapApplication(AppComponent, {
   providers: [
-    SharedInterceptorModule, // Interceptors automatically involved in all components
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    }, // Interceptors automatically involved in all components
     provideRouter(routes),
-    importProvidersFrom(
-      // should make modules only available to components that use them
-      HttpClientModule,
-      BrowserAnimationsModule,
-      MatDialogModule,
-      MatSnackBarModule
-    ),
-    provideStore() // State Management
+    provideStore(), // State Management
+    importProvidersFrom(HttpClientModule, BrowserAnimationsModule)
   ]
 })
   .then((started) => {

@@ -68,6 +68,7 @@ export class AppComponent {
   constructor(private router: Router) {
     // tracking skalars current page
     this.router = router;
+    // eslint-disable-next-line rxjs-angular/prefer-async-pipe
     this.router.events.subscribe((event: NavigationEvent) => {
       if (event instanceof NavigationEnd) {
         this.routerUrl = event.url;

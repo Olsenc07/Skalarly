@@ -10,7 +10,7 @@ import { AuthorizeService } from './../services/authorize.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
   // eslint-disable-next-line no-unused-vars
   constructor(private authService: AuthorizeService) {}

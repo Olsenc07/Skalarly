@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private dialog: MatDialog) {
     this.dialog = dialog;
