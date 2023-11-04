@@ -14,7 +14,6 @@ b {
 color: lightblue
 }
 body {
- @include device.fontAdjustments(map-get(device.$font-sizes, base));
  @include universal.common;
  @include universal.pageSize;
  input, textarea, button {
@@ -22,10 +21,7 @@ body {
  }
  @each $screen, $size in device.$font-sizes {
     @if (map-has-key(device.$device-sizes, $screen)) {
-      $min-width: map-get(device.$device-sizes, $screen);
-      @media only screen and (min-width: #{$min-width}) {
-        @include device.fontAdjustments($size);
-      }
+      @include device.fontAdjustments($size);
     }
   }
   
@@ -40,24 +36,64 @@ mat-toolbar{
     box-shadow: 0px 2px 5px 0px $toolbar-shadow-color;
     background-color: $toolbar-background-color;
 }
-$shadow-size: 3px;
-$shadow-size2: 7px;
-// global mat form field animation
-.glowAnimation {
-    animation: glow 2.5s infinite ease-in-out, sparkle 1.5s ease-in-out;
-  
-    @keyframes glow {
-      0%, 100% {
-        box-shadow: 0 0 $shadow-size var(--mdc-outlined-text-field-focus-outline-color);
-      }
-      50% {
-        box-shadow: 0 $shadow-size2 $shadow-size2 var(--mdc-outlined-text-field-focus-outline-color);
-      }
-    }
+@each $screen, $size in device.$font-sizes {
+  @if (map-has-key(device.$device-sizes, $screen)) {
+$shadow-size: $size;
+$shadow-size2: cal($shadow-size + device.$font-sub-sizes) ;
   }
+}
+// global mat form field animation
+// Mixin for shared sparkle styles
+@mixin sparkle($position, $offsetX, $offsetY, $delay) {
+  content: '';
+  position: absolute;
+  width: 5px; // size of the dots
+  height: 5px; // size of the dots
+  border-radius: 50%; // make them round
+  background-color: yellowgreen; // Color of the dots
+  opacity: 0; // start fully transparent
+  animation: sparkle 1.5s ease-in-out infinite;
+  animation-delay: $delay;
+
+  // Position the sparkle dots based on arguments
+  #{$position}: -10px;
+  #{$offsetX}: 10px;
+}
+
+.glow-animation::before {
+  @include sparkle(top, left, 0s); // Use mixin with specific position and delay
+}
+
+.glow-animation::after {
+  @include sparkle(bottom, right, 0.75s); // Use mixin with specific position and delay
+}
+
+.glow-animation {
+  position: relative; // Needed for absolute positioning of pseudo-elements
+  animation: glow 2.5s ease-in-out infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 $shadow-size, calc($shadow-size * 2) pink;
+  }
+  50% {
+    box-shadow: 0 0 $shadow-size2, calc($shadow-size2 * 3) pink;
+  }
+}
+
   
   .error-animation {
-    animation: error-glow 2.5s infinite ease-in-out, sparkle 1.5s ease-in-out;
+    animation: error-glow 2.5s ease-in-out infinite, sparkle 1.5s ease-in-out;
   
     @keyframes error-glow {
       0%, 100% {
@@ -88,19 +124,15 @@ router-outlet[content] {
 // mat form field 
 @keyframes sparkle {
     0%, 100% {
-      transform: translateX(0) rotate(0deg) scale(1);
       opacity: 1;
     }
     25% {
-      transform: translateX(-5px) rotate(45deg) scale(1.2);
       opacity: 0.7;
     }
     50% {
-      transform: translateX(5px) rotate(90deg) scale(1);
       opacity: 1;
     }
     75% {
-      transform: translateX(-5px) rotate(135deg) scale(1.2);
       opacity: 0.7;
     }
-  }
+  };

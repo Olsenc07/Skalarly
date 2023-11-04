@@ -4,62 +4,84 @@ import {
   ElementRef,
   HostListener,
   Input,
+  OnDestroy,
   Renderer2
 } from '@angular/core';
-import { MatFormField } from '@angular/material/form-field';
+import { NgControl } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Directive({
   standalone: true,
   selector: '[appGlowBorder]'
 })
-export class GlowBorderDirective implements AfterViewInit {
-  private matFormFieldWrapper: Element | null = null;
-  private style: Element | null = null;
-  private readonly styleClassMap: Record<string, boolean> = {};
+export class GlowBorderDirective implements AfterViewInit, OnDestroy {
+  @Input() appGlowBorder: boolean = false;
+  private statusSubscription: Subscription | null = null;
   private isGlowing: boolean = false;
-  @Input() set appGlowBorder(isGlowing: boolean) {
-    this.isGlowing = isGlowing;
-    this.updateGlow();
-  }
+  private hasError: boolean = false;
+  formFieldElement: Element | null = null;
 
   constructor(
     private el: ElementRef,
     private renderer: Renderer2,
-    private matFormField: MatFormField
+    private ngControl: NgControl
   ) {}
   ngAfterViewInit(): void {
-    this.style = this.el.nativeElement.querySelector(
+    this.formFieldElement = this.el.nativeElement.closest(
       '.mat-mdc-text-field-wrapper'
     );
-    this.matFormFieldWrapper = this.matFormField._elementRef.nativeElement;
-    console.log('cats', this.matFormFieldWrapper);
-  }
-
-  private updateGlow(): void {
-    if (this.matFormFieldWrapper) {
-      const isInvalid = this.matFormFieldWrapper.classList.contains(
-        'mat-form-field-invalid'
+    if (this.ngControl.statusChanges) {
+      this.statusSubscription = this.ngControl.statusChanges.subscribe(
+        (status: string) => {
+          this.updateGlow(status === 'INVALID');
+        }
       );
-      this.toggleStyle('error-animation', isInvalid);
-      this.toggleStyle('glowAnimation', !isInvalid);
     }
   }
 
-  private toggleStyle(className: string, shouldApply: boolean): void {
-    if (shouldApply && !this.styleClassMap[className]) {
-      this.renderer.addClass(this.style, className);
-      this.styleClassMap[className] = true;
-    } else if (!shouldApply && this.styleClassMap[className]) {
-      this.renderer.removeClass(this.style, className);
-      this.styleClassMap[className] = false;
+  private updateGlow(isInvalid: boolean): void {
+    if (isInvalid) {
+      this.hasError = !this.ngControl.untouched;
+      if (this.hasError) {
+        this.renderer.addClass(this.formFieldElement, 'error-animation');
+      } else {
+        this.renderer.addClass(this.formFieldElement, 'glow-animation');
+        this.isGlowing = true;
+      }
+    }
+    // If the field is valid, add the 'glowAnimation' and remove 'error-animation' if it exists
+    else {
+      if (!this.isGlowing && !this.hasError) {
+        this.renderer.addClass(this.formFieldElement, 'glow-animation');
+        this.isGlowing = true;
+      } else {
+        this.renderer.removeClass(this.formFieldElement, 'error-animation');
+        this.hasError = true;
+      }
     }
   }
 
-  @HostListener('focus', ['$event']) onFocus(event: FocusEvent) {
-    this.updateGlow();
+  @HostListener('focus')
+  onFocus(): void {
+    this.updateGlow(this.ngControl?.invalid ?? false);
   }
 
-  @HostListener('blur', ['$event']) onBlur(event: FocusEvent) {
-    this.updateGlow();
+  @HostListener('blur')
+  onBlur(): void {
+    // Only remove the styles that were added on focus
+    if (this.hasError) {
+      this.renderer.removeClass(this.formFieldElement, 'error-animation');
+      this.hasError = false; // Reset the flag after removing
+    }
+    if (this.isGlowing) {
+      this.renderer.removeClass(this.formFieldElement, 'glow-animation');
+      this.isGlowing = false; // Reset the flag after removing
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.statusSubscription) {
+      this.statusSubscription?.unsubscribe();
+    }
   }
 }

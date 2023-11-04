@@ -1,10 +1,12 @@
+import { Component, OnDestroy } from '@angular/core';
 import {
   NavigationEnd,
-  Event as NavigationEvent,
   Router,
+  Event as RouterEvent,
   RouterModule
 } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
+import { Subject, filter, takeUntil } from 'rxjs';
 import {
   animate,
   keyframes,
@@ -12,7 +14,6 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -55,7 +56,8 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     ])
   ]
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
+  private routeSub$: Subject<void> = new Subject<void>();
   iconState: string = '';
   reload: number = 0;
   rotationDegree = 0;
@@ -67,13 +69,18 @@ export class AppComponent {
 
   constructor(private router: Router) {
     // tracking skalars current page
-    this.router = router;
-    // eslint-disable-next-line rxjs-angular/prefer-async-pipe
-    this.router.events.subscribe((event: NavigationEvent) => {
-      if (event instanceof NavigationEnd) {
+    this.router.events
+      .pipe(
+        filter(
+          (event: RouterEvent): event is NavigationEnd =>
+            event instanceof NavigationEnd
+        ),
+        takeUntil(this.routeSub$)
+      )
+      // eslint-disable-next-line rxjs-angular/prefer-async-pipe
+      .subscribe((event: NavigationEnd) => {
         this.routerUrl = event.url;
-      }
-    });
+      });
     // Determing device orientation
     window
       .matchMedia('(orientation: portrait)')
@@ -112,6 +119,11 @@ export class AppComponent {
   // mobile functions
   toggleSearch(toggle: boolean): void {
     this.searchIconClicked = toggle;
+  }
+  ngOnDestroy(): void {
+    // Trigger the unsubscribe$ to complete the subscription
+    this.routeSub$.next();
+    this.routeSub$.complete();
   }
   // <!-- Terminal -->
   // <!-- <div class="terminal" [ngSwitch]="selection.value">
