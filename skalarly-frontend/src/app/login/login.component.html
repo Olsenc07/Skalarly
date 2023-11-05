@@ -9,11 +9,9 @@
   <!-- logo and welcoming words -->
 <div class="login-header">
 <figure>
-  <!-- pre load skeleton -->
-  <ngx-skeleton-loader *ngIf="!imgLoaded" appearance="circle"></ngx-skeleton-loader>
+
   <!-- logo glows on valid login -->
-  <img *ngIf="imgLoaded"  (load)="imgLoaded = true"  
-  ngSrc="../../assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
+  <img ngSrc="../../assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
    priority  width="378" height="300" sizes="30vw">
   <figcaption>
   Skalarly
@@ -24,7 +22,9 @@
 
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
-<form [formGroup]="loginForm" (ngSubmit)="login()" >
+      <!-- pre load skeleton -->
+  <ngx-skeleton-loader *ngIf="!loaded" appearance="circle"></ngx-skeleton-loader>
+<form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="loaded">
   <div class="input-boxes">
     <div column>
   <!-- enter email -->

@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   Inject,
-  Input,
   OnDestroy,
   OnInit,
   Optional,
@@ -167,7 +166,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit {
-  imgLoaded: boolean = false;
+  loaded: boolean = false;
   welcomeText: { letter: string; visible: boolean }[] = [];
   isGlowing = false;
   progressState: 'default' | 'load' | 'complete' = 'default';
@@ -212,7 +211,6 @@ export class LoginComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     const text: string = 'Welcome To Skalarly';
-
     for (let i = 0; i < text.length; i++) {
       this.welcomeText.push({ letter: text[i], visible: false });
     }
@@ -270,6 +268,11 @@ export class LoginComponent implements OnDestroy, OnInit {
           this.lockState = 'closed';
         }
       });
+  }
+  // hidding skeletons
+  logoLoaded(): void {
+    console.log('heyd');
+    this.imgLoaded = true;
   }
   // toggle password visbility
   toggleVisibility(): void {

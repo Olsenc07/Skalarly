@@ -52,37 +52,28 @@ $form-margins: (
 
   // welcome text animations
   .welcome-text {
-    color: #0073e6;
     display: flex;
-    font-size: $font-size;
+    font-size: calc(#{$font-size} + #{$font-sub-size});
     justify-content: center;
     white-space: nowrap; // Prevent letters from wrapping to a new line
-  
+    span {
+      opacity: 0; // Start with the letter hidden
+    }
+
     @for $i from 1 through 18 { // Adjust the loop count based on the number of letters
-      $animation-delay: $i * 0.3s; 
-      $animation-duration: 0.5s; // Duration for each letter
-  
+      $animation-delay: $i * 0.15s; 
+      $animation-duration: 0.25s; // Duration for each letter
       span:nth-child(#{$i}) {
-        animation: glow-animation #{$animation-duration} ease-in-out #{$animation-delay} forwards;
+        animation: glow-animation #{$animation-duration} #{$animation-delay} forwards;
+        background: linear-gradient(45deg, #a55eea, #4d9ef6);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: background 0.3s, color 0.3s;
       }
     }
   }
-  .sparkle {
-    animation: sparkle-animation 0.5s ease-in-out infinite;
-  }
-  
-  @keyframes sparkle-animation {
-    0% {
-      text-shadow: 0 0 5px rgba(255, 215, 0, 1);
-    }
-    50% {
-      text-shadow: none;
-    }
-    100% {
-      text-shadow: 0 0 5px rgba(255, 215, 0, 1);
-    }
-  }
-  
+ 
   @keyframes glow-animation {
     from {
       opacity: 0;
@@ -176,7 +167,7 @@ div[column] {
   }
 }
 
-// scaling
+// scaling isn't working!!!!
   @each $screen, $min-width in device.$device-sizes {
     $font-size: map-get(device.$font-sizes, $screen);
     $font-sub-size: map-get(device.$font-sub-sizes, $screen);
@@ -217,7 +208,6 @@ h2 {
       }
     }}
   }
-
     span[matPrefix] { 
       margin-left: 15%;
     }

@@ -95,21 +95,18 @@ export class AppComponent implements OnDestroy {
       });
   }
   onDeltaYChange(reload: number): void {
-    console.log('bridges', reload); // Handle the reload value here
-    console.log('icons', this.showIcons);
     this.reload = reload;
     if (this.reload < -2) {
       this.showIcons = true;
       this.rotationDegree = -this.reload;
       this.iconState = 'initial';
       // start to show continue to scroll icon to refresh
-      if (this.reload <= -55) {
+      if (this.reload <= -70) {
         this.iconState = 'final';
         // User has pulled down by a certain threshold
         // You can display an icon, perform actions, or trigger a refresh
-        console.log('Pulled down enough for a refresh');
       }
-      if (this.reload <= -60) {
+      if (this.reload <= -85) {
         location.reload();
       }
     }

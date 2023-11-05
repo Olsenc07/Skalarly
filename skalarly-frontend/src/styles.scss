@@ -36,62 +36,53 @@ mat-toolbar{
     box-shadow: 0px 2px 5px 0px $toolbar-shadow-color;
     background-color: $toolbar-background-color;
 }
+//  I want them as global variables
+$shadow-size: null;
+$shadow-size2: null;
 @each $screen, $size in device.$font-sizes {
   @if (map-has-key(device.$device-sizes, $screen)) {
-$shadow-size: $size;
-$shadow-size2: cal($shadow-size + device.$font-sub-sizes) ;
+$shadow-size: $size !global;
+$percentage: map-get(device.$font-sub-sizes, $screen);
+$shadow-size2: calc($size + #{$percentage}) !global;
   }
 }
 // global mat form field animation
 // Mixin for shared sparkle styles
-@mixin sparkle($position, $offsetX, $offsetY, $delay) {
-  content: '';
-  position: absolute;
-  width: 5px; // size of the dots
-  height: 5px; // size of the dots
-  border-radius: 50%; // make them round
-  background-color: yellowgreen; // Color of the dots
-  opacity: 0; // start fully transparent
-  animation: sparkle 1.5s ease-in-out infinite;
-  animation-delay: $delay;
-
-  // Position the sparkle dots based on arguments
-  #{$position}: -10px;
-  #{$offsetX}: 10px;
-}
-
-.glow-animation::before {
-  @include sparkle(top, left, 0s); // Use mixin with specific position and delay
-}
-
-.glow-animation::after {
-  @include sparkle(bottom, right, 0.75s); // Use mixin with specific position and delay
+@mixin generate-firework-dots($count) {
+  @for $i from 1 through $count {
+    // Each dot will have a unique class
+    &.dot-#{$i}::before {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background-color: yellowgreen;
+      width: 5px;
+      height: 5px;
+      opacity: 0;
+      // Randomize the start position of the dot
+      $random-top: random(100) * 50%;
+      $random-left: random(100) * 1%;
+      top: $random-top;
+      left: $random-left;
+      // Each dot will have a different animation delay
+      $random-delay: random(2000) * 1ms;
+      animation: firework-animation 2s ease-in-out $random-delay infinite;
+    }
+  }
 }
 
 .glow-animation {
   position: relative; // Needed for absolute positioning of pseudo-elements
   animation: glow 2.5s ease-in-out infinite;
-}
-
-@keyframes sparkle {
-  0%, 100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 $shadow-size, calc($shadow-size * 2) pink;
-  }
-  50% {
-    box-shadow: 0 0 $shadow-size2, calc($shadow-size2 * 3) pink;
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 $shadow-size, var(--mdc-outlined-text-field-outline-color);
+    }
+    50% {
+      box-shadow: 0 0 $shadow-size2, var(--mdc-outlined-text-field-outline-color);
+    }
   }
 }
-
-  
   .error-animation {
     animation: error-glow 2.5s ease-in-out infinite, sparkle 1.5s ease-in-out;
   
