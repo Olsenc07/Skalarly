@@ -1,5 +1,12 @@
 @use '../universal-reusable-styles/common' as universal;
 @use '../universal-reusable-styles/break-points' as device;
+@mixin pseudo-mat-form-field {
+  background: rgb(239,241,246) no-repeat;
+  height: 56px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
 $input-margin: 3%; 
 // based on device breakpoints
 // forms width 
@@ -10,7 +17,46 @@ $form-margins: (
   desktop: 20%,  
   tv: 30%        
 );
-
+// skeletons
+.input-boxes-skeleton{
+  @include universal.common(flex, column);
+  margin: 0% 2%;
+   //  if greater then 576px width
+   @media only screen and (min-width: 576px) {
+    @include universal.common(flex, row);
+  }
+  .skeleton-wrap{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .input-skeleton[one]{ // Apply the mixin to the first and third child which are supposed to mimic the mat form field
+        @include pseudo-mat-form-field;
+          margin-right: $input-margin; // Specific margin for the first child
+        }
+  .input-skeleton[two]{
+      @include pseudo-mat-form-field;
+          margin-left: $input-margin; // Specific margin for the third child
+        }
+      ngx-skeleton-loader[stayIn]{
+          width: 50%;
+          align-self: flex-start;
+        }
+      ngx-skeleton-loader[forgot]{
+          width: 50%;
+          align-self: flex-end;
+        }
+      }
+      ngx-skeleton-loader[btn]{
+        align-self: center
+      }
+      .input-skeleton-join[join]{
+        align-self: center;
+        min-width: 88px; /* This may not be set by default, but is a common width for buttons. */
+        border-radius: 4px;
+        line-height: 36px;
+        background: rgb(239,241,246) no-repeat;
+      }
 // logo and top of login screen
 .login-header {
   text-align: center; // Center-align text
@@ -32,7 +78,7 @@ $form-margins: (
     }
   }
 
-  button[forgot] {
+  button[forgot]{
     align-items: center;
     background: none;
     border: none;
@@ -43,13 +89,17 @@ $form-margins: (
     font-size: calc(#{$font-size} - #{$font-sub-size});
     text-decoration: underline;
   }
-
   form {
     margin: 0% $form-margin;
     @include universal.common;
     background-image: linear-gradient(whitesmoke, white);
+    position: relative;
+    &:not([skeleton]) {
+    border-right: 15px outset ; 
+    border-bottom: 15px outset ;
+    border-image: linear-gradient(45deg, #66b2ff, #0056b3) 1;
+    }
   }
-
   // welcome text animations
   .welcome-text {
     display: flex;
@@ -59,7 +109,6 @@ $form-margins: (
     span {
       opacity: 0; // Start with the letter hidden
     }
-
     @for $i from 1 through 18 { // Adjust the loop count based on the number of letters
       $animation-delay: $i * 0.15s; 
       $animation-duration: 0.25s; // Duration for each letter
@@ -84,9 +133,9 @@ $form-margins: (
       transform: translateX(0);
     }
   }
-  
-  
 }
+// end of param
+
 // *1 *2
 body {
   background-image: linear-gradient(whitesmoke,white);
@@ -105,7 +154,7 @@ div[column] {
     }
   }
   &:not(:first-of-type) 
-  mat-form-field {
+    .input{
     justify-content: flex-end;
   }
 }
@@ -153,7 +202,6 @@ div[column] {
 .glowing-text {
   animation: glow .5s, scale .5s;
 }
-
 /* Keyframes for the glow animation */
 @keyframes glow {
   from {
@@ -173,16 +221,25 @@ div[column] {
     $font-sub-size: map-get(device.$font-sub-sizes, $screen);
     $chip-size: map-get(device.$chip-sizes, $screen);
     $form-margin: map-get($form-margins, $screen);
-  figcaption {
-    font-size: $font-size; // Set font size for the logo
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent; 
-    background: linear-gradient(to right, #0073e6, #ffffff);
-  }
-
-
+    figcaption {
+      font-size: $font-size; // Set font size for the logo
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent; 
+      background-image: linear-gradient(to right, #0073e6, #bdc3c7);
+      background-size: 200% 200%; // Extends the background to allow for the "flow" effect
+      animation: gradient-flow 3s ease-in-out infinite; // Adjust the time as needed
+    }
+    @keyframes gradient-flow {
+      0% {
+        background-position: 100% 0%;
+      }
+      100% {
+        background-position: -100% 0%;
+      }
+    }
 h2 {
+  color: #bdc3c7;
   font-size: calc(#{$font-size} + #{$font-sub-size}); 
 }
   // mobile first
@@ -193,21 +250,6 @@ h2 {
       @include common-styles($font-size, $chip-size, $font-sub-size, $form-margin);
     }
 }
-    .input-boxes{
-    margin: 0% 2%;
-     @include universal.common(flex, column);
-    //  if grater then 576px width
-    @media only screen and (min-width: 576px) {
-     @include universal.common(flex, row);
-     mat-form-field {
-      &:first-child {
-        margin-right: $input-margin; 
-      }
-      &:last-child {
-        margin-left: $input-margin; 
-      }
-    }}
-  }
     span[matPrefix] { 
       margin-left: 15%;
     }
@@ -236,10 +278,19 @@ h2 {
           opacity: 0;
         }
       }
-    
-
+      .input-boxes{
+        margin: 0% 2%;
+         @include universal.common(flex, column);
+        //  if grater then 576px width
+        @media only screen and (min-width: 576px) {
+         @include universal.common(flex, row);
+         mat-form-field {
+          &:first-child {
+            margin-right: $input-margin; 
+          }
+          &:last-child {
+            margin-left: $input-margin; 
+          }
+        }}
+      }
       
-
-
-
-

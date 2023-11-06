@@ -1,6 +1,15 @@
 @use 'universal-reusable-styles/common' as universal;
-@use "sass:math";
+@use 'universal-reusable-styles/break-points' as device;
 
+@use "sass:math";
+// sub font sizes chart
+$font-sub-sizes-header: (
+  base: 30%,
+  tablet: 30%,
+  laptop: 40%,
+  desktop: 45%,
+  tv: 50%
+);
 // state change of navigation icons
 @mixin active($state, $active){
     @include universal.common;
@@ -20,15 +29,14 @@
 }
 // reload animation
 .glow-effect {
-    animation: glow 1s infinite alternate;
+    animation: glow 1s alternate;
   }
-  
   @keyframes glow {
     from {
-      box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
     }
     to {
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.9);
+      box-shadow: 0 0 25px rgba(0, 255, 0, 0.9);
     }
   }
   
@@ -66,8 +74,17 @@ top: 0;
 .navigation-icon-active{
     @include active(#b8dde9, $active: true);
 }
+@each $screen, $min-width in device.$device-sizes {
+  $font-size: map-get(device.$font-sizes, $screen);
+  $font-sub-size-header: map-get($font-sub-sizes-header, $screen);
 .refresh-icon{
     @include universal.common;
-    font-size: larger;
     margin-top: 5%;
+    align-items: center;
+    font-size: calc(#{$font-size} + #{$font-sub-size-header});
+}
+}
+.refresh-icon-container {
+  position: fixed; 
+  z-index: 7; 
 }

@@ -214,15 +214,9 @@ export class LoginComponent implements OnDestroy, OnInit {
     for (let i = 0; i < text.length; i++) {
       this.welcomeText.push({ letter: text[i], visible: false });
     }
-    let delay = 0; // Initial delay
-
-    for (let i = 0; i < this.welcomeText.length; i++) {
-      setTimeout(() => {
-        this.welcomeText[i].visible = true;
-      }, delay);
-
-      delay += 200; // this delay time must match animation in scss
-    }
+    setTimeout(() => {
+      this.loaded = true;
+    }, 500000);
     // email
     this.loginForm.controls['email'].valueChanges
       .pipe(
@@ -268,11 +262,6 @@ export class LoginComponent implements OnDestroy, OnInit {
           this.lockState = 'closed';
         }
       });
-  }
-  // hidding skeletons
-  logoLoaded(): void {
-    console.log('heyd');
-    this.imgLoaded = true;
   }
   // toggle password visbility
   toggleVisibility(): void {

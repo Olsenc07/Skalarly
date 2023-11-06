@@ -9,7 +9,6 @@
   <!-- logo and welcoming words -->
 <div class="login-header">
 <figure>
-
   <!-- logo glows on valid login -->
   <img ngSrc="../../assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
    priority  width="378" height="300" sizes="30vw">
@@ -23,9 +22,28 @@
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
       <!-- pre load skeleton -->
-  <ngx-skeleton-loader *ngIf="!loaded" appearance="circle"></ngx-skeleton-loader>
+      <form *ngIf="!loaded" skeleton>
+      <div column>
+      <div class="input-boxes-skeleton" >
+      <div class="skeleton-wrap">
+        <ngx-skeleton-loader appearance="custom-content" class="input-skeleton" one></ngx-skeleton-loader>
+        <ngx-skeleton-loader appearance="line" stayIn></ngx-skeleton-loader>
+      </div>
+        <!-- Skeleton for the password input -->
+      <div class="skeleton-wrap">
+        <ngx-skeleton-loader appearance="custom-content" class="input-skeleton" two></ngx-skeleton-loader>
+        <ngx-skeleton-loader appearance="line" forgot></ngx-skeleton-loader>
+      </div>
+      </div>
+      <ngx-skeleton-loader appearance="circle" btn></ngx-skeleton-loader>
+      <ngx-skeleton-loader appearance="custom-content" class="input-skeleton-join" join></ngx-skeleton-loader>
+      </div>
+    </form>
+        <!-- Skeleton for th FAB button -->
+ <!-- rendered content -->
+ <ng-template *ngIf="loaded">
 <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="loaded">
-  <div class="input-boxes">
+  <div class="input-boxes" >
     <div column>
   <!-- enter email -->
   <mat-form-field  appearance="outline">
@@ -90,7 +108,7 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 </div>
 </div>
 <!-- Login Button -->
-  <div loginButton>
+<div loginButton >
   <button mat-fab type="submit" *ngIf="progressState === 'default'" 
   [appValidationAnimation]='loginForm.valid' [@shakeAnimation]="failedLoginAnimation"
   (keydown.enter)="enterClicked()" class="material-symbols-outlined" >
@@ -109,14 +127,13 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 </ng-template>
 </div>
 </form>
-</ng-container>
-
-
   <div loginButton>
   <button mat-raised-button routerLink="/sign-up" btn>
 Join Skalarly
   </button>
   </div>
+</ng-template>
+</ng-container>
 
   <div class="welcome-text">
     <ng-container *ngFor="let item of welcomeText; index as i; last as isLast; trackBy: trackByLetter">
@@ -129,7 +146,6 @@ Join Skalarly
       <ng-template #emptySpace>&nbsp;</ng-template>
     </ng-container>
   </div>
-  
   
   
 </body>

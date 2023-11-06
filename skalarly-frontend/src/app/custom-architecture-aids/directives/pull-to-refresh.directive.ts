@@ -11,7 +11,6 @@ export class PullToRefreshDirective {
   onWheel(event: WheelEvent): void {
     if (event.deltaY < 0) {
       this.deltaYChange.emit(event.deltaY);
-      console.log('User is scrolling upward');
     }
   }
 }

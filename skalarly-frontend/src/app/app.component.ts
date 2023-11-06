@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import {
   NavigationEnd,
   Router,
@@ -7,13 +7,7 @@ import {
 } from '@angular/router';
 import { NgClass, NgIf } from '@angular/common';
 import { Subject, filter, takeUntil } from 'rxjs';
-import {
-  animate,
-  keyframes,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -36,27 +30,29 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
     SearchBarComponent
   ],
   animations: [
-    trigger('iconRotation', [
-      transition('* => *', [
-        animate(
-          '500ms rotateAndGlow',
-          keyframes([
-            style({
-              transform: 'rotate({{ initialDegree }}deg) scale(1)',
-              offset: 0
-            }),
-            style({
-              transform: 'rotate({{ finalDegree }}deg) scale(2)',
-              offset: 1,
-              color: 'green'
-            })
-          ])
-        )
-      ])
+    trigger('refreshAnimation', [
+      transition(
+        '* => *',
+        [
+          style({
+            transform: 'scale({{scale}}) rotate({{rotation}}deg)',
+            'box-shadow': '{{boxShadow}}'
+          }),
+          animate('200ms')
+        ],
+        {
+          params: {
+            scale: 1,
+            rotation: 0,
+            boxShadow: '0 0 5px rgba(0, 255, 0, 0.5)'
+          }
+        }
+      ) // Default parameters
     ])
   ]
 })
 export class AppComponent implements OnDestroy {
+  pullProgress: number = 0;
   private routeSub$: Subject<void> = new Subject<void>();
   iconState: string = '';
   reload: number = 0;
@@ -95,23 +91,30 @@ export class AppComponent implements OnDestroy {
       });
   }
   onDeltaYChange(reload: number): void {
-    this.reload = reload;
-    if (this.reload < -2) {
+    console.log('test y ', reload);
+    this.pullProgress = reload;
+    if (this.pullProgress < -2) {
       this.showIcons = true;
-      this.rotationDegree = -this.reload;
-      this.iconState = 'initial';
-      // start to show continue to scroll icon to refresh
-      if (this.reload <= -70) {
-        this.iconState = 'final';
-        // User has pulled down by a certain threshold
-        // You can display an icon, perform actions, or trigger a refresh
-      }
-      if (this.reload <= -85) {
+      this.rotationDegree = -this.pullProgress;
+      if (this.reload <= -101) {
         location.reload();
       }
     }
   }
-  // this.showIcons = false; add this when this.reload goes back to -1 or 0
+  getScale(): number {
+    return 1 + this.pullProgress / 100;
+  }
+  getRotation(): number {
+    return this.pullProgress * 3.6;
+  }
+  getGlowEffect(): string {
+    const intensity: number =
+      Math.min(Math.max(this.pullProgress, 0), 100) / 100; // Normalize between 0 and 1
+    const boxShadowIntensity: number = 5 + intensity * 20; // Calculate intensity of shadow
+    return `0 0 ${boxShadowIntensity}px rgba(0, 255, 0, ${
+      0.5 + 0.4 * intensity
+    })`;
+  }
 
   // mobile functions
   toggleSearch(toggle: boolean): void {
