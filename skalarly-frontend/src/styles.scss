@@ -2,10 +2,8 @@
 @use 'app/universal-reusable-styles/break-points' as device;
 @use 'app/universal-reusable-styles/common' as universal;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
-
 // universal font
 $skalarly-font: 'Cormorant Garamond', serif;
-
 $toolbar-shadow-color: rgba(0, 0, 0, 0.25);
 $toolbar-background-color: #282828;
 b {
@@ -14,18 +12,20 @@ b {
 color: lightblue
 }
 body {
- @include universal.common;
- @include universal.pageSize;
- input, textarea, button {
-    font-family: $skalarly-font;
- }
- @each $screen, $size in device.$font-sizes {
-    @if (map-has-key(device.$device-sizes, $screen)) {
-      @include device.fontAdjustments($size);
-    }
+  margin: 0%;
+  background-image: linear-gradient(whitesmoke,white);
+  @include universal.common;
+  @include universal.pageSize;
+  input, textarea, button {
+     font-family: $skalarly-font;
   }
-  
-}
+  @each $screen, $size in device.$font-sizes {
+     @if (map-has-key(device.$device-sizes, $screen)) {
+       @include device.fontAdjustments($size);
+     }
+   }
+
+ }
 .condition-met{
     color: #228B22;
 }

@@ -47,7 +47,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
             boxShadow: '0 0 5px rgba(0, 255, 0, 0.5)'
           }
         }
-      ) // Default parameters
+      )
     ])
   ]
 })
@@ -91,7 +91,7 @@ export class AppComponent implements OnDestroy {
       });
   }
   onDeltaYChange(reload: number): void {
-    console.log('test y ', reload);
+    console.log('test y', reload);
     this.pullProgress = reload;
     if (this.pullProgress < -2) {
       this.showIcons = true;

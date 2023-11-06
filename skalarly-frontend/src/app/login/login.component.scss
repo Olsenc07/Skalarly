@@ -52,20 +52,18 @@ $form-margins: (
       }
       .input-skeleton-join[join]{
         align-self: center;
+        min-height: 36px;
         min-width: 88px; /* This may not be set by default, but is a common width for buttons. */
         border-radius: 4px;
-        line-height: 36px;
         background: rgb(239,241,246) no-repeat;
       }
 // logo and top of login screen
 .login-header {
-  text-align: center; // Center-align text
-  figure {
+    text-align: center; // Center-align text
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
-  }
 }
 // reusable stlyles for main screen login box
 @mixin common-styles($font-size, $chip-size, $font-sub-size, $form-margin) {
@@ -137,9 +135,6 @@ $form-margins: (
 // end of param
 
 // *1 *2
-body {
-  background-image: linear-gradient(whitesmoke,white);
-}
 div[loginButton]{
   display: flex;
   justify-content: center;
@@ -221,8 +216,8 @@ div[column] {
     $font-sub-size: map-get(device.$font-sub-sizes, $screen);
     $chip-size: map-get(device.$chip-sizes, $screen);
     $form-margin: map-get($form-margins, $screen);
-    figcaption {
-      font-size: $font-size; // Set font size for the logo
+    div[skalarly] {
+      font-size: $font-size + 2rem; // Set font size for the logo
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent; 
@@ -239,6 +234,7 @@ div[column] {
       }
     }
 h2 {
+  margin: 0%;
   color: #bdc3c7;
   font-size: calc(#{$font-size} + #{$font-sub-size}); 
 }

@@ -214,9 +214,10 @@ export class LoginComponent implements OnDestroy, OnInit {
     for (let i = 0; i < text.length; i++) {
       this.welcomeText.push({ letter: text[i], visible: false });
     }
+    // demastrating this, will apply to AfterView Life hook later
     setTimeout(() => {
       this.loaded = true;
-    }, 500000);
+    }, 1500);
     // email
     this.loginForm.controls['email'].valueChanges
       .pipe(

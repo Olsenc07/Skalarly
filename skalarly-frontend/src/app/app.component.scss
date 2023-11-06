@@ -1,6 +1,5 @@
 @use 'universal-reusable-styles/common' as universal;
 @use 'universal-reusable-styles/break-points' as device;
-
 @use "sass:math";
 // sub font sizes chart
 $font-sub-sizes-header: (
@@ -10,6 +9,7 @@ $font-sub-sizes-header: (
   desktop: 45%,
   tv: 50%
 );
+
 // state change of navigation icons
 @mixin active($state, $active){
     @include universal.common;
@@ -78,9 +78,9 @@ top: 0;
   $font-size: map-get(device.$font-sizes, $screen);
   $font-sub-size-header: map-get($font-sub-sizes-header, $screen);
 .refresh-icon{
-    @include universal.common;
+    display: block;
     margin-top: 5%;
-    align-items: center;
+    left: 50%;
     font-size: calc(#{$font-size} + #{$font-sub-size-header});
 }
 }

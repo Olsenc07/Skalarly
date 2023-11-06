@@ -69,27 +69,21 @@
 </mat-toolbar>
 </ng-container>
 
-  <!-- Render as component based on path of routes -->
-  <!-- [orientation]="orientation" use ngrxlocal state management -->
   <ng-container appPullToRefresh class="refresh-icon-container" (deltaYChange)="onDeltaYChange($event)">
     <!-- The refresh icon that animates -->
-    <span *ngIf="pullProgress >= -99 && showIcons; else refresh"
-    [@refreshAnimation]="{value: '', params: {scale: getScale(), rotation: getRotation(), boxShadow: getGlowEffect()}}" 
+    <span *ngIf="pullProgress >= -93 && showIcons;" [@refreshAnimation]="{value: '', params: {scale: getScale(), rotation: getRotation(), boxShadow: getGlowEffect()}}" 
     class="material-symbols-outlined refresh-icon">
       refresh
     </span>
-</ng-container>
-  
     <!-- The check icon appears when refreshing is done -->
-    <ng-template #refresh>
-    <span  [@refreshAnimation]="{value: '', params: {scale: getScale(), rotation: getRotation(), boxShadow: getGlowEffect()}}"
+    <span *ngIf="pullProgress < -93 && showIcons;" [@refreshAnimation]="{value: '', params: {scale: getScale(), rotation: getRotation(), boxShadow: getGlowEffect()}}"
      class="material-symbols-outlined glow-effect refresh-icon">
       task_alt
     </span>
-  </ng-template>
+  </ng-container>
 
   <router-outlet content ></router-outlet>  <!-- Primary outlet for main content -->
-
+ <!-- Render as component based on path of routes -->
   <router-outlet name="sideBarInfoOutlet"></router-outlet> <!-- Secondary outlet for sidebars & later maybe modals/dialog -->
 </body>
 </html>
