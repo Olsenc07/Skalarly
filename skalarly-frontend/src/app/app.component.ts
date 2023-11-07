@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PullToRefreshDirective } from './custom-architecture-aids/directives/pull-to-refresh.directive';
 import { SearchBarComponent } from './search-bar/search-bar.component';
-import { dialogAnimation } from './custom-architecture-aids/animations/dialog-animation';
+import { toggleAnimation } from './custom-architecture-aids/animations/toggle-animation';
 
 @Component({
   standalone: true,
@@ -32,7 +32,7 @@ import { dialogAnimation } from './custom-architecture-aids/animations/dialog-an
     SearchBarComponent
   ],
   animations: [
-    dialogAnimation,
+    toggleAnimation,
     trigger('refreshAnimation', [
       transition(
         '* => *',
@@ -124,6 +124,25 @@ export class AppComponent implements OnDestroy {
   }
   getRotation(): number {
     return this.pullProgress * 3.6;
+  }
+  getGradientPosition(): string {
+    const progress = this.getRotationProgress(); // You would need to create this method
+    // Return a string for the background position based on the progress
+    return `center ${100 - progress}%`;
+  }
+
+  // Define the new method for gradient rotation
+  getGradientRotation(): number {
+    // Return the current rotation or any transformation of it needed for the gradient
+    return this.getRotation(); // Or however you wish to calculate this
+  }
+
+  // A method to get rotation progress, which you will need to implement
+  getRotationProgress(): number {
+    // Calculate the progress of the rotation in terms of percentage
+    // This is an example, adjust it according to your needs
+    const rotation = this.getRotation();
+    return ((rotation % 360) / 360) * 100;
   }
   interpolateColor(
     startColor: string,

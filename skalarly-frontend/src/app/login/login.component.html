@@ -11,7 +11,7 @@
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
       <!-- pre load skeleton -->
-      <form *ngIf="loaded" skeleton>
+      <form *ngIf="loaded">
       <div column>
       <div class="input-boxes-skeleton" >
       <div class="skeleton-wrap">
@@ -25,13 +25,15 @@
       </div>
       </div>
       <ngx-skeleton-loader appearance="circle" btn></ngx-skeleton-loader>
-      <ngx-skeleton-loader appearance="custom-content" class="input-skeleton-join" join></ngx-skeleton-loader>
+      <ngx-skeleton-loader appearance="custom-content" class="input-skeleton-join"></ngx-skeleton-loader>
       </div>
     </form>
         <!-- Skeleton for th FAB button -->
  <!-- rendered content -->
 <form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!loaded">
   <div class="input-boxes" >
+    <div>
+    <span inputs>
     <div column>
   <!-- enter email -->
   <mat-form-field  appearance="outline">
@@ -94,7 +96,7 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
   <i>Forgot Password?</i>
 </button>
 </div>
-</div>
+</span>
 <!-- Login Button -->
 <div loginButton >
   <button mat-fab type="submit" *ngIf="progressState === 'default'" 
@@ -114,20 +116,20 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 </button>
 </ng-template>
 </div>
+</div>
+</div>
 </form>
   <div loginButton>
-  <button mat-raised-button routerLink="/sign-up" btn>
+  <button mat-raised-button routerLink="/sign-up" join>
 Join Skalarly
   </button>
   </div>
 </ng-container>
-
   <div class="welcome-text">
     <ng-container *ngFor="let item of welcomeText; index as i; last as isLast; trackBy: trackByLetter">
       <span
         *ngIf="item.letter !== ' '; else emptySpace"
-        [ngClass]="{ 'sparkle': isLast && item.visible }"
-      >
+        [ngClass]="{ 'sparkle': isLast && item.visible }">
         {{ item.letter }}
       </span>
       <ng-template #emptySpace>&nbsp;</ng-template>

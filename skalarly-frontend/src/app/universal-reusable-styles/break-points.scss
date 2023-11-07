@@ -1,18 +1,18 @@
 // Device Breakpoints
 $device-sizes: (
- base: 576px, //mobile devices typically 0px - 576px
- tablet: 768px, //ipads & tablets 577x - 768px
- labtop: 1024px, // labtops & small screens 769px - 1024px
- desktop: 1200px, // desktops & large screen 1025px - 1200px
- tv: 1440px // tv and extra large screen 1440px & greater 
+ base: 0px, // portrait phones
+ tablet: 600px, // landscape phones
+ labtop: 768px, // tablets
+ desktop: 992px, // desktop
+ tv: 1200px // tv and extra large screen 
 );
 // corresponding font sizes
 $font-sizes: (
   base: 1rem,
   tablet: 1.125rem,
-  laptop: 1.25rem,
-  desktop: 1.375rem,
-  tv: 1.5rem
+  laptop: 1.2rem,
+  desktop: 1.3rem,
+  tv: 1.4rem
 );
 // sub font sizes chart
 $font-sub-sizes: (
@@ -35,4 +35,14 @@ $chip-sizes: (
     font-size: $font-size;
     line-height: $font-size * 4.5;
 }
-
+// 
+@mixin responsiveFontSize {
+  $font-size: map-get($font-sizes, 'base');
+  @each $screen, $min-width in $device-sizes {
+    @if $screen != 'base' {
+      @media (min-width: #{$min-width}) {
+        $font-size: map-get($font-sizes, $screen);
+      }
+    }
+  }
+}

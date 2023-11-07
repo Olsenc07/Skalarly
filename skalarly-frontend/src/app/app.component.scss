@@ -1,11 +1,6 @@
 @use 'universal-reusable-styles/common' as universal;
 
 @use "sass:math";
-$initial-color: #6dd5ed; 
-$initial-color2: #2193b0; 
-$initial-color3: #23a6d5; 
-$initial-color4: #23d5ab; 
-$final-color: #23d5ab; 
 $device-sizes: (
  base: 576px, //mobile devices typically 0px - 576px
  tablet: 768px, //ipads & tablets 577x - 768px

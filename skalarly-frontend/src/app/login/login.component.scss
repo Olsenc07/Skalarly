@@ -1,13 +1,9 @@
 @use '../universal-reusable-styles/common' as universal;
 @use '../universal-reusable-styles/break-points' as device;
-@mixin pseudo-mat-form-field {
-  background: rgb(239,241,246) no-repeat;
-  height: 56px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  width: 100%;
-}
-$input-margin: 3%; 
+
+$font-sizes: device.$font-sizes;
+$font-sub-sizes: device.$font-sub-sizes;
+$chip-sizes: device.$chip-sizes;
 // based on device breakpoints
 // forms width 
 $form-margins: (
@@ -17,12 +13,23 @@ $form-margins: (
   desktop: 20%,  
   tv: 30%        
 );
+@mixin pseudo-mat-form-field {
+  background: rgb(239,241,246) no-repeat;
+  height: 56px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
+$input-margin: 3%; 
+// responsive mobile first
+
+
 // skeletons
 .input-boxes-skeleton{
   @include universal.common(flex, column);
   margin: 0% 2%;
    //  if greater then 576px width
-   @media only screen and (min-width: 576px) {
+   @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
     @include universal.common(flex, row);
   }
   .skeleton-wrap{
@@ -48,13 +55,17 @@ $form-margins: (
         }
       }
       ngx-skeleton-loader[btn]{
-        align-self: center
-      }
-      .input-skeleton-join[join]{
         align-self: center;
-        min-height: 36px;
-        min-width: 88px; /* This may not be set by default, but is a common width for buttons. */
+        width: calc(#{$font-size} + 3rem);
+        height: calc(#{$font-size} + 3rem);
+      }
+      .input-skeleton-join{
+        align-self: center;
+        height: 36px;
         border-radius: 4px;
+        width: 100%;
+        min-width: 64px;
+        max-width: 164px;
         background: rgb(239,241,246) no-repeat;
       }
 // logo and top of login screen
@@ -65,18 +76,13 @@ $form-margins: (
     align-items: center;
     margin: 0;
 }
-// reusable stlyles for main screen login box
-@mixin common-styles($font-size, $chip-size, $font-sub-size, $form-margin) {
-  button {
-    font-size: calc(#{$font-size} + #{$chip-size});
-    &[btn] {
+  button[join] {
       background-image: linear-gradient(to right,#002D62,#778899);
       color: white;
-      font-size: calc(#{$font-size} - #{$chip-size});
-    }
+      font-size: #{$font-size};
   }
-
   button[forgot]{
+    @include device.responsiveFontSize();
     align-items: center;
     background: none;
     border: none;
@@ -90,13 +96,7 @@ $form-margins: (
   form {
     margin: 0% $form-margin;
     @include universal.common;
-    background-image: linear-gradient(whitesmoke, white);
     position: relative;
-    &:not([skeleton]) {
-    border-right: 15px outset ; 
-    border-bottom: 15px outset ;
-    border-image: linear-gradient(45deg, #66b2ff, #0056b3) 1;
-    }
   }
   // welcome text animations
   .welcome-text {
@@ -131,15 +131,7 @@ $form-margins: (
       transform: translateX(0);
     }
   }
-}
-// end of param
-
 // *1 *2
-div[loginButton]{
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
 div[column] {
   display: flex;
   flex-direction: column;
@@ -154,14 +146,14 @@ div[column] {
   }
 }
 .dot-pulse {
-        display: inline-block;
-        position: relative;
-        top: 0;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background-color: grey;
-        animation: dotPulse 1s 180s;
+    display: inline-block;
+    position: relative;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: grey;
+    animation: dotPulse 1s 180s;
 }
       .dot-pulse:nth-child(2) {
         animation-delay: 0.5s;
@@ -178,7 +170,7 @@ div[column] {
           transform: scale(1);
         }
       }
-.mat-mdc-checkbox{
+.mat-mdc-checkbox, span[inputs]{
     display: flex;
   }
 .login-options {
@@ -209,15 +201,13 @@ div[column] {
     transform: scale(1.7);
   }
 }
-
-// scaling isn't working!!!!
-  @each $screen, $min-width in device.$device-sizes {
-    $font-size: map-get(device.$font-sizes, $screen);
-    $font-sub-size: map-get(device.$font-sub-sizes, $screen);
-    $chip-size: map-get(device.$chip-sizes, $screen);
-    $form-margin: map-get($form-margins, $screen);
+    div[loginButton]{
+      display: flex;
+      justify-content: center;
+      font-size: #{$font-size};
+    }
     div[skalarly] {
-      font-size: $font-size + 2rem; // Set font size for the logo
+      font-size: #{$font-size} + 2rem; // Set font size for the logo
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent; 
@@ -239,14 +229,7 @@ h2 {
   color: #bdc3c7;
   font-size: calc(#{$font-size} + #{$font-sub-size}); 
 }
-  // mobile first
-   @if $screen == 'mobile' {
-      @include common-styles($font-size, $chip-size, $font-sub-size, $form-margin);
-      }
-    @media (min-width: #{$min-width}) {
-      @include common-styles($font-size, $chip-size, $font-sub-size, $form-margin);
-    }
-}
+
     span[matPrefix] { 
       margin-left: 15%;
     }
@@ -276,11 +259,19 @@ h2 {
         }
       }
       .input-boxes{
-        margin: 0% 2%;
+        display: flex;
+        justify-content: center;
+        border-right: 15px solid transparent;
+        border-bottom: 15px solid transparent;
+        /* border-radius: 50%; */
+        border-image: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7)) 1 stretch;
+        padding-bottom: 1%;
+        margin-bottom: 1%;
          @include universal.common(flex, column);
         //  if grater then 576px width
-        @media only screen and (min-width: 576px) {
+        @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
          @include universal.common(flex, row);
+        margin: 0% $form-margin;
          mat-form-field {
           &:first-child {
             margin-right: $input-margin; 
@@ -290,4 +281,5 @@ h2 {
           }
         }}
       }
+  
       

@@ -12,7 +12,8 @@ b {
 color: lightblue
 }
 body {
-  margin: 0%;
+  margin: 0;
+  padding: 0;
   background-image: linear-gradient(whitesmoke,white);
   @include universal.common;
   @include universal.pageSize;
