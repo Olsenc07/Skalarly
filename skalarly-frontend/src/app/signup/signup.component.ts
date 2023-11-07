@@ -38,7 +38,7 @@ import { RemoveSpacesPipe } from '../custom-architecture-aids/pipes/white-space.
 import { ReusableInputsComponent } from './reusable-inputs/reusable-inputs.component';
 import { Router } from '@angular/router';
 import { SaveSignUpGuard } from './../app-routes/route-guards/signup-guard';
-
+import { Title } from '@angular/platform-browser';
 import { emailUsernameValidator } from '../custom-architecture-aids/validators/email-username.validator';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 
@@ -121,7 +121,8 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
     private institutionInfoService: InstitutionInfoService,
     private readonly router: Router,
     private saveSignUpGuard: SaveSignUpGuard,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private titleService: Title
   ) {
     this.signUpForm = new FormGroup({
       username: new FormControl<InitialAccountInterface['username'] | null>(
@@ -152,6 +153,7 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
 
   // look over username stuff
   ngOnInit() {
+    this.titleService.setTitle('Skalarly Signup Page');
     // get country/institute/email data
     this.country$ = this.institutionInfoService.institutionInfo();
     // username check

@@ -1,13 +1,25 @@
 @use 'universal-reusable-styles/common' as universal;
-@use 'universal-reusable-styles/break-points' as device;
+
 @use "sass:math";
-// sub font sizes chart
-$font-sub-sizes-header: (
-  base: 30%,
-  tablet: 30%,
-  laptop: 40%,
-  desktop: 45%,
-  tv: 50%
+$initial-color: #6dd5ed; 
+$initial-color2: #2193b0; 
+$initial-color3: #23a6d5; 
+$initial-color4: #23d5ab; 
+$final-color: #23d5ab; 
+$device-sizes: (
+ base: 576px, //mobile devices typically 0px - 576px
+ tablet: 768px, //ipads & tablets 577x - 768px
+ labtop: 1024px, // labtops & small screens 769px - 1024px
+ desktop: 1200px, // desktops & large screen 1025px - 1200px
+ tv: 1440px // tv and extra large screen 1440px & greater 
+);
+// refresh icon 
+$font-sizes-header: (
+  base: 3rem,
+  tablet: 3.125rem,
+  laptop: 3.25,
+  desktop: 3.375rem,
+  tv: 3.5rem
 );
 
 // state change of navigation icons
@@ -29,7 +41,7 @@ $font-sub-sizes-header: (
 }
 // reload animation
 .glow-effect {
-    animation: glow 1s alternate;
+    animation: glow 1s alternate infinite;
   }
   @keyframes glow {
     from {
@@ -74,17 +86,47 @@ top: 0;
 .navigation-icon-active{
     @include active(#b8dde9, $active: true);
 }
-@each $screen, $min-width in device.$device-sizes {
-  $font-size: map-get(device.$font-sizes, $screen);
-  $font-sub-size-header: map-get($font-sub-sizes-header, $screen);
+@each $screen, $min-width in $device-sizes {
+  $font-size-header: map-get($font-sizes-header, $screen);
 .refresh-icon{
-    display: block;
-    margin-top: 5%;
-    left: 50%;
-    font-size: calc(#{$font-size} + #{$font-sub-size-header});
+  font-size:  #{$font-size-header};
+  height: auto;
+  width: 100%;
+  justify-content: center;
 }
 }
+.refresh-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: inherit; // Match the parent's border-radius
+  z-index: -1; // Place it below the icon
+  background: linear-gradient(to right, #6dd5ed, #2193b0, #23a6d5, #23d5ab);
+  background-repeat: no-repeat;
+  background-size: 200% 100%; // Set the size of the gradient, this can be adjusted as necessary
+}
+
+.refresh-icon-border {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; 
+  background-color: white; 
+  position: relative;
+  z-index: 1;
+  border: 2px dashed transparent; // Initialize the border
+}
+ 
+
 .refresh-icon-container {
-  position: fixed; 
-  z-index: 7; 
+  position: relative;
+  z-index: 10;
+  justify-content: center;
+  display: flex;
+  align-items: center;
 }
+
+  

@@ -45,6 +45,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 
@@ -195,7 +196,8 @@ export class LoginComponent implements OnDestroy, OnInit {
     @Optional() public dialogRef: MatDialogRef<LoginComponent>,
     // eslint-disable-next-line no-unused-vars
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { message: string },
-    private readonly router: Router
+    private readonly router: Router,
+    private titleService: Title
   ) {}
 
   loginForm: FormGroup = new FormGroup({
@@ -210,6 +212,7 @@ export class LoginComponent implements OnDestroy, OnInit {
   });
 
   ngOnInit(): void {
+    this.titleService.setTitle('Skalarly Login Page');
     const text: string = 'Welcome To Skalarly';
     for (let i = 0; i < text.length; i++) {
       this.welcomeText.push({ letter: text[i], visible: false });

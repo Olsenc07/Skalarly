@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Parent Navigator</title>
-</head>
-
-<body>
   <!-- navigation bar
   can add this all in other component file.. -->
-<ng-container  *ngIf="(routerUrl !== ('/login' || '/sign-up' ))">
+<ng-template  *ngIf="(routerUrl !== ('/login' || '/sign-up' ))">
 <mat-toolbar class="header">
   <!-- logo -->
 
@@ -62,28 +54,35 @@
   </div>
 
 </ng-template>
-
 <!-- settings button -->
 
 </nav>
 </mat-toolbar>
-</ng-container>
-
-  <ng-container appPullToRefresh class="refresh-icon-container" (deltaYChange)="onDeltaYChange($event)">
-    <!-- The refresh icon that animates -->
-    <span *ngIf="pullProgress >= -93 && showIcons;" [@refreshAnimation]="{value: '', params: {scale: getScale(), rotation: getRotation(), boxShadow: getGlowEffect()}}" 
+</ng-template>
+<!-- page refresh pull down, eventully use GSAP for a fun animation-->
+  <ng-container appPullToRefresh [@dialogAnimation] (deltaYChange)="onDeltaYChange($event.deltaY, $event.reset)">
+    <!-- The refresh icon that animates    -->
+    <span  class="refresh-icon-container" >
+      <span class="refresh-icon-border">
+    <mat-icon *ngIf="pullProgress >= -30 && showIcons;" [@refreshAnimation]="{value: '', params: {
+      scale: getScale(),
+      rotation: getRotation(),
+      gradientRotation: getGradientRotation(),
+      gradientPosition: getGradientPosition()
+    }}"
     class="material-symbols-outlined refresh-icon">
       refresh
-    </span>
+    </mat-icon>
     <!-- The check icon appears when refreshing is done -->
-    <span *ngIf="pullProgress < -93 && showIcons;" [@refreshAnimation]="{value: '', params: {scale: getScale(), rotation: getRotation(), boxShadow: getGlowEffect()}}"
+    <mat-icon *ngIf="pullProgress < -30 && showIcons;" [@refreshAnimation]="{value: '', params: {scale: getScale(), rotation: getRotation()}}"
      class="material-symbols-outlined glow-effect refresh-icon">
       task_alt
-    </span>
+    </mat-icon>
+  </span>
+  </span>
   </ng-container>
 
   <router-outlet content ></router-outlet>  <!-- Primary outlet for main content -->
  <!-- Render as component based on path of routes -->
   <router-outlet name="sideBarInfoOutlet"></router-outlet> <!-- Secondary outlet for sidebars & later maybe modals/dialog -->
-</body>
-</html>
+

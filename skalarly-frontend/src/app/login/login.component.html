@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Login Page</title>
-</head>
-
-<body>
   <!-- logo and welcoming words -->
 <div class="login-header">
   <!-- logo glows on valid login -->
@@ -19,7 +11,7 @@
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
       <!-- pre load skeleton -->
-      <form *ngIf="!loaded" skeleton>
+      <form *ngIf="loaded" skeleton>
       <div column>
       <div class="input-boxes-skeleton" >
       <div class="skeleton-wrap">
@@ -38,8 +30,7 @@
     </form>
         <!-- Skeleton for th FAB button -->
  <!-- rendered content -->
- <ng-template *ngIf="loaded">
-<form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="loaded">
+<form [formGroup]="loginForm" (ngSubmit)="login()" *ngIf="!loaded">
   <div class="input-boxes" >
     <div column>
   <!-- enter email -->
@@ -129,7 +120,6 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 Join Skalarly
   </button>
   </div>
-</ng-template>
 </ng-container>
 
   <div class="welcome-text">
@@ -143,7 +133,3 @@ Join Skalarly
       <ng-template #emptySpace>&nbsp;</ng-template>
     </ng-container>
   </div>
-  
-  
-</body>
-</html>

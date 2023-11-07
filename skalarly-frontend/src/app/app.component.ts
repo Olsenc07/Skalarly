@@ -5,14 +5,16 @@ import {
   Event as RouterEvent,
   RouterModule
 } from '@angular/router';
-import { NgClass, NgIf } from '@angular/common';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PullToRefreshDirective } from './custom-architecture-aids/directives/pull-to-refresh.directive';
 import { SearchBarComponent } from './search-bar/search-bar.component';
+import { dialogAnimation } from './custom-architecture-aids/animations/dialog-animation';
 
 @Component({
   standalone: true,
@@ -20,31 +22,50 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   imports: [
+    CommonModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatIconModule,
     MatToolbarModule,
-    NgClass,
-    NgIf,
     RouterModule,
     PullToRefreshDirective,
     SearchBarComponent
   ],
   animations: [
+    dialogAnimation,
     trigger('refreshAnimation', [
       transition(
         '* => *',
         [
           style({
             transform: 'scale({{scale}}) rotate({{rotation}}deg)',
-            'box-shadow': '{{boxShadow}}'
+            'border-radius': '50%',
+            'border-style': 'dashed',
+            'border-width': '5px', // Adjust as needed
+            'border-color': 'transparent', // Hide the actual border
+            position: 'relative', // Needed for the pseudo-element
+            'background-image':
+              'linear-gradient({{gradientRotation}}deg, transparent, transparent)',
+            'background-size': '100% 200%', // Adjust based on the pseudo element's size
+            'background-position': 'center bottom',
+            'z-index': '1'
           }),
-          animate('200ms')
+          animate(
+            '1s',
+            style({
+              transform: 'scale({{endScale}}) rotate({{endRotation}}deg)',
+              'background-position': '{{gradientPosition}}'
+            })
+          )
         ],
         {
           params: {
             scale: 1,
             rotation: 0,
-            boxShadow: '0 0 5px rgba(0, 255, 0, 0.5)'
+            endScale: 1,
+            endRotation: 360,
+            gradientRotation: 0,
+            gradientPosition: 'center bottom'
           }
         }
       )
@@ -55,8 +76,6 @@ export class AppComponent implements OnDestroy {
   pullProgress: number = 0;
   private routeSub$: Subject<void> = new Subject<void>();
   iconState: string = '';
-  reload: number = 0;
-  rotationDegree = 0;
   showIcons: boolean = false;
   routerUrl: string | undefined;
   // mobile first
@@ -90,13 +109,12 @@ export class AppComponent implements OnDestroy {
         }
       });
   }
-  onDeltaYChange(reload: number): void {
-    console.log('test y', reload);
-    this.pullProgress = reload;
-    if (this.pullProgress < -2) {
+  onDeltaYChange(reload: number, reset: boolean): void {
+    console.log('hey', reload);
+    if (!reset) {
+      this.pullProgress = reload;
       this.showIcons = true;
-      this.rotationDegree = -this.pullProgress;
-      if (this.reload <= -101) {
+      if (reload <= -100) {
         location.reload();
       }
     }
@@ -107,13 +125,70 @@ export class AppComponent implements OnDestroy {
   getRotation(): number {
     return this.pullProgress * 3.6;
   }
-  getGlowEffect(): string {
-    const intensity: number =
-      Math.min(Math.max(this.pullProgress, 0), 100) / 100; // Normalize between 0 and 1
-    const boxShadowIntensity: number = 5 + intensity * 20; // Calculate intensity of shadow
-    return `0 0 ${boxShadowIntensity}px rgba(0, 255, 0, ${
-      0.5 + 0.4 * intensity
-    })`;
+  interpolateColor(
+    startColor: string,
+    endColor: string,
+    progress: number
+  ): string {
+    // Extract the red, green, and blue components of the start color
+    const startRGB = this.hexToRgb(startColor);
+    const endRGB = this.hexToRgb(endColor);
+
+    // Calculate the current color components based on the progress
+    const currentRGB = {
+      r: this.interpolateValue(startRGB.r, endRGB.r, progress),
+      g: this.interpolateValue(startRGB.g, endRGB.g, progress),
+      b: this.interpolateValue(startRGB.b, endRGB.b, progress)
+    };
+
+    // Return the current color in hex format
+    return this.rgbToHex(currentRGB.r, currentRGB.g, currentRGB.b);
+  }
+
+  interpolateValue(
+    startValue: number,
+    endValue: number,
+    progress: number
+  ): number {
+    return Math.round(startValue + (endValue - startValue) * (progress / 100));
+  }
+
+  hexToRgb(hex: string): { r: number; g: number; b: number } {
+    const result: RegExpExecArray | null =
+      /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        }
+      : { r: 0, g: 0, b: 0 };
+  }
+
+  rgbToHex(r: number, g: number, b: number): string {
+    return (
+      '#' +
+      [r, g, b]
+        .map((x) => {
+          const hex = x.toString(16);
+          return hex.length === 1 ? '0' + hex : hex;
+        })
+        .join('')
+    );
+  }
+
+  getGradient(rotation: number): string {
+    // Calculate the progress based on rotation.
+    const progress: number = Math.abs(rotation % 360) / 360;
+
+    // Calculate the gradient colors based on the progress.
+    const color1 = this.interpolateColor('#6dd5ed', '#23d5ab', progress);
+    const color2 = this.interpolateColor('#2193b0', '#23d5ab', progress);
+    const color3 = this.interpolateColor('#23a6d5', '#23d5ab', progress);
+    const color4 = this.interpolateColor('#23d5ab', '#23d5ab', progress);
+
+    // Return the CSS gradient string, adjusting the angle to match the rotation for a spinning effect.
+    return `linear-gradient(${rotation}deg, ${color1}, ${color2}, ${color3}, ${color4})`;
   }
 
   // mobile functions
