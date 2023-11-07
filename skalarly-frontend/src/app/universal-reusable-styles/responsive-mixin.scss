@@ -1,0 +1,56 @@
+@use '../universal-reusable-styles/break-points' as device;
+// responsive mobile first
+$font-size: map-get(device.$font-sizes, 'base');
+$font-sub-size: map-get(device.$font-sub-sizes, 'base');
+$line-height: map-get(device.$line-heights, 'base');
+@mixin mobileFirst {
+    font-size: #{$font-size};
+    line-height: calc(#{$font-size} * #{$line-height});
+}
+@mixin responsiveFontSize {
+    @include mobileFirst;
+    @each $screen, $min-width in device.$device-sizes {
+      @if $screen != 'base' {
+        $index: index(map-keys(device.$device-sizes), $screen);
+        $next-index: #{$index} + 1;
+        @media (min-width: #{$min-width}) {
+            $font-size:  map-get(device.$font-sizes, $screen);
+            $line-height: map-get(device.$line-heights, $screen);
+            font-size: #{$font-size};
+            line-height: calc(#{$font-size} * #{$line-height}); 
+        }
+      }
+    }
+  }
+    @mixin responsiveFontSizeSmaller {
+    $smaller: calc(#{$font-size} - #{$font-sub-size});
+    font-size: #{$smaller};
+    line-height: calc(#{$smaller} * #{$line-height});
+      @each $screen, $min-width in device.$device-sizes {
+        @if $screen != 'base' {
+          @media (min-width: #{$min-width}) {
+            $font-size:  map-get(device.$font-sizes, $screen);
+            $font-sub-size:  map-get(device.$font-sub-sizes, $screen);
+            $line-height:  map-get(device.$line-heights, $screen);
+            font-size: calc(#{$font-size} - #{$font-sub-size});
+            line-height: calc(#{$font-size} * #{$line-height});
+          }
+        }
+      }
+    }
+    @mixin responsiveFontSizeLarger {
+        $larger: calc(#{$font-size} + #{$font-sub-size});
+        font-size: #{$smaller};
+        line-height: calc(#{$larger} * #{$line-height});
+      @each $screen, $min-width in device.$device-sizes {
+        @if $screen != 'base' {
+          @media (min-width: #{$min-width}) {
+            $font-size:  map-get(device.$font-sizes, $screen);
+            $font-sub-size:  map-get(device.$font-sub-sizes, $screen);
+            $line-height:  map-get(device.$line-heights, $screen);
+            font-size: calc(#{$font-size} + #{$font-sub-size});
+            line-height: calc(#{$font-size} * #{$line-height});
+          }
+        }
+      }
+    }

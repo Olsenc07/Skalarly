@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'app/universal-reusable-styles/break-points' as device;
 @use 'app/universal-reusable-styles/common' as universal;
+@use 'app/universal-reusable-styles/responsive-mixin' as responsive;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 // universal font
 $skalarly-font: 'Cormorant Garamond', serif;
@@ -12,20 +13,14 @@ b {
 color: lightblue
 }
 body {
+  // better to implement specific cases. This is to confusing
+  // @include responsive.responsiveFontSize;
+  font-family: $skalarly-font;
   margin: 0;
   padding: 0;
   background-image: linear-gradient(whitesmoke,white);
   @include universal.common;
   @include universal.pageSize;
-  input, textarea, button {
-     font-family: $skalarly-font;
-  }
-  @each $screen, $size in device.$font-sizes {
-     @if (map-has-key(device.$device-sizes, $screen)) {
-       @include device.fontAdjustments($size);
-     }
-   }
-
  }
 .condition-met{
     color: #228B22;

@@ -1,11 +1,7 @@
 @use '../universal-reusable-styles/common' as universal;
 @use '../universal-reusable-styles/break-points' as device;
-
-$font-sizes: device.$font-sizes;
-$font-sub-sizes: device.$font-sub-sizes;
-$chip-sizes: device.$chip-sizes;
-// based on device breakpoints
-// forms width 
+@use '../universal-reusable-styles/responsive-mixin' as responsive;
+$input-margin: 3%; 
 $form-margins: (
   base: 0%,     
   tablet: 5%,  
@@ -13,6 +9,35 @@ $form-margins: (
   desktop: 20%,  
   tv: 30%        
 );
+// FIX UP RN AND THEN RESPONSICE PAGE
+@mixin responsiveMargins {
+  // Start with the base margin
+  $margin-form: map-get($form-margins, 'base');
+  margin: 0% $margin-form;
+
+  @each $screen, $min-width in device.$device-sizes {
+    @if $screen != 'base' {
+      // Find the index of the current screen size
+      $index: index(map-keys(device.$device-sizes), $screen);
+      // Find the next screen size to set the max-width for the current media query
+      $next-index: $index + 1;
+      $next-screen: nth(map-keys(device.$device-sizes), $next-index);
+      $max-width: map-get(device.$device-sizes, $next-screen) - 1;
+      @if $next-screen {
+        @media (min-width: #{$min-width}) and (max-width: #{$max-width}) {
+          $margin-form: map-get($form-margins, $screen);
+          margin: 0% #{$margin-form};
+        }
+      } @else {
+        @media (min-width: #{$min-width}) {
+          $margin-form: map-get($form-margins, $screen);
+          margin: 0% #{$margin-form};
+        }
+      }
+    }
+  }
+}
+
 @mixin pseudo-mat-form-field {
   background: rgb(239,241,246) no-repeat;
   height: 56px;
@@ -20,18 +45,15 @@ $form-margins: (
   border-radius: 4px;
   width: 100%;
 }
-$input-margin: 3%; 
-// responsive mobile first
-
-
 // skeletons
 .input-boxes-skeleton{
   @include universal.common(flex, column);
   margin: 0% 2%;
    //  if greater then 576px width
    @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
-    @include universal.common(flex, row);
+   @include universal.common(flex, row);
   }
+}
   .skeleton-wrap{
     display: flex;
     flex-direction: column;
@@ -49,15 +71,12 @@ $input-margin: 3%;
           width: 50%;
           align-self: flex-start;
         }
-      ngx-skeleton-loader[forgot]{
+      ngx-skeleton-loader[forgot] {
           width: 50%;
           align-self: flex-end;
         }
-      }
-      ngx-skeleton-loader[btn]{
+      ngx-skeleton-loader[circle]{
         align-self: center;
-        width: calc(#{$font-size} + 3rem);
-        height: calc(#{$font-size} + 3rem);
       }
       .input-skeleton-join{
         align-self: center;
@@ -77,12 +96,13 @@ $input-margin: 3%;
     margin: 0;
 }
   button[join] {
+      margin: 1% 0%;
       background-image: linear-gradient(to right,#002D62,#778899);
       color: white;
-      font-size: #{$font-size};
+      @include responsive.responsiveFontSize;
   }
   button[forgot]{
-    @include device.responsiveFontSize();
+    @include responsive.responsiveFontSizeSmaller;
     align-items: center;
     background: none;
     border: none;
@@ -90,18 +110,17 @@ $input-margin: 3%;
     cursor: pointer;
     display: flex;
     justify-content: flex-end;
-    font-size: calc(#{$font-size} - #{$font-sub-size});
     text-decoration: underline;
   }
   form {
-    margin: 0% $form-margin;
+    @include responsiveMargins;
     @include universal.common;
     position: relative;
   }
   // welcome text animations
   .welcome-text {
     display: flex;
-    font-size: calc(#{$font-size} + #{$font-sub-size});
+    @include responsive.responsiveFontSizeLarger;
     justify-content: center;
     white-space: nowrap; // Prevent letters from wrapping to a new line
     span {
@@ -204,10 +223,10 @@ div[column] {
     div[loginButton]{
       display: flex;
       justify-content: center;
-      font-size: #{$font-size};
+      @include responsive.responsiveFontSize
     }
     div[skalarly] {
-      font-size: #{$font-size} + 2rem; // Set font size for the logo
+      @include responsive.responsiveFontSizeLarger; 
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent; 
@@ -225,11 +244,10 @@ div[column] {
       }
     }
 h2 {
-  margin: 0%;
+  margin: 1% 0%;
   color: #bdc3c7;
-  font-size: calc(#{$font-size} + #{$font-sub-size}); 
+  @include responsive.responsiveFontSize; 
 }
-
     span[matPrefix] { 
       margin-left: 15%;
     }
@@ -267,11 +285,9 @@ h2 {
         border-image: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7)) 1 stretch;
         padding-bottom: 1%;
         margin-bottom: 1%;
-         @include universal.common(flex, column);
-        //  if grater then 576px width
+        @include universal.common(flex, column);
         @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
          @include universal.common(flex, row);
-        margin: 0% $form-margin;
          mat-form-field {
           &:first-child {
             margin-right: $input-margin; 

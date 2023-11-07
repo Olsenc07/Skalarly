@@ -167,6 +167,15 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit {
+  get skeletonTheme(): {
+    width: string;
+    height: string;
+  } {
+    return {
+      width: `56px`,
+      height: `56px`
+    };
+  }
   loaded: boolean = false;
   welcomeText: { letter: string; visible: boolean }[] = [];
   isGlowing = false;
