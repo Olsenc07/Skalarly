@@ -1,5 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Inject,
@@ -47,6 +48,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
+import { fadeInAnimation } from '../custom-architecture-aids/animations/fadeIn-animation';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 
 @Component({
@@ -74,6 +76,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
   ],
 
   animations: [
+    fadeInAnimation,
     // email validation
     trigger('spinAndChange', [
       state('initial', style({ transform: 'rotate(0deg)' })),
@@ -166,7 +169,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     ])
   ]
 })
-export class LoginComponent implements OnDestroy, OnInit {
+export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   get skeletonTheme(): {
     width: string;
     height: string;
@@ -208,7 +211,7 @@ export class LoginComponent implements OnDestroy, OnInit {
     private readonly router: Router,
     private titleService: Title
   ) {}
-
+ 
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
       Validators.required,
@@ -226,10 +229,6 @@ export class LoginComponent implements OnDestroy, OnInit {
     for (let i = 0; i < text.length; i++) {
       this.welcomeText.push({ letter: text[i], visible: false });
     }
-    // demastrating this, will apply to AfterView Life hook later
-    setTimeout(() => {
-      this.loaded = true;
-    }, 1500);
     // email
     this.loginForm.controls['email'].valueChanges
       .pipe(
@@ -276,6 +275,11 @@ export class LoginComponent implements OnDestroy, OnInit {
         }
       });
   }
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.loaded = true;
+    }, 1500);
+  }
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;
@@ -291,33 +295,39 @@ export class LoginComponent implements OnDestroy, OnInit {
   }
   login(): void {
     this.progressState = 'load';
-    this.authorizeService
-      .login(
-        this.loginForm.controls['email'].value,
-        this.loginForm.controls['password'].value
-      )
-      .subscribe({
-        next: (progress: boolean) => {
-          if (progress) {
-            this.progressState = 'complete';
-            // navigate to home page
-          } else {
-            this.progressState = 'default';
-            this.failedLoginAnimation = 'left';
-            // Reset the animation after a short delay
-            setTimeout(() => {
-              this.failedLoginAnimation = 'right';
-              setTimeout(() => {
-                this.failedLoginAnimation = 'initial'; // Reset to the initial state
-              }, 100);
-            }, 100);
-          }
-        },
-        error: (error) => {
-          // Handle any errors that occurred during login
-          this.progressState = 'default'; // Hide the loading button in case of an error
-        }
-      });
+    setTimeout(() => {
+      this.failedLoginAnimation = 'right';
+      setTimeout(() => {
+        this.failedLoginAnimation = 'initial'; // Reset to the initial state
+      }, 100);
+    });
+    // this.authorizeService
+    //   .login(
+    //     this.loginForm.controls['email'].value,
+    //     this.loginForm.controls['password'].value
+    //   )
+    //   .subscribe({
+    //     next: (progress: boolean) => {
+    //       if (progress) {
+    //         this.progressState = 'complete';
+    //         // navigate to home page
+    //       } else {
+    //         this.progressState = 'default';
+    //         this.failedLoginAnimation = 'left';
+    //         // Reset the animation after a short delay
+    //         setTimeout(() => {
+    //           this.failedLoginAnimation = 'right';
+    //           setTimeout(() => {
+    //             this.failedLoginAnimation = 'initial'; // Reset to the initial state
+    //           }, 100);
+    //         }, 100);
+    //       }
+    //     },
+    //     error: (error) => {
+    //       // Handle any errors that occurred during login
+    //       this.progressState = 'default'; // Hide the loading button in case of an error
+    //     }
+    //   });
   }
   // ability to login using enter click
   enterClicked(): void {

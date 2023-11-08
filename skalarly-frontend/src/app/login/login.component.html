@@ -1,7 +1,7 @@
   <!-- logo and welcoming words -->
 <div class="login-header">
   <!-- logo glows on valid login -->
-  <img ngSrc="../../assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
+  <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
    priority  width="252" height="200" sizes="30vw">
   <div skalarly>
   Skalarly
@@ -31,10 +31,10 @@
         <!-- Skeleton for th FAB button -->
  <!-- rendered content -->
  <ng-template #onLoaded>
-<form [formGroup]="loginForm" (ngSubmit)="login()">
+<form [formGroup]="loginForm" (ngSubmit)="login()" [@fadeIn]>
   <div class="input-boxes" >
     <div>
-    <span inputs>
+<span inputs>
     <div column>
   <!-- enter email -->
   <mat-form-field  appearance="outline">
@@ -98,6 +98,7 @@ matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
 </button>
 </div>
 </span>
+
 <!-- Login Button -->
 <div loginButton >
   <button mat-fab type="submit" *ngIf="progressState === 'default'" 

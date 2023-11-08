@@ -9,35 +9,17 @@ $form-margins: (
   desktop: 20%,  
   tv: 30%        
 );
-// FIX UP RN AND THEN RESPONSICE PAGE
 @mixin responsiveMargins {
-  // Start with the base margin
-  $margin-form: map-get($form-margins, 'base');
-  margin: 0% $margin-form;
-
+  // Mobile First
+  --margin-form: #{map-get($form-margins, 'base')};
+  margin: 0% var(--margin-form);
   @each $screen, $min-width in device.$device-sizes {
     @if $screen != 'base' {
-      // Find the index of the current screen size
-      $index: index(map-keys(device.$device-sizes), $screen);
-      // Find the next screen size to set the max-width for the current media query
-      $next-index: $index + 1;
-      $next-screen: nth(map-keys(device.$device-sizes), $next-index);
-      $max-width: map-get(device.$device-sizes, $next-screen) - 1;
-      @if $next-screen {
-        @media (min-width: #{$min-width}) and (max-width: #{$max-width}) {
-          $margin-form: map-get($form-margins, $screen);
-          margin: 0% #{$margin-form};
-        }
-      } @else {
-        @media (min-width: #{$min-width}) {
-          $margin-form: map-get($form-margins, $screen);
-          margin: 0% #{$margin-form};
-        }
-      }
-    }
-  }
+      @include responsive.media-query($screen, $min-width){
+      // Use built media query string
+        margin: 0% #{map-get($form-margins, $screen)};
+      }}}
 }
-
 @mixin pseudo-mat-form-field {
   background: rgb(239,241,246) no-repeat;
   height: 56px;
@@ -156,11 +138,13 @@ div[column] {
   flex-direction: column;
   &:first-of-type {
     mat-form-field {
+      padding: 1%;
       justify-content: flex-start;
     }
   }
   &:not(:first-of-type) 
     .input{
+      padding: 1%;
     justify-content: flex-end;
   }
 }
@@ -232,7 +216,7 @@ div[column] {
       color: transparent; 
       background-image: linear-gradient(45deg, #0073e6, #bdc3c7);
       background-size: 200% 200%; // Extends the background to allow for the "flow" effect
-      animation: gradient-flow 3s ease-in-out 180s; // Adjust the time as needed
+      animation: gradient-flow 3s ease-in-out infinite; // Adjust the time as needed
       animation-delay: 2s;
     }
     @keyframes gradient-flow {
@@ -280,11 +264,11 @@ h2 {
         display: flex;
         justify-content: center;
         border-right: 15px solid transparent;
-        border-bottom: 15px solid transparent;
-        /* border-radius: 50%; */
-        border-image: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7)) 1 stretch;
+        border-bottom: 15px solid transparent;    
+        // border-image: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7)) 1 stretch;
         padding-bottom: 1%;
-        margin-bottom: 1%;
+        margin: 0% 1% 1%;
+        overflow: hidden; 
         @include universal.common(flex, column);
         @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
          @include universal.common(flex, row);
@@ -296,6 +280,18 @@ h2 {
             margin-left: $input-margin; 
           }
         }}
+      }
+      .input-boxes::after {
+        content: '';
+        position: absolute;
+        top: -15px; // Offset for the pseudo-element to cover the border area
+        right: -15px; // Offset for the pseudo-element to cover the border area
+        bottom: -15px; // Offset for the pseudo-element to cover the border area
+        left: 0;
+        z-index: -1; /* Position the pseudo-element below the content */
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7));
+        background-size: 200% 200%;
+        animation: gradient-flow 3s ease-in-out infinite;
       }
   
       

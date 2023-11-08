@@ -1,56 +1,67 @@
 @use '../universal-reusable-styles/break-points' as device;
 // responsive mobile first
-$font-size: map-get(device.$font-sizes, 'base');
-$font-sub-size: map-get(device.$font-sub-sizes, 'base');
-$line-height: map-get(device.$line-heights, 'base');
-@mixin mobileFirst {
-    font-size: #{$font-size};
-    line-height: calc(#{$font-size} * #{$line-height});
+:root {
+--font-size: #{map-get(device.$font-sizes, 'base')};
+--font-sub-size: #{map-get(device.$font-sub-sizes, 'base')};
+--line-height: #{map-get(device.$line-heights, 'base')};
 }
-@mixin responsiveFontSize {
+// reusable algorithms
+@mixin media-query($screen, $min-width) {
+    $index: index(map-keys(device.$device-sizes), $screen);
+    $next-index: $index + 1;
+    $device-sizes-keys: map-keys(device.$device-sizes);
+    $next-screen: if($next-index <= length($device-sizes-keys), nth($device-sizes-keys, $next-index), null);
+    $max-width: if($next-screen, map-get(device.$device-sizes, $next-screen) - 1px, null);
+    $media-query: "(min-width: #{$min-width})";
+    @if $max-width {
+        $media-query: "#{$media-query} and (max-width: #{$max-width})";
+      }
+      @media #{$media-query} {
+        @content;
+      }
+}
+@mixin mobileFirst {
+    font-size: var(--font-size);
+    line-height: calc(var(--font-size) * var(--line-height));
+}
+// Actual styles
+@mixin responsiveFontSize {  
     @include mobileFirst;
     @each $screen, $min-width in device.$device-sizes {
-      @if $screen != 'base' {
-        $index: index(map-keys(device.$device-sizes), $screen);
-        $next-index: #{$index} + 1;
-        @media (min-width: #{$min-width}) {
-            $font-size:  map-get(device.$font-sizes, $screen);
-            $line-height: map-get(device.$line-heights, $screen);
-            font-size: #{$font-size};
-            line-height: calc(#{$font-size} * #{$line-height}); 
-        }
-      }
-    }
+    @if $screen != 'base' {
+      @include media-query($screen, $min-width) {
+        // Apply the media query with the constructed conditions.
+          --font-size: #{map-get(device.$font-sizes, $screen)};
+          --line-height: #{map-get(device.$line-heights, $screen) * map-get(device.$font-sizes, $screen)};
+          font-size: var(--font-size);
+          line-height: var(--line-height);
+        }}}
   }
-    @mixin responsiveFontSizeSmaller {
-    $smaller: calc(#{$font-size} - #{$font-sub-size});
-    font-size: #{$smaller};
-    line-height: calc(#{$smaller} * #{$line-height});
-      @each $screen, $min-width in device.$device-sizes {
-        @if $screen != 'base' {
-          @media (min-width: #{$min-width}) {
-            $font-size:  map-get(device.$font-sizes, $screen);
-            $font-sub-size:  map-get(device.$font-sub-sizes, $screen);
-            $line-height:  map-get(device.$line-heights, $screen);
-            font-size: calc(#{$font-size} - #{$font-sub-size});
-            line-height: calc(#{$font-size} * #{$line-height});
-          }
-        }
-      }
-    }
-    @mixin responsiveFontSizeLarger {
-        $larger: calc(#{$font-size} + #{$font-sub-size});
-        font-size: #{$smaller};
-        line-height: calc(#{$larger} * #{$line-height});
-      @each $screen, $min-width in device.$device-sizes {
-        @if $screen != 'base' {
-          @media (min-width: #{$min-width}) {
-            $font-size:  map-get(device.$font-sizes, $screen);
-            $font-sub-size:  map-get(device.$font-sub-sizes, $screen);
-            $line-height:  map-get(device.$line-heights, $screen);
-            font-size: calc(#{$font-size} + #{$font-sub-size});
-            line-height: calc(#{$font-size} * #{$line-height});
-          }
-        }
-      }
-    }
+  @mixin responsiveFontSizeSmaller {  
+    --smaller: calc(var(--$font-size) - var(--font-sub-size));
+    font-size: var(--smaller);
+    line-height: calc(var(--smaller) * var(--line-height));
+    @each $screen, $min-width in device.$device-sizes {
+    @if $screen != 'base' {
+      @include media-query($screen, $min-width) {
+          --font-size: #{map-get(device.$font-sizes, $screen)};
+          --font-sub-size: #{map-get(device.$font-sizes, $screen)};
+          --line-height: #{map-get(device.$line-heights, $screen) * map-get(device.$font-sizes, $screen)};
+          font-size: calc(var(--font-size) - var(--font-sub-size));
+          line-height: calc(var(--font-size) * var(--line-height));
+        }}}
+  }
+  @mixin responsiveFontSizeLarger {  
+    --larger: calc(var(--$font-size) + var(--font-sub-size));
+    font-size: var(--larger);
+    line-height: calc(var(--larger) * var(--line-height));
+    @each $screen, $min-width in device.$device-sizes {
+    @if $screen != 'base' {
+        @include media-query($screen, $min-width) {
+          --font-size: #{map-get(device.$font-sizes, $screen)};
+          --font-sub-size: #{map-get(device.$font-sizes, $screen)};
+          --line-height: #{map-get(device.$line-heights, $screen) * map-get(device.$font-sizes, $screen)};
+          font-size: calc(var(--font-size) + var(--font-sub-size));
+          line-height: calc(var(--font-size) * var(--line-height));
+        }}}
+  }
