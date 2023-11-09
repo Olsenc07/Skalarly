@@ -1,4 +1,3 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -9,6 +8,7 @@ import {
   Optional,
   ViewChild
 } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   FormControl,
   FormGroup,
@@ -211,7 +211,6 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     private readonly router: Router,
     private titleService: Title
   ) {}
- 
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
       Validators.required,
@@ -283,11 +282,6 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;
-    const passwordType: HTMLInputElement = this.skalarlyPassword
-      .nativeElement as HTMLInputElement;
-    if (passwordType) {
-      passwordType.type = this.visiblePassword ? 'text' : 'password';
-    }
   }
   // remain logged in
   stayIn(): void {

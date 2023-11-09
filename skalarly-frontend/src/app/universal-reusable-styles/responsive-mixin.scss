@@ -38,12 +38,12 @@
         }}}
   }
   @mixin responsiveFontSizeSmaller {  
-    --smaller: calc(var(--$font-size) - var(--font-sub-size));
-    font-size: var(--smaller);
-    line-height: calc(var(--smaller) * var(--line-height));
+    --font-sizeS: calc(var(--font-size) - var(--font-sub-size));
+    font-size: var(--font-sizeS) ;
+    line-height: calc(var(--font-sizeS) * var(--line-height));
     @each $screen, $min-width in device.$device-sizes {
     @if $screen != 'base' {
-      @include media-query($screen, $min-width) {
+        @include media-query($screen, $min-width) {
           --font-size: #{map-get(device.$font-sizes, $screen)};
           --font-sub-size: #{map-get(device.$font-sizes, $screen)};
           --line-height: #{map-get(device.$line-heights, $screen) * map-get(device.$font-sizes, $screen)};
@@ -52,9 +52,9 @@
         }}}
   }
   @mixin responsiveFontSizeLarger {  
-    --larger: calc(var(--$font-size) + var(--font-sub-size));
-    font-size: var(--larger);
-    line-height: calc(var(--larger) * var(--line-height));
+    --font-sizeL: calc(var(--font-size) + var(--font-sub-size));
+    font-size: var(--font-sizeL) ;
+    line-height: calc(var(--font-sizeL) * var(--line-height));
     @each $screen, $min-width in device.$device-sizes {
     @if $screen != 'base' {
         @include media-query($screen, $min-width) {

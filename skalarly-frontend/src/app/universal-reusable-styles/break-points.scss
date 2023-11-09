@@ -6,9 +6,16 @@ $device-sizes: (
  desktop: 992px, // desktop
  tv: 1200px // tv and extra large screen 
 );
+$device-sizes-height: (
+    small: 320px, // Small mobile devices
+    medium: 480px, // Medium mobile devices, large phones
+    large: 640px, // Large phones (in landscape), small tablets
+    extra-large: 800px, // Large tablets in portrait
+    tv: 1080px // Typical TV screens, large displays
+);
 // corresponding font sizes
 $font-sizes: (
-  base: 1rem,
+  base: 1.1rem,
   tablet: 1.125rem,
   laptop: 1.2rem,
   desktop: 1.3rem,
@@ -16,8 +23,8 @@ $font-sizes: (
 );
 // sub font sizes chart
 $font-sub-sizes: (
-  base: 10%,
-  tablet: 10%,
+  base: 20%,
+  tablet: 25%,
   laptop: 30%,
   desktop: 35%,
   tv: 40%

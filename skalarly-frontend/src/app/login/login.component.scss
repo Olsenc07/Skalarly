@@ -6,8 +6,8 @@ $form-margins: (
   base: 0%,     
   tablet: 5%,  
   laptop: 10%,   
-  desktop: 20%,  
-  tv: 30%        
+  desktop: 15%,  
+  tv: 20%        
 );
 @mixin responsiveMargins {
   // Mobile First
@@ -31,6 +31,7 @@ $form-margins: (
 .input-boxes-skeleton{
   @include universal.common(flex, column);
   margin: 0% 2%;
+  width: 100%;
    //  if greater then 576px width
    @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
    @include universal.common(flex, row);
@@ -76,12 +77,22 @@ $form-margins: (
     flex-direction: column;
     align-items: center;
     margin: 0;
+//     div[logo]{
+// width: 100%;
+// height: auto;
+//  img {
+//   max-width: 100%; /* Ensures the image can scale down */
+//   max-height: 30vh; /* Scales based on the viewport height */
+//   height: auto; /* Maintains the aspect ratio of the image */
+// }
+//     }
+
 }
   button[join] {
+    @include responsive.responsiveFontSize;
       margin: 1% 0%;
       background-image: linear-gradient(to right,#002D62,#778899);
       color: white;
-      @include responsive.responsiveFontSize;
   }
   button[forgot]{
     @include responsive.responsiveFontSizeSmaller;
@@ -138,13 +149,13 @@ div[column] {
   flex-direction: column;
   &:first-of-type {
     mat-form-field {
-      padding: 1%;
+      padding: 3% 1% 0% 1%;
       justify-content: flex-start;
     }
   }
   &:not(:first-of-type) 
-    .input{
-      padding: 1%;
+    mat-form-field{
+      padding: 3% 1% 0% 1%;
     justify-content: flex-end;
   }
 }
@@ -173,8 +184,16 @@ div[column] {
           transform: scale(1);
         }
       }
-.mat-mdc-checkbox, span[inputs]{
+.mat-mdc-checkbox{ 
     display: flex;
+  }
+  span[inputs] {
+  @include universal.common(flex, column);
+  @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
+   @include universal.common(flex, row);
+  }}
+  span[matPrefix] { 
+    margin-left: 15%;
   }
 .login-options {
   display: flex;
@@ -214,28 +233,23 @@ div[column] {
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent; 
-      background-image: linear-gradient(45deg, #0073e6, #bdc3c7);
+      background-image: linear-gradient(45deg, #0073e6, #bdc3c7, #0073e6, #0073e6, #bdc3c7, #0073e6);
       background-size: 200% 200%; // Extends the background to allow for the "flow" effect
-      animation: gradient-flow 3s ease-in-out infinite; // Adjust the time as needed
-      animation-delay: 2s;
+      animation: gradient-flow 6s linear infinite; // Adjust the time as needed
     }
     @keyframes gradient-flow {
-      0% {
-        background-position: 0% 0%;
+      0%, 100% {
+        background-position: 0% 50%;
       }
-      100% {
-        background-position: -100% -100%;
+      50% {
+        background-position: -100% -10%;
       }
     }
 h2 {
   margin: 1% 0%;
   color: #bdc3c7;
   @include responsive.responsiveFontSize; 
-}
-    span[matPrefix] { 
-      margin-left: 15%;
-    }
-  
+} 
   // animations keyframes
   @keyframes shake {
     0%, 100% {
@@ -265,13 +279,10 @@ h2 {
         justify-content: center;
         border-right: 15px solid transparent;
         border-bottom: 15px solid transparent;    
-        // border-image: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7)) 1 stretch;
+        border-image: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7)) 1 stretch;
         padding-bottom: 1%;
         margin: 0% 1% 1%;
         overflow: hidden; 
-        @include universal.common(flex, column);
-        @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
-         @include universal.common(flex, row);
          mat-form-field {
           &:first-child {
             margin-right: $input-margin; 
@@ -279,19 +290,9 @@ h2 {
           &:last-child {
             margin-left: $input-margin; 
           }
-        }}
+        }
+        div {
+          width: 100%;
+        }
       }
-      .input-boxes::after {
-        content: '';
-        position: absolute;
-        top: -15px; // Offset for the pseudo-element to cover the border area
-        right: -15px; // Offset for the pseudo-element to cover the border area
-        bottom: -15px; // Offset for the pseudo-element to cover the border area
-        left: 0;
-        z-index: -1; /* Position the pseudo-element below the content */
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7));
-        background-size: 200% 200%;
-        animation: gradient-flow 3s ease-in-out infinite;
-      }
-  
       

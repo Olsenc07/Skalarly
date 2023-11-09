@@ -1,8 +1,10 @@
   <!-- logo and welcoming words -->
 <div class="login-header">
   <!-- logo glows on valid login -->
+  <div logo>
   <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
-   priority  width="252" height="200" sizes="30vw">
+   priority  width="252" height="200" sizes="30vh">
+   </div>
   <div skalarly>
   Skalarly
   </div>
@@ -71,14 +73,15 @@
     </mat-icon>
         </ng-template>
       </span>
- <input matInput formControlName="password" placeholder="Password" type="password"
+ <input matInput formControlName="password" placeholder="Password" 
+ [type]="visiblePassword ? 'text' : 'password'"
  #skalarlyPassword [appGlowBorder]="isGlowing" />
  <mat-label [class.condition-met]="loginForm.get('password')!.valid">
    Password</mat-label>
  <mat-error *ngIf="loginForm.get('password')!.hasError?.('invalidPassword')">Invalid password</mat-error>
 <button matSuffix mat-icon-button type="button" 
-(click)="toggleVisibility()" [@toggleAnimation]="visiblePassword"
-matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
+(click)="$event.stopPropagation(); toggleVisibility()"  [@toggleAnimation]="visiblePassword"
+matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <span class="material-symbols-outlined">
   <ng-container *ngIf="visiblePassword; else hide">
     <mat-icon>
