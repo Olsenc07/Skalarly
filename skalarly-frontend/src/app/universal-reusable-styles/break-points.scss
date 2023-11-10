@@ -23,11 +23,11 @@ $font-sizes: (
 );
 // sub font sizes chart
 $font-sub-sizes: (
-  base: 20%,
-  tablet: 25%,
-  laptop: 30%,
-  desktop: 35%,
-  tv: 40%
+  base: .027rem,
+  tablet: .0355rem,
+  laptop: .159rem,
+  desktop: .386rem,
+  tv: .422rem
 );
 // scale line height by * font size
 $line-heights: (

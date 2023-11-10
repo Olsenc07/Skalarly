@@ -93,6 +93,13 @@ $form-margins: (
       margin: 1% 0%;
       background-image: linear-gradient(to right,#002D62,#778899);
       color: white;
+      font-family: 'Cormorant Garamond', serif;
+    
+      // add ons
+      animation: float 3s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.5s, transform 0.3s, box-shadow 0.3s;
   }
   button[forgot]{
     @include responsive.responsiveFontSizeSmaller;
@@ -100,11 +107,77 @@ $form-margins: (
     background: none;
     border: none;
     color: #0073e6;
+    
     cursor: pointer;
     display: flex;
     justify-content: flex-end;
     text-decoration: underline;
+
+  
   }
+  button[join] {
+    // ... other styles ...
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.5s, transform 0.3s, box-shadow 0.3s;
+  
+    // Magic glow effect
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+  
+    // Hover state
+    &:hover:before {
+      opacity: 1;
+    }
+  
+    // Active/Tap state
+    &:active {
+      background-color: darken(#4a148c, 10%); // Darken the button color when clicked
+    }
+  }
+  
+  // Keyframes for floating effect
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+    
+  // Keyframes for the sparkle trail
+  @keyframes sparkles {
+    0% {
+      opacity: 0;
+      transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0);
+    }
+  }
+  
+  // Sparkle on hover
+  button[join]:hover:after {
+    content: '\2728'; // Unicode character for sparkle
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    animation: sparkles 1s forwards;
+    --sparkle-x: 10px;
+    --sparkle-y: -20px;
+  }
+  
   form {
     @include responsiveMargins;
     @include universal.common;
@@ -147,15 +220,15 @@ $form-margins: (
 div[column] {
   display: flex;
   flex-direction: column;
+  padding: 3% 1% 0% 1%;
+
   &:first-of-type {
     mat-form-field {
-      padding: 3% 1% 0% 1%;
       justify-content: flex-start;
     }
   }
   &:not(:first-of-type) 
     mat-form-field{
-      padding: 3% 1% 0% 1%;
     justify-content: flex-end;
   }
 }
@@ -224,8 +297,9 @@ div[column] {
   }
 }
     div[loginButton]{
-      display: flex;
+      display: inline-flex;
       justify-content: center;
+      align-items: center;
       @include responsive.responsiveFontSize
     }
     div[skalarly] {
@@ -283,16 +357,39 @@ h2 {
         padding-bottom: 1%;
         margin: 0% 1% 1%;
         overflow: hidden; 
-         mat-form-field {
-          &:first-child {
-            margin-right: $input-margin; 
-          }
-          &:last-child {
+     
+          &:first-of-type {
+            mat-checkbox {
             margin-left: $input-margin; 
+
+            }
+          }
+          &:last-of-type{
+            button[forgot] {
+            margin-right: $input-margin; 
+
           }
         }
         div {
           width: 100%;
         }
       }
-      
+      // /major animation
+      .join-button {
+        // Initial styles for your button
+        // It should be invisible and scaled to 0 width
+        transform: scaleX(0);
+        transform-origin: left;
+        display: inline-block;
+        white-space: nowrap;
+        position: absolute;
+        bottom: 0; // Align with the bottom of the text
+        left: 0; // Align with the left of the text
+        // ...
+      }
+      .welcome-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        align-items: center; 
+      }

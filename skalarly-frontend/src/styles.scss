@@ -4,7 +4,9 @@
 @use 'app/universal-reusable-styles/responsive-mixin' as responsive;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 // universal font
-$skalarly-font: 'Cormorant Garamond', serif;
+:root{
+--skalarly-font: 'Cormorant Garamond', serif;
+}
 $toolbar-shadow-color: rgba(0, 0, 0, 0.25);
 $toolbar-background-color: #282828;
 *,
@@ -20,12 +22,17 @@ color: lightblue
 body {
   // better to implement specific cases. This is to confusing
   // @include responsive.responsiveFontSize;
-  font-family: $skalarly-font;
+  font-family: var(--skalarly-font);
   margin: 0;
   padding: 0;
   background-image: linear-gradient(whitesmoke,white);
   @include universal.common;
   @include universal.pageSize;
+ }
+ button{
+  // google standard for mobile buttons
+  min-height: 48px; 
+  font-family: var(--skalarly-font);
  }
 .condition-met{
     color: #228B22;

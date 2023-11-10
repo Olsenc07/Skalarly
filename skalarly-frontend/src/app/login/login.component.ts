@@ -28,6 +28,8 @@ import {
 import {
   animate,
   keyframes,
+  query,
+  stagger,
   state,
   style,
   transition,
@@ -77,6 +79,40 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
 
   animations: [
     fadeInAnimation,
+    trigger('skalarlyRise', [
+      state(
+        'inactive',
+        style({ transform: 'translateY(0), translatex(50%), scale(0.2)' })
+      ),
+      state(
+        'active',
+        style({ transform: 'translateY(-10%), translatex(0), scale(1)' })
+      ), // Adjust as necessary
+      transition('inactive => active', animate('2s ease-out'))
+    ]),
+    trigger('joinAppear', [
+      transition('* => *', [
+        // Trigger the animation on state change
+        query('span', style({ opacity: 0, transform: 'translateX(-100%)' }), {
+          optional: true
+        }),
+        query(
+          'span',
+          stagger('50ms', [
+            animate('300ms ease-in', style({ opacity: 1, transform: 'none' }))
+          ]),
+          { optional: true }
+        )
+      ])
+    ]),
+    trigger('letterDisappear', [
+      transition(':leave', [
+        animate(
+          '500ms ease-in',
+          style({ opacity: 0, transform: 'translateX(100%)' })
+        )
+      ])
+    ]),
     // email validation
     trigger('spinAndChange', [
       state('initial', style({ transform: 'rotate(0deg)' })),
@@ -181,6 +217,10 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   }
   loaded: boolean = false;
   welcomeText: { letter: string; visible: boolean }[] = [];
+  activateSkalarly: string = 'inactive';
+  joinLetters: string[] = [];
+  showJoinButton: boolean = false;
+  disappearSkalarly: boolean = false;
   isGlowing = false;
   progressState: 'default' | 'load' | 'complete' = 'default';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
@@ -227,7 +267,8 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     const text: string = 'Welcome To Skalarly';
     for (let i = 0; i < text.length; i++) {
       this.welcomeText.push({ letter: text[i], visible: false });
-    }
+    };
+    this.joinLetters = Array.from('Join');
     // email
     this.loginForm.controls['email'].valueChanges
       .pipe(
@@ -278,6 +319,13 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     setTimeout(() => {
       this.loaded = true;
     }, 1500);
+    setTimeout(() => {
+      this.showJoinButton = true;
+      this.activateSkalarly = 'active';
+    }, 2800);
+  }
+  onAnimationDone(event: any) {
+    this.disappearSkalarly = true;
   }
   // toggle password visbility
   toggleVisibility(): void {

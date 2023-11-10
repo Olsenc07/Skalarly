@@ -5,10 +5,12 @@
   <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
    priority  width="252" height="200" sizes="30vh">
    </div>
+ 
+<h2> Enhance Your Academic Experience With <br>
   <div skalarly>
-  Skalarly
-  </div>
-<h2> Enhance Your University Experience</h2>
+    Skalarly
+    </div>
+</h2>
 </div>
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
@@ -97,14 +99,14 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </button>
 </mat-form-field>
 <button type="button" (click)="navigate()" forgot>
-  <i>Forgot Password?</i>
+  <i forgot>Forgot Password?</i>
 </button>
 </div>
 </span>
 
 <!-- Login Button -->
 <div loginButton >
-  <button mat-fab type="submit" *ngIf="progressState === 'default'" 
+  <button mat-fab  type="submit" *ngIf="progressState === 'default'" 
   [appValidationAnimation]='loginForm.valid' [@shakeAnimation]="failedLoginAnimation"
   (keydown.enter)="enterClicked()" class="material-symbols-outlined" >
   fingerprint
@@ -124,21 +126,35 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </div>
 </div>
 </form>
-  <div loginButton >
-  <button mat-raised-button routerLink="/sign-up" join>
-Join Skalarly
-  </button>
-  </div>
+
 </ng-template>
 </ng-container>
-
+<!-- welcome and join animation -->
+<div class="welcome-container">
+  <!-- <div loginButton [@bubbleOut]="activate">
+  <button mat-raised-button routerLink="/sign-up" join>
+Join Skalarly
+  </button> 
+  </div> -->
+  <div join-button  [@joinAppear]>
+    <button mat-raised-button *ngIf="showJoinButton" routerLink="/sign-up" [@skalarlyRise]="activateSkalarly" (@skalarlyRise.done)="onAnimationDone($event)">
+      <span *ngFor="let letter of joinLetters">{{ letter }}</span>
+      <!-- fix loop -->
+      <ng-container *ngIf="!disappearSkalarly">
+        <span *ngFor="let letter of 'Skalarly'">{{ letter }}</span>
+      </ng-container>
+    </button>
+  </div>
+  
+  
   <div class="welcome-text">
     <ng-container *ngFor="let item of welcomeText; index as i; last as isLast; trackBy: trackByLetter">
-      <span
+        <span
         *ngIf="item.letter !== ' '; else emptySpace"
         [ngClass]="{ 'sparkle': isLast && item.visible }">
-        {{ item.letter }}
-      </span>
-      <ng-template #emptySpace>&nbsp;</ng-template>
-    </ng-container>
+          {{ item.letter }}
+        </span>
+    <ng-template #emptySpace>&nbsp;</ng-template>
+  </ng-container>
+  </div>
   </div>
