@@ -11,7 +11,7 @@
 
     span:nth-child(#{$i}) {
       animation: glow-animation $animation-duration $animation-delay forwards;
-      background: linear-gradient(45deg, #{$color1}, #{$color2});
+      background: if($right-to-left, linear-gradient(270deg, var(--second), var(--firsr)), linear-gradient(45deg, #{$color1}, #{$color2}));
       background-clip: text;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;

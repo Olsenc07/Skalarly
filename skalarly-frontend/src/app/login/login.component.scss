@@ -119,7 +119,8 @@ $form-margins: (
     position: relative;
     overflow: hidden;
     transition: background-color 0.5s, transform 0.3s, box-shadow 0.3s;
-  
+  align-items: center;
+  text-align: center;
     // Magic glow effect
     &:before {
       content: '';
@@ -191,7 +192,9 @@ $form-margins: (
   .welcome-text {
     display: flex;
     $firstChoice: universal.random-color();
+    --first: #{$firstChoice};
     $secondChoice: universal.random-color();
+    --second: #{$secondChoice};
     @include responsive.responsiveFontSizeLarger;
     @include animation.welcome-text-style(18, #{$firstChoice}, #{$secondChoice});
   }
@@ -203,7 +206,17 @@ $form-margins: (
     @include responsive.responsiveFontSizeLarger;
     @include animation.welcome-text-style(8, #{$firstChoice}, #{$secondChoice}, true);
   }
-
+  .overlapping-skalarly {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Makes it non-interactive */
+  }
 
 // *1 *2
 div[column] {
@@ -404,11 +417,6 @@ h2 {
 }
 
 .phrase {
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 10px;
   background-color: universal.random-color();
-  backdrop-filter: blur(5px);
-  transform-origin: center;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+
 }

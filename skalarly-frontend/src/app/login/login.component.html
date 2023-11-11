@@ -132,38 +132,35 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </ng-container>
 <!-- welcome and join animation -->
 <div class="welcome-container">
-  <div join-button  [@joinAppear]>
-    <button mat-raised-button *ngIf="showJoinButton" routerLink="/sign-up" >
-      <div class="welcome-text-south-paw" *ngFor="let letter of joinText;index as i; first as isFirst;" 
-      [ngClass]="{ 'sparkle': isFirst && letter.visible }">{{ letter.letter }}</div>
-      <ng-container *ngIf="!disappearSkalarly">
-        <ng-container *ngFor="let skalar of skalarText index as i; last as isLast;">
-        <span
-        [ngClass]="{ 'sparkle': isLast && skalar.visible }"
-          [@letterDisappear]="disappearSkalarly ? 'disappear' : 'appear'">
-          {{ skalar.letter }}
-        </span>
-      </ng-container>
-    </ng-container>
+ 
+    <button mat-raised-button [ngClass]="{ 'welcome-text-south-paw': joinAnimation }"
+     routerLink="/sign-up" >
+     <span *ngFor="let item of joinText;">
+      {{item.letter}}
+     </span>
     </button>
-  </div>
   <!-- array animation of words -->
-  <div [@flipAnimation] *ngIf="flip">
-  <div class="phrase">
-    {{ displayPhrase }}
-  </div>
-</div>
-  
-  
-  <div class="welcome-text" [@welcomeGone]="welcomeState">
+  <div class="welcome-text" [@welcomeGone]="welcomeState" (@welcomeGone.done)="onAnimationDone()">
     <ng-container *ngFor="let item of welcomeText; index as i; last as isLast;">
         <span
         *ngIf="item.letter !== ' '; else emptySpace"
         [ngClass]="{ 'sparkle': isLast && item.visible }"
-        [@skalarlyRiseAnimation]="item.isPartOfSkalarly ? 'rise' : 'initial'">
+        >
           {{ item.letter }}
+
+        </span>
+        <span *ngIf="checkIfLast(i)" clas="overlapping-skalarly" [@skalarlyRiseAnimation]="skalarlyState" (@skalarlyRiseAnimation.done)="skalarlyRiseDone()">
+          Skalarly
         </span>
     <ng-template #emptySpace>&nbsp;</ng-template>
   </ng-container>
+  <!-- replaces where welcome text was -->
+
   </div>
+  <div [@flipAnimation] *ngIf="flip">
+    <mat-chip-option class="phrase">
+      {{ displayPhrase }}
+    </mat-chip-option>
+  </div>
+
   </div>

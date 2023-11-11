@@ -83,34 +83,23 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
   animations: [
     fadeInOutAnimation,
     trigger('skalarlyRiseAnimation', [
-      state('initial', style({ transform: 'translateY(0)', opacity: 1 })),
+      state(
+        'initial',
+        style({
+          background: 'linear-gradient(to bottom, blue, blue)',
+          '-webkit-background-clip': 'text',
+          'background-clip': 'text',
+          color: 'transparent'
+        })
+      ),
       transition('* => rise', [
         animate(
-          '1s ease-in',
-          style({ transform: 'translateY(-20px)', opacity: 0 })
-        )
-      ])
-    ]),
-    trigger('joinAppear', [
-      transition('* => *', [
-        // Trigger the animation on state change
-        query('span', style({ opacity: 0, transform: 'translateX(-100%)' }), {
-          optional: true
-        }),
-        query(
-          'span',
-          stagger('50ms', [
-            animate('3s ease-in', style({ opacity: 1, transform: 'none' }))
-          ]),
-          { optional: true }
-        )
-      ])
-    ]),
-    trigger('letterDisappear', [
-      transition(':leave', [
-        animate(
-          '3s ease-in',
-          style({ opacity: 0, transform: 'translateX(100%)' })
+          '4s ease-in',
+          keyframes([
+            style({
+              background: `linear-gradient(to top, var(--first), var(--second))`
+            })
+          ])
         )
       ])
     ]),
@@ -222,16 +211,14 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
       height: `56px`
     };
   }
+  // animation based
   loaded: boolean = false;
-  welcomeText: {
-    letter: string;
-    visible: boolean;
-    isPartOfSkalarly: boolean;
-  }[] = [];
+  welcomeText: { letter: string; visible: boolean }[] = [];
   joinText: { letter: string; visible: boolean }[] = [];
   skalarText: { letter: string; visible: boolean }[] = [];
   welcomeState: string | 'gone' = '';
-  skalarlyState: string = 'inactive';
+  joinAnimation: boolean = false;
+  skalarlyState: string = 'initial';
   joinLetters: string[] = [];
   joinSkalarly: string[] = [];
   wordPairs: string[] = [
@@ -312,15 +299,10 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   ngOnInit(): void {
     this.titleService.setTitle('Skalarly Login');
     const text: string = 'Welcome To Skalarly';
-    const skalarlyStartIndex: number = text.indexOf('Skalarly');
-    const skalarlyEndIndex: number = skalarlyStartIndex + 'Skalarly'.length;
     for (let i = 0; i < text.length; i++) {
-      const isPartOfSkalarly: boolean =
-        i >= skalarlyStartIndex && i < skalarlyEndIndex;
       this.welcomeText.push({
         letter: text[i],
-        visible: false,
-        isPartOfSkalarly: isPartOfSkalarly
+        visible: false
       });
     }
     const join: string = 'Join';
@@ -382,19 +364,25 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
       this.loaded = true;
       this.randomizePairs();
     }, 1500);
-    setTimeout(() => {
-      this.showJoinButton = true;
-      this.skalarlyState = 'active';
-    }, 2800);
+  }
+  checkIfLast(index: number): boolean {
+    if (index === this.welcomeText.length - 1) {
+      // When the last item is reached, trigger the Skalarly rise animation
+      this.skalarlyState = 'rise';
+      return true;
+    }
+    return false;
   }
   onAnimationDone() {
-    this.disappearSkalarly = true;
-    this.welcomeState = 'gone';
     this.flip = true;
     this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex];
     setInterval(() => {
       this.updatePhrase();
     }, 3000);
+  }
+  skalarlyRiseDone(): void {
+    this.joinAnimation = true;
+    this.disappearSkalarly = true;
   }
   private randomizePairs(): void {
     const randomizedPair: string[] = [];
