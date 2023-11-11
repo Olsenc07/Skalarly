@@ -3,6 +3,7 @@
 @use 'app/universal-reusable-styles/common' as universal;
 @use 'app/universal-reusable-styles/responsive-mixin' as responsive;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
 // universal font
 :root{
 --skalarly-font: 'Cormorant Garamond', serif;

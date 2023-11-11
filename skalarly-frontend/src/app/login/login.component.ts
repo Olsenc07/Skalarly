@@ -50,8 +50,11 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
-import { fadeInAnimation } from '../custom-architecture-aids/animations/fadeIn-animation';
+import { fadeInOutAnimation } from '../custom-architecture-aids/animations/fade-animation';
+import { flipAnimation } from '../custom-architecture-aids/animations/flip-animation';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
+import { rotateAnimation } from '../custom-architecture-aids/animations/rotate180-animation';
+import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin-change-animation';
 
 @Component({
   standalone: true,
@@ -78,17 +81,15 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
   ],
 
   animations: [
-    fadeInAnimation,
-    trigger('skalarlyRise', [
-      state(
-        'inactive',
-        style({ transform: 'translateY(0), translatex(50%), scale(0.2)' })
-      ),
-      state(
-        'active',
-        style({ transform: 'translateY(-10%), translatex(0), scale(1)' })
-      ), // Adjust as necessary
-      transition('inactive => active', animate('2s ease-out'))
+    fadeInOutAnimation,
+    trigger('skalarlyRiseAnimation', [
+      state('initial', style({ transform: 'translateY(0)', opacity: 1 })),
+      transition('* => rise', [
+        animate(
+          '1s ease-in',
+          style({ transform: 'translateY(-20px)', opacity: 0 })
+        )
+      ])
     ]),
     trigger('joinAppear', [
       transition('* => *', [
@@ -99,7 +100,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
         query(
           'span',
           stagger('50ms', [
-            animate('300ms ease-in', style({ opacity: 1, transform: 'none' }))
+            animate('3s ease-in', style({ opacity: 1, transform: 'none' }))
           ]),
           { optional: true }
         )
@@ -108,18 +109,13 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
     trigger('letterDisappear', [
       transition(':leave', [
         animate(
-          '500ms ease-in',
+          '3s ease-in',
           style({ opacity: 0, transform: 'translateX(100%)' })
         )
       ])
     ]),
     // email validation
-    trigger('spinAndChange', [
-      state('initial', style({ transform: 'rotate(0deg)' })),
-      state('spinning', style({ transform: 'rotate(360deg)' })),
-      state('check', style({ transform: 'rotate(360deg)' })),
-      transition('initial <=> spinning', animate('1s ease')) // Spin animation with reverse
-    ]),
+    spinChangeAnimation,
     // password validation
     trigger('lockAnimation', [
       state(
@@ -156,11 +152,7 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
       )
     ]),
     // visble password or not
-    trigger('toggleAnimation', [
-      state('true', style({ transform: 'rotate(0deg)' })),
-      state('false', style({ transform: 'rotate(180deg)' })),
-      transition('true <=> false', animate('200ms ease-in-out'))
-    ]),
+    rotateAnimation,
     // login button able to click
     trigger('fingerprintActivation', [
       state(
@@ -202,7 +194,22 @@ import { passwordValidator } from '../custom-architecture-aids/validators/passwo
       transition('initial => left', animate('0.1s')),
       transition('left => right', animate('0.1s')),
       transition('right => initial', animate('0.1s'))
-    ])
+    ]),
+    trigger('welcomeGone', [
+      transition('* => gone', [
+        query(
+          'span',
+          stagger('50ms', [
+            animate(
+              '300ms ease-in',
+              style({ opacity: 0, transform: 'scale(0)' })
+            )
+          ]),
+          { optional: true }
+        )
+      ])
+    ]),
+    flipAnimation
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
@@ -216,11 +223,51 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     };
   }
   loaded: boolean = false;
-  welcomeText: { letter: string; visible: boolean }[] = [];
-  activateSkalarly: string = 'inactive';
+  welcomeText: {
+    letter: string;
+    visible: boolean;
+    isPartOfSkalarly: boolean;
+  }[] = [];
+  joinText: { letter: string; visible: boolean }[] = [];
+  skalarText: { letter: string; visible: boolean }[] = [];
+  welcomeState: string | 'gone' = '';
+  skalarlyState: string = 'inactive';
   joinLetters: string[] = [];
+  joinSkalarly: string[] = [];
+  wordPairs: string[] = [
+    'the Enlightenment',
+    'in Collaboration',
+    'the Innovation',
+    'our Synergy',
+    'the Development',
+    'in Education',
+    'for Empowerment',
+    'the Progress',
+    'for Insight',
+    'the Understanding',
+    'in Knowledge',
+    'the Unity',
+    'the Discovery',
+    'the Growth',
+    'our Scholarship',
+    'our Network',
+    'the Wisdom',
+    'the Advancement',
+    'the Curiosity',
+    'our Partnership',
+    'the Exploration',
+    'the Achievement',
+    'the Learning',
+    'to Nurture',
+    'the Aspiration'
+  ];
+  randomWordPairs: string[] = [];
+  currentPhraseIndex: number = 0;
+  displayPhrase: string = '';
+
   showJoinButton: boolean = false;
   disappearSkalarly: boolean = false;
+  flip: boolean = false;
   isGlowing = false;
   progressState: 'default' | 'load' | 'complete' = 'default';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
@@ -263,12 +310,27 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   });
 
   ngOnInit(): void {
-    this.titleService.setTitle('Skalarly Login Page');
+    this.titleService.setTitle('Skalarly Login');
     const text: string = 'Welcome To Skalarly';
+    const skalarlyStartIndex: number = text.indexOf('Skalarly');
+    const skalarlyEndIndex: number = skalarlyStartIndex + 'Skalarly'.length;
     for (let i = 0; i < text.length; i++) {
-      this.welcomeText.push({ letter: text[i], visible: false });
-    };
-    this.joinLetters = Array.from('Join');
+      const isPartOfSkalarly: boolean =
+        i >= skalarlyStartIndex && i < skalarlyEndIndex;
+      this.welcomeText.push({
+        letter: text[i],
+        visible: false,
+        isPartOfSkalarly: isPartOfSkalarly
+      });
+    }
+    const join: string = 'Join';
+    for (let i = 0; i < join.length; i++) {
+      this.joinText.push({ letter: join[i], visible: false });
+    }
+    const skalar: string = 'Skalarly';
+    for (let i = 0; i < skalar.length; i++) {
+      this.skalarText.push({ letter: text[i], visible: false });
+    }
     // email
     this.loginForm.controls['email'].valueChanges
       .pipe(
@@ -318,15 +380,40 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.loaded = true;
+      this.randomizePairs();
     }, 1500);
     setTimeout(() => {
       this.showJoinButton = true;
-      this.activateSkalarly = 'active';
+      this.skalarlyState = 'active';
     }, 2800);
   }
-  onAnimationDone(event: any) {
+  onAnimationDone() {
     this.disappearSkalarly = true;
+    this.welcomeState = 'gone';
+    this.flip = true;
+    this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex];
+    setInterval(() => {
+      this.updatePhrase();
+    }, 3000);
   }
+  private randomizePairs(): void {
+    const randomizedPair: string[] = [];
+    const length: number = this.wordPairs.length;
+    for (let i = 0; i < length; i++) {
+      const randomize: number = Math.floor(
+        Math.random() * this.wordPairs.length
+      );
+      const selectedQuestion: string = this.wordPairs.splice(randomize, 1)[0];
+      randomizedPair.push(selectedQuestion[0]);
+      this.randomWordPairs.push(selectedQuestion);
+    }
+  }
+  updatePhrase() {
+    this.currentPhraseIndex =
+      (this.currentPhraseIndex + 1) % this.randomWordPairs.length;
+    this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex];
+  }
+
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;

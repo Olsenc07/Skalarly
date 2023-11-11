@@ -15,8 +15,8 @@
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
       <!-- pre load skeleton -->
-      <form *ngIf="!loaded; else onLoaded">
-      <div column>
+      <form *ngIf="loaded; else onLoaded" >
+        <div column>
       <div class="input-boxes-skeleton" >
       <div class="skeleton-wrap">
         <ngx-skeleton-loader appearance="custom-content" class="input-skeleton" one></ngx-skeleton-loader>
@@ -27,15 +27,16 @@
         <ngx-skeleton-loader appearance="custom-content" class="input-skeleton" two></ngx-skeleton-loader>
         <ngx-skeleton-loader appearance="line" forgot></ngx-skeleton-loader>
       </div>
-      </div>
+</div>
       <ngx-skeleton-loader appearance="circle" [theme]="skeletonTheme" circle></ngx-skeleton-loader>
-      <ngx-skeleton-loader appearance="custom-content" class="input-skeleton-join"></ngx-skeleton-loader>
+    <!-- <ngx-skeleton-loader appearance="custom-content" class="input-skeleton-join"></ngx-skeleton-loader> -->
       </div>
     </form>
+
         <!-- Skeleton for th FAB button -->
  <!-- rendered content -->
- <ng-template #onLoaded>
-<form [formGroup]="loginForm" (ngSubmit)="login()" [@fadeIn]>
+ <ng-template #onLoaded >
+<form [formGroup]="loginForm" (ngSubmit)="login()" >
   <div class="input-boxes" >
     <div>
 <span inputs>
@@ -131,27 +132,35 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </ng-container>
 <!-- welcome and join animation -->
 <div class="welcome-container">
-  <!-- <div loginButton [@bubbleOut]="activate">
-  <button mat-raised-button routerLink="/sign-up" join>
-Join Skalarly
-  </button> 
-  </div> -->
   <div join-button  [@joinAppear]>
-    <button mat-raised-button *ngIf="showJoinButton" routerLink="/sign-up" [@skalarlyRise]="activateSkalarly" (@skalarlyRise.done)="onAnimationDone($event)">
-      <span *ngFor="let letter of joinLetters">{{ letter }}</span>
-      <!-- fix loop -->
+    <button mat-raised-button *ngIf="showJoinButton" routerLink="/sign-up" >
+      <div class="welcome-text-south-paw" *ngFor="let letter of joinText;index as i; first as isFirst;" 
+      [ngClass]="{ 'sparkle': isFirst && letter.visible }">{{ letter.letter }}</div>
       <ng-container *ngIf="!disappearSkalarly">
-        <span *ngFor="let letter of 'Skalarly'">{{ letter }}</span>
+        <ng-container *ngFor="let skalar of skalarText index as i; last as isLast;">
+        <span
+        [ngClass]="{ 'sparkle': isLast && skalar.visible }"
+          [@letterDisappear]="disappearSkalarly ? 'disappear' : 'appear'">
+          {{ skalar.letter }}
+        </span>
       </ng-container>
+    </ng-container>
     </button>
   </div>
+  <!-- array animation of words -->
+  <div [@flipAnimation] *ngIf="flip">
+  <div class="phrase">
+    {{ displayPhrase }}
+  </div>
+</div>
   
   
-  <div class="welcome-text">
-    <ng-container *ngFor="let item of welcomeText; index as i; last as isLast; trackBy: trackByLetter">
+  <div class="welcome-text" [@welcomeGone]="welcomeState">
+    <ng-container *ngFor="let item of welcomeText; index as i; last as isLast;">
         <span
         *ngIf="item.letter !== ' '; else emptySpace"
-        [ngClass]="{ 'sparkle': isLast && item.visible }">
+        [ngClass]="{ 'sparkle': isLast && item.visible }"
+        [@skalarlyRiseAnimation]="item.isPartOfSkalarly ? 'rise' : 'initial'">
           {{ item.letter }}
         </span>
     <ng-template #emptySpace>&nbsp;</ng-template>

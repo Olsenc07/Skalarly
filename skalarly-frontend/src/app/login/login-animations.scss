@@ -1,0 +1,33 @@
+@mixin welcome-text-style($total-letters, $color1, $color2, $right-to-left: false) {
+  justify-content: center;
+  white-space: nowrap; // Prevent letters from wrapping to a new line
+  span {
+    opacity: 0; // Start with the letter hidden
+  }
+
+  @for $i from 1 through $total-letters {
+    $animation-delay: if($right-to-left, ($total-letters - $i) * 0.15s, $i * 0.15s); // Conditional assignment
+    $animation-duration: 0.25s; // Duration for each letter
+
+    span:nth-child(#{$i}) {
+      animation: glow-animation $animation-duration $animation-delay forwards;
+      background: linear-gradient(45deg, #{$color1}, #{$color2});
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: background 0.3s, color 0.3s;
+    }
+  }
+  @keyframes glow-animation {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+}
+
+  

@@ -12,3 +12,22 @@ $all: 100%;
     width: $all;
     box-sizing: border-box;
 }
+$colors: (
+  '#3ab7bf', // Mystic Turquoise
+  '#9b72aa', // Ethereal Lavender
+  '#507dbc', // Celestial Blue
+  '#c94f7c', // Twilight Magenta
+  '#323232', // Eclipse Black
+  '#f4f4f4', // Frost White
+  '#d4af37', // Glimmering Gold
+  '#2554C7', // Sapphire Blue
+  '#C0C0C0', // Moonlit Silver
+  '#3CB371', // Galactic Green
+  '#FFC0CB', // Stardust Pink
+  '#87CEEB', // Shimmering Sky
+  '#000080', // Nebula Navy
+);
+@function random-color() {
+  $index: random(length($colors));
+  @return nth($colors, $index);
+}
