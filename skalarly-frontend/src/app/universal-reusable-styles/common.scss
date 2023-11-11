@@ -27,6 +27,10 @@ $colors: (
   '#87CEEB', // Shimmering Sky
   '#000080', // Nebula Navy
 );
+:root{
+--pairingColor: #2F4F4F;
+--pairingColor2: #36454F;
+}
 @function random-color() {
   $index: random(length($colors));
   @return nth($colors, $index);

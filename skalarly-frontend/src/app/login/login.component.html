@@ -132,35 +132,37 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </ng-container>
 <!-- welcome and join animation -->
 <div class="welcome-container">
- 
-    <button mat-raised-button [ngClass]="{ 'welcome-text-south-paw': joinAnimation }"
-     routerLink="/sign-up" >
+    <button mat-raised-button [ngClass]="{ 'welcome-text-south-paw': flip }"
+     routerLink="/sign-up" join>
      <span *ngFor="let item of joinText;">
       {{item.letter}}
      </span>
     </button>
   <!-- array animation of words -->
-  <div class="welcome-text" [@welcomeGone]="welcomeState" (@welcomeGone.done)="onAnimationDone()">
-    <ng-container *ngFor="let item of welcomeText; index as i; last as isLast;">
+
+  <div class="welcome-text">
+    <ng-container *ngIf="!flip else phrase">
+      <div   [@skalarlyRiseAnimation]="skalarlyState ? 'rise' : 'initial'"
+      (@skalarlyRiseAnimation.done)="skalarlyRiseDone()" >
+  <ng-container *ngFor="let item of welcomeText; index as i; last as isLast;">
+
         <span
-        *ngIf="item.letter !== ' '; else emptySpace"
+        *ngIf="item.letter !== ' '; else emptySpace" 
         [ngClass]="{ 'sparkle': isLast && item.visible }"
         >
-          {{ item.letter }}
-
-        </span>
-        <span *ngIf="checkIfLast(i)" clas="overlapping-skalarly" [@skalarlyRiseAnimation]="skalarlyState" (@skalarlyRiseAnimation.done)="skalarlyRiseDone()">
-          Skalarly
+        {{item.letter}}
         </span>
     <ng-template #emptySpace>&nbsp;</ng-template>
   </ng-container>
-  <!-- replaces where welcome text was -->
+    </div>
 
-  </div>
-  <div [@flipAnimation] *ngIf="flip">
-    <mat-chip-option class="phrase">
+</ng-container>
+   <!-- replaces where welcome text was -->
+   <ng-template #phrase>
+    <mat-chip-option class="phrase" [@fadeInOut]>
       {{ displayPhrase }}
     </mat-chip-option>
-  </div>
-
+  </ng-template>
+</div>
+ 
   </div>

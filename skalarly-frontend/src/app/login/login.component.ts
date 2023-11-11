@@ -28,8 +28,6 @@ import {
 import {
   animate,
   keyframes,
-  query,
-  stagger,
   state,
   style,
   transition,
@@ -51,7 +49,6 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
 import { fadeInOutAnimation } from '../custom-architecture-aids/animations/fade-animation';
-import { flipAnimation } from '../custom-architecture-aids/animations/flip-animation';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 import { rotateAnimation } from '../custom-architecture-aids/animations/rotate180-animation';
 import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin-change-animation';
@@ -86,10 +83,8 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
       state(
         'initial',
         style({
-          background: 'linear-gradient(to bottom, blue, blue)',
-          '-webkit-background-clip': 'text',
-          'background-clip': 'text',
-          color: 'transparent'
+          opacity: 1,
+          transform: 'translateY(0)'
         })
       ),
       transition('* => rise', [
@@ -97,7 +92,14 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
           '4s ease-in',
           keyframes([
             style({
-              background: `linear-gradient(to top, var(--first), var(--second))`
+              opacity: 1,
+              transform: 'translateY(-15px)',
+              offset: 0.7
+            }),
+            style({
+              opacity: 0,
+              transform: 'translateY(-15px)',
+              offset: 1
             })
           ])
         )
@@ -183,22 +185,7 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
       transition('initial => left', animate('0.1s')),
       transition('left => right', animate('0.1s')),
       transition('right => initial', animate('0.1s'))
-    ]),
-    trigger('welcomeGone', [
-      transition('* => gone', [
-        query(
-          'span',
-          stagger('50ms', [
-            animate(
-              '300ms ease-in',
-              style({ opacity: 0, transform: 'scale(0)' })
-            )
-          ]),
-          { optional: true }
-        )
-      ])
-    ]),
-    flipAnimation
+    ])
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
@@ -255,7 +242,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   showJoinButton: boolean = false;
   disappearSkalarly: boolean = false;
   flip: boolean = false;
-  isGlowing = false;
+  isGlowing: boolean = false;
   progressState: 'default' | 'load' | 'complete' = 'default';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
     null;
@@ -309,10 +296,6 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     for (let i = 0; i < join.length; i++) {
       this.joinText.push({ letter: join[i], visible: false });
     }
-    const skalar: string = 'Skalarly';
-    for (let i = 0; i < skalar.length; i++) {
-      this.skalarText.push({ letter: text[i], visible: false });
-    }
     // email
     this.loginForm.controls['email'].valueChanges
       .pipe(
@@ -363,26 +346,17 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     setTimeout(() => {
       this.loaded = true;
       this.randomizePairs();
+      setTimeout(() => {
+        this.skalarlyState = 'rise';
+      }, 4000);
     }, 1500);
   }
-  checkIfLast(index: number): boolean {
-    if (index === this.welcomeText.length - 1) {
-      // When the last item is reached, trigger the Skalarly rise animation
-      this.skalarlyState = 'rise';
-      return true;
-    }
-    return false;
-  }
-  onAnimationDone() {
+  skalarlyRiseDone(): void {
     this.flip = true;
     this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex];
     setInterval(() => {
       this.updatePhrase();
     }, 3000);
-  }
-  skalarlyRiseDone(): void {
-    this.joinAnimation = true;
-    this.disappearSkalarly = true;
   }
   private randomizePairs(): void {
     const randomizedPair: string[] = [];

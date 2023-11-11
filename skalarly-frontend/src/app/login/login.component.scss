@@ -90,15 +90,39 @@ $form-margins: (
   button[join] {
     @include responsive.responsiveFontSize;
       margin: 1% 0%;
-      background-image: linear-gradient(to right,#507dbc,#C0C0C0);
+      background-image: linear-gradient(to right, #507dbc,#C0C0C0);
+      background-image: linear-gradient(to right, transarent,#C0C0C0);
       color: white;
       font-family: 'Cormorant Garamond', serif;
-    
       // add ons
-      animation: float 3s ease-in-out infinite;
+      animation: float 4s ease-in-out;
       position: relative;
       overflow: hidden;
       transition: background-color 0.5s, transform 0.3s, box-shadow 0.3s;
+    align-items: center;
+    text-align: center;
+      // Magic glow effect
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+    
+      // Hover state
+      &:hover:before {
+        opacity: 1;
+      }
+    
+      // Active/Tap state
+      &:active {
+        background-color: darken(#9b72aa, 10%); 
+      }
   }
   button[forgot]{
     @include responsive.responsiveFontSizeSmaller;
@@ -113,36 +137,6 @@ $form-margins: (
     text-decoration: underline;
 
   
-  }
-  button[join] {
-    // ... other styles ...
-    position: relative;
-    overflow: hidden;
-    transition: background-color 0.5s, transform 0.3s, box-shadow 0.3s;
-  align-items: center;
-  text-align: center;
-    // Magic glow effect
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-  
-    // Hover state
-    &:hover:before {
-      opacity: 1;
-    }
-  
-    // Active/Tap state
-    &:active {
-      background-color: darken(#9b72aa, 10%); 
-    }
   }
   
   // Keyframes for floating effect
@@ -309,6 +303,7 @@ div[column] {
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent; 
+      // i want htis background to be added only onceprevis aniation is done
       $firstChoice: universal.random-color();
       $secondChoice: universal.random-color();
       background-image: linear-gradient(45deg, #{$firstChoice}, #{$secondChoice}, #{$firstChoice}, #{$secondChoice}, #{$firstChoice}, #{$secondChoice});
@@ -416,7 +411,8 @@ h2 {
   background-size: 200% 200%;
 }
 
-.phrase {
-  background-color: universal.random-color();
-
+mat-chip-option.phrase {
+  --ranodomColor: universal.random-color();
+  color: var(--ranodomColor);
 }
+

@@ -11,7 +11,7 @@ export const fadeInOutAnimation: AnimationTriggerMetadata = trigger(
   [
     transition(':enter', [
       style({ opacity: 0 }),
-      animate('.5s ease-out', style({ opacity: 1 }))
+      animate('.5s ease-in', style({ opacity: 1 }))
     ]),
 
     transition(':leave', [
