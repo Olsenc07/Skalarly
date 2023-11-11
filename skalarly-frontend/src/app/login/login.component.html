@@ -134,6 +134,9 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <div class="welcome-container">
     <button mat-raised-button [ngClass]="{ 'welcome-text-south-paw': flip }"
      routerLink="/sign-up" join>
+     <span class="static-text">
+      Join
+    </span>
      <span *ngFor="let item of joinText;">
       {{item.letter}}
      </span>

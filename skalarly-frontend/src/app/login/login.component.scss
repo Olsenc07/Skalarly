@@ -91,7 +91,12 @@ $form-margins: (
     @include responsive.responsiveFontSize;
       margin: 1% 0%;
       background-image: linear-gradient(to right, #507dbc,#C0C0C0);
-      background-image: linear-gradient(to right, transarent,#C0C0C0);
+      &.welcome-text-south-paw {
+        background-image: linear-gradient(to right, transparent, #C0C0C0); 
+        span[static-text] {
+          display: none ;
+        }
+      }
       color: white;
       font-family: 'Cormorant Garamond', serif;
       // add ons
