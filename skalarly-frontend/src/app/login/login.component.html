@@ -3,7 +3,7 @@
   <!-- logo glows on valid login -->
   <div logo>
   <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
-   priority  width="252" height="200" sizes="30vh">
+   priority  width="189" height="150" sizes="30vh">
    </div>
  
 <h2> Enhance Your Academic Experience With <br>
@@ -15,7 +15,7 @@
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
       <!-- pre load skeleton -->
-      <form *ngIf="loaded; else onLoaded" >
+      <form *ngIf="!loaded; else onLoaded" >
         <div column>
       <div class="input-boxes-skeleton" >
       <div class="skeleton-wrap">
@@ -82,7 +82,7 @@
  <mat-label [class.condition-met]="loginForm.get('password')!.valid">
    Password</mat-label>
  <mat-error *ngIf="loginForm.get('password')!.hasError?.('invalidPassword')">Invalid password</mat-error>
-<button matSuffix mat-icon-button type="button" 
+<button matSuffix mat-icon-button
 (click)="$event.stopPropagation(); toggleVisibility()"  [@toggleAnimation]="visiblePassword"
 matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <span class="material-symbols-outlined">
@@ -134,21 +134,26 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <div class="welcome-container">
     <button mat-raised-button [ngClass]="{ 'welcome-text-south-paw': flip }"
      routerLink="/sign-up" join>
-     <span class="static-text">
-      Join
-    </span>
      <span *ngFor="let item of joinText;">
       {{item.letter}}
      </span>
+     <ng-template #phrase>
+      <span class='welcome-text'>
+     <ng-container *ngFor="let item of phraseText;" >
+      <span *ngIf="item.letter !== ' '; else emptySpace">
+      {{ item.letter }}
+     </span>
+    </ng-container>
+     <ng-template #emptySpace>&nbsp;</ng-template>
+    </span>
+  </ng-template>
     </button>
   <!-- array animation of words -->
-
   <div class="welcome-text">
     <ng-container *ngIf="!flip else phrase">
-      <div   [@skalarlyRiseAnimation]="skalarlyState ? 'rise' : 'initial'"
+      <div [@skalarlyRiseAnimation]="skalarlyState ? 'rise' : 'initial'"
       (@skalarlyRiseAnimation.done)="skalarlyRiseDone()" >
   <ng-container *ngFor="let item of welcomeText; index as i; last as isLast;">
-
         <span
         *ngIf="item.letter !== ' '; else emptySpace" 
         [ngClass]="{ 'sparkle': isLast && item.visible }"
@@ -158,14 +163,5 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
     <ng-template #emptySpace>&nbsp;</ng-template>
   </ng-container>
     </div>
-
 </ng-container>
-   <!-- replaces where welcome text was -->
-   <ng-template #phrase>
-    <mat-chip-option class="phrase" [@fadeInOut]>
-      {{ displayPhrase }}
-    </mat-chip-option>
-  </ng-template>
-</div>
- 
   </div>

@@ -189,6 +189,7 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
+  phraseInterval: number = NaN;
   get skeletonTheme(): {
     width: string;
     height: string;
@@ -238,6 +239,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   randomWordPairs: string[] = [];
   currentPhraseIndex: number = 0;
   displayPhrase: string = '';
+  phraseText: { letter: string; visible: boolean }[] = [];
 
   showJoinButton: boolean = false;
   disappearSkalarly: boolean = false;
@@ -346,17 +348,25 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     setTimeout(() => {
       this.loaded = true;
       this.randomizePairs();
-      setTimeout(() => {
-        this.skalarlyState = 'rise';
-      }, 4000);
     }, 1500);
+    setTimeout(() => {
+      this.skalarlyState = 'rise';
+    }, 7000);
   }
   skalarlyRiseDone(): void {
     this.flip = true;
     this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex];
-    setInterval(() => {
+    console.log('hey', this.displayPhrase);
+    setTimeout(() => {
       this.updatePhrase();
     }, 3000);
+    // Clear the existing phraseText before adding new letters
+    for (let i = 0; i < this.displayPhrase.length; i++) {
+      this.phraseText.push({
+        letter: this.displayPhrase[i],
+        visible: false
+      });
+    }
   }
   private randomizePairs(): void {
     const randomizedPair: string[] = [];
@@ -370,7 +380,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
       this.randomWordPairs.push(selectedQuestion);
     }
   }
-  updatePhrase() {
+  updatePhrase(): void {
     this.currentPhraseIndex =
       (this.currentPhraseIndex + 1) % this.randomWordPairs.length;
     this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex];

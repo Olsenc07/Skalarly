@@ -4,7 +4,7 @@
 @use '../login/login-animations' as animation;
 $input-margin: 3%; 
 $form-margins: (
-  base: 0%,     
+  base: 3%,     
   tablet: 5%,  
   laptop: 10%,   
   desktop: 15%,  
@@ -90,12 +90,13 @@ $form-margins: (
   button[join] {
     @include responsive.responsiveFontSize;
       margin: 1% 0%;
+      position: relative; // Needed for absolute positioning of children
+      overflow: hidden; // To handle any overflow issues
       background-image: linear-gradient(to right, #507dbc,#C0C0C0);
+      transition: background-image 1.5s ease; 
       &.welcome-text-south-paw {
-        background-image: linear-gradient(to right, transparent, #C0C0C0); 
-        span[static-text] {
-          display: none ;
-        }
+        background-image: linear-gradient(to right, white, ghostwhite);; 
+        font-weight: bold;
       }
       color: white;
       font-family: 'Cormorant Garamond', serif;
@@ -185,9 +186,6 @@ $form-margins: (
     background-color: ghostwhite;
   }
   // welcome text animations
-
-
-
   .welcome-text {
     display: flex;
     $firstChoice: universal.random-color();
@@ -416,8 +414,5 @@ h2 {
   background-size: 200% 200%;
 }
 
-mat-chip-option.phrase {
-  --ranodomColor: universal.random-color();
-  color: var(--ranodomColor);
-}
+
 
