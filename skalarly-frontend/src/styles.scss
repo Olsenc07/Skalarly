@@ -89,7 +89,7 @@ mat-toolbar{
       box-shadow: 0 0 var(--shadow-size) var(--mdc-outlined-text-field-outline-color);
     }
     50% {
-      box-shadow: 0 var(--shadow-size2) var(--shadow-size2) var(--mdc-outlined-text-field-outline-color);
+      box-shadow: 0 0 var(--shadow-size2) var(--mdc-outlined-text-field-outline-color);
     }
   }
 }
@@ -101,7 +101,7 @@ mat-toolbar{
         box-shadow: 0 0 var(--shadow-size) var(--mdc-outlined-text-field-error-outline-color);
       }
       50% {
-        box-shadow: 0 var(--shadow-size2) var(--shadow-size2) var(--mdc-outlined-text-field-error-outline-color)
+        box-shadow: 0 0 var(--shadow-size2) var(--mdc-outlined-text-field-error-outline-color)
       }
     }
   }

@@ -93,10 +93,12 @@ $form-margins: (
       position: relative; // Needed for absolute positioning of children
       overflow: hidden; // To handle any overflow issues
       background-image: linear-gradient(to right, #507dbc,#C0C0C0);
-      transition: background-image 1.5s ease; 
+      transition: background-image 1.5s ease, transform 1.5s ease; 
       &.welcome-text-south-paw {
         background-image: linear-gradient(to right, white, ghostwhite);; 
-        font-weight: bold;
+        font-weight: 700;
+        transform: scaleX(1);
+        box-shadow: 3px 3px #93b9e6;
       }
       color: white;
       font-family: 'Cormorant Garamond', serif;

@@ -34,6 +34,7 @@ import {
   trigger
 } from '@angular/animations';
 import { AuthorizeService } from '../custom-architecture-aids/services/authorize.service';
+import { ChildLoginComponent } from './reusable-folder/child-login.component';
 import { ErrorHandlerComponent } from '../custom-architecture-aids/error-handler/error-handler.component';
 import { GlowBorderDirective } from '../custom-architecture-aids/directives/glow-border.directive';
 import { HttpClientModule } from '@angular/common/http';
@@ -48,7 +49,6 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
-import { fadeInOutAnimation } from '../custom-architecture-aids/animations/fade-animation';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 import { rotateAnimation } from '../custom-architecture-aids/animations/rotate180-animation';
 import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin-change-animation';
@@ -60,6 +60,7 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
   styleUrls: ['./login.component.scss'],
   imports: [
     CommonModule,
+    ChildLoginComponent,
     ErrorHandlerComponent,
     GlowBorderDirective,
     HttpClientModule,
@@ -76,9 +77,7 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
     ReactiveFormsModule,
     ValidationAnimationDirective
   ],
-
   animations: [
-    fadeInOutAnimation,
     trigger('skalarlyRiseAnimation', [
       state(
         'initial',
@@ -151,7 +150,8 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
         style({
           background:
             'linear-gradient(to top right, transparent 0%, transparent 100%)', // Start with a transparent gradient
-          color: 'black'
+          color: 'black',
+          'box-shadow': '0px 0px 5px 1px #5284c9'
         })
       ),
       state(
@@ -189,7 +189,6 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
   ]
 })
 export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
-  phraseInterval: number = NaN;
   get skeletonTheme(): {
     width: string;
     height: string;
@@ -201,49 +200,13 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   }
   // animation based
   loaded: boolean = false;
-  welcomeText: { letter: string; visible: boolean }[] = [];
-  joinText: { letter: string; visible: boolean }[] = [];
-  skalarText: { letter: string; visible: boolean }[] = [];
   welcomeState: string | 'gone' = '';
-  joinAnimation: boolean = false;
-  skalarlyState: string = 'initial';
-  joinLetters: string[] = [];
-  joinSkalarly: string[] = [];
-  wordPairs: string[] = [
-    'the Enlightenment',
-    'in Collaboration',
-    'the Innovation',
-    'our Synergy',
-    'the Development',
-    'in Education',
-    'for Empowerment',
-    'the Progress',
-    'for Insight',
-    'the Understanding',
-    'in Knowledge',
-    'the Unity',
-    'the Discovery',
-    'the Growth',
-    'our Scholarship',
-    'our Network',
-    'the Wisdom',
-    'the Advancement',
-    'the Curiosity',
-    'our Partnership',
-    'the Exploration',
-    'the Achievement',
-    'the Learning',
-    'to Nurture',
-    'the Aspiration'
-  ];
-  randomWordPairs: string[] = [];
-  currentPhraseIndex: number = 0;
-  displayPhrase: string = '';
-  phraseText: { letter: string; visible: boolean }[] = [];
-
-  showJoinButton: boolean = false;
-  disappearSkalarly: boolean = false;
   flip: boolean = false;
+  skalarlyState: string = 'initial';
+  private isAnimationDone: boolean = false;
+  join: string = 'Join';
+  welcome: string = 'Welcome To Skalarly';
+
   isGlowing: boolean = false;
   progressState: 'default' | 'load' | 'complete' = 'default';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
@@ -264,9 +227,10 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   // login
   stayLoggedIn: boolean = false;
   failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
-
+ 
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
+    private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
     // eslint-disable-next-line no-unused-vars
     @Optional() public dialogRef: MatDialogRef<LoginComponent>,
     // eslint-disable-next-line no-unused-vars
@@ -286,18 +250,9 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   });
 
   ngOnInit(): void {
+    // randomize phrases
+    this.loginSpecificService.randomizePairs();
     this.titleService.setTitle('Skalarly Login');
-    const text: string = 'Welcome To Skalarly';
-    for (let i = 0; i < text.length; i++) {
-      this.welcomeText.push({
-        letter: text[i],
-        visible: false
-      });
-    }
-    const join: string = 'Join';
-    for (let i = 0; i < join.length; i++) {
-      this.joinText.push({ letter: join[i], visible: false });
-    }
     // email
     this.loginForm.controls['email'].valueChanges
       .pipe(
@@ -347,45 +302,23 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.loaded = true;
-      this.randomizePairs();
     }, 1500);
     setTimeout(() => {
       this.skalarlyState = 'rise';
     }, 7000);
   }
+  // reusbale function
   skalarlyRiseDone(): void {
-    this.flip = true;
-    this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex];
-    console.log('hey', this.displayPhrase);
+    if (!this.isAnimationDone) {
+      this.flip = true;
+      // This block will be executed only once after the animation is done.
+      this.isAnimationDone = true;
+    }
     setTimeout(() => {
-      this.updatePhrase();
-    }, 3000);
-    // Clear the existing phraseText before adding new letters
-    for (let i = 0; i < this.displayPhrase.length; i++) {
-      this.phraseText.push({
-        letter: this.displayPhrase[i],
-        visible: false
-      });
-    }
+      // change phrase displayed
+      this.welcome = this.loginSpecificService.updatePhrase();
+    }, 3500);
   }
-  private randomizePairs(): void {
-    const randomizedPair: string[] = [];
-    const length: number = this.wordPairs.length;
-    for (let i = 0; i < length; i++) {
-      const randomize: number = Math.floor(
-        Math.random() * this.wordPairs.length
-      );
-      const selectedQuestion: string = this.wordPairs.splice(randomize, 1)[0];
-      randomizedPair.push(selectedQuestion[0]);
-      this.randomWordPairs.push(selectedQuestion);
-    }
-  }
-  updatePhrase(): void {
-    this.currentPhraseIndex =
-      (this.currentPhraseIndex + 1) % this.randomWordPairs.length;
-    this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex];
-  }
-
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;

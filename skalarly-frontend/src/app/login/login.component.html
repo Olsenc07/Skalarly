@@ -3,7 +3,7 @@
   <!-- logo glows on valid login -->
   <div logo>
   <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
-   priority  width="189" height="150" sizes="30vh">
+   priority  width="94.5" height="75" sizes="30vh">
    </div>
  
 <h2> Enhance Your Academic Experience With <br>
@@ -27,13 +27,11 @@
         <ngx-skeleton-loader appearance="custom-content" class="input-skeleton" two></ngx-skeleton-loader>
         <ngx-skeleton-loader appearance="line" forgot></ngx-skeleton-loader>
       </div>
-</div>
+      </div>
       <ngx-skeleton-loader appearance="circle" [theme]="skeletonTheme" circle></ngx-skeleton-loader>
     <!-- <ngx-skeleton-loader appearance="custom-content" class="input-skeleton-join"></ngx-skeleton-loader> -->
       </div>
     </form>
-
-        <!-- Skeleton for th FAB button -->
  <!-- rendered content -->
  <ng-template #onLoaded >
 <form [formGroup]="loginForm" (ngSubmit)="login()" >
@@ -134,34 +132,13 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <div class="welcome-container">
     <button mat-raised-button [ngClass]="{ 'welcome-text-south-paw': flip }"
      routerLink="/sign-up" join>
-     <span *ngFor="let item of joinText;">
-      {{item.letter}}
-     </span>
-     <ng-template #phrase>
-      <span class='welcome-text'>
-     <ng-container *ngFor="let item of phraseText;" >
-      <span *ngIf="item.letter !== ' '; else emptySpace">
-      {{ item.letter }}
-     </span>
-    </ng-container>
-     <ng-template #emptySpace>&nbsp;</ng-template>
-    </span>
-  </ng-template>
+    <app-child-login [message]="join"></app-child-login>
     </button>
   <!-- array animation of words -->
   <div class="welcome-text">
-    <ng-container *ngIf="!flip else phrase">
-      <div [@skalarlyRiseAnimation]="skalarlyState ? 'rise' : 'initial'"
+      <div [@skalarlyRiseAnimation]="skalarlyState ? 'rise' : 'initial' "
       (@skalarlyRiseAnimation.done)="skalarlyRiseDone()" >
-  <ng-container *ngFor="let item of welcomeText; index as i; last as isLast;">
-        <span
-        *ngIf="item.letter !== ' '; else emptySpace" 
-        [ngClass]="{ 'sparkle': isLast && item.visible }"
-        >
-        {{item.letter}}
-        </span>
-    <ng-template #emptySpace>&nbsp;</ng-template>
-  </ng-container>
+    <app-child-login [message]="welcome"></app-child-login>
     </div>
-</ng-container>
   </div>
+</div>

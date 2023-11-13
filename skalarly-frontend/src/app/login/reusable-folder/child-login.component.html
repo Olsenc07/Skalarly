@@ -1,0 +1,9 @@
+<ng-container *ngFor="let item of animatedText; index as i; last as isLast;">
+<span
+*ngIf="item.letter !== ' '; else emptySpace" 
+[ngClass]="{ 'sparkle': isLast && item.visible }"
+>
+{{item.letter}}
+</span>
+<ng-template #emptySpace>&nbsp;</ng-template>
+</ng-container>
