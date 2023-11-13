@@ -5,12 +5,15 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-export const fadeOutAnimation: AnimationTriggerMetadata = trigger(
-  'fadeOutAnimation',
-  [
-    transition(':leave', [
-      // :leave is alias for '* => void'
-      animate('500ms', style({ opacity: 0 }))
-    ])
-  ]
-);
+export const fadeOutAnimation: AnimationTriggerMetadata = trigger('fadeOut', [
+  transition('* => active', [
+    animate(
+      '0.5s ease-in',
+      style({
+        opacity: 0,
+        transform: 'scale(0.8)'
+      })
+    )
+  ]),
+  transition('* => inactive', [])
+]);

@@ -1,6 +1,8 @@
 import {
   AnimationTriggerMetadata,
   animate,
+  query,
+  stagger,
   style,
   transition,
   trigger
@@ -9,14 +11,22 @@ import {
 export const fadeInOutAnimation: AnimationTriggerMetadata = trigger(
   'fadeInOut',
   [
+    // Enter transition with smoother easing
     transition(':enter', [
       style({ opacity: 0 }),
-      animate('.5s ease-in', style({ opacity: 1 }))
+      animate('0.3s ease-in-out', style({ opacity: 1 })) // Adjusted duration and easing
     ]),
 
+    // Leave transition with smoother staggering
     transition(':leave', [
-      style({ opacity: 1 }),
-      animate('.5s ease-out', style({ opacity: 0 }))
+      query(
+        ':leave',
+        stagger('30ms', [
+          // Adjusted stagger timing
+          animate('0.3s ease-in-out', style({ opacity: 0 })) // Adjusted duration and easing
+        ]),
+        { optional: true }
+      )
     ])
   ]
 );

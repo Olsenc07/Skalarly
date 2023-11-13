@@ -3,9 +3,8 @@
   <!-- logo glows on valid login -->
   <div logo>
   <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
-   priority  width="94.5" height="75" sizes="30vh">
+   priority  width="94.5" height="75" sizes="30vw">
    </div>
- 
 <h2> Enhance Your Academic Experience With <br>
   <div skalarly>
     Skalarly
@@ -63,16 +62,9 @@
   <mat-form-field appearance="outline">
     <span matPrefix class="material-symbols-outlined"
     [@lockAnimation]="lockState" placeholder="Password" >
-      <ng-container *ngIf="!isPasswordValid; else unlock">
     <mat-icon>
-        lock
+      {{ !isPasswordValid ? 'lock' : 'lock_open' }}
     </mat-icon>
-        </ng-container>
-        <ng-template #unlock>
-    <mat-icon>
-        lock_open
-    </mat-icon>
-        </ng-template>
       </span>
  <input matInput formControlName="password" placeholder="Password" 
  [type]="visiblePassword ? 'text' : 'password'"
@@ -80,20 +72,13 @@
  <mat-label [class.condition-met]="loginForm.get('password')!.valid">
    Password</mat-label>
  <mat-error *ngIf="loginForm.get('password')!.hasError?.('invalidPassword')">Invalid password</mat-error>
-<button matSuffix mat-icon-button
+<button matSuffix mat-icon-button type="button"
 (click)="$event.stopPropagation(); toggleVisibility()"  [@toggleAnimation]="visiblePassword"
 matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <span class="material-symbols-outlined">
-  <ng-container *ngIf="visiblePassword; else hide">
     <mat-icon>
-      visibility
+    {{ visiblePassword ? 'visibility' : 'visibility_off' }}
     </mat-icon>
-</ng-container>
-<ng-template #hide>
-  <mat-icon>
-    visibility_off
-  </mat-icon>
-</ng-template>
 </span>
 </button>
 </mat-form-field>
@@ -130,15 +115,22 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </ng-container>
 <!-- welcome and join animation -->
 <div class="welcome-container">
-    <button mat-raised-button [ngClass]="{ 'welcome-text-south-paw': flip }"
+    <button mat-raised-button 
+    [ngClass]="{'welcome-text-south-paw': flip}"
      routerLink="/sign-up" join>
-    <app-child-login [message]="join"></app-child-login>
+    <ng-container>
+  <span *ngIf="!flip; else south">Join</span>
+  <ng-template #south>
+    <app-child-login [message]="join" [@bubbleAnimation]="flip ? 'animate' : 'noAnimate'" 
+    [welcomeSouthPaw]="flip"></app-child-login>
+  </ng-template>
+</ng-container>
+
     </button>
   <!-- array animation of words -->
-  <div class="welcome-text">
       <div [@skalarlyRiseAnimation]="skalarlyState ? 'rise' : 'initial' "
       (@skalarlyRiseAnimation.done)="skalarlyRiseDone()" >
-    <app-child-login [message]="welcome"></app-child-login>
+    <app-child-login [message]="welcome" [welcomeSouthPaw]="false" 
+    (newPhrase)="updatePhrase()"></app-child-login>
     </div>
   </div>
-</div>

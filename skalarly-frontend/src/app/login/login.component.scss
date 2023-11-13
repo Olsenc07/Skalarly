@@ -87,6 +87,13 @@ $form-margins: (
 //     }
 
 }
+div[logo] img {
+  max-width: 94.5px;
+  max-height: 75px;
+  width: auto;
+  height: auto;
+}
+
   button[join] {
     @include responsive.responsiveFontSize;
       margin: 1% 0%;

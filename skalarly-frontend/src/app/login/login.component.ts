@@ -38,6 +38,7 @@ import { ChildLoginComponent } from './reusable-folder/child-login.component';
 import { ErrorHandlerComponent } from '../custom-architecture-aids/error-handler/error-handler.component';
 import { GlowBorderDirective } from '../custom-architecture-aids/directives/glow-border.directive';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginSpecificService } from '../custom-architecture-aids/services/login-validation/login-specific.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -49,6 +50,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { ValidationAnimationDirective } from '../custom-architecture-aids/directives/login-validation-animation.directive';
+import { bubbleAnimation } from '../custom-architecture-aids/animations/bubble-animation';
 import { passwordValidator } from '../custom-architecture-aids/validators/password.validator';
 import { rotateAnimation } from '../custom-architecture-aids/animations/rotate180-animation';
 import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin-change-animation';
@@ -104,6 +106,8 @@ import { spinChangeAnimation } from '../custom-architecture-aids/animations/spin
         )
       ])
     ]),
+    // join button animation
+    bubbleAnimation,
     // email validation
     spinChangeAnimation,
     // password validation
@@ -227,7 +231,6 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   // login
   stayLoggedIn: boolean = false;
   failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
- 
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
     private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
@@ -248,7 +251,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
       passwordValidator()
     ])
   });
-
+  
   ngOnInit(): void {
     // randomize phrases
     this.loginSpecificService.randomizePairs();
@@ -313,12 +316,13 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
       this.flip = true;
       // This block will be executed only once after the animation is done.
       this.isAnimationDone = true;
-    }
-    setTimeout(() => {
-      // change phrase displayed
       this.welcome = this.loginSpecificService.updatePhrase();
-    }, 3500);
+    }
   }
+  updatePhrase(): void {
+    console.log('again');
+    this.welcome = this.loginSpecificService.updatePhrase();
+ }
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;

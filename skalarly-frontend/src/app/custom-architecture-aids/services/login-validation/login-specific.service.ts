@@ -47,9 +47,9 @@ export class LoginSpecificService {
     }
   }
   //   this gets triggered every 3.5seconds from login ts
-  updatePhrase(): void {
+  updatePhrase(): string {
     this.currentPhraseIndex =
       (this.currentPhraseIndex + 1) % this.randomWordPairs.length;
-    this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex];
+    return (this.displayPhrase = this.randomWordPairs[this.currentPhraseIndex]);
   }
 }
