@@ -1,4 +1,4 @@
-import { AccountManagementService } from 'src/app/custom-architecture-aids/services/account-management.service';
+import { AccountManagementService } from 'src/app/assistant-level-code/custom-architecture-aids/services/account-management.service';
 import { Injectable } from '@angular/core';
 import { SignUpComponent } from 'src/app/signup/signup.component';
 

@@ -1,5 +1,5 @@
-import { AuthorizeService } from 'src/app/custom-architecture-aids/services/authorize.service';
-import { GlobalDataService } from 'src/app/custom-architecture-aids/services/global-data.service';
+import { AuthorizeService } from 'src/app/assistant-level-code/custom-architecture-aids/services/authorize.service';
+import { GlobalDataService } from 'src/app/assistant-level-code/custom-architecture-aids/services/global-data.service';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';

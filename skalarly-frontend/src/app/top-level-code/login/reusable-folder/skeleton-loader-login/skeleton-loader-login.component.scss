@@ -1,0 +1,33 @@
+@use '../universal-reusable-styles/break-points' as device;
+.input-boxes-skeleton{
+    @include universal.common(flex, column);
+    margin: 0% 2%;
+     //  if greater then 576px width
+     @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
+     @include universal.common(flex, row);
+    }
+  }
+    .skeleton-wrap{
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    .input-skeleton[one]{ // Apply the mixin to the first and third child which are supposed to mimic the mat form field
+          @include pseudo-mat-form-field;
+            margin-right: device.$input-margin; // Specific margin for the first child
+          }
+    .input-skeleton[two]{
+        @include pseudo-mat-form-field;
+            margin-left: device.$input-margin; // Specific margin for the third child
+          }
+        ngx-skeleton-loader[stayIn]{
+            width: 50%;
+            align-self: flex-start;
+          }
+        ngx-skeleton-loader[forgot] {
+            width: 50%;
+            align-self: flex-end;
+          }
+        ngx-skeleton-loader[circle]{
+          align-self: center;
+        }

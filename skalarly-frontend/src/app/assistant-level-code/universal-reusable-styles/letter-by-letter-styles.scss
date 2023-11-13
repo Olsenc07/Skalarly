@@ -1,0 +1,24 @@
+@use '../universal-reusable-styles/responsive-mixin' as responsive;
+@use '../../top-level-code/login/login-animations' as animation;
+// end of letters in animation
+.sparkle {
+    position: absolute;
+    @include reusableChild.trailingSparkles;
+    animation: sparkles 1s ease-in-out infinite;
+  }
+  .welcome-text {
+    display: flex;
+    $firstChoice: universal.random-color();
+    --first: #{$firstChoice};
+    $secondChoice: universal.random-color();
+    --second: #{$secondChoice};
+    @include responsive.responsiveFontSizeLarger;
+    @include animation.welcome-text-style(18, #{$firstChoice}, #{$secondChoice});
+  }
+  .welcome-text-south-paw {
+    display: flex;
+    $firstChoice: universal.random-color();
+    $secondChoice: universal.random-color();
+    @include responsive.responsiveFontSizeLarger;
+    @include animation.welcome-text-style(8, #{$firstChoice}, #{$secondChoice}, true);
+  }

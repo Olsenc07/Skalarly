@@ -1,0 +1,282 @@
+@use '../login/login-animations' as animation;
+@use '../../assistant-level-code/universal-reusable-styles/break-points' as device;
+@use '../../assistant-level-code/universal-reusable-styles/letter-by-letter-styles' as letterByLetter;
+@use '../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
+@use './login-animations' as reusableChild;
+@use '../../assistant-level-code/universal-reusable-styles/common' as universal;
+
+$form-margins: (
+  base: 3%,     
+  tablet: 5%,  
+  laptop: 10%,   
+  desktop: 15%,  
+  tv: 20%        
+);
+@include letterByLetter;
+@mixin responsiveMargins {
+  // Mobile First
+  --margin-form: #{map-get($form-margins, 'base')};
+  margin: 0% var(--margin-form);
+  @each $screen, $min-width in device.$device-sizes {
+    @if $screen != 'base' {
+      @include responsive.media-query($screen, $min-width){
+      // Use built media query string
+        margin: 0% #{map-get($form-margins, $screen)};
+      }}}
+}
+
+@mixin pseudo-mat-form-field {
+  background: rgb(239,241,246) no-repeat;
+  height: 56px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
+
+// logo and top of login screen
+.login-header {
+    text-align: center; 
+    @include universal.common;
+    align-items: center;
+    margin: 0;
+}
+div[logo] img {
+  max-width: 94.5px;
+  max-height: 30vh;
+  width: 100%;
+  height: auto;
+}
+  button[join] {
+    @include responsive.responsiveFontSize;
+      margin: 1% 0%;
+      position: relative; // Needed for absolute positioning of children
+      overflow: hidden; // To handle any overflow issues
+      background-image: linear-gradient(to right, #507dbc,#C0C0C0);
+      transition: background-image 1.5s ease, transform 1.5s ease; 
+      &.welcome-text-south-paw {
+        background-image: linear-gradient(to right, white, ghostwhite);; 
+        font-weight: 700;
+        transform: scaleX(1);
+        box-shadow: 3px 3px #93b9e6;
+      }
+      color: white;
+      font-family: 'Cormorant Garamond', serif;
+      // add ons
+      @include reusableChild.riseFloat;
+      animation: float 4s ease-in-out;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.5s, transform 0.3s, box-shadow 0.3s;
+    align-items: center;
+    text-align: center;
+      // Magic glow effect
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      // Hover state
+      &:hover:before {
+        opacity: 1;
+      }
+      // Active/Tap state
+      &:active {
+        background-color: darken(#9b72aa, 10%); 
+      }
+  }
+  button[forgot]{
+    @include responsive.responsiveFontSizeSmaller;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #2554C7;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    text-decoration: underline;
+  }
+  
+  // Sparkle on hover
+  button[join]:hover:after {
+    content: '\2728'; // Unicode character for sparkle
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include reusableChild.trailingSparkles;
+    animation: sparkles 1s ease-in-out;
+  }
+  
+  form {
+    @include responsiveMargins;
+    @include universal.common;
+    position: relative;
+    border: outset;
+    background-color: ghostwhite;
+  }
+
+  .overlapping-skalarly {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Makes it non-interactive */
+  }
+
+// *1 *2
+div[column] {
+  @include universal.common;
+  padding: 3% 1% 0% 1%;
+
+  &:first-of-type {
+    mat-form-field {
+      justify-content: flex-start;
+    }
+  }
+  &:not(:first-of-type) 
+    mat-form-field{
+    justify-content: flex-end;
+  }
+}
+.dot-pulse {
+    display: inline-block;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: grey;
+    animation: dotPulse 1s infinite ease-in-out;;
+  }
+.dot-pulse::before, .dot-pulse::after {
+  content: '';
+  position: absolute;
+}
+.dot-pulse::before {
+  left: -15px;
+  animation-delay: 0.33s;
+}
+
+.dot-pulse::after {
+  left: 15px;
+  animation-delay: 0.66s;
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(0) translateY(0);
+  }
+  50% {
+    transform: scale(1) translateY(-10px);
+  }
+}
+.mat-mdc-checkbox{ 
+    display: flex;
+  }
+  span[inputs] {
+  @include universal.common(flex, column);
+  @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
+   @include universal.common(flex, row);
+  }}
+  span[matPrefix] { 
+    margin-left: 15%;
+  }
+.login-options {
+  display: flex;
+  align-items: center;
+  text-align: center;
+       }
+.failed-login-animation {
+      @include reusableChild.shakeLogin;
+      animation: shake; 
+      animation-duration: 0.5s; 
+      animation-timing-function: ease-in-out;
+      }
+
+// approved login
+/* Define a CSS class for the glowing and scaling animation */
+.glowing-text {
+  @include reusableChild.greenGlow;
+  animation: glow .5s, scale .5s;
+}
+    div[loginButton]{
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      @include responsive.responsiveFontSize
+    }
+    div[skalarly] {
+      @include responsive.responsiveFontSizeLarger; 
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent; 
+      // i want htis background to be added only onceprevis aniation is done
+      $firstChoice: universal.random-color();
+      $secondChoice: universal.random-color();
+      background-image: linear-gradient(45deg, #{$firstChoice}, #{$secondChoice}, #{$firstChoice}, #{$secondChoice}, #{$firstChoice}, #{$secondChoice});
+      background-size: 200% 200%; // Extends the background to allow for the "flow" effect
+      @include reusableChild.gradientFlow;
+      animation: gradient-flow 6s linear infinite; // Adjust the time as needed
+    }
+   
+h2 {
+  margin: 1% 0%;
+  color: #bdc3c7;
+  @include responsive.responsiveFontSize; 
+}
+      .input-boxes{
+        display: flex;
+        justify-content: center;
+        border-right: 15px solid transparent;
+        border-bottom: 15px solid transparent;    
+        border-image: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7)) 1 stretch;
+        padding-bottom: 1%;
+        margin: 1%;
+        overflow: hidden; 
+  
+          &:first-of-type {
+            mat-checkbox {
+            margin-left: device.$input-margin; 
+
+            }
+          }
+          &:last-of-type{
+            button[forgot] {
+            margin-right: device.$input-margin; 
+          }
+        }
+        div {
+          width: 100%;
+        }
+      }
+      // /major animation
+      .join-button {
+        white-space: nowrap;
+        position: absolute;
+        bottom: 0; 
+        left: 0; 
+      }
+      .welcome-container {
+        @include universal.common;
+        align-items: center; 
+      }
+// last animation and display feature
+.flip-container {
+  @include universal.common;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #507dbc, #9b72aa);
+  color: white;
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
+  @include reusableChild.background;
+  animation: backgroundAnimation 10s ease infinite;
+  background-size: 200% 200%;
+}

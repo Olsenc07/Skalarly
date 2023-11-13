@@ -1,9 +1,9 @@
 import 'zone.js/dist/zone';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
-import { AuthInterceptor } from './app/custom-architecture-aids/interceptors/auth-interceptor';
+import { AuthInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/auth-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ErrorInterceptor } from './app/custom-architecture-aids/interceptors/error-interceptor';
+import { ErrorInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/error-interceptor';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { bootstrapApplication } from '@angular/platform-browser';

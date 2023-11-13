@@ -1,0 +1,127 @@
+  <!-- logo and welcoming words -->
+<div class="login-header">
+  <!-- logo glows on valid login -->
+  <div logo>
+  <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
+   priority  width="94.5" height="75" sizes="30vw">
+   </div>
+<h2> Enhance Your Academic Experience With <br>
+  <div skalarly>
+    Skalarly
+    </div>
+</h2>
+</div>
+<!-- content projection to be used in error handler -->
+  <ng-container login-content>
+      <!-- pre load skeleton -->
+      <form *ngIf="!loaded; else onLoaded" >
+        <div column>
+          <app-skeleton-loader-login *ngIf="!loaded"></app-skeleton-loader-login>
+      </div>
+    </form>
+ <!-- rendered content -->
+ <ng-template #onLoaded >
+<form [formGroup]="loginForm" (ngSubmit)="login()" >
+  <div class="input-boxes" >
+    <div>
+<span inputs>
+    <div column>
+  <!-- enter email -->
+  <mat-form-field  appearance="outline">
+    <input matInput formControlName="email"  placeholder="ex: name@institution.ca" type="email"
+    id="skalarlyEmail" [appGlowBorder]="isGlowing" />
+    <mat-label [class.condition-met]="emailFound" >
+         Academic Email</mat-label>
+    <mat-error *ngIf="loginForm.get('email')!.hasError?.('emailNotFound')">No account matches this email</mat-error>
+  <mat-icon matPrefix class="material-symbols-outlined" 
+    [@spinAndChange]="emailState">
+    <ng-container *ngIf="emailState === 'initial'"> alternate_email </ng-container>
+    <ng-container *ngIf="emailState === 'check'">check_circle</ng-container>
+  </mat-icon>
+  </mat-form-field>
+  <div class="login-options">
+    <!-- Keep skalar logged in -->
+    <mat-checkbox [checked]="stayLoggedIn" (change)="stayIn()" >
+      Stay logged in (1 month)</mat-checkbox>
+    </div>
+    </div>
+  <div column>
+   <!-- enter password -->
+  <mat-form-field appearance="outline">
+    <span matPrefix class="material-symbols-outlined"
+    [@lock]="lockState" placeholder="Password" >
+    <mat-icon>
+      {{ !isPasswordValid ? 'lock' : 'lock_open' }}
+    </mat-icon>
+      </span>
+ <input matInput formControlName="password" placeholder="Password" 
+ [type]="visiblePassword ? 'text' : 'password'"
+ #skalarlyPassword [appGlowBorder]="isGlowing" />
+ <mat-label [class.condition-met]="loginForm.get('password')!.valid">
+   Password</mat-label>
+ <mat-error *ngIf="loginForm.get('password')!.hasError?.('invalidPassword')">Invalid password</mat-error>
+<button matSuffix mat-icon-button type="button"
+(click)="$event.stopPropagation(); toggleVisibility()"  [@toggle]="visiblePassword"
+matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
+<span class="material-symbols-outlined">
+    <mat-icon>
+    {{ visiblePassword ? 'visibility' : 'visibility_off' }}
+    </mat-icon>
+</span>
+</button>
+</mat-form-field>
+<!--  -->
+<button type="button" (click)="navigate()" forgot>
+  <i forgot>Forgot Password?</i>
+</button>
+</div>
+</span>
+
+<!-- Login Button -->
+<div loginButton >
+  <button mat-fab  type="submit" class="material-symbols-outlined"
+  *ngIf="progressState === 'default'" 
+  [appValidationAnimation]='loginForm.valid'
+  [@fingerprintDissolve]="progressState"
+  [@shake]="failedLoginAnimation"
+  (keydown.enter)="enterClicked()"  >
+  fingerprint
+  </button>
+<!-- Processing login -->
+<button mat-raised-button *ngIf="progressState === 'load'" [@authenticatingGlow]="progressState">
+  <span>Authenticating</span>
+  <span class="dot-pulse">
+  </span>
+</button>
+<!-- approved -->
+<ng-template *ngIf="progressState === 'complete'">
+<button mat-icon-button class="material-symbols-outlined glowing-text">
+ approval_delegation
+</button>
+</ng-template>
+</div>
+</div>
+</div>
+</form>
+</ng-template>
+</ng-container>
+<!-- welcome and join animation -->
+<div class="welcome-container">
+    <button mat-raised-button 
+    [ngClass]="{'welcome-text-south-paw': flip}"
+     routerLink="/sign-up" join>
+    <ng-container>
+  <span *ngIf="!flip; else south">Join</span>
+  <ng-template #south>
+    <app-child-login [message]="join" [@bubble]="flip ? 'animate' : 'noAnimate'" 
+    [welcomeSouthPaw]="flip"></app-child-login>
+  </ng-template>
+</ng-container>
+    </button>
+  <!-- array animation of words -->
+      <div [@skalarlyRiseAnimation]="skalarlyState ? 'rise' : 'initial' "
+      (@skalarlyRiseAnimation.done)="skalarlyRiseDone()" >
+    <app-child-login [message]="welcome" [welcomeSouthPaw]="false" 
+    (newPhrase)="updatePhrase()"></app-child-login>
+    </div>
+  </div>

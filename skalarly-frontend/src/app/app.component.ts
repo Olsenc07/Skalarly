@@ -12,9 +12,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { PullToRefreshDirective } from './custom-architecture-aids/directives/pull-to-refresh.directive';
+import { PullToRefreshDirective } from './assistant-level-code/custom-architecture-aids/directives/pull-to-refresh.directive';
 import { SearchBarComponent } from './search-bar/search-bar.component';
-import { toggleAnimation } from './custom-architecture-aids/animations/toggle-animation';
+import { toggleAnimation } from './assistant-level-code/custom-architecture-aids/animations/toggle-animation';
 
 @Component({
   standalone: true,

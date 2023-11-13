@@ -2,7 +2,7 @@ import { AuthGuard } from './route-guards/auth.guard';
 import { ConfirmGuard } from './route-guards/confirm.guard';
 import { Routes } from '@angular/router';
 import { SaveSignUpGuard } from './route-guards/signup-guard';
-import { UserProfileResolver } from '../custom-architecture-aids/resolvers/skalar-info-resolver.component';
+import { UserProfileResolver } from '../assistant-level-code/custom-architecture-aids/resolvers/skalar-info-resolver.component';
 import { inject } from '@angular/core';
 
 // lazy loading of standalone components
@@ -13,7 +13,7 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('../login/login.component').then((mod) => mod.LoginComponent)
+      import('../top-level-code/login/login.component').then((mod) => mod.LoginComponent)
   },
   // create an new account
   {
@@ -86,7 +86,7 @@ export const routes: Routes = [
     title: 'edit-profile',
     canDeactivate: [() => inject(ConfirmGuard).canDeactivate()],
     loadComponent: () =>
-      import('../edit-profile/edit-profile.component').then(
+      import('../top-level-code/edit-profile/edit-profile.component').then(
         (mod) => mod.EditProfileComponent
       )
   },
