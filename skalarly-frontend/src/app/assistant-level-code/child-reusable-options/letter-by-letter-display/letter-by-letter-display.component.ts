@@ -2,31 +2,32 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   OnChanges,
-  Output,
   QueryList,
   SimpleChanges,
   ViewChildren
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LoginSpecificService } from '../../custom-architecture-aids/services/login-validation/login-specific.service';
 import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/animations/fadeOut-animation';
 
 @Component({
   standalone: true,
   selector: 'app-letter-by-letter',
   templateUrl: './letter-by-letter-display.component.html',
-  styleUrls: ['/src/app/top-level-code/login/login-animations.component.scss'],
+  styleUrls: ['./letter-by-letter-display.component.scss'],
   imports: [CommonModule],
   animations: [fadeOut]
 })
 export class LetterByLetterComponent implements AfterViewInit, OnChanges {
   @Input() message: string = '';
   @Input() welcomeSouthPaw: boolean = false;
+  @Input() autoGenerate: boolean = false;
   animatedText: { letter: string; visible: boolean }[] = [];
-  @Output() newPhrase: EventEmitter<void> = new EventEmitter();
-  @ViewChildren('letterSpan') letterSpan: QueryList<ElementRef> = new QueryList();
+  @ViewChildren('letterSpan') letterSpan: QueryList<ElementRef> =
+    new QueryList();
+  constructor(private loginSpecificService: LoginSpecificService) {}
   ngAfterViewInit() {
     this.letterSpan.changes.subscribe((spans: QueryList<ElementRef>) => {
       const lastSpan = spans.last;
@@ -41,7 +42,6 @@ export class LetterByLetterComponent implements AfterViewInit, OnChanges {
     }
   }
   letterByLetter(message: string): void {
-    console.log('one', message);
     this.animatedText = [];
     for (let i = 0; i < message.length; i++) {
       this.animatedText.push({
@@ -52,8 +52,8 @@ export class LetterByLetterComponent implements AfterViewInit, OnChanges {
   }
   renderOn(targetElement: HTMLElement): void {
     this.createSparkles(10, targetElement);
-    // tell the parent to send phrase
-    this.newPhrase.emit();
+    this.message = this.loginSpecificService.updatePhrase();
+    this.letterByLetter(this.message);
   }
 
   createSparkles(numberOfSparkles: number, targetElement: HTMLElement) {

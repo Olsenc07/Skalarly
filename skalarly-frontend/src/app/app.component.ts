@@ -16,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PullToRefreshDirective } from './assistant-level-code/custom-architecture-aids/directives/pull-to-refresh.directive';
 import { SearchBarComponent } from './top-level-code/search-bar/search-bar.component';
-import { toggle } from './assistant-level-code/custom-architecture-aids/animations/toggle-animation';
+import { fadeToggle } from './assistant-level-code/custom-architecture-aids/animations/fadeToggle-animation';
 
 @Component({
   standalone: true,
@@ -35,7 +35,7 @@ import { toggle } from './assistant-level-code/custom-architecture-aids/animatio
   ],
   providers: [{ provide: TitleStrategy, useClass: CustomTitleStrategy }],
   animations: [
-    toggle,
+    fadeToggle,
     trigger('refreshAnimation', [
       transition(
         '* => *',

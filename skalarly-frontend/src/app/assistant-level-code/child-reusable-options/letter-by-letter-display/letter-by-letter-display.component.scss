@@ -1,6 +1,6 @@
-@use '../universal-reusable-styles/responsive-mixin' as responsive;
-@use '../../top-level-code/login/login-animations.component' as reusableChild;
-@use '../../assistant-level-code/universal-reusable-styles/common' as universal;
+@use '../../universal-reusable-styles/responsive-mixin' as responsive;
+@use '/src/app/top-level-code/login/login-animations.component' as reusableChild;
+@use '../../universal-reusable-styles/common' as universal;
 $firstChoice: universal.random-color();
 $secondChoice: universal.random-color();
 $thirdChoice: universal.random-color();

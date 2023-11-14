@@ -69,12 +69,12 @@ import { reusableAnimations } from './imports/animation-imports';
 })
 export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   // animation based
-  loaded: boolean = false;
   welcomeState: string | 'gone' = '';
   flip: boolean = false;
   skalarlyState: string = 'initial';
   private isAnimationDone: boolean = false;
   join: string = 'Join';
+  forgot: string = 'Forgot Password?';
   welcome: string = 'Welcome To Skalarly';
 
   isGlowing: boolean = false;
@@ -178,23 +178,12 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.loaded = true;
-    }, 1500);
-    setTimeout(() => {
       this.skalarlyState = 'rise';
     }, 7000);
   }
   // reusbale function
   welcomeRiseDone(): void {
-    if (!this.isAnimationDone) {
-      this.flip = true;
-      // This block will be executed only once after the animation is done.
-      this.isAnimationDone = true;
-      this.welcome = this.loginSpecificService.updatePhrase();
-    }
-  }
-  updatePhrase(): void {
-    console.log('again');
+    this.flip = true;
     this.welcome = this.loginSpecificService.updatePhrase();
   }
   // toggle password visbility

@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "angular-skalarly:build:production"
+              "buildTarget": "angular-skalarly:build:production"
             },
             "development": {
-              "browserTarget": "angular-skalarly:build:development"
+              "buildTarget": "angular-skalarly:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "angular-skalarly:build"
+            "buildTarget": "angular-skalarly:build"
           }
         },
         "test": {
