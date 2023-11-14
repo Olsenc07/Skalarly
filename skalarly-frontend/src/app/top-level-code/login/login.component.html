@@ -15,7 +15,7 @@
       <!-- pre load skeleton -->
       <form *ngIf="!loaded; else onLoaded" >
         <div column>
-          <app-skeleton-loader-login *ngIf="!loaded"></app-skeleton-loader-login>
+          <app-skeleton-loader-login></app-skeleton-loader-login>
       </div>
     </form>
  <!-- rendered content -->
@@ -70,9 +70,11 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </button>
 </mat-form-field>
 <!-- forgot password -->
+<div forgot>
 <button type="button" (click)="navigate()" forgot>
-  <i forgot>Forgot Password?</i>
+  <app-letter-by-letter [welcomeSouthPaw]="false"  [message]="'Forgot Password?'"></app-letter-by-letter>
 </button>
+</div>
 </div>
 </span>
 
@@ -80,21 +82,22 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <div loginButton >
   <button mat-fab  type="submit" class="material-symbols-outlined"
   *ngIf="progressState === 'default'" 
-  [appValidationAnimation]='loginForm.valid'
-  [@fingerprintDissolve]="progressState"
+  [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
+  [@dissolve]="progressState"
   [@shake]="failedLoginAnimation"
   (keydown.enter)="enterClicked()"  >
   fingerprint
   </button>
 <!-- Processing login -->
-<button mat-raised-button *ngIf="progressState === 'load'" [@authenticatingGlow]="progressState">
+<button mat-raised-button *ngIf="progressState === 'loading'" [@authenticatingGlow]="progressState">
   <span>Authenticating</span>
-  <span class="dot-pulse">
-  </span>
+  <div class="dot-pulse-container">
+    <span class="dot-pulse" *ngFor="let dot of dots; index as i"></span>
+    </div>
 </button>
 <!-- approved -->
 <ng-template *ngIf="progressState === 'complete'">
-<button mat-icon-button class="material-symbols-outlined glowing-text">
+<button mat-icon-button [@fadeInGrow] class="material-symbols-outlined glowing-text">
  approval_delegation
 </button>
 </ng-template>
@@ -112,15 +115,15 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
     <ng-container>
   <span *ngIf="!flip; else south">Join</span>
   <ng-template #south>
-    <app-child-login [message]="join" [@bubble]="flip ? 'animate' : 'noAnimate'" 
-    [welcomeSouthPaw]="flip"></app-child-login>
+    <app-letter-by-letter [message]="join" [@bubble]="flip ? 'animate' : 'noAnimate'" 
+    [welcomeSouthPaw]="flip"></app-letter-by-letter>
   </ng-template>
 </ng-container>
     </button>
   <!-- array animation of words -->
-      <div [@skalarlyRiseAnimation]="skalarlyState ? 'rise' : 'initial' "
-      (@skalarlyRiseAnimation.done)="skalarlyRiseDone()" >
-    <app-child-login [message]="welcome" [welcomeSouthPaw]="false" 
-    (newPhrase)="updatePhrase()"></app-child-login>
+      <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
+      (@welcomeRise.done)=" welcomeRiseDone()" >
+    <app-letter-by-letter [message]="welcome" [welcomeSouthPaw]="false" 
+    (newPhrase)="updatePhrase()"></app-letter-by-letter>
     </div>
   </div>

@@ -1,5 +1,5 @@
 @use './assistant-level-code/universal-reusable-styles/common.scss' as universal;
-
+@use 'top-level-code/login/login-animations.component' as animations;
 @use "sass:math";
 $device-sizes: (
  base: 576px, //mobile devices typically 0px - 576px
@@ -36,15 +36,8 @@ $font-sizes-header: (
 }
 // reload animation
 .glow-effect {
-    animation: glow 1s alternate infinite;
-  }
-  @keyframes glow {
-    from {
-      box-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
-    }
-    to {
-      box-shadow: 0 0 25px rgba(0, 255, 0, 0.9);
-    }
+  @include animations.greenGlow;
+  animation: glow 1s alternate infinite;
   }
   
 // * 1
@@ -114,7 +107,6 @@ top: 0;
   z-index: 1;
   border: 2px dashed transparent; // Initialize the border
 }
- 
 
 .refresh-icon-container {
   position: relative;

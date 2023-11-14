@@ -15,9 +15,9 @@ import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/a
 
 @Component({
   standalone: true,
-  selector: 'app-child-login',
+  selector: 'app-letter-by-letter',
   templateUrl: './letter-by-letter-display.component.html',
-  styleUrls: ['../../../../login.component.scss'],
+  styleUrls: ['/src/app/top-level-code/login/login-animations.component.scss'],
   imports: [CommonModule],
   animations: [fadeOut]
 })
@@ -26,8 +26,7 @@ export class LetterByLetterComponent implements AfterViewInit, OnChanges {
   @Input() welcomeSouthPaw: boolean = false;
   animatedText: { letter: string; visible: boolean }[] = [];
   @Output() newPhrase: EventEmitter<void> = new EventEmitter();
-  @ViewChildren('letterSpan') letterSpan: QueryList<ElementRef> =
-    new QueryList();
+  @ViewChildren('letterSpan') letterSpan: QueryList<ElementRef> = new QueryList();
   ngAfterViewInit() {
     this.letterSpan.changes.subscribe((spans: QueryList<ElementRef>) => {
       const lastSpan = spans.last;

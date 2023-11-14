@@ -5,7 +5,7 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
-import { ErrorHandlerComponent } from '../error-handler/error-handler.component';
+import { ErrorHandlerComponent } from '../../child-reusable-options/error-handler/error-handler.component';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';

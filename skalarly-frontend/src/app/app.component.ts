@@ -1,13 +1,15 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   NavigationEnd,
   Router,
   Event as RouterEvent,
-  RouterModule
+  RouterModule,
+  TitleStrategy
 } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
+import { CustomTitleStrategy } from './assistant-level-code/custom-architecture-aids/services/router-strategies/title-strategy.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,6 +33,7 @@ import { toggle } from './assistant-level-code/custom-architecture-aids/animatio
     PullToRefreshDirective,
     SearchBarComponent
   ],
+  providers: [{ provide: TitleStrategy, useClass: CustomTitleStrategy }],
   animations: [
     toggle,
     trigger('refreshAnimation', [
@@ -110,7 +113,6 @@ export class AppComponent implements OnDestroy {
       });
   }
   onDeltaYChange(reload: number, reset: boolean): void {
-    console.log('hey', reload);
     if (!reset) {
       this.pullProgress = reload;
       this.showIcons = true;

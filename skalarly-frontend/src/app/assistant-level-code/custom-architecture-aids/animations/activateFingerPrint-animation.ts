@@ -23,7 +23,7 @@ export const fingerprintActivation: AnimationTriggerMetadata = trigger(
       'activated',
       style({
         background:
-          'linear-gradient(to top right, rgb(238, 233, 233) 0%, #008080 100%)',
+          'linear-gradient(to top right, var(--pairingColor) 0%, var(--pairingColor2) 100%)',
         color: 'white'
       })
     ),

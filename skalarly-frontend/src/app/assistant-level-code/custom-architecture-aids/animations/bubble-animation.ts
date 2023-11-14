@@ -31,7 +31,7 @@ export const bubble: AnimationTriggerMetadata = trigger('bubble', [
   // Transition from 'noAnimate' to 'animate' with a pulse effect
   transition('noAnimate => animate', [
     animate(
-      '1200ms ease-out',
+      '1.7s ease-out',
       keyframes([
         style({ transform: 'translateX(100%)', opacity: 0, offset: 0 }),
         style({ transform: 'translateX(0)', opacity: 1, offset: 0.7 }),
@@ -40,5 +40,5 @@ export const bubble: AnimationTriggerMetadata = trigger('bubble', [
       ])
     )
   ]),
-  transition('animate => noAnimate', animate('1200ms ease-in'))
+  transition('animate => noAnimate', animate('1.7s ease-in'))
 ]);

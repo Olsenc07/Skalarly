@@ -1,8 +1,7 @@
-@use '../login/login-animations' as animation;
+@use 'login-animations.component' as animation;
 @use '../../assistant-level-code/universal-reusable-styles/break-points' as device;
-@use '../../assistant-level-code/universal-reusable-styles/letter-by-letter-styles' as letterByLetter;
+@forward '../../assistant-level-code/universal-reusable-styles/letter-by-letter-styles';
 @use '../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
-@use './login-animations' as reusableChild;
 @use '../../assistant-level-code/universal-reusable-styles/common' as universal;
 
 $form-margins: (
@@ -12,7 +11,6 @@ $form-margins: (
   desktop: 15%,  
   tv: 20%        
 );
-@include letterByLetter;
 @mixin responsiveMargins {
   // Mobile First
   --margin-form: #{map-get($form-margins, 'base')};
@@ -24,15 +22,6 @@ $form-margins: (
         margin: 0% #{map-get($form-margins, $screen)};
       }}}
 }
-
-@mixin pseudo-mat-form-field {
-  background: rgb(239,241,246) no-repeat;
-  height: 56px;
-  margin-bottom: 8px;
-  border-radius: 4px;
-  width: 100%;
-}
-
 // logo and top of login screen
 .login-header {
     text-align: center; 
@@ -62,7 +51,7 @@ div[logo] img {
       color: white;
       font-family: 'Cormorant Garamond', serif;
       // add ons
-      @include reusableChild.riseFloat;
+      @include animation.riseFloat;
       animation: float 4s ease-in-out;
       position: relative;
       overflow: hidden;
@@ -90,16 +79,20 @@ div[logo] img {
         background-color: darken(#9b72aa, 10%); 
       }
   }
-  button[forgot]{
-    @include responsive.responsiveFontSizeSmaller;
-    align-items: center;
-    background: none;
-    border: none;
-    color: #2554C7;
-    cursor: pointer;
+ 
+  div[forgot]{
     display: flex;
     justify-content: flex-end;
-    text-decoration: underline;
+    button[forgot]{
+      @include responsive.responsiveFontSizeSmaller;
+      align-items: center;
+      background: none;
+      border: none;
+      font-style: italic;
+      color: #2554C7;
+      cursor: pointer;
+      text-decoration: underline;
+    }
   }
   
   // Sparkle on hover
@@ -108,10 +101,7 @@ div[logo] img {
     position: absolute;
     top: 50%;
     left: 50%;
-    @include reusableChild.trailingSparkles;
-    animation: sparkles 1s ease-in-out;
   }
-  
   form {
     @include responsiveMargins;
     @include universal.common;
@@ -148,41 +138,33 @@ div[column] {
   }
 }
 .dot-pulse {
-    display: inline-block;
-    position: relative;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: grey;
-    animation: dotPulse 1s infinite ease-in-out;;
-  }
-.dot-pulse::before, .dot-pulse::after {
-  content: '';
   position: absolute;
-}
-.dot-pulse::before {
-  left: -15px;
-  animation-delay: 0.33s;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: grey;
+  animation: dotPulse 1.5s infinite linear;
+  
+  &:nth-child(1), &:nth-child(4)  {
+    animation-delay: 0s;
+    background-color: var(--first);
+  }
+  &:nth-child(2), &:nth-child(5)  {
+    animation-delay: 0.5s;
+    background-color: var(--second);
+  }
+  &:nth-child(3) {
+    animation-delay: 1s;
+    background-color: var(--third);
+  }
 }
 
-.dot-pulse::after {
-  left: 15px;
-  animation-delay: 0.66s;
-}
-
-@keyframes dotPulse {
-  0%, 100% {
-    transform: scale(0) translateY(0);
-  }
-  50% {
-    transform: scale(1) translateY(-10px);
-  }
-}
 .mat-mdc-checkbox{ 
     display: flex;
   }
   span[inputs] {
   @include universal.common(flex, column);
+  align-items: baseline;
   @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
    @include universal.common(flex, row);
   }}
@@ -195,7 +177,7 @@ div[column] {
   text-align: center;
        }
 .failed-login-animation {
-      @include reusableChild.shakeLogin;
+      @include animation.shakeLogin;
       animation: shake; 
       animation-duration: 0.5s; 
       animation-timing-function: ease-in-out;
@@ -204,7 +186,7 @@ div[column] {
 // approved login
 /* Define a CSS class for the glowing and scaling animation */
 .glowing-text {
-  @include reusableChild.greenGlow;
+  @include animation.greenGlow;
   animation: glow .5s, scale .5s;
 }
     div[loginButton]{
@@ -223,7 +205,7 @@ div[column] {
       $secondChoice: universal.random-color();
       background-image: linear-gradient(45deg, #{$firstChoice}, #{$secondChoice}, #{$firstChoice}, #{$secondChoice}, #{$firstChoice}, #{$secondChoice});
       background-size: 200% 200%; // Extends the background to allow for the "flow" effect
-      @include reusableChild.gradientFlow;
+      @include animation.gradientFlow;
       animation: gradient-flow 6s linear infinite; // Adjust the time as needed
     }
    
@@ -276,7 +258,7 @@ h2 {
   background: linear-gradient(135deg, #507dbc, #9b72aa);
   color: white;
   text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
-  @include reusableChild.background;
+  @include animation.background;
   animation: backgroundAnimation 10s ease infinite;
   background-size: 200% 200%;
 }

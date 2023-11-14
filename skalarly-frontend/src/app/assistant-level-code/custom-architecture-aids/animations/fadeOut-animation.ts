@@ -8,7 +8,7 @@ import {
 export const fadeOut: AnimationTriggerMetadata = trigger('fadeOut', [
   transition('* => active', [
     animate(
-      '0.5s ease-in',
+      '0.5s 4s ease-in',
       style({
         opacity: 0,
         transform: 'scale(0.8)'

@@ -24,7 +24,7 @@ import {
   takeUntil
 } from 'rxjs';
 import { AuthorizeService } from '../../assistant-level-code/custom-architecture-aids/services/authorize.service';
-import { ErrorHandlerComponent } from '../../assistant-level-code/custom-architecture-aids/error-handler/error-handler.component';
+import { ErrorHandlerComponent } from '../../assistant-level-code/child-reusable-options/error-handler/error-handler.component';
 import { GlowBorderDirective } from '../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
 import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { LoginSpecificService } from '../../assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service';
@@ -32,7 +32,6 @@ import { MatButton } from '@angular/material/button';
 import { NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
-import { Title } from '@angular/platform-browser';
 import { ValidationAnimationDirective } from '../../assistant-level-code/custom-architecture-aids/directives/login-validation-animation.directive';
 import { loginImports } from './imports/login-imports';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
@@ -44,7 +43,7 @@ import { reusableAnimations } from './imports/animation-imports';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   animations: [
-    reusableAnimations
+    ...reusableAnimations
     //  welcome to skalarly rise 'welcomeRise',
     // join button animation 'bubble',
     // email validation on icon 'spinChange',
@@ -52,7 +51,8 @@ import { reusableAnimations } from './imports/animation-imports';
     // visible password or not 'rotate',
     // login button able to click
     // dissapearing finger print 'dissolve',
-    // valid login 'authenticatingGlow',
+    // attempting login 'authenticatingGlow',
+    // valid login 'fadeInGlow',
     // invalid login 'shake'
     // activated fingerprint
   ],
@@ -78,7 +78,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   welcome: string = 'Welcome To Skalarly';
 
   isGlowing: boolean = false;
-  progressState: 'default' | 'load' | 'complete' = 'default';
+  progressState: 'default' | 'loading' | 'complete' = 'default';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
     null;
   // email validity
@@ -97,6 +97,16 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   // login
   stayLoggedIn: boolean = false;
   failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
+  // attempt login
+  dotCount: number = 3;
+  dots = Array(this.dotCount).fill(0);
+  intervalId: any;
+
+  updateDotCount(newCount: number): void {
+    this.dotCount = newCount;
+    this.dots = Array(this.dotCount).fill(0);
+  }
+
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
     private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
@@ -104,8 +114,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     @Optional() public dialogRef: MatDialogRef<LoginComponent>,
     // eslint-disable-next-line no-unused-vars
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { message: string },
-    private readonly router: Router,
-    private titleService: Title
+    private readonly router: Router
   ) {}
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
@@ -121,7 +130,6 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   ngOnInit(): void {
     // randomize phrases
     this.loginSpecificService.randomizePairs();
-    this.titleService.setTitle('Skalarly Login');
     // email
     this.loginForm.controls['email'].valueChanges
       .pipe(
@@ -177,7 +185,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     }, 7000);
   }
   // reusbale function
-  skalarlyRiseDone(): void {
+  welcomeRiseDone(): void {
     if (!this.isAnimationDone) {
       this.flip = true;
       // This block will be executed only once after the animation is done.
@@ -198,8 +206,16 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     this.stayLoggedIn = !this.stayLoggedIn;
   }
   login(): void {
-    this.progressState = 'load';
+    this.progressState = 'loading';
+    let count = 1; // Start with 1 dot
+    this.intervalId = setInterval(() => {
+      this.updateDotCount(count);
+      count = count >= 5 ? 1 : count + 1; // Reset to 1 after reaching 5
+    }, 1500);
     setTimeout(() => {
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
       this.failedLoginAnimation = 'right';
       setTimeout(() => {
         this.failedLoginAnimation = 'initial'; // Reset to the initial state
@@ -220,6 +236,9 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     //         this.failedLoginAnimation = 'left';
     //         // Reset the animation after a short delay
     //         setTimeout(() => {
+    // if (this.intervalId) {
+    //   clearInterval(this.intervalId);
+    // }
     //           this.failedLoginAnimation = 'right';
     //           setTimeout(() => {
     //             this.failedLoginAnimation = 'initial'; // Reset to the initial state

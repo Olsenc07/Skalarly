@@ -1,4 +1,17 @@
-@use '../universal-reusable-styles/break-points' as device;
+@use '../../../assistant-level-code/universal-reusable-styles/break-points' as device;
+@use '../../../assistant-level-code/universal-reusable-styles/common' as universal;
+
+@mixin pseudo-mat-form-field {
+  background: rgb(239,241,246) no-repeat;
+  height: 56px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  width: 100%;
+}
+div {
+display: flex;
+ flex-direction: column
+}
 .input-boxes-skeleton{
     @include universal.common(flex, column);
     margin: 0% 2%;

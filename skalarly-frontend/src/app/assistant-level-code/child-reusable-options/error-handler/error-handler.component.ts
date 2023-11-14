@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
-import { dialog } from '../animations/dialog-animation';
+import { dialog } from '../../custom-architecture-aids/animations/dialog-animation';
 
 @Component({
   standalone: true,

@@ -1,9 +1,13 @@
 @use '../universal-reusable-styles/break-points' as device;
 // responsive mobile first
+$fontSize: map-get(device.$font-sizes, 'base');
+$fontSubSize: map-get(device.$font-sub-sizes, 'base');
 :root {
---font-size: #{map-get(device.$font-sizes, 'base')};
---font-sub-size: #{map-get(device.$font-sub-sizes, 'base')};
---line-height: #{map-get(device.$line-heights, 'base')};
+  --font-size: #{$fontSize};
+  --font-sub-size: #{$fontSubSize};
+  --font-size-smaller: calc(var(--font-size) - var(--font-sub-size));
+  --font-size-larger: calc(var(--font-size) + var(--font-sub-size));
+  --line-height: #{map-get(device.$line-heights, 'base')};
 }
 // reusable algorithms
 @mixin media-query($screen, $min-width) {

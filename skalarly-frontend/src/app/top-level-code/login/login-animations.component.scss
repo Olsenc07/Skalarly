@@ -1,0 +1,72 @@
+@mixin background{
+@keyframes backgroundAnimation {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+}
+@mixin shakeLogin{
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25%, 75% {
+    transform: translateX(-5px); 
+  }
+  50% {
+    transform: translateX(5px); 
+  }
+}
+}
+@mixin fadeAway{
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+        white-space: nowrap;
+      }
+      25% {
+        opacity: 0.75;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  }
+@mixin riseFloat{
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+@mixin greenGlow {
+  @keyframes glow {
+    from {
+      color: 3CB371;
+      transform: scale(1);
+    }
+    to {
+      color: 3CB371;
+      text-shadow: 0 0 5px #3CB371, 0 0 10px #3CB371, 0 0 15px #3CB371;
+      transform: scale(1.7);
+    }
+  }
+}
+@mixin gradientFlow {
+@keyframes gradient-flow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: -100% -10%;
+  }
+}
+}
+  

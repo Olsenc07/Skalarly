@@ -1,5 +1,10 @@
-import 'zone.js/dist/zone';
+import 'zone.js';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { RouterModule, provideRouter } from '@angular/router';
+import {
+  defaultMalformedUriErrorHandler,
+  routes
+} from './app/app-routes/app-routing.module';
 import { AppComponent } from './app/app.component';
 import { AuthInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/auth-interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,9 +15,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import { importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
 import { provideStore } from '@ngrx/store';
-import { routes } from './app/app-routes/app-routing.module';
 
 if (environment.production) {
   enableProdMode();
@@ -37,7 +40,10 @@ bootstrapApplication(AppComponent, {
       HttpClientModule,
       BrowserAnimationsModule,
       MatDialogModule,
-      MatSnackBarModule
+      MatSnackBarModule,
+      RouterModule.forRoot(routes, {
+        malformedUriErrorHandler: defaultMalformedUriErrorHandler
+      })
     )
   ]
 })
