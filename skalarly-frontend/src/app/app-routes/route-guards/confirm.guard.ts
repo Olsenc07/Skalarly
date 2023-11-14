@@ -18,10 +18,7 @@ export class ConfirmGuard implements OnDestroy {
   }
   canDeactivate(): boolean {
     this.rootSub$ = this.aRoute.title.subscribe((title: string | undefined) => {
-      console.log('title', title);
-
       this.routeTitle = title;
-      console.log('title of', typeof this.rootSub$);
     });
     try {
       // If leaving edit profile page

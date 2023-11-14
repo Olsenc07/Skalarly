@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@use 'app/universal-reusable-styles/break-points' as device;
-@use 'app/universal-reusable-styles/common' as universal;
-@use 'app/universal-reusable-styles/responsive-mixin' as responsive;
+@use 'app/assistant-level-code/universal-reusable-styles/break-points' as device;
+@use 'app/assistant-level-code/universal-reusable-styles/common' as universal;
+@use 'app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 // universal font

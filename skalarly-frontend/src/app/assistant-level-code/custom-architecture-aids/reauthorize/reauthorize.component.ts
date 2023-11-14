@@ -9,7 +9,7 @@ import {
 } from '@angular/animations';
 import { AuthorizeService } from '../services/authorize.service';
 import { DatePipe } from '@angular/common';
-import { dialogAnimation } from '../animations/dialog-animation';
+import { dialog } from '../animations/dialog-animation';
 
 @Component({
   standalone: true,
@@ -18,7 +18,7 @@ import { dialogAnimation } from '../animations/dialog-animation';
   styleUrls: ['./reauthorize.component.scss'],
   imports: [DatePipe],
   animations: [
-    dialogAnimation,
+    dialog,
     trigger('loadingBar', [
       transition(':increment', [
         animate(

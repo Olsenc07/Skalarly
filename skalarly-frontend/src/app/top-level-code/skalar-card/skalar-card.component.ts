@@ -22,12 +22,12 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-import { BoldPipe } from '../assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
+import { BoldPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
 import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { type SkalarInfoInterface } from '../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
+import { type SkalarInfoInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
 
 @Component({
   standalone: true,

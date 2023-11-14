@@ -8,7 +8,6 @@ import {
   Optional,
   ViewChild
 } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
 import {
   FormControl,
   FormGroup,
@@ -16,7 +15,6 @@ import {
   Validators
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatButton, MatButtonModule } from '@angular/material/button';
 import {
   Subject,
   debounceTime,
@@ -25,39 +23,20 @@ import {
   switchMap,
   takeUntil
 } from 'rxjs';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
 import { AuthorizeService } from '../../assistant-level-code/custom-architecture-aids/services/authorize.service';
-import { ChildLoginComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { ErrorHandlerComponent } from '../../assistant-level-code/custom-architecture-aids/error-handler/error-handler.component';
 import { GlowBorderDirective } from '../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
-import { HttpClientModule } from '@angular/common/http';
+import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { LoginSpecificService } from '../../assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { NgOptimizedImage } from '@angular/common';
 import { Router } from '@angular/router';
-import { SkeletonLoaderLoginComponent } from './reusable-folder/skeleton-loader-login/skeleton-loader-login.component';
+import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
 import { Title } from '@angular/platform-browser';
 import { ValidationAnimationDirective } from '../../assistant-level-code/custom-architecture-aids/directives/login-validation-animation.directive';
-import { authenticatingGlow } from '../../assistant-level-code/custom-architecture-aids/animations/authenticatingGlow-animation';
-import { bubble } from '../../assistant-level-code/custom-architecture-aids/animations/bubble-animation';
-import { dissolve } from '../../assistant-level-code/custom-architecture-aids/animations/dissolve-animation';
-import { lock } from '../../assistant-level-code/custom-architecture-aids/animations/lock-animation';
+import { loginImports } from './imports/login-imports';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
-import { rotate } from '../../assistant-level-code/custom-architecture-aids/animations/rotate180-animation';
-import { shake } from '../../assistant-level-code/custom-architecture-aids/animations/shake-animation';
-import { spinChange } from '../../assistant-level-code/custom-architecture-aids/animations/spin-change-animation';
-import { welcomeRise } from '../../assistant-level-code/custom-architecture-aids/animations/welcomeRise.animation';
+import { reusableAnimations } from './imports/animation-imports';
 
 @Component({
   standalone: true,
@@ -65,59 +44,23 @@ import { welcomeRise } from '../../assistant-level-code/custom-architecture-aids
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   animations: [
-    //  welcome to skalarly rise
-    welcomeRise,
-    // join button animation
-    bubble,
-    // email validation on icon
-    spinChange,
-    // password validation on icon
-    lock,
-    // visible password or not
-    rotate,
+    reusableAnimations
+    //  welcome to skalarly rise 'welcomeRise',
+    // join button animation 'bubble',
+    // email validation on icon 'spinChange',
+    // password validation on icon 'lock',
+    // visible password or not 'rotate',
     // login button able to click
-    trigger('fingerprintActivation', [
-      state(
-        'normal',
-        style({
-          background:
-            'linear-gradient(to top right, transparent 0%, transparent 100%)',
-          color: 'black',
-          'box-shadow': '0px 0px 5px 1px #5284c9'
-        })
-      ),
-      state(
-        'activated',
-        style({
-          background:
-            'linear-gradient(to top right, rgb(238, 233, 233) 0%, #008080 100%)',
-          color: 'white'
-        })
-      ),
-      transition('normal => activated', [animate('0.5s ease')]),
-      transition('activated => normal', [animate('0.5s ease')])
-    ]),
-    // dissapearing finger print
-    dissolve,
-    // valid login
-    authenticatingGlow,
-    // invalid login
-    shake
+    // dissapearing finger print 'dissolve',
+    // valid login 'authenticatingGlow',
+    // invalid login 'shake'
+    // activated fingerprint
   ],
   imports: [
-    CommonModule,
-    ChildLoginComponent,
+    loginImports,
+    LetterByLetterComponent,
     ErrorHandlerComponent,
     GlowBorderDirective,
-    HttpClientModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatSelectModule,
-    MatTooltipModule,
     NgOptimizedImage,
     ReactiveFormsModule,
     ValidationAnimationDirective,

@@ -13,8 +13,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PullToRefreshDirective } from './assistant-level-code/custom-architecture-aids/directives/pull-to-refresh.directive';
-import { SearchBarComponent } from './search-bar/search-bar.component';
-import { toggleAnimation } from './assistant-level-code/custom-architecture-aids/animations/toggle-animation';
+import { SearchBarComponent } from './top-level-code/search-bar/search-bar.component';
+import { toggle } from './assistant-level-code/custom-architecture-aids/animations/toggle-animation';
 
 @Component({
   standalone: true,
@@ -32,7 +32,7 @@ import { toggleAnimation } from './assistant-level-code/custom-architecture-aids
     SearchBarComponent
   ],
   animations: [
-    toggleAnimation,
+    toggle,
     trigger('refreshAnimation', [
       transition(
         '* => *',

@@ -13,29 +13,35 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('../top-level-code/login/login.component').then((mod) => mod.LoginComponent)
+      import('../top-level-code/login/login.component').then(
+        (mod) => mod.LoginComponent
+      )
   },
   // create an new account
   {
     path: 'sign-up',
     canDeactivate: [() => inject(SaveSignUpGuard).canDeactivate()],
     loadComponent: () =>
-      import('../signup/signup.component').then((mod) => mod.SignUpComponent)
+      import('../top-level-code/signup/signup.component').then(
+        (mod) => mod.SignUpComponent
+      )
   },
   // forgot password
   {
     path: 'forgot-password',
     loadComponent: () =>
-      import('../forgot-password/forgot-password.component').then(
-        (mod) => mod.ForgotPasswordComponent
-      )
+      import(
+        '../top-level-code/forgot-password/forgot-password.component'
+      ).then((mod) => mod.ForgotPasswordComponent)
   },
   // first page loaded on login
   {
     path: 'home',
     canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
-      import('../home/home.component').then((mod) => mod.HomeComponent)
+      import('../top-level-code/home/home.component').then(
+        (mod) => mod.HomeComponent
+      )
   },
   // specific page within a category requested with multiple posts
   {
@@ -43,7 +49,7 @@ export const routes: Routes = [
     canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
       import(
-        '../feed-folder/specific-feed-page/specific-feed-page.component'
+        '../top-level-code/feed-folder/specific-feed-page/specific-feed-page.component'
       ).then((mod) => mod.SpecificFeedPageComponent)
   },
   // one single post, able to be viewed by viewers without skalarly accounts
@@ -53,9 +59,9 @@ export const routes: Routes = [
     title: 'single-feed',
     canDeactivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
-      import('../feed-folder/single-feed-page/single-feed-page.component').then(
-        (mod) => mod.SingleFeedPageComponent
-      )
+      import(
+        '../top-level-code/feed-folder/single-feed-page/single-feed-page.component'
+      ).then((mod) => mod.SingleFeedPageComponent)
   },
   // skalar profile
   {
@@ -66,7 +72,7 @@ export const routes: Routes = [
     },
     canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
-      import('../profiles/profile/profile.component').then(
+      import('../top-level-code/profiles/profile/profile.component').then(
         (mod) => mod.ProfileComponent
       )
     //   ,
@@ -96,9 +102,9 @@ export const routes: Routes = [
     pathMatch: 'full',
     canActivate: [() => inject(AuthGuard).canActivate()],
     loadComponent: () =>
-      import('../profiles/others-profile/others-profile.component').then(
-        (mod) => mod.OthersProfileComponent
-      ),
+      import(
+        '../top-level-code/profiles/others-profile/others-profile.component'
+      ).then((mod) => mod.OthersProfileComponent),
     resolve: {
       userData: UserProfileResolver
     }

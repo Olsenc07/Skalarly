@@ -14,7 +14,7 @@ import {
 import type {
   InitialAccountInterface,
   SkalarInfoInterface
-} from '../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
+} from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
 import {
   Observable,
   Subject,
@@ -23,24 +23,24 @@ import {
   distinctUntilChanged,
   takeUntil
 } from 'rxjs';
-import { AccountManagementService } from '../assistant-level-code/custom-architecture-aids/services/account-management.service';
+import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { type InstitutionDataInterface } from '../assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
-import { InstitutionInfoService } from '../assistant-level-code/custom-architecture-aids/services/institution-info.service';
+import { type InstitutionDataInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
+import { InstitutionInfoService } from '../../assistant-level-code/custom-architecture-aids/services/institution-info.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { type PassWordInterface } from '../assistant-level-code/custom-architecture-aids/interfaces/password-interface';
-import { RemoveSpacesPipe } from '../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
+import { type PassWordInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/password-interface';
+import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
 import { ReusableInputsComponent } from './reusable-inputs/reusable-inputs.component';
 import { Router } from '@angular/router';
-import { SaveSignUpGuard } from './../app-routes/route-guards/signup-guard';
+import { SaveSignUpGuard } from '.././../app-routes/route-guards/signup-guard';
 import { Title } from '@angular/platform-browser';
-import { emailUsernameValidator } from '../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
-import { passwordValidator } from '../assistant-level-code/custom-architecture-aids/validators/password.validator';
+import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
+import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
 
 @Component({
   standalone: true,

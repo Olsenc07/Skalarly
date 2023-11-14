@@ -1,6 +1,6 @@
 import { AccountManagementService } from 'src/app/assistant-level-code/custom-architecture-aids/services/account-management.service';
 import { Injectable } from '@angular/core';
-import { SignUpComponent } from 'src/app/signup/signup.component';
+import { SignUpComponent } from 'src/app/top-level-code/signup/signup.component';
 
 @Injectable({
   providedIn: 'root'

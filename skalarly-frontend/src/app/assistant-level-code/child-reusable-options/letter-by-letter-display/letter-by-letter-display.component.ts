@@ -16,12 +16,12 @@ import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/a
 @Component({
   standalone: true,
   selector: 'app-child-login',
-  templateUrl: './login-child.component.html',
-  styleUrls: ['../../login.component.scss'],
+  templateUrl: './letter-by-letter-display.component.html',
+  styleUrls: ['../../../../login.component.scss'],
   imports: [CommonModule],
   animations: [fadeOut]
 })
-export class ChildLoginComponent implements AfterViewInit, OnChanges {
+export class LetterByLetterComponent implements AfterViewInit, OnChanges {
   @Input() message: string = '';
   @Input() welcomeSouthPaw: boolean = false;
   animatedText: { letter: string; visible: boolean }[] = [];
