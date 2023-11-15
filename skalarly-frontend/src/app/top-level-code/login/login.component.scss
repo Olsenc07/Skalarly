@@ -1,6 +1,5 @@
 @use 'login-animations.component' as animation;
 @use '../../assistant-level-code/universal-reusable-styles/break-points' as device;
-@forward 'src/app/assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component.scss';
 @use '../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @use '../../assistant-level-code/universal-reusable-styles/common' as universal;
 

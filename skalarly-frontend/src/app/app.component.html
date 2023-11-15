@@ -62,7 +62,7 @@
 <!-- page refresh pull down, eventully use GSAP for a fun animation-->
   <ng-container appPullToRefresh (deltaYChange)="onDeltaYChange($event.deltaY, $event.reset)">
     <!-- The refresh icon that animates    -->
-    <span  class="refresh-icon-container" [@toggleAnimation] >
+    <span  class="refresh-icon-container" >
       <span class="refresh-icon-border">
     <mat-icon *ngIf="pullProgress >= -30 && showIcons;" [@refreshAnimation]="{value: '', params: {
       scale: getScale(),

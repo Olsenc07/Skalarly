@@ -13,23 +13,25 @@ $all: 100%;
 }
 $colors: (
   '#287182', // Darker Mystic Turquoise
-  '#7a5a85', // Darker Ethereal Lavender
   '#3b5a91', // Darker Celestial Blue
-  '#b0365a', // Darker Twilight Magenta
-  '#323232', // Eclipse Black
-  '#bcbcbc', // Greyed Frost White
-  '#b0892b', // Darker Glimmering Gold
   '#1e4379', // Darker Sapphire Blue
-  '#8f8f8f', // Darker Moonlit Silver
-  '#2a8f65', // Darker Galactic Green
-  '#d67b8b', // Darker Stardust Pink
   '#6ea4d4', // Darker Shimmering Sky
   '#000080', // Nebula Navy
+  '#4f6d7a', // Steel Blue
+  '#5a7d9a', // Atlantic Blue
+  '#486b83', // Oceanic Blue
+  '#778da9', // Dusty Blue
+  '#3c6997', // Nautical Blue
+  '#005f73', // Deep Sea Blue
+  '#94c9a9', // Teal Blue
+  '#7fb7be', // Sky Reflection Blue
 );
+
 :root {
-  --pairingColor: #2F4F4F;
-  --pairingColor2: #36454F;
+  --pairingColor: #486b83; // Oceanic Blue
+  --pairingColor2: #778da9; // Dusty Blue
 }
+
 @function random-color() {
   $index: random(length($colors));
   @return nth($colors, $index);

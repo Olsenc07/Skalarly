@@ -14,20 +14,18 @@
   <ng-container login-content>
  <!-- rendered content -->
  @defer (on viewport) {
-<form [formGroup]="loginForm" (ngSubmit)="login()" >
+<form [formGroup]="loginForm" (ngSubmit)="login()">
   <div class="input-boxes" >
     <div>
 <span inputs>
     <div column>
   <!-- enter email -->
-  <mat-form-field  appearance="outline">
+  <mat-form-field  appearance="outline" >
     <input matInput formControlName="email"  placeholder="ex: name@institution.ca" type="email"
     id="skalarlyEmail" [appGlowBorder]="isGlowing" />
     <mat-label [class.condition-met]="emailFound" >
          Academic Email</mat-label>
-         <!-- @if (loginForm.get('email').hasError.('emailNotFound')) { -->
-    <mat-error >No account matches this email</mat-error>
-         <!-- } -->
+    <mat-error *ngIf="loginForm.get('email')!.invalid">No account matches this email</mat-error>
   <mat-icon matPrefix class="material-symbols-outlined" 
     [@spinAndChange]="emailState">
     @switch (emailState) {
@@ -57,11 +55,9 @@
  #skalarlyPassword [appGlowBorder]="isGlowing" />
  <mat-label [class.condition-met]="loginForm.get('password')!.valid">
    Password</mat-label>
-   @if ("loginForm.get('password')!.hasError.('invalidPassword')") {
- <mat-error>Invalid password</mat-error>
-   }
+ <mat-error *ngIf="loginForm.get('password')!.invalid">Invalid password</mat-error>
 <button matSuffix mat-icon-button type="button"
-(click)="$event.stopPropagation(); toggleVisibility()"  [@rotate180]="visiblePassword"
+(click)="$event.stopPropagation(); toggleVisibility()" [@rotate180]="visiblePassword"
 matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <span class="material-symbols-outlined">
     <mat-icon>
@@ -73,7 +69,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <!-- forgot password -->
 <div forgot>
 <button type="button" (click)="navigate()" forgot>
-  <app-letter-by-letter [message]="forgot" [welcomeSouthPaw]="false"></app-letter-by-letter>
+  <app-letter-by-letter [message]="forgot" [autoGenerate]="false" [welcomeSouthPaw]="false"></app-letter-by-letter>
 </button>
 </div>
 </div>
@@ -121,7 +117,6 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
       </div>
       </form>
 }
-</ng-container>
 <!-- welcome and join animation -->
 <div class="welcome-container">
     <button mat-raised-button 
@@ -129,17 +124,19 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
   @if (!flip) {
     <span>Join</span>
   } @else {
-    <app-letter-by-letter [message]="join" [@bubble]="'animate'" 
+    <app-letter-by-letter [message]="join" [autoGenerate]="false"  [@bubble]="'animate'" 
     [welcomeSouthPaw]="true"></app-letter-by-letter>
     }
     </button>
   <!-- array animation of words -->
       <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
       (@welcomeRise.done)=" welcomeRiseDone()" >
-    <app-letter-by-letter [message]="welcome"
+    <app-letter-by-letter 
      [message]="welcome"
      [autoGenerate]="true" 
      [welcomeSouthPaw]="false" 
     ></app-letter-by-letter>
     </div>
   </div>
+</ng-container>
+

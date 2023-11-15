@@ -1,12 +1,10 @@
 <div [ngClass]="{'welcome-text': !welcomeSouthPaw, 'welcome-text-south-paw': welcomeSouthPaw}">
-    <!-- index as i; last as isLast;  -->
-    @for (item of animatedText; track item.letter) {
-            <!-- isLast && -->
+    @for (item of animatedText; let isLast = $last; track item) {
             <span
-            #letterSpan
-            [ngClass]="{ 'sparkle':  item.visible }"
+            #sparkle
+            [ngClass]="{ 'sparkle': isLast && item.visible }"
             [@fadeOut]="!welcomeSouthPaw ? 'active' : 'inactive'"
-            (@fadeOut.done)="autoGenerate ? renderOn(letterSpan) : null">
+            (@fadeOut.done)="autoGenerate ? renderOn() : null">
         @if (item.letter !== ' ') {
             {{item.letter}}
         } @else {

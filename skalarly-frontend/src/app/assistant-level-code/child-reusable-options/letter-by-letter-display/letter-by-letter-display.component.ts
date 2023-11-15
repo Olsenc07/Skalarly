@@ -6,6 +6,7 @@ import {
   OnChanges,
   QueryList,
   SimpleChanges,
+  ViewChild,
   ViewChildren
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -20,27 +21,16 @@ import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/a
   imports: [CommonModule],
   animations: [fadeOut]
 })
-export class LetterByLetterComponent implements AfterViewInit, OnChanges {
+export class LetterByLetterComponent {
+  @ViewChild('sparkle')
+  containerElementRef!: ElementRef;
   @Input() message: string = '';
   @Input() welcomeSouthPaw: boolean = false;
   @Input() autoGenerate: boolean = false;
   animatedText: { letter: string; visible: boolean }[] = [];
-  @ViewChildren('letterSpan') letterSpan: QueryList<ElementRef> =
-    new QueryList();
+
   constructor(private loginSpecificService: LoginSpecificService) {}
-  ngAfterViewInit() {
-    this.letterSpan.changes.subscribe((spans: QueryList<ElementRef>) => {
-      const lastSpan = spans.last;
-      if (lastSpan && this.welcomeSouthPaw) {
-        this.renderOn(lastSpan.nativeElement);
-      }
-    });
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['message']) {
-      this.letterByLetter(this.message);
-    }
-  }
+
   letterByLetter(message: string): void {
     this.animatedText = [];
     for (let i = 0; i < message.length; i++) {
@@ -50,21 +40,22 @@ export class LetterByLetterComponent implements AfterViewInit, OnChanges {
       });
     }
   }
-  renderOn(targetElement: HTMLElement): void {
-    this.createSparkles(10, targetElement);
+  renderOn(): void {
+    this.createSparkles(10);
     this.message = this.loginSpecificService.updatePhrase();
     this.letterByLetter(this.message);
   }
 
-  createSparkles(numberOfSparkles: number, targetElement: HTMLElement) {
+  createSparkles(numberOfSparkles: number): void {
+    const container = this.containerElementRef.nativeElement;
     for (let i = 0; i < numberOfSparkles; i++) {
-      const sparkle = document.createElement('div');
+      const sparkle = document.createElement('span');
       sparkle.classList.add('sparkle');
       const x: number = Math.random() * 100;
       const y: number = Math.random() * 100;
       sparkle.style.setProperty('--sparkle-x', `${x}%`);
       sparkle.style.setProperty('--sparkle-y', `${y}%`);
-      targetElement.appendChild(sparkle);
+      container.appendChild(sparkle);
     }
   }
 }

@@ -41,7 +41,9 @@ import { reusableAnimations } from './imports/animation-imports';
   standalone: true,
   selector: 'app-login-format',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: [
+    './login.component.scss'
+  ],
   animations: [
     ...reusableAnimations
     //  welcome to skalarly rise 'welcomeRise',
@@ -72,7 +74,6 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   welcomeState: string | 'gone' = '';
   flip: boolean = false;
   skalarlyState: string = 'initial';
-  private isAnimationDone: boolean = false;
   join: string = 'Join';
   forgot: string = 'Forgot Password?';
   welcome: string = 'Welcome To Skalarly';
@@ -185,6 +186,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   welcomeRiseDone(): void {
     this.flip = true;
     this.welcome = this.loginSpecificService.updatePhrase();
+    console.log('welcome 2', this.welcome);
   }
   // toggle password visbility
   toggleVisibility(): void {

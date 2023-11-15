@@ -43,7 +43,7 @@ $thirdChoice: universal.random-color();
 }
 .sparkle {
     position: absolute;
-    animation: sparkles 1s ease-in-out infinite;
+    animation: sparkles 2.4s ease-in;
   }
   .welcome-text {
     display: flex;
@@ -61,7 +61,7 @@ $thirdChoice: universal.random-color();
   }
     @keyframes sparkles {
       0% {
-        opacity: 0;
+        opacity: 1;
         transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0) scale(1.2) rotateZ(20deg);
     
       }
