@@ -1,15 +1,18 @@
-<div [ngClass]="{'welcome-text': !welcomeSouthPaw, 'welcome-text-south-paw': welcomeSouthPaw}">
-    @for (item of animatedText; let isLast = $last; track item) {
+    @for (item of animatedText; track item) {
             <span
             #sparkle
-            [ngClass]="{ 'sparkle': isLast && item.visible }"
-            [@fadeOut]="!welcomeSouthPaw ? 'active' : 'inactive'"
+            [ngStyle]="item.style"
+            [ngClass]="{
+                'font-size-small': customClass === 'small',
+                'font-size-default': customClass === 'default',
+                'font-size-large': customClass === 'large'}"
+            [ngClass]="{ 'sparkle': item.isLast && item.visible }"
+            [@fadeOut]
             (@fadeOut.done)="autoGenerate ? renderOn() : null">
         @if (item.letter !== ' ') {
-            {{item.letter}}
+            {{ item.letter }}
         } @else {
             &nbsp;
         }
             </span>   
     }
-</div>

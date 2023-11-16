@@ -83,13 +83,10 @@ div[logo] img {
     display: flex;
     justify-content: flex-end;
     button[forgot]{
-      @include responsive.responsiveFontSizeSmaller;
       align-items: center;
       background: none;
       border: none;
       font-style: italic;
-      color: #2554C7;
-      cursor: pointer;
       text-decoration: underline;
     }
   }
@@ -200,8 +197,9 @@ div[column] {
       -webkit-background-clip: text;
       color: transparent; 
       // i want htis background to be added only onceprevis aniation is done
-      $firstChoice: universal.random-color();
-      $secondChoice: universal.random-color();
+      $random-pair: universal.random-color-pair();
+      $firstChoice: map-get($random-pair, primary);
+      $secondChoice: map-get($random-pair, pairing);
       background-image: linear-gradient(45deg, #{$firstChoice}, #{$secondChoice}, #{$firstChoice}, #{$secondChoice}, #{$firstChoice}, #{$secondChoice});
       background-size: 200% 200%; // Extends the background to allow for the "flow" effect
       @include animation.gradientFlow;

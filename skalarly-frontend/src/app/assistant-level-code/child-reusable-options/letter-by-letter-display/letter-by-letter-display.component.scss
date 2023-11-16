@@ -1,74 +1,10 @@
-@use '../../universal-reusable-styles/responsive-mixin' as responsive;
-@use '/src/app/top-level-code/login/login-animations.component' as reusableChild;
-@use '../../universal-reusable-styles/common' as universal;
-$firstChoice: universal.random-color();
-$secondChoice: universal.random-color();
-$thirdChoice: universal.random-color();
-:root {
-  --first: #{$firstChoice};
-  --second: #{$secondChoice};
-  --third: #{$thirdChoice};
-};
-// end of letters in animation
-@mixin welcome-text-style($total-letters, $color1, $color2, $right-to-left: false) {
-  justify-content: center;
-  white-space: nowrap; // Prevent letters from wrapping to a new line
-  span {
-    opacity: 0; // Start with the letter hidden
+@use 'src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
+.font-size-small {
+    @include responsive.responsiveFontSizeSmaller;
   }
-
-  @for $i from 1 through $total-letters {
-    $animation-delay: if($right-to-left, ($total-letters - $i) * 0.15s, $i * 0.15s); // Conditional assignment
-    $animation-duration: 0.25s; // Duration for each letter
-    span:nth-child(#{$i}) {
-      animation: glow-animation $animation-duration $animation-delay forwards;
-      background: if($right-to-left, linear-gradient(45deg, #{$color2}, #{$color1}), linear-gradient(45deg, #{$color1}, #{$color2}));
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      transition: background 0.3s, color 0.3s;
-    }
+  .font-size-default {
+    @include responsive.responsiveFontSizeDefault;
   }
-  // animatons
-  @keyframes glow-animation {
-    from {
-      opacity: 0;
-      transform: translateX(-100%);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-}
-.sparkle {
-    position: absolute;
-    animation: sparkles 2.4s ease-in;
-  }
-  .welcome-text {
-    display: flex;
-    $firstChoice: universal.random-color();
-    $secondChoice: universal.random-color();
+  .font-size-large {
     @include responsive.responsiveFontSizeLarger;
-    @include welcome-text-style(18, #{$firstChoice}, #{$secondChoice});
   }
-  .welcome-text-south-paw {
-    display: flex;
-    $firstChoice: universal.random-color();
-    $secondChoice: universal.random-color();
-    @include responsive.responsiveFontSizeLarger;
-    @include welcome-text-style(8, #{$firstChoice}, #{$secondChoice}, true);
-  }
-    @keyframes sparkles {
-      0% {
-        opacity: 1;
-        transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0) scale(1.2) rotateZ(20deg);
-    
-      }
-      100% {
-        opacity: 1;
-        transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0) scale(1.2) rotateZ(20deg);
-    
-      }
-    }
-  

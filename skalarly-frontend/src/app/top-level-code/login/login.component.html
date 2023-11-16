@@ -69,7 +69,8 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <!-- forgot password -->
 <div forgot>
 <button type="button" (click)="navigate()" forgot>
-  <app-letter-by-letter [message]="forgot" [autoGenerate]="false" [welcomeSouthPaw]="false"></app-letter-by-letter>
+  <app-letter-by-letter
+  [customClass]="'small'" [message]="forgot" [autoGenerate]="false" [welcomeSouthPaw]="false"></app-letter-by-letter>
 </button>
 </div>
 </div>
@@ -124,14 +125,16 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
   @if (!flip) {
     <span>Join</span>
   } @else {
-    <app-letter-by-letter [message]="join" [autoGenerate]="false"  [@bubble]="'animate'" 
+    <app-letter-by-letter [customClass]="'small'"
+     [message]="join" [autoGenerate]="false" [@bubble]="'animate'" 
     [welcomeSouthPaw]="true"></app-letter-by-letter>
     }
     </button>
   <!-- array animation of words -->
       <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
-      (@welcomeRise.done)=" welcomeRiseDone()" >
+      (@welcomeRise.done)=" welcomeRiseDone() " >
     <app-letter-by-letter 
+     [customClass]="'large'"
      [message]="welcome"
      [autoGenerate]="true" 
      [welcomeSouthPaw]="false" 

@@ -11,28 +11,68 @@ $all: 100%;
     width: $all;
     box-sizing: border-box;
 }
-$colors: (
-  '#287182', // Darker Mystic Turquoise
-  '#3b5a91', // Darker Celestial Blue
-  '#1e4379', // Darker Sapphire Blue
-  '#6ea4d4', // Darker Shimmering Sky
-  '#000080', // Nebula Navy
-  '#4f6d7a', // Steel Blue
-  '#5a7d9a', // Atlantic Blue
-  '#486b83', // Oceanic Blue
-  '#778da9', // Dusty Blue
-  '#3c6997', // Nautical Blue
-  '#005f73', // Deep Sea Blue
-  '#94c9a9', // Teal Blue
-  '#7fb7be', // Sky Reflection Blue
+$color-pairs: (
+  'mystic-turquoise': (
+    primary: #287182, // Darker Mystic Turquoise
+    pairing: #4f6d7a  // Steel Blue
+  ),
+  'celestial-blue': (
+    primary: #3b5a91, // Darker Celestial Blue
+    pairing: #5a7d9a  // Atlantic Blue
+  ),
+  'sapphire-blue': (
+    primary: #1e4379, // Darker Sapphire Blue
+    pairing: #486b83  // Oceanic Blue
+  ),
+  'shimmering-sky': (
+    primary: #6ea4d4, // Darker Shimmering Sky
+    pairing: #7fb7be  // Sky Reflection Blue
+  ),
+  'nebula-navy': (
+    primary: #000080, // Nebula Navy
+    pairing: #3c6997  // Nautical Blue
+  ),
+  'steel-blue': (
+    primary: #4f6d7a, // Steel Blue
+    pairing: #778da9  // Dusty Blue
+  ),
+  'atlantic-blue': (
+    primary: #5a7d9a, // Atlantic Blue
+    pairing: #94c9a9  // Teal Blue
+  ),
+  'oceanic-blue': (
+    primary: #486b83, // Oceanic Blue
+    pairing: #005f73  // Deep Sea Blue
+  ),
+  'dusty-blue': (
+    primary: #778da9, // Dusty Blue
+    pairing: #6ea4d4  // Darker Shimmering Sky
+  ),
+  'nautical-blue': (
+    primary: #3c6997, // Nautical Blue
+    pairing: #3b5a91  // Darker Celestial Blue
+  ),
+  'deep-sea-blue': (
+    primary: #005f73, // Deep Sea Blue
+    pairing: #287182  // Darker Mystic Turquoise
+  ),
+  'teal-blue': (
+    primary: #94c9a9, // Teal Blue
+    pairing: #1e4379  // Darker Sapphire Blue
+  ),
+  'sky-reflection-blue': (
+    primary: #7fb7be, // Sky Reflection Blue
+    pairing: #000080  // Nebula Navy
+  )
 );
 
 :root {
   --pairingColor: #486b83; // Oceanic Blue
   --pairingColor2: #778da9; // Dusty Blue
 }
-
-@function random-color() {
-  $index: random(length($colors));
-  @return nth($colors, $index);
+@function random-color-pair() {
+  $keys: map-keys($color-pairs);
+  $random-key: nth($keys, random(length($keys)));
+  $color-pair: map-get($color-pairs, $random-key);
+  @return $color-pair;
 }
