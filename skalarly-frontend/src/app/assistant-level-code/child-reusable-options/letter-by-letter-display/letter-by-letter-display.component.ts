@@ -12,43 +12,20 @@ import {
 import { CommonModule } from '@angular/common';
 import { LoginSpecificService } from '../../custom-architecture-aids/services/login-validation/login-specific.service';
 import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/animations/fadeOut-animation';
+import { letterByLetter } from 'src/app/assistant-level-code/custom-architecture-aids/animations/letterByLetter-animation';
+
+interface Letter {
+  letter: string;
+  isLast: boolean;
+}
 
 @Component({
   standalone: true,
   selector: 'app-letter-by-letter',
   templateUrl: './letter-by-letter-display.component.html',
-  styles: [
-    `
-      @keyframes sparkles {
-        0% {
-          opacity: 1;
-          transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0)
-            scale(1.2) rotateZ(20deg);
-        }
-        100% {
-          opacity: 1;
-          transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0)
-            scale(1.2) rotateZ(20deg);
-        }
-      }
-      @keyframes glow-animation {
-        from {
-          opacity: 0;
-          transform: translateX(-100%);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-      .sparkle {
-        position: absolute;
-        animation: sparkles 2.4s ease-in;
-      }
-    `
-  ],
+  styleUrls: ['./letter-by-letter-display.component.scss'],
   imports: [CommonModule],
-  animations: [fadeOut]
+  animations: [letterByLetter, fadeOut]
 })
 export class LetterByLetterComponent implements OnChanges {
   @ViewChild('sparkle')
@@ -57,47 +34,25 @@ export class LetterByLetterComponent implements OnChanges {
   @Input() customClass: 'small' | 'default' | 'large' = 'small';
   @Input() welcomeSouthPaw: boolean = false;
   @Input() autoGenerate: boolean = false;
-  animatedText: {
-    letter: string;
-    visible: boolean;
-    isLast: boolean;
-    style: object;
-  }[] = [];
+  animatedText: Letter[] = [];
 
   constructor(private loginSpecificService: LoginSpecificService) {}
+
   // updates text
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['message']) {
-      this.letterByLetter(this.message);
+      this.letterAnimation(this.message);
     }
   }
-  letterByLetter(message: string): void {
-    this.animatedText = [];
-    for (let i = 0; i < message.length; i++) {
-      const delay: number = this.welcomeSouthPaw
-        ? i * 0.15
-        : (length - i - 1) * 0.15;
-      this.animatedText.push({
-        letter: message[i],
-        visible: false,
-        isLast: i === message.length - 1,
-        // can now work with any length of characters
-        style: {
-          animation: 'glow-animation 0.25s forwards',
-          background: `linear-gradient(45deg, var(--first), var(--second))`,
-          transition: 'background 0.3s, color 0.3s',
-          'background-clip': 'text',
-          'white-space': 'nowrap',
-          '-webkit-background-clip': 'text',
-          '-webkit-text-fill-color': 'transparent',
-          'animation-delay': `${delay}s`
-        }
-      });
-    }
+  letterAnimation(message: string): void {
+    const length = message.length;
+    this.animatedText = message.split('').map((char, index) => ({
+      letter: char,
+      isLast: index === length - 1
+    }));
   }
-
   renderOn(): void {
-    this.createSparkles(10);
+    // this.createSparkles(10);
     this.message = this.loginSpecificService.updatePhrase();
     setTimeout(() => {
       this.renderOn();

@@ -1,10 +1,51 @@
-@use 'src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
+@use '/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src/app/assistant-level-code/universal-reusable-styles/responsive-mixin.scss' as responsive;
 .font-size-small {
     @include responsive.responsiveFontSizeSmaller;
   }
   .font-size-default {
-    @include responsive.responsiveFontSizeDefault;
+    @include responsive.responsiveFontSize;
   }
   .font-size-large {
     @include responsive.responsiveFontSizeLarger;
+  }
+  @mixin animation($delay) {
+    animation: glow-animation 0.25s $delay forwards;
+    background: linear-gradient(45deg, var(--first), var(--second));
+    transition: 'background 0.3s, color 0.3s';
+    background-clip: 'text';
+    white-space: 'nowrap';
+    -webkit-background-clip: 'text';
+    -webkit-text-fill-color: 'transparent';
+  }
+  .animations{
+    opacity: 0;
+    @include animation(0.1s);
+  }
+
+  @keyframes sparkles {
+    0% {
+        opacity: 1;
+        transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0)
+          scale(1.2) rotateZ(20deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0)
+          scale(1.2) rotateZ(20deg);
+      }
+  }
+
+  @keyframes glow-animation {
+    from {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  .sparkle {
+    color: #C0C0C0;
+    animation: sparkles 2.4s ease-in;
   }

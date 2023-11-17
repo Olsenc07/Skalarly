@@ -1,20 +1,20 @@
-<div class="login-header">
-  <!-- logo glows on valid login -->
-  <div logo>
-  <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
-   priority  width="94.5" height="75" sizes="30vw">
-   </div>
-<h2> Enhance Your Academic Experience With <br>
-  <div skalarly>
-    Skalarly
-    </div>
-</h2>
-</div>
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
  <!-- rendered content -->
- @defer (on viewport) {
+ @defer {
 <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <div class="login-header">
+    <!-- logo glows on valid login -->
+    <div logo>
+    <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
+     priority  width="94.5" height="75" sizes="30vw">
+     </div>
+  <h2> Enhance Your Academic Experience With <br>
+    <div skalarly>
+      Skalarly
+      </div>
+  </h2>
+  </div>
   <div class="input-boxes" >
     <div>
 <span inputs>
@@ -110,7 +110,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </div>
 </div>
 </form>
-} @placeholder {
+} @loading {
   <form>
     <div column>
    <!-- pre load skeleton -->
