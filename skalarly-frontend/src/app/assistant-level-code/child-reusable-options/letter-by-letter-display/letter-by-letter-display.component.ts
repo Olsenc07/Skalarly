@@ -4,6 +4,7 @@ import {
   ElementRef,
   Input,
   OnChanges,
+  OnDestroy,
   QueryList,
   SimpleChanges,
   ViewChild,
@@ -12,7 +13,6 @@ import {
 import { CommonModule } from '@angular/common';
 import { LoginSpecificService } from '../../custom-architecture-aids/services/login-validation/login-specific.service';
 import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/animations/fadeOut-animation';
-import { letterByLetter } from 'src/app/assistant-level-code/custom-architecture-aids/animations/letterByLetter-animation';
 
 interface Letter {
   letter: string;
@@ -25,9 +25,9 @@ interface Letter {
   templateUrl: './letter-by-letter-display.component.html',
   styleUrls: ['./letter-by-letter-display.component.scss'],
   imports: [CommonModule],
-  animations: [letterByLetter, fadeOut]
+  animations: [fadeOut]
 })
-export class LetterByLetterComponent implements OnChanges {
+export class LetterByLetterComponent implements OnChanges, OnDestroy {
   @ViewChild('sparkle')
   containerElementRef!: ElementRef;
   @Input() message: string = '';
@@ -35,7 +35,7 @@ export class LetterByLetterComponent implements OnChanges {
   @Input() welcomeSouthPaw: boolean = false;
   @Input() autoGenerate: boolean = false;
   animatedText: Letter[] = [];
-
+  private renderTimeout: any;
   constructor(private loginSpecificService: LoginSpecificService) {}
 
   // updates text
@@ -54,21 +54,45 @@ export class LetterByLetterComponent implements OnChanges {
   renderOn(): void {
     // this.createSparkles(10);
     this.message = this.loginSpecificService.updatePhrase();
-    setTimeout(() => {
+    // Clear previous timeout to avoid memory leaks
+    if (this.renderTimeout) {
+      clearTimeout(this.renderTimeout);
+    }
+    this.renderTimeout = setTimeout(() => {
       this.renderOn();
     }, 2500);
+    // Example loop to create sparkles for each letter
+    this.animatedText.forEach((item, index) => {
+      const letterElement: Element | null = document.querySelector(
+        `#letter-${index}`
+      );
+      if (letterElement) {
+        this.createSparkles(10, letterElement as HTMLElement);
+      }
+    });
   }
 
-  createSparkles(numberOfSparkles: number): void {
-    const container = this.containerElementRef.nativeElement;
+  createSparkles(numberOfSparkles: number, letterElement: HTMLElement): void {
     for (let i = 0; i < numberOfSparkles; i++) {
       const sparkle = document.createElement('span');
       sparkle.classList.add('sparkle');
-      const x: number = Math.random() * 100;
-      const y: number = Math.random() * 100;
-      sparkle.style.setProperty('--sparkle-x', `${x}%`);
-      sparkle.style.setProperty('--sparkle-y', `${y}%`);
-      container.appendChild(sparkle);
+      // Position each sparkle relative to the letter
+      const rect = letterElement.getBoundingClientRect();
+      sparkle.style.left = `${rect.left + Math.random() * rect.width}px`;
+      sparkle.style.top = `${rect.top + Math.random() * rect.height}px`;
+
+      // Set a random delay for each sparkle to create a trailing effect
+      document.body.appendChild(sparkle); // Append to body or a specific container
+      this.containerElementRef.nativeElement.appendChild(sparkle);
+      sparkle.addEventListener('animationend', () => {
+        sparkle.remove();
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.renderTimeout) {
+      clearTimeout(this.renderTimeout);
     }
   }
 }

@@ -46,6 +46,25 @@
   }
 }
 
+@mixin magic {
+  @keyframes glowing-border {
+    0% {
+      box-shadow: 0 0 5px #add8e6, 0 0 10px #add8e6, 0 0 15px #9370db, 0 0 20px #7b68ee, 0 0 25px #9370db, 0 0 30px #7b68ee, 0 0 35px #9370db;
+    }
+    100% {
+      box-shadow: 0 0 5px #7b68ee, 0 0 10px #9370db, 0 0 15px #add8e6, 0 0 20px #9370db, 0 0 25px #7b68ee, 0 0 30px #9370db, 0 0 35px #7b68ee;
+    }
+  }
+
+@keyframes shimmer {
+  0% {
+    background-position: -500px 0;
+  }
+  100% {
+    background-position: 500px 0;
+  }
+}
+}
 @mixin greenGlow {
   @keyframes glow {
     from {

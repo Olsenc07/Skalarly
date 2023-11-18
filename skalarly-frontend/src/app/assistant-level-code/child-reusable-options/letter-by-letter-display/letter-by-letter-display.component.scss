@@ -24,16 +24,15 @@
 
   @keyframes sparkles {
     0% {
-        opacity: 1;
-        transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0)
-          scale(1.2) rotateZ(20deg);
-      }
-      100% {
-        opacity: 1;
-        transform: translate3d(var(--sparkle-x, 0), var(--sparkle-y, 0), 0)
-          scale(1.2) rotateZ(20deg);
-      }
+      opacity: 1;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1);
+    }
   }
+  
 
   @keyframes glow-animation {
     from {
@@ -46,6 +45,11 @@
     }
   }
   .sparkle {
+   position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background-color: yellow;
     color: #C0C0C0;
-    animation: sparkles 2.4s ease-in;
+    animation: sparkles 2.4s ease-in forwards;
   }

@@ -1,6 +1,8 @@
     @for (item of animatedText; let i = $index; track item) {
             <span
             #sparkle
+
+            [attr.id]="'letter-' + i"
             [ngClass]="{
                 'font-size-small': customClass === 'small',
                 'font-size-default': customClass === 'default',
@@ -10,8 +12,8 @@
             (@fadeOut.done)="autoGenerate ? renderOn() : null">
             <span class="animations"
             [ngClass]="
-                {'sparkle': item.isLast}
-            " [ngStyle]="{'animation-delay': i * 0.1 + 's'}">
-                {{ item.letter !== ' ' ? item.letter : '&nbsp;' }} </span>
+                {'sparkle': item.isLast}">
+                {{ item.letter !== ' ' ? item.letter : '&nbsp;' }}
             </span>   
+            </span>
     }

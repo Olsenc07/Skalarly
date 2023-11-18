@@ -73,6 +73,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   flip: boolean = false;
   skalarlyState: string = 'initial';
   join: string = 'Join';
+  stayLogIn: string = 'Stay logged in (1 month)';
   forgot: string = 'Forgot Password?';
   welcome: string = 'Welcome To Skalarly';
 

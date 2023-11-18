@@ -6,8 +6,12 @@
   <div class="login-header">
     <!-- logo glows on valid login -->
     <div logo>
-    <img ngSrc="assets/images/Skalar_Hat_Icon.png" alt="Skalar Grad Wizard Hat Icon" 
-     priority  width="94.5" height="75" sizes="30vw">
+    <img ngSrc="assets/images/Skalar_Hat_Icon.png" 
+    ngSrcset="100w, 200w, 300w" sizes="50vw"
+    loader="eager"
+     width="94.5" height="75"
+    alt="Skalar Grad Wizard Hat Icon" 
+ >
      </div>
   <h2> Enhance Your Academic Experience With <br>
     <div skalarly>
@@ -38,7 +42,12 @@
   <div class="login-options">
     <!-- Keep skalar logged in -->
     <mat-checkbox [checked]="stayLoggedIn" (change)="stayIn()" >
-      Stay logged in (1 month)</mat-checkbox>
+     <app-letter-by-letter [customClass]="'small'"
+     [message]="stayLogIn"
+     [autoGenerate]="false"
+     [welcomeSouthPaw]="false">
+     </app-letter-by-letter>
+    </mat-checkbox>
     </div>
     </div>
   <div column>
@@ -81,6 +90,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
   @switch (progressState) {
     @case ('default') {
   <button mat-fab  type="submit" class="material-symbols-outlined"
+  [@shimmer]="shimmerState"
   [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
   [@dissolve]="progressState"
   [@shake]="failedLoginAnimation"
@@ -110,6 +120,29 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </div>
 </div>
 </form>
+<!-- welcome and join animation -->
+<div class="welcome-container">
+  <button mat-raised-button 
+   routerLink="/sign-up" join>
+@if (!flip) {
+  <span>Join</span>
+} @else {
+  <app-letter-by-letter [customClass]="'small'"
+   [message]="join" [autoGenerate]="false" [@bubble]="'animate'" 
+  [welcomeSouthPaw]="true"></app-letter-by-letter>
+  }
+  </button>
+<!-- array animation of words -->
+    <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
+    (@welcomeRise.done)=" welcomeRiseDone()" >
+  <app-letter-by-letter 
+   [customClass]="'large'"
+   [message]="welcome"
+   [autoGenerate]="true" 
+   [welcomeSouthPaw]="false" 
+  ></app-letter-by-letter>
+  </div>
+</div>
 } @loading {
   <form>
     <div column>
@@ -118,28 +151,5 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
       </div>
       </form>
 }
-<!-- welcome and join animation -->
-<div class="welcome-container">
-    <button mat-raised-button 
-     routerLink="/sign-up" join>
-  @if (!flip) {
-    <span>Join</span>
-  } @else {
-    <app-letter-by-letter [customClass]="'small'"
-     [message]="join" [autoGenerate]="false" [@bubble]="'animate'" 
-    [welcomeSouthPaw]="true"></app-letter-by-letter>
-    }
-    </button>
-  <!-- array animation of words -->
-      <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
-      (@welcomeRise.done)=" welcomeRiseDone() " >
-    <app-letter-by-letter 
-     [customClass]="'large'"
-     [message]="welcome"
-     [autoGenerate]="true" 
-     [welcomeSouthPaw]="false" 
-    ></app-letter-by-letter>
-    </div>
-  </div>
-</ng-container>
 
+</ng-container>
