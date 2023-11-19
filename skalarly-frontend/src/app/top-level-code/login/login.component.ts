@@ -3,11 +3,14 @@ import {
   Component,
   ElementRef,
   Inject,
-  OnDestroy,
   OnInit,
   Optional,
   ViewChild
 } from '@angular/core';
+import {
+  EmailInterface,
+  PasswordInterface
+} from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/login-interface';
 import {
   FormControl,
   FormGroup,
@@ -17,12 +20,13 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
   Observable,
-  Subject,
+  concat,
   debounceTime,
   distinctUntilChanged,
+  map,
   of,
-  switchMap,
-  takeUntil
+  startWith,
+  switchMap
 } from 'rxjs';
 import { AuthorizeService } from '../../assistant-level-code/custom-architecture-aids/services/authorize.service';
 import { ErrorHandlerComponent } from '../../assistant-level-code/child-reusable-options/error-handler/error-handler.component';
@@ -37,7 +41,6 @@ import { ValidationAnimationDirective } from '../../assistant-level-code/custom-
 import { loginImports } from './imports/login-imports';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { reusableAnimations } from './imports/animation-imports';
-
 @Component({
   standalone: true,
   selector: 'app-login-format',
@@ -68,7 +71,7 @@ import { reusableAnimations } from './imports/animation-imports';
     SkeletonLoaderLoginComponent
   ]
 })
-export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
+export class LoginComponent implements OnInit, AfterViewInit {
   // animation based
   welcomeState: string | 'gone' = '';
   nextAnimations: boolean = false;
@@ -77,23 +80,16 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   stayLogIn: string = 'Stay logged In';
   forgot: string = 'Forgot Password?';
   welcome: string = 'Welcome To Skalarly';
-
+  visiblePassword: boolean = false;
   isGlowing: boolean = false;
   progressState: 'default' | 'loading' | 'complete' = 'default';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
     null;
-  // email validity
-  emailState: 'initial' | 'spinning' | 'check' = 'initial';
   // email
-  emailFound: boolean = false;
-  private emailSub$: Subject<void> = new Subject<void>();
-  email$: Observable<> = new
+  email$: Observable<EmailInterface> = new Observable<EmailInterface>();
   // password
-  isPasswordValid: boolean = false;
-  visiblePassword: boolean = false;
-  showPasswordError: boolean = false;
-  private passwordSub$: Subject<void> = new Subject<void>();
-  lockState: 'closed' | 'open' = 'closed';
+  password$: Observable<PasswordInterface> =
+    new Observable<PasswordInterface>();
   @ViewChild('skalarlyPassword', { static: false })
   skalarlyPassword: ElementRef = new ElementRef(null);
   // login
@@ -133,51 +129,57 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     // randomize phrases
     this.loginSpecificService.randomizePairs();
     // email
-    this.email$ =this.loginForm.controls['email'].valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        switchMap((query) => {
-          this.emailState = 'spinning';
-          // don't search email unless pattern is proper
-          if (this.loginForm.controls['email'].valid) {
-            return this.authorizeService.searchEmails(query);
-          } else {
-            return of(false);
-          }
-        }),
-        takeUntil(this.emailSub$)
-      )
-      .subscribe((emailFound: boolean) => {
-        if (emailFound) {
-          this.emailState = 'check';
-          this.emailFound = emailFound;
-          this.loginForm.controls['email'].setErrors(null); // Set the control as valid
+    this.email$ = this.loginForm.controls['email'].valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      startWith({ emailFound: false, emailState: 'initial' }),
+      switchMap((query) => {
+        if (this.loginForm.controls['email'].valid) {
+          // Emit a loading state before making the API call
+          return concat(
+            of({ emailFound: false, emailState: 'loading', error: '' }),
+            this.authorizeService.searchEmails(query).pipe(
+              map((emailFound) => ({
+                emailFound,
+                emailState: emailFound ? 'check' : 'initial'
+              }))
+            )
+          );
         } else {
-          this.emailState = 'initial';
-          this.loginForm.controls['email'].setErrors({ emailNotFound: true }); // Set an error to indicate it's invalid
+          return of({
+            emailFound: false,
+            emailState: 'initial',
+            error: 'notFound'
+          });
         }
-      });
+      })
+    );
     // password
-    // Subscribe to password changes
-    this.loginForm
-      .get('password')
-      ?.valueChanges.pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this.passwordSub$)
-      ) // Use takeUntil for this subscription
-      .subscribe((password: string) => {
-        // check validity and then trigger animation
-        this.isPasswordValid = this.loginForm.get('password')!.valid;
-        if (this.isPasswordValid) {
-          this.lockState = 'open';
+    this.password$ = this.loginForm.controls['password'].valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      startWith({ isPasswordValid: false, lockState: 'closed' }),
+      switchMap((password) => {
+        const isPasswordValid: boolean | undefined =
+          this.loginForm.get('password')?.valid;
+        if (isPasswordValid === true) {
+          const lockState: string = 'open';
+          // Emit an object based on the validity of the password
+          return of({
+            isPasswordValid: isPasswordValid,
+            lockState: lockState
+          });
         } else {
-          // Password is empty or invalid, reset the animation
-          this.lockState = 'closed';
+          return of({
+            isPasswordValid: false,
+            lockState: 'closed',
+            error: 'notFound'
+          });
         }
-      });
+      })
+    );
   }
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.skalarlyState = 'rise';
@@ -252,21 +254,5 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   // forgot password
   navigate(): void {
     this.router.navigate(['/forgot-password']);
-  }
-  // efficent rendering
-  trackByLetter(
-    index: number,
-    item: { letter: string; visible: boolean }
-  ): string {
-    return item.letter;
-  }
-
-  //clean up
-  ngOnDestroy(): void {
-    this.emailSub$.next();
-    this.emailSub$.complete();
-    // password
-    this.passwordSub$.next();
-    this.passwordSub$.complete();
   }
 }

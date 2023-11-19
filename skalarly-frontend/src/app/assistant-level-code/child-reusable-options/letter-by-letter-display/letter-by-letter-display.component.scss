@@ -1,5 +1,5 @@
-@use '/src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
-@use '/src/app/assistant-level-code/universal-reusable-styles/common' as universal;
+@use 'src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
+@use 'src/app/assistant-level-code/universal-reusable-styles/common' as universal;
 .font-size-small {
     @include responsive.responsiveFontSizeSmaller;
   }

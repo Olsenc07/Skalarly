@@ -6,9 +6,10 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-export const spinChange: AnimationTriggerMetadata = trigger('spinAndChange', [
+export const spinChange: AnimationTriggerMetadata = trigger('spinChange', [
   state('initial', style({ transform: 'rotate(0deg)' })),
   state('spinning', style({ transform: 'rotate(360deg)' })),
   state('check', style({ transform: 'rotate(360deg)' })),
-  transition('initial <=> spinning', animate('1s ease')) // Spin animation with reverse
+  transition('initial <=> spinning', animate('1s linear infinite')),
+  transition('* => check', animate('1s ease'))
 ]);
