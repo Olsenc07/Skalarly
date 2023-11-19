@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {
+  Observable,
   Subject,
   debounceTime,
   distinctUntilChanged,
@@ -41,7 +42,7 @@ import { reusableAnimations } from './imports/animation-imports';
   standalone: true,
   selector: 'app-login-format',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrl: './login.component.scss',
   animations: [
     ...reusableAnimations
     //  welcome to skalarly rise 'welcomeRise',
@@ -70,10 +71,10 @@ import { reusableAnimations } from './imports/animation-imports';
 export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   // animation based
   welcomeState: string | 'gone' = '';
-  flip: boolean = false;
+  nextAnimations: boolean = false;
   skalarlyState: string = 'initial';
   join: string = 'Join';
-  stayLogIn: string = 'Stay logged in (1 month)';
+  stayLogIn: string = 'Stay logged In';
   forgot: string = 'Forgot Password?';
   welcome: string = 'Welcome To Skalarly';
 
@@ -86,6 +87,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   // email
   emailFound: boolean = false;
   private emailSub$: Subject<void> = new Subject<void>();
+  email$: Observable<> = new
   // password
   isPasswordValid: boolean = false;
   visiblePassword: boolean = false;
@@ -131,7 +133,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
     // randomize phrases
     this.loginSpecificService.randomizePairs();
     // email
-    this.loginForm.controls['email'].valueChanges
+    this.email$ =this.loginForm.controls['email'].valueChanges
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
@@ -183,7 +185,7 @@ export class LoginComponent implements OnDestroy, OnInit, AfterViewInit {
   }
   // reusbale function
   welcomeRiseDone(): void {
-    this.flip = true;
+    this.nextAnimations = true;
     this.welcome = this.loginSpecificService.updatePhrase();
   }
   // toggle password visbility

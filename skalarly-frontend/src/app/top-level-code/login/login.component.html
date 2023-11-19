@@ -8,10 +8,9 @@
     <div logo>
     <img ngSrc="assets/images/Skalar_Hat_Icon.png" 
     ngSrcset="100w, 200w, 300w" sizes="50vw"
-    loader="eager"
-     width="94.5" height="75"
-    alt="Skalar Grad Wizard Hat Icon" 
- >
+    loading="eager"
+    width="94.5" height="75"
+    alt="Skalar Grad Wizard Hat Icon">
      </div>
   <h2> Enhance Your Academic Experience With <br>
     <div skalarly>
@@ -32,6 +31,8 @@
     <mat-error *ngIf="loginForm.get('email')!.invalid">No account matches this email</mat-error>
   <mat-icon matPrefix class="material-symbols-outlined" 
     [@spinAndChange]="emailState">
+    /move to async pipe
+    <div *ngIf="(email$ | async); else more"></div>
     @switch (emailState) {
       @case ('initial') { alternate_email }
       @case ('spinning') { alternate_email }
@@ -90,13 +91,15 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
   @switch (progressState) {
     @case ('default') {
   <button mat-fab  type="submit" class="material-symbols-outlined"
-  [@shimmer]="shimmerState"
   [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
   [@dissolve]="progressState"
   [@shake]="failedLoginAnimation"
   (keydown.enter)="enterClicked()">
-  fingerprint
+  <span [class.border-element]="nextAnimations">
+    fingerprint
+  </span>
   </button>
+
 }
 <!-- Processing login -->
   @case ('loading') {
@@ -124,7 +127,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <div class="welcome-container">
   <button mat-raised-button 
    routerLink="/sign-up" join>
-@if (!flip) {
+@if (!nextAnimations) {
   <span>Join</span>
 } @else {
   <app-letter-by-letter [customClass]="'small'"
@@ -134,7 +137,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
   </button>
 <!-- array animation of words -->
     <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
-    (@welcomeRise.done)=" welcomeRiseDone()" >
+    (@welcomeRise.done)="welcomeRiseDone()" >
   <app-letter-by-letter 
    [customClass]="'large'"
    [message]="welcome"
@@ -151,5 +154,4 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
       </div>
       </form>
 }
-
 </ng-container>

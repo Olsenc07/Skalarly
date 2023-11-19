@@ -1,4 +1,5 @@
-@use '/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src/app/assistant-level-code/universal-reusable-styles/responsive-mixin.scss' as responsive;
+@use '/src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
+@use '/src/app/assistant-level-code/universal-reusable-styles/common' as universal;
 .font-size-small {
     @include responsive.responsiveFontSizeSmaller;
   }
@@ -8,32 +9,44 @@
   .font-size-large {
     @include responsive.responsiveFontSizeLarger;
   }
-  @mixin animation($delay) {
-    animation: glow-animation 0.25s $delay forwards;
-    background: linear-gradient(45deg, var(--first), var(--second));
-    transition: 'background 0.3s, color 0.3s';
-    background-clip: 'text';
-    white-space: 'nowrap';
-    -webkit-background-clip: 'text';
-    -webkit-text-fill-color: 'transparent';
+  @mixin animation {
+    animation: glow-animation 0.25s 0.3s forwards;
+    opacity: 0;
+    $random-pair: universal.random-color-pair();
+    $firstChoice: map-get($random-pair, primary);
+    $secondChoice: map-get($random-pair, pairing);
+    background: linear-gradient(45deg, #{$firstChoice}, #{$secondChoice});
+    transition: background 0.3s, color 0.3s;
+    background-clip: text;
+    white-space: nowrap;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   .animations{
-    opacity: 0;
-    @include animation(0.1s);
+    @include animation;
   }
-
-  @keyframes sparkles {
+  .magical-letter {
+    display: inline-block; 
+    animation: magicalAppearance 1s ease-in;
+  }
+  @keyframes magicalAppearance {
     0% {
+      transform: scale(0.8) rotate(-10deg);
       opacity: 1;
-      transform: scale(0.8);
+      color: var(--pairingColor);
+    }
+    50% {
+      transform: scale(1.1) rotate(10deg);
+      opacity: 1;
+      color: var(--pairingColor);
     }
     100% {
-      opacity: 0;
-      transform: scale(1);
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+      color: var(--pairingColor);
     }
   }
   
-
   @keyframes glow-animation {
     from {
       opacity: 0;
@@ -44,12 +57,4 @@
       transform: translateX(0);
     }
   }
-  .sparkle {
-   position: absolute;
-    width: 2px;
-    height: 2px;
-    border-radius: 50%;
-    background-color: yellow;
-    color: #C0C0C0;
-    animation: sparkles 2.4s ease-in forwards;
-  }
+ 

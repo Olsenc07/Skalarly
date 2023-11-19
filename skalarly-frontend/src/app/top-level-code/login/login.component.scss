@@ -163,17 +163,22 @@ div[column] {
   }
 }
 
+.border-element {
+  &::before {
+    content: '';
+    position: absolute;
+    top: -3px; left: -3px;
+    bottom: -3px; right: -3px;
+    z-index: -1;
+    border-radius: 50%;
+    @include animation.magic;
+    animation: rotateAndShimmer 3s linear forwards;
+  }
+}
+
 .mat-mdc-checkbox{ 
     display: flex;
-  }
-  .magic-button {
-    @include animation.magic;
-    animation: glowing-border 2s ease-in-out alternate, shimmer 2s linear ;
-    background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.5), rgba(255,255,255,0.1));
-    background-size: 200% 100%;
-    border-radius: 50px; 
-  }
-  
+  }  
   span[inputs] {
   @include universal.common(flex, column);
   align-items: baseline;

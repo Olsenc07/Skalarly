@@ -1,8 +1,4 @@
-    @for (item of animatedText; let i = $index; track item) {
-            <span
-            #sparkle
-
-            [attr.id]="'letter-' + i"
+        <span
             [ngClass]="{
                 'font-size-small': customClass === 'small',
                 'font-size-default': customClass === 'default',
@@ -10,10 +6,18 @@
                 }"
             [@fadeOut]="!welcomeSouthPaw ? 'active' : 'inactive' "
             (@fadeOut.done)="autoGenerate ? renderOn() : null">
-            <span class="animations"
-            [ngClass]="
-                {'sparkle': item.isLast}">
-                {{ item.letter !== ' ' ? item.letter : '&nbsp;' }}
-            </span>   
+            @for (item of animatedText; let i = $index; let isLast = $last; track item) {
+            @if (item.letter !== ' ') {
+                <span class="animations"
+                [style.animation-delay]="i * 0.1 + 's'"
+                [ngClass]="
+                    {'magical-letter ': isLast}">
+                         @if( item.letter !== ' '){   
+                    {{  item.letter }}
+                         } @else {
+                            &nbsp;
+                            } 
+                </span>
+            }
+            }
             </span>
-    }

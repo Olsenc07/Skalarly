@@ -8,9 +8,9 @@
   border-radius: 4px;
   width: 100%;
 }
-div {
-display: flex;
- flex-direction: column
+div{
+  display: flex;
+  flex-direction: column;
 }
 .input-boxes-skeleton{
     @include universal.common(flex, column);
@@ -20,9 +20,8 @@ display: flex;
      @include universal.common(flex, row);
     }
   }
-    .skeleton-wrap{
-      display: flex;
-      flex-direction: column;
+    .skeleton-wrap {
+      @include universal.common;
       width: 100%;
     }
     .input-skeleton[one]{ // Apply the mixin to the first and third child which are supposed to mimic the mat form field
@@ -33,12 +32,19 @@ display: flex;
         @include pseudo-mat-form-field;
             margin-left: device.$input-margin; // Specific margin for the third child
           }
-        ngx-skeleton-loader[stayIn]{
+          %baseSkeletonLoader {
             width: 50%;
+          }
+          ngx-skeleton-loader[skalarly] {
+            @extend %baseSkeletonLoader;
+            margin: 0 auto;
+          }
+          ngx-skeleton-loader[stayIn],
+          ngx-skeleton-loader[forgot] {
+            @extend %baseSkeletonLoader;
             align-self: flex-start;
           }
-        ngx-skeleton-loader[forgot] {
-            width: 50%;
+          ngx-skeleton-loader[forgot] {
             align-self: flex-end;
           }
         ngx-skeleton-loader[circle]{

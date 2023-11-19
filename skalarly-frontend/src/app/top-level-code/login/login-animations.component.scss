@@ -47,24 +47,25 @@
 }
 
 @mixin magic {
-  @keyframes glowing-border {
-    0% {
-      box-shadow: 0 0 5px #add8e6, 0 0 10px #add8e6, 0 0 15px #9370db, 0 0 20px #7b68ee, 0 0 25px #9370db, 0 0 30px #7b68ee, 0 0 35px #9370db;
+  @keyframes rotateAndShimmer {
+   0% {
+      transform: rotate(0deg);
+      background: linear-gradient(75deg, #add8e6, var(--pairingColor), var(--pairingColor2));
+      background-position: 0 0;
+      opacity: 1;
+    }
+    80% {
+      transform: rotate(360deg);
+      background: linear-gradient(75deg, #add8e6, var(--pairingColor), var(--pairingColor2));
+      background-position: 500px 0;
+      opacity: 1; 
     }
     100% {
-      box-shadow: 0 0 5px #7b68ee, 0 0 10px #9370db, 0 0 15px #add8e6, 0 0 20px #9370db, 0 0 25px #7b68ee, 0 0 30px #9370db, 0 0 35px #7b68ee;
+      opacity: 0;
     }
   }
+}
 
-@keyframes shimmer {
-  0% {
-    background-position: -500px 0;
-  }
-  100% {
-    background-position: 500px 0;
-  }
-}
-}
 @mixin greenGlow {
   @keyframes glow {
     from {

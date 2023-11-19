@@ -9,6 +9,17 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   imports: [NgxSkeletonLoaderModule]
 })
 export class SkeletonLoaderLoginComponent {
+  // main logo
+  get skeletonLogoTheme(): {
+    width: string;
+    height: string;
+  } {
+    return {
+      width: `95px`,
+      height: `95px`
+    };
+  }
+  //login button
   get skeletonTheme(): {
     width: string;
     height: string;
