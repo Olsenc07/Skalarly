@@ -12,7 +12,7 @@ import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/a
 
 interface Letter {
   letter: string;
-  isLast: boolean;
+  delay: number;
 }
 
 @Component({
@@ -28,9 +28,11 @@ export class LetterByLetterComponent implements OnChanges {
   @Input() customClass: 'small' | 'default' | 'large' = 'small';
   @Input() welcomeSouthPaw: boolean = false;
   @Input() autoGenerate: boolean = false;
+  @Input() lastLetterAnimation: boolean = false;
   animatedText: Letter[] = [];
   autoGenerateInterval?: number;
-
+  private renderCount: number = 0;
+  private maxRenders: number = 7;
   constructor(private loginSpecificService: LoginSpecificService) {}
 
   // updates text
@@ -38,24 +40,48 @@ export class LetterByLetterComponent implements OnChanges {
     if (changes['message']) {
       this.letterAnimation(this.message);
     }
-    if (changes['autoGenerate']) {
-      if (this.autoGenerate) {
-        setTimeout(() => {
-          this.renderOn();
-        }, 7000);
-      }
+    if (changes['autoGenerate'] && this.autoGenerate) {
+      this.renderOn();
     }
   }
+  getRandomClass(): string {
+    const classes = [
+      'magical-letter',
+      'magical-letterflip',
+      'magical-letterfade',
+      'magical-letterslide' 
+    ];
+    const randomIndex = Math.floor(Math.random() * classes.length);
+    return classes[randomIndex];
+  }
+
   letterAnimation(message: string): void {
-    const letters = message.split('').map((char, index) => ({
-      letter: char,
-      isLast: index === message.length - 1
-    }));
-    this.animatedText = this.welcomeSouthPaw ? letters.reverse() : letters;
+    const totalDuration: number = 1; // Total duration of the animation in seconds
+    const delayIncrement: number = totalDuration / message.length; // Delay increment for each letter
+
+    const letters: {
+      letter: string;
+      delay: number;
+    }[] = message.split('').map((char, index) => {
+      const delay: number = this.welcomeSouthPaw
+        ? (message.length - index - 1) * delayIncrement // Right to left
+        : index * delayIncrement; // Left to right
+      return {
+        letter: char,
+        delay
+      };
+    });
+    this.animatedText = letters;
   }
 
   renderOn(): void {
-    this.message = this.loginSpecificService.updatePhrase();
-    this.letterAnimation(this.message);
+    if (this.renderCount < this.maxRenders) {
+      this.message = this.loginSpecificService.updatePhrase();
+      this.letterAnimation(this.message);
+      this.renderCount++;
+      setTimeout(() => this.renderOn(), 7000); // Schedule the next call
+    } else {
+      this.renderCount = 0;
+    }
   }
 }

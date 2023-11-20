@@ -9,15 +9,13 @@
             @for (item of animatedText; let i = $index; let isLast = $last; track item) {
             @if (item.letter !== ' ') {
                 <span class="animations"
-                [style.animation-delay]="i * 0.1 + 's'"
-                [ngClass]="
-                    {'magical-letter ': isLast}">
-                         @if( item.letter !== ' '){   
+                [ngStyle]="{'animation-delay': item.delay + 's'}"
+                [ngClass]="isLast && lastLetterAnimation ? getRandomClass() : ''"> 
                     {{  item.letter }}
-                         } @else {
-                            &nbsp;
-                            } 
+                         
                 </span>
-            }
+            } @else {
+                &nbsp;
+                } 
             }
             </span>

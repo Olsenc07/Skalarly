@@ -35,8 +35,8 @@
   <mat-icon matPrefix class="material-symbols-outlined" 
     [@spinChange]="emailInfo.emailState">
     @switch (emailInfo.emailState) {
-      @default ('initial') { alternate_email }
-      <!-- @case ('spinning') { add icon } -->
+      @case ('initial') { alternate_email }
+      @case ('spinning') { update }
       @case ('check') { check_circle }
     }
   </mat-icon>
@@ -44,10 +44,11 @@
 </ng-container> 
   <div class="login-options">
     <!-- Keep skalar logged in -->
-    <mat-checkbox [checked]="stayLoggedIn" (change)="stayIn()" >
+    <mat-checkbox [checked]="stayLoggedIn" color="primary" (change)="stayIn()" >
      <app-letter-by-letter [customClass]="'small'"
      [message]="stayLogIn"
      [autoGenerate]="false"
+     [lastLetterAnimation]="false"
      [welcomeSouthPaw]="false">
      </app-letter-by-letter>
     </mat-checkbox>
@@ -86,7 +87,8 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <div forgot>
 <button type="button" (click)="navigate()" forgot>
   <app-letter-by-letter
-  [customClass]="'small'" [message]="forgot" [autoGenerate]="false" [welcomeSouthPaw]="false"></app-letter-by-letter>
+  [customClass]="'small'" [message]="forgot"
+  [lastLetterAnimation]="false" [autoGenerate]="false" [welcomeSouthPaw]="false"></app-letter-by-letter>
 </button>
 </div>
 </div>
@@ -94,59 +96,58 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 
 <!-- Login Button -->
 <div loginButton >
+  <button mat-fab type="submit" class="material-symbols-outlined"
+    [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
+    [@dissolve]="progressState"
+    [@shake]="failedLoginAnimation"
+    (keydown.enter)="enterClicked()">
   @switch (progressState) {
     @case ('default') {
-  <button mat-fab  type="submit" class="material-symbols-outlined"
-  [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
-  [@dissolve]="progressState"
-  [@shake]="failedLoginAnimation"
-  (keydown.enter)="enterClicked()">
   <span [class.border-element]="nextAnimations">
     fingerprint
   </span>
-  </button>
-
 }
 <!-- Processing login -->
   @case ('loading') {
-<button mat-raised-button [@authenticatingGlow]="progressState">
-  <span>Authenticating</span>
-  <div class="dot-pulse-container">
-@for (dot of dots; track dot){
-    <span class="dot-pulse"></span>
-}
-    </div>
-</button>
+    <span class="border-element">
+      fingerprint
+    </span>
 }
 <!-- approved -->
   @case ('complete') {
-<button mat-icon-button [@fadeInGrow] class="material-symbols-outlined glowing-text">
+<span [@fadeInGrow] class="glowing-text">
  approval_delegation
-</button>
+</span>
 }
   }
+</button>
 </div>
 </div>
 </div>
 </form>
 <!-- welcome and join animation -->
 <div class="welcome-container">
-  <button mat-raised-button 
-   routerLink="/sign-up" join>
 @if (!nextAnimations) {
+  <button mat-raised-button
+  routerLink="/sign-up" join >
   <span>Join</span>
-} @else {
-  <app-letter-by-letter [customClass]="'small'"
-   [message]="join" [autoGenerate]="false" [@bubble]="'animate'" 
-  [welcomeSouthPaw]="true"></app-letter-by-letter>
-  }
   </button>
+} @else {
+  <button mat-stroked-button [class.welcome-text-south-paw]="nextAnimations"
+   [@bubble]="nextAnimations ? 'animate' : 'noAnimate'" join>
+  <app-letter-by-letter [customClass]="'small'"
+  [lastLetterAnimation]="true"
+   [message]="join" [autoGenerate]="false" 
+  [welcomeSouthPaw]="true"></app-letter-by-letter>
+  </button>
+  }
 <!-- array animation of words -->
     <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
     (@welcomeRise.done)="welcomeRiseDone()" >
   <app-letter-by-letter 
    [customClass]="'large'"
    [message]="welcome"
+   [lastLetterAnimation]="true"
    [autoGenerate]="true" 
    [welcomeSouthPaw]="false" 
   ></app-letter-by-letter>

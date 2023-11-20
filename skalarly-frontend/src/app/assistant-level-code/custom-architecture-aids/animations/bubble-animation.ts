@@ -11,34 +11,50 @@ import {
 export const bubble: AnimationTriggerMetadata = trigger('bubble', [
   // State when the element is not visible initially
   state(
-    'noAnimate',
+    '*',
     style({
-      transform: 'scaleX(0)', // Scaled down to 0
-      transformOrigin: 'center', // Scaling from the center
+      transform: 'scaleX(0) scale(1)', //  0 width, but full height
+      transformOrigin: 'right',
       opacity: 0
     })
   ),
-
-  // State when the element is fully visible
   state(
     'animate',
     style({
-      transform: 'scaleX(1)', // Scaled to full size
+      transform: 'scaleX(1) scale(1)',
       opacity: 1
     })
   ),
 
   // Transition from 'noAnimate' to 'animate' with a pulse effect
-  transition('noAnimate => animate', [
+  transition('* => animate', [
     animate(
-      '1.7s ease-out',
+      '1.0s ease-out',
       keyframes([
-        style({ transform: 'translateX(100%)', opacity: 0, offset: 0 }),
-        style({ transform: 'translateX(0)', opacity: 1, offset: 0.7 }),
-        style({ transform: 'scale(1.05)', offset: 0.9 }),
-        style({ transform: 'scale(1)', offset: 1 })
+        style({ transform: 'scaleX(0) scale(1.0)', opacity: 0, offset: 0 }),
+        style({
+          transform: 'scaleX(1) scale(1.1)',
+          opacity: 0.7,
+          offset: 0.8
+        }),
+        style({ transform: 'scaleX(1) scale(1)', opacity: 1, offset: 1 })
       ])
     )
   ]),
-  transition('animate => noAnimate', animate('1.7s ease-in'))
+
+  // Transition from 'animate' to 'noAnimate'
+  transition('animate => *', [
+    animate(
+      '1.0s ease-in',
+      keyframes([
+        style({ transform: 'scaleX(1) scale(1.05)', opacity: 1, offset: 0 }),
+        style({
+          transform: 'scaleX(0.5) scale(1.05)',
+          opacity: 0.5,
+          offset: 0.5
+        }),
+        style({ transform: 'scaleX(0) scale(1)', opacity: 0, offset: 1 })
+      ])
+    )
+  ])
 ]);

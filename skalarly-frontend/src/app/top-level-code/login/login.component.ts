@@ -99,11 +99,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
   dotCount: number = 3;
   dots = Array(this.dotCount).fill(0);
   intervalId: any;
-
+  
   updateDotCount(newCount: number): void {
     this.dotCount = newCount;
     this.dots = Array(this.dotCount).fill(0);
   }
+  
 
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
@@ -200,20 +201,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
   login(): void {
     this.progressState = 'loading';
-    let count = 1; // Start with 1 dot
-    this.intervalId = setInterval(() => {
-      this.updateDotCount(count);
-      count = count >= 5 ? 1 : count + 1; // Reset to 1 after reaching 5
-    }, 1500);
     setTimeout(() => {
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-      }
       this.failedLoginAnimation = 'right';
       setTimeout(() => {
         this.failedLoginAnimation = 'initial'; // Reset to the initial state
       }, 100);
     });
+// when success this.progressState = 'complete';
+
     // this.authorizeService
     //   .login(
     //     this.loginForm.controls['email'].value,

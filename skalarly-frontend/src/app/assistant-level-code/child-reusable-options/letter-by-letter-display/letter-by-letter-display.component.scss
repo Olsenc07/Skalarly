@@ -9,8 +9,8 @@
   .font-size-large {
     @include responsive.responsiveFontSizeLarger;
   }
-  @mixin animation {
-    animation: glow-animation 0.25s 0.3s forwards;
+  @mixin animation($delay) {
+    animation: glow-animation 0.25s $delay forwards;
     opacity: 0;
     $random-pair: universal.random-color-pair();
     $firstChoice: map-get($random-pair, primary);
@@ -23,30 +23,8 @@
     -webkit-text-fill-color: transparent;
   }
   .animations{
-    @include animation;
+    @include animation(0.5s);
   }
-  .magical-letter {
-    display: inline-block; 
-    animation: magicalAppearance 1s ease-in;
-  }
-  @keyframes magicalAppearance {
-    0% {
-      transform: scale(0.8) rotate(-10deg);
-      opacity: 1;
-      color: var(--pairingColor);
-    }
-    50% {
-      transform: scale(1.1) rotate(10deg);
-      opacity: 1;
-      color: var(--pairingColor);
-    }
-    100% {
-      transform: scale(1) rotate(0deg);
-      opacity: 1;
-      color: var(--pairingColor);
-    }
-  }
-  
   @keyframes glow-animation {
     from {
       opacity: 0;
@@ -57,4 +35,87 @@
       transform: translateX(0);
     }
   }
+  // last letter options
+  // option 1
+  .magical-letter {
+    display: inline-block; 
+    color: var(--pairingColor);
+    animation: magicalAppearance 1s ease forwards;
+  @keyframes magicalAppearance {
+    0% {
+      transform: scale(0.8) rotate(-10deg);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1) rotate(10deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }}
+  // option 2
+  .magical-letter {
+    display: inline-block; 
+    color: var(--pairingColor);
+    animation: magicalAppearance 1s ease forwards;
+  @keyframes magicalAppearance {
+    0% {
+      transform: scale(0.8) rotate(-10deg);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1) rotate(10deg);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+  }
+}
+// option 3 
+.magical-letterfade {
+  display: inline-block;
+  color: var(--pairingColor);
+  animation: magicalFade 1s ease forwards;
+  @keyframes magicalFade {
+    0% {
+      transform: scale(0.5);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+}
+// option 4
+.magical-letterflip {
+  display: inline-block;
+  color: var(--pairingColor);
+  animation: magicalFlip 1s ease forwards;
+
+  @keyframes magicalFlip {
+    0% {
+      transform: rotateY(0);
+      opacity: 0.5;
+    }
+    50% {
+      transform: rotateY(180deg);
+      opacity: 1;
+    }
+    100% {
+      transform: rotateY(360deg);
+      opacity: 0.5;
+    }
+  }
+}
+
+
  

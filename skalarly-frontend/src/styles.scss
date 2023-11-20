@@ -78,10 +78,10 @@ mat-toolbar{
   overflow: visible;
   @keyframes glow {
     0%, 100% {
-      box-shadow: 0 0 var(--font-size-smaller) var(--mdc-outlined-text-field-outline-color);
+      box-shadow: 0 3px 3px var(--mdc-outlined-text-field-outline-color);
     }
     50% {
-      box-shadow: 0 0 var(--font-sub-size) var(--mdc-outlined-text-field-outline-color);
+      box-shadow: 0 7px 7px var(--mdc-outlined-text-field-outline-color);
     }
   }
 }
@@ -90,16 +90,14 @@ mat-toolbar{
     overflow: visible;
     @keyframes error-glow {
       0%, 100% {
-        box-shadow: 0 0 var(--font-size-smaller) var(--mdc-outlined-text-field-error-outline-color);
+        box-shadow: 0 3px 3px var(--mdc-outlined-text-field-error-outline-color);
       }
       50% {
-        box-shadow: 0 0 var(--font-sub-size) var(--mdc-outlined-text-field-error-outline-color)
+        box-shadow: 0 7px 7px var(--mdc-outlined-text-field-error-outline-color);
       }
     }
   }
   
-  
-
 .material-symbols-outlined {
   font-variation-settings:
   'FILL' 0,

@@ -47,24 +47,22 @@ div[logo] img {
       margin: 1% 0%;
       position: relative; // Needed for absolute positioning of children
       overflow: hidden; // To handle any overflow issues
-      background-image: linear-gradient(to right, #507dbc,#C0C0C0);
-      transition: background-image 1.5s ease, transform 1.5s ease; 
+      background-image: linear-gradient(to right, #507dbc,#e3e3e3d6);
+      transition: background-image 1.5s ease; 
       &.welcome-text-south-paw {
-        background-image: linear-gradient(to right, white, ghostwhite);; 
+        background-image: linear-gradient(to right, white, #d0e5fc94);
         font-weight: 700;
-        transform: scaleX(1);
         box-shadow: 3px 3px #93b9e6;
       }
       color: white;
       font-family: 'Cormorant Garamond', serif;
       // add ons
+      &[mat-raised-button]{
       @include animation.riseFloat;
       animation: float 4s ease-in-out;
-      position: relative;
-      overflow: hidden;
-      transition: background-color 0.5s, transform 0.3s, box-shadow 0.3s;
-    align-items: center;
-    text-align: center;
+      }
+      align-items: center;
+      text-align: center;
       // Magic glow effect
       &:before {
         content: '';
@@ -104,7 +102,7 @@ div[logo] img {
     content: '\2728'; // Unicode character for sparkle
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 75%;
   }
   form {
     @include responsiveMargins;
@@ -139,27 +137,6 @@ div[column] {
   &:not(:first-of-type) 
     mat-form-field{
     justify-content: flex-end;
-  }
-}
-.dot-pulse {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: grey;
-  animation: dotPulse 1.5s infinite linear;
-  
-  &:nth-child(1), &:nth-child(4)  {
-    animation-delay: 0s;
-    background-color: var(--first);
-  }
-  &:nth-child(2), &:nth-child(5)  {
-    animation-delay: 0.5s;
-    background-color: var(--second);
-  }
-  &:nth-child(3) {
-    animation-delay: 1s;
-    background-color: var(--third);
   }
 }
 
@@ -201,7 +178,6 @@ div[column] {
       }
 
 // approved login
-/* Define a CSS class for the glowing and scaling animation */
 .glowing-text {
   @include animation.greenGlow;
   animation: glow .5s, scale .5s;

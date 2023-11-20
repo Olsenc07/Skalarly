@@ -9,7 +9,7 @@ import {
 export const authenticatingGlow: AnimationTriggerMetadata = trigger(
   'authenticatingGlow',
   [
-    transition('loading => authenticating', [
+    transition('loading => complete', [
       animate(
         '1.5s',
         keyframes([
