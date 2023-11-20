@@ -46,20 +46,7 @@ import { reusableAnimations } from './imports/animation-imports';
   selector: 'app-login-format',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  animations: [
-    ...reusableAnimations
-    //  welcome to skalarly rise 'welcomeRise',
-    // join button animation 'bubble',
-    // email validation on icon 'spinChange',
-    // password validation on icon 'lock',
-    // visible password or not 'rotate',
-    // login button able to click
-    // dissapearing finger print 'dissolve',
-    // attempting login 'authenticatingGlow',
-    // valid login 'fadeInGlow',
-    // invalid login 'shake'
-    // activated fingerprint
-  ],
+  animations: [...reusableAnimations],
   imports: [
     loginImports,
     LetterByLetterComponent,
@@ -73,7 +60,6 @@ import { reusableAnimations } from './imports/animation-imports';
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   // animation based
-  welcomeState: string | 'gone' = '';
   nextAnimations: boolean = false;
   skalarlyState: string = 'initial';
   join: string = 'Join';
@@ -99,12 +85,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
   dotCount: number = 3;
   dots = Array(this.dotCount).fill(0);
   intervalId: any;
-  
+
   updateDotCount(newCount: number): void {
     this.dotCount = newCount;
     this.dots = Array(this.dotCount).fill(0);
   }
-  
 
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars

@@ -11,6 +11,21 @@ $all: 100%;
     width: $all;
     box-sizing: border-box;
 }
+// approval of something
+@mixin approved { 
+  animation: glow 1.5s ease forwards;
+    @keyframes glow {
+      from {
+        color: 3CB371;
+        transform: scale(1);
+      }
+      to {
+        color: 3CB371;
+        text-shadow: 0 0 5px #3CB371, 0 0 10px #3CB371, 0 0 15px #3CB371;
+        transform: scale(1.7);
+      }
+    }
+}
 $color-pairs: (
   'mystic-turquoise': (
     primary: #287182, // Darker Mystic Turquoise
@@ -75,4 +90,10 @@ $color-pairs: (
   $random-key: nth($keys, random(length($keys)));
   $color-pair: map-get($color-pairs, $random-key);
   @return $color-pair;
+}
+@function generateGradient() {
+  $random-pair: random-color-pair();
+  $firstChoice: map-get($random-pair, primary);
+  $secondChoice: map-get($random-pair, pairing);
+  @return linear-gradient(45deg, $firstChoice, $secondChoice);
 }

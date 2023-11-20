@@ -40,13 +40,7 @@ $font-sizes-header: (
     z-index: 2;
     // may need to increase this basd on mobile 50px footer height/tablet 70px fh
     height: 4em;
-}
-// reload animation
-.glow-effect {
-  @include animations.greenGlow;
-  animation: glow 1s alternate infinite;
-  }
-  
+} 
 // * 1
 .footer{
 @include toolbar;

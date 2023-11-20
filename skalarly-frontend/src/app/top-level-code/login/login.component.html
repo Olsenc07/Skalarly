@@ -1,14 +1,11 @@
 <!-- content projection to be used in error handler -->
   <ng-container login-content>
- <!-- rendered content -->
  @defer {
 <form [formGroup]="loginForm" (ngSubmit)="login()">
   <div class="login-header">
     <!-- logo full fades in on valid email -->
-    <img ngSrc="assets/images/Skalar_Hat_Icon.png" 
-    priority
-    width="94.5" height="75"
-    sizes="15vw"
+    <img ngSrc="assets/images/Skalar_Hat_Icon.png" priority
+    width="94.5" height="75" sizes="15vw"
     alt="Skalar Grad Wizard Hat Icon">
   <h2> Enhance Your Academic Experience With <br>
     <div skalarly>
@@ -95,7 +92,6 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <div loginButton >
   <button mat-fab type="submit" class="material-symbols-outlined"
     [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
-    [@dissolve]="progressState"
     [@shake]="failedLoginAnimation"
     (keydown.enter)="enterClicked()">
   @switch (progressState) {
@@ -126,7 +122,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <div class="welcome-container">
 @if (!nextAnimations) {
   <button mat-raised-button
-  routerLink="/sign-up" join >
+  routerLink="/sign-up" join>
   <span>Join</span>
   </button>
 } @else {
@@ -134,7 +130,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
    [@bubble]="nextAnimations ? 'animate' : 'noAnimate'" join>
   <app-letter-by-letter [customClass]="'small'"
   [lastLetterAnimation]="true"
-   [message]="join" [autoGenerate]="false" 
+  [message]="join" [autoGenerate]="false" 
   [welcomeSouthPaw]="true"></app-letter-by-letter>
   </button>
   }
@@ -148,7 +144,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
    [autoGenerate]="true" 
    [welcomeSouthPaw]="false" 
   ></app-letter-by-letter>
-  </div>
+    </div>
 </div>
 } @loading {
   <form>

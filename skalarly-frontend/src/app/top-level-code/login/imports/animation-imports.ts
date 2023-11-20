@@ -1,6 +1,5 @@
 import { authenticatingGlow } from '../../../assistant-level-code/custom-architecture-aids/animations/authenticatingGlow-animation';
 import { bubble } from '../../../assistant-level-code/custom-architecture-aids/animations/bubble-animation';
-import { dissolve } from '../../../assistant-level-code/custom-architecture-aids/animations/dissolve-animation';
 import { fadeInGrow } from 'src/app/assistant-level-code/custom-architecture-aids/animations/fadeInGrow-animation';
 import { fadeToggle } from '../../../assistant-level-code/custom-architecture-aids/animations/fadeToggle-animation';
 import { fingerprintActivation } from 'src/app/assistant-level-code/custom-architecture-aids/animations/activateFingerPrint-animation';
@@ -13,7 +12,6 @@ import { welcomeRise } from '../../../assistant-level-code/custom-architecture-a
 export const reusableAnimations = [
   authenticatingGlow,
   bubble,
-  dissolve,
   fadeInGrow,
   fingerprintActivation,
   lock,

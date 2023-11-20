@@ -1,30 +1,25 @@
-  <!-- navigation bar
-  can add this all in other component file.. -->
-<ng-template  *ngIf="(routerUrl !== ('/login' || '/sign-up' ))">
+ <!-- nav bar -->
+@if (routerUrl !== ('/login' || '/sign-up' )){
 <mat-toolbar class="header">
   <!-- logo -->
-
 <!-- *1 search bar icon, mobile first  -->
-    <ng-template *ngIf="orientation; else shownSearchBar" >
+    @if(orientation){
       <!-- search icon to display search -->
       <button mat-icon-button (click)="toggleSearch(true)">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
-      <ng-container *ngIf="searchIconClicked">
+      @if(searchIconClicked){
       <app-search-bar [mobileFirst]="orientation" (backEvent)="toggleSearch($event)"></app-search-bar>
-    </ng-container>
-    </ng-template>
-
+      }
 <!-- *2 landscape search bar -->
-  <ng-template #shownSearchBar>
+  } @else {
     <!-- for desktop but mobile one should pop up and then search options
     take up full screen -->
     <app-search-bar [mobileFirst]="orientation"></app-search-bar>
-  </ng-template>
-
+    }
   <nav>
 <!-- *1 only for portrait, mobile first -->
-<ng-template *ngIf="orientation; else landscape">
+@if(orientation){
   <footer class="footer" >
   <mat-toolbar class="mobile-fade-overlay">
   <nav>
@@ -39,10 +34,8 @@
   </nav>
 </mat-toolbar>
 </footer>
-</ng-template>
-
+} @else {
   <!-- *2 only for landscape -->
-  <ng-template  #landscape>
 <!-- profile -->
   <div class="navigation">
 <button mat-icon-button routerLink="/profile">
@@ -52,37 +45,28 @@
 "></mat-icon>
 </button>
   </div>
-
-</ng-template>
+}
 <!-- settings button -->
-
 </nav>
 </mat-toolbar>
-</ng-template>
+}
 <!-- page refresh pull down, eventully use GSAP for a fun animation-->
   <ng-container appPullToRefresh (deltaYChange)="onDeltaYChange($event.deltaY, $event.reset)">
     <!-- The refresh icon that animates    -->
     <span  class="refresh-icon-container" >
       <span class="refresh-icon-border">
-    <mat-icon *ngIf="pullProgress >= -30 && showIcons;" [@refreshAnimation]="{value: '', params: {
-      scale: getScale(),
-      rotation: getRotation(),
-      gradientRotation: getGradientRotation(),
-      gradientPosition: getGradientPosition()
-    }}"
-    class="material-symbols-outlined refresh-icon">
-      refresh
-    </mat-icon>
-    <!-- The check icon appears when refreshing is done -->
-    <mat-icon *ngIf="pullProgress < -30 && showIcons;" [@refreshAnimation]="{value: '', params: {scale: getScale(), rotation: getRotation()}}"
-     class="material-symbols-outlined glow-effect refresh-icon">
-      task_alt
-    </mat-icon>
+    <mat-icon [@refresh]="pullProgress <= -30 && showIcons ? 'pulling' : 'initial'" 
+    class="material-symbols-outlined " 
+    [ngClass]="{'glow-effect refresh-icon': pullProgress <= -30 && showIcons}">
+    @if(pullProgress >= -30 && showIcons){
+      cycle
+  } @else {
+    task_alt
+  }
+  </mat-icon>
   </span>
   </span>
   </ng-container>
-
   <router-outlet content ></router-outlet>  <!-- Primary outlet for main content -->
  <!-- Render as component based on path of routes -->
   <router-outlet name="sideBarInfoOutlet"></router-outlet> <!-- Secondary outlet for sidebars & later maybe modals/dialog -->
-

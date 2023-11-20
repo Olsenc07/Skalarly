@@ -20,7 +20,7 @@ interface Letter {
   standalone: true,
   selector: 'app-letter-by-letter',
   templateUrl: './letter-by-letter-display.component.html',
-  styleUrls: ['./letter-by-letter-display.component.scss'],
+  styleUrl: './letter-by-letter-display.component.scss',
   imports: [CommonModule],
   animations: [fadeOut]
 })

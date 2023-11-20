@@ -65,20 +65,6 @@
     }
   }
 }
-
-@mixin greenGlow {
-  @keyframes glow {
-    from {
-      color: 3CB371;
-      transform: scale(1);
-    }
-    to {
-      color: 3CB371;
-      text-shadow: 0 0 5px #3CB371, 0 0 10px #3CB371, 0 0 15px #3CB371;
-      transform: scale(1.7);
-    }
-  }
-}
 @mixin gradientFlow {
 @keyframes gradient-flow {
   0%, 100% {

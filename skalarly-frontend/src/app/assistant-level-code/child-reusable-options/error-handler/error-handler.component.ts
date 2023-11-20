@@ -7,7 +7,7 @@ import { dialog } from '../../custom-architecture-aids/animations/dialog-animati
   standalone: true,
   selector: 'app-error-handler',
   templateUrl: './error-handler.component.html',
-  styleUrls: ['/src/app/top-level-code/login/login.component.scss'],
+  styleUrl: '../top-level-code/login/login.component.scss',
   animations: [dialog],
   imports: [NgIf]
 })
