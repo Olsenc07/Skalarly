@@ -4,13 +4,13 @@
                 'font-size-default': customClass === 'default',
                 'font-size-large': customClass === 'large',
                 }"
-            [@fadeOut]="!welcomeSouthPaw ? 'active' : 'inactive' "
+            [@fadeOut]="autoGenerate ? 'active' : 'inactive' "
             (@fadeOut.done)="autoGenerate ? renderOn() : null">
             @for (item of animatedText; let i = $index; let isLast = $last; track item) {
             @if (item.letter !== ' ') {
                 <span class="animations"
                 [ngStyle]="{'animation-delay': item.delay + 's'}"
-                [ngClass]="isLast && lastLetterAnimation ? getRandomClass() : ''"> 
+                [ngClass]="item.classAnimation"> 
                     {{  item.letter }}
                          
                 </span>

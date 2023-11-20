@@ -4,14 +4,12 @@
  @defer {
 <form [formGroup]="loginForm" (ngSubmit)="login()">
   <div class="login-header">
-    <!-- logo glows on valid login -->
-    <div logo>
+    <!-- logo full fades in on valid email -->
     <img ngSrc="assets/images/Skalar_Hat_Icon.png" 
-    ngSrcset="100w, 200w, 300w" sizes="50vw"
-    loading="eager"
+    priority
     width="94.5" height="75"
+    sizes="15vw"
     alt="Skalar Grad Wizard Hat Icon">
-     </div>
   <h2> Enhance Your Academic Experience With <br>
     <div skalarly>
       Skalarly
@@ -93,7 +91,6 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </div>
 </div>
 </span>
-
 <!-- Login Button -->
 <div loginButton >
   <button mat-fab type="submit" class="material-symbols-outlined"

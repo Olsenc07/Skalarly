@@ -13,6 +13,7 @@ import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/a
 interface Letter {
   letter: string;
   delay: number;
+  classAnimation: string;
 }
 
 @Component({
@@ -30,10 +31,43 @@ export class LetterByLetterComponent implements OnChanges {
   @Input() autoGenerate: boolean = false;
   @Input() lastLetterAnimation: boolean = false;
   animatedText: Letter[] = [];
-  autoGenerateInterval?: number;
+
   private renderCount: number = 0;
   private maxRenders: number = 7;
-  constructor(private loginSpecificService: LoginSpecificService) {}
+
+  // seven animations
+  classes: string[] = [
+    'magical-letter',
+    'magical-letterpulse',
+    'magical-letterfade',
+    'magical-letterflip',
+    'magical-letterslide',
+    'magical-letterspin',
+    'magical-letterbounce'
+  ];
+  shuffledClasses: string[] = [];
+  currentClassIndex: number = 0;
+
+  constructor(private loginSpecificService: LoginSpecificService) {
+    this.shuffleClasses();
+  }
+
+  shuffleClasses(): void {
+    this.shuffledClasses = [...this.classes];
+    for (let i = this.shuffledClasses.length - 1; i > 0; i--) {
+      const j: number = Math.floor(Math.random() * (i + 1));
+      [this.shuffledClasses[i], this.shuffledClasses[j]] = [
+        this.shuffledClasses[j],
+        this.shuffledClasses[i]
+      ];
+    }
+  }
+  getNextClass(): string {
+    const nextClass: string = this.shuffledClasses[this.currentClassIndex];
+    this.currentClassIndex =
+      (this.currentClassIndex + 1) % this.shuffledClasses.length;
+    return nextClass;
+  }
 
   // updates text
   ngOnChanges(changes: SimpleChanges): void {
@@ -44,33 +78,28 @@ export class LetterByLetterComponent implements OnChanges {
       this.renderOn();
     }
   }
-  getRandomClass(): string {
-    const classes = [
-      'magical-letter',
-      'magical-letterflip',
-      'magical-letterfade',
-      'magical-letterslide' 
-    ];
-    const randomIndex = Math.floor(Math.random() * classes.length);
-    return classes[randomIndex];
-  }
 
   letterAnimation(message: string): void {
     const totalDuration: number = 1; // Total duration of the animation in seconds
     const delayIncrement: number = totalDuration / message.length; // Delay increment for each letter
-
     const letters: {
       letter: string;
       delay: number;
+      classAnimation: string;
     }[] = message.split('').map((char, index) => {
       const delay: number = this.welcomeSouthPaw
         ? (message.length - index - 1) * delayIncrement // Right to left
         : index * delayIncrement; // Left to right
+      const isLastLetter = index === message.length - 1;
+      const randomClass: string =
+        isLastLetter && this.lastLetterAnimation ? this.getNextClass() : '';
       return {
         letter: char,
-        delay
+        delay,
+        classAnimation: randomClass
       };
     });
+
     this.animatedText = letters;
   }
 

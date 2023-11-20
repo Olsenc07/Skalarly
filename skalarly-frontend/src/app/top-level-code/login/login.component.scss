@@ -36,18 +36,12 @@ $form-margins: (
     margin: 1%;
     overflow: hidden; 
 }
-div[logo] img {
-  max-width: 94.5px;
-  max-height: 30vh;
-  width: 100%;
-  height: auto;
-}
   button[join] {
     @include responsive.responsiveFontSize;
       margin: 1% 0%;
       position: relative; // Needed for absolute positioning of children
       overflow: hidden; // To handle any overflow issues
-      background-image: linear-gradient(to right, #507dbc,#e3e3e3d6);
+      background-image: linear-gradient(to right, #84aade,#e3e3e3d6);
       transition: background-image 1.5s ease; 
       &.welcome-text-south-paw {
         background-image: linear-gradient(to right, white, #d0e5fc94);

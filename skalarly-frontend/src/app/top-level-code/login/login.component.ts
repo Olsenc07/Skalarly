@@ -205,9 +205,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
       this.failedLoginAnimation = 'right';
       setTimeout(() => {
         this.failedLoginAnimation = 'initial'; // Reset to the initial state
+        this.progressState = 'default';
       }, 100);
     });
-// when success this.progressState = 'complete';
+    // when success this.progressState = 'complete';
 
     // this.authorizeService
     //   .login(
