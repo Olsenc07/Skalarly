@@ -80,20 +80,26 @@ $color-pairs: (
     pairing: #000080  // Nebula Navy
   )
 );
-
-:root {
-  --pairingColor: #486b83; // Oceanic Blue
-  --pairingColor2: #778da9; // Dusty Blue
-}
 @function random-color-pair() {
   $keys: map-keys($color-pairs);
   $random-key: nth($keys, random(length($keys)));
   $color-pair: map-get($color-pairs, $random-key);
   @return $color-pair;
 }
+$random-pair: random-color-pair();
+$firstChoice: map-get($random-pair, primary);
+$secondChoice: map-get($random-pair, pairing);
+:root {
+  --firstChoice: #{$firstChoice};
+  --secondChoice: #{$secondChoice};
+  --pairingColor: #486b83; // Oceanic Blue
+  --pairingColor2: #778da9; // Dusty Blue
+}
+
 @function generateGradient() {
-  $random-pair: random-color-pair();
-  $firstChoice: map-get($random-pair, primary);
-  $secondChoice: map-get($random-pair, pairing);
+  // Accessing CSS variables in SCSS
+  $firstChoice: var(--firstChoice);
+  $secondChoice: var(--secondChoice);
+
   @return linear-gradient(45deg, $firstChoice, $secondChoice);
 }

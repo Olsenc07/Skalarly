@@ -75,46 +75,30 @@ top: 0;
 .navigation-icon-active{
     @include active(#b8dde9, $active: true);
 }
-@each $screen, $min-width in $device-sizes {
-  $font-size-header: map-get($font-sizes-header, $screen);
-.refresh-icon{
-  font-size:  #{$font-size-header};
-  height: auto;
-  width: 100%;
+.refresh-icon-container, .refresh-icon-border {
+  align-items: center;
   justify-content: center;
+  position: relative;
 }
+.refresh-icon-container {
+  display: flex;
+  height: 1.8rem; 
+  z-index: 10;
 }
-.refresh-icon::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border-radius: inherit; // Match the parent's border-radius
-  z-index: -1; // Place it below the icon
-  background: linear-gradient(to right, #6dd5ed, #2193b0, #23a6d5, #23d5ab);
-  background-repeat: no-repeat;
-  background-size: 200% 100%; // Set the size of the gradient, this can be adjusted as necessary
-}
-
 .refresh-icon-border {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%; 
-  background-color: white; 
-  position: relative;
-  z-index: 1;
-  border: 2px dashed transparent; // Initialize the border
+  border-radius: 50%;
+  width: 3.6rem;
+  height: 3.6rem;
+  font-size: 3.1rem;
+  box-shadow: 0 0 5px 5px var(--secondChoice);
+  transition: all 0.3s ease;
+}
+/* Adding a glow effect when the class is applied */
+.glow-effect {
+  box-shadow: 0 0 10px 5px var(--pairingColor);
+  transition: box-shadow 0.3s ease; /* Smooth transition for box-shadow */
 }
 
-.refresh-icon-container {
-  position: relative;
-  z-index: 10;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-}
 
   

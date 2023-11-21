@@ -25,15 +25,18 @@ $fontSubSize: map-get(device.$font-sub-sizes, 'base');
       }
 }
 @mixin mobileFirst {
+    font-family: var(--skalarly-font);
     font-size: var(--font-size);
     line-height: calc(var(--font-size) * var(--line-height));
 }
 @mixin mobileFirstSmaller {
+    font-family: var(--skalarly-font);
     --font-sizeS: calc(var(--font-size) - var(--font-sub-size));
     font-size: var(--font-sizeS) ;
     line-height: calc(var(--font-sizeS) * var(--line-height));
 }
 @mixin mobileFirstLarger {
+    font-family: var(--skalarly-font);
     --font-sizeL: calc(var(--font-size) + var(--font-sub-size));
     font-size: var(--font-sizeL) ;
     line-height: calc(var(--font-sizeL) * var(--line-height));

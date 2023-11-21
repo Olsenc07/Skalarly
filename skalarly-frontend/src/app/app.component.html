@@ -1,13 +1,16 @@
  <!-- nav bar -->
 @if (routerUrl !== ('/login' || '/sign-up' )){
+<ng-template> <!-- hides content while loading-->
 <mat-toolbar class="header">
   <!-- logo -->
 <!-- *1 search bar icon, mobile first  -->
     @if(orientation){
       <!-- search icon to display search -->
+      <ng-template>
       <button mat-icon-button (click)="toggleSearch(true)">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
+    </ng-template>
       @if(searchIconClicked){
       <app-search-bar [mobileFirst]="orientation" (backEvent)="toggleSearch($event)"></app-search-bar>
       }
@@ -20,6 +23,7 @@
   <nav>
 <!-- *1 only for portrait, mobile first -->
 @if(orientation){
+  <ng-template> 
   <footer class="footer" >
   <mat-toolbar class="mobile-fade-overlay">
   <nav>
@@ -34,6 +38,7 @@
   </nav>
 </mat-toolbar>
 </footer>
+</ng-template>
 } @else {
   <!-- *2 only for landscape -->
 <!-- profile -->
@@ -49,23 +54,21 @@
 <!-- settings button -->
 </nav>
 </mat-toolbar>
+</ng-template>
 }
 <!-- page refresh pull down, eventully use GSAP for a fun animation-->
   <ng-container appPullToRefresh (deltaYChange)="onDeltaYChange($event.deltaY, $event.reset)">
+<!-- @if(pullProgress > 10){ -->
     <!-- The refresh icon that animates    -->
-    <span  class="refresh-icon-container" >
-      <span class="refresh-icon-border">
-    <mat-icon [@refresh]="pullProgress <= -30 && showIcons ? 'pulling' : 'initial'" 
-    class="material-symbols-outlined " 
-    [ngClass]="{'glow-effect refresh-icon': pullProgress <= -30 && showIcons}">
-    @if(pullProgress >= -30 && showIcons){
-      cycle
-  } @else {
-    task_alt
-  }
+    <div class="refresh-icon-container">
+    <mat-icon [@dialog]
+    [@refresh]="animationParams"
+    class="material-symbols-outlined refresh-icon-border" 
+    [ngClass]="{'glow-effect': pullProgress <= -70}">
+    {{ pullProgress >= -70 ? 'cycle' : 'task_alt' }}
   </mat-icon>
-  </span>
-  </span>
+</div>
+<!-- } -->
   </ng-container>
   <router-outlet content ></router-outlet>  <!-- Primary outlet for main content -->
  <!-- Render as component based on path of routes -->

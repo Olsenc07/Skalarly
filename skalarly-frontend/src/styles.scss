@@ -22,8 +22,6 @@ color: lightblue
 }
 body {
   // better to implement specific cases. This is to confusing
-  // @include responsive.responsiveFontSize;
-  font-family: var(--skalarly-font);
   margin: 0;
   padding: 0;
   background-image: linear-gradient(whitesmoke,white);
@@ -33,7 +31,6 @@ body {
  button{
   // google standard for mobile buttons
   min-height: 48px; 
-  font-family: var(--skalarly-font);
  }
 .condition-met{
     color: #228B22;

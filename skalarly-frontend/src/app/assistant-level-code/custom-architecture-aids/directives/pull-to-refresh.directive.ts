@@ -27,17 +27,17 @@ export class PullToRefreshDirective implements OnDestroy {
       .pipe(
         debounceTime(1000) // Adjust debounceTime as needed
       )
-      .subscribe(() => this.deltaYChange.emit({ deltaY: 0, reset: true })); //Indicates stopped scrolling
+      .subscribe(() => this.deltaYChange.emit({ deltaY: 0, reset: false })); //Indicates stopped scrolling
   }
   // non mobile
   @HostListener('window:wheel', ['$event'])
   onWheel(event: WheelEvent): void {
-    if (event.deltaY < -20) {
+    // starts reload and shows icon
+    if (event.deltaY < -30) {
       this.scrollEndEvents.next();
       this.deltaYChange.emit({ deltaY: event.deltaY, reset: false });
     }
   }
-
   // mobile
   @HostListener('window:touchstart', ['$event'])
   onTouchStart(event: TouchEvent): void {
@@ -62,7 +62,7 @@ export class PullToRefreshDirective implements OnDestroy {
     this.lastTouchY = event.touches[0].clientY;
     const value: number = Math.abs(this.lastTouchY - this.touchStartY!);
     // threshold hans't been reached and pull is done so reset screen
-    if (value > -100) {
+    if (value > -75) {
       this.deltaYChange.emit({ deltaY: value, reset: true });
       // Reset the start and last Y position
       this.touchStartY = null;

@@ -7,13 +7,6 @@ import {
   TitleStrategy
 } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { CustomTitleStrategy } from './assistant-level-code/custom-architecture-aids/services/router-strategies/title-strategy.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,7 +15,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { PullToRefreshDirective } from './assistant-level-code/custom-architecture-aids/directives/pull-to-refresh.directive';
 import { SearchBarComponent } from './top-level-code/search-bar/search-bar.component';
+import { dialog } from './assistant-level-code/custom-architecture-aids/animations/dialog-animation';
 import { fadeToggle } from './assistant-level-code/custom-architecture-aids/animations/fadeToggle-animation';
+import { refresh } from './assistant-level-code/custom-architecture-aids/animations/refresh-animation';
 
 @Component({
   standalone: true,
@@ -40,37 +35,23 @@ import { fadeToggle } from './assistant-level-code/custom-architecture-aids/anim
     SearchBarComponent
   ],
   providers: [{ provide: TitleStrategy, useClass: CustomTitleStrategy }],
-  animations: [
-    fadeToggle,
-    trigger('refresh', [
-      state(
-        'initial',
-        style({
-          transform: 'scale(1)',
-          opacity: 1
-        })
-      ),
-      state(
-        'pulling',
-        style({
-          transform: 'scale(1.1) rotate(25deg)',
-          opacity: 0.7
-        })
-      ),
-      transition('initial => pulling', animate('500ms ease-out')),
-      transition('pulling => initial', animate('500ms ease-in'))
-    ])
-  ]
+  animations: [dialog, fadeToggle, refresh]
 })
 export class AppComponent implements OnDestroy {
   pullProgress: number = 0;
   private routeSub$: Subject<void> = new Subject<void>();
   iconState: string = '';
-  showIcons: boolean = false;
   routerUrl: string | undefined;
   // mobile first
   orientation: boolean = true;
   searchIconClicked: boolean = false;
+  animationParams:
+    | {
+        transformStyle: string;
+        opacityStyle: number;
+        duration: string;
+      }
+    | undefined;
 
   constructor(private router: Router) {
     // tracking skalars current page
@@ -100,13 +81,32 @@ export class AppComponent implements OnDestroy {
       });
   }
   onDeltaYChange(reload: number, reset: boolean): void {
+    if (reload > 9) {
+    this.updateAnimationParams(reload);
     if (!reset) {
       this.pullProgress = reload;
-      this.showIcons = true;
-      if (reload <= -100) {
+    } else {
+      // released
+      if (reload <= -75) {
         location.reload();
       }
+      // reset screen, reload wasn't reached
+      this.pullProgress = 0;
     }
+  }
+  }
+  updateAnimationParams(pullValue: number) {
+    // Calculate the scale, rotation, opacity, and duration based on pullValue
+    const scale: number = 1 + pullValue / 100; // Example calculation
+    const rotate: number = pullValue * 2; // Example calculation
+    const opacity: number = 1 - pullValue / 200; // Example calculation
+    const duration: string = `${Math.max(500 - pullValue * 2, 200)}ms`; // Example calculation
+    // Set the animation parameters
+    this.animationParams = {
+      transformStyle: `scale(${scale}) rotate(${rotate}deg)`,
+      opacityStyle: opacity,
+      duration: duration
+    };
   }
 
   // mobile functions

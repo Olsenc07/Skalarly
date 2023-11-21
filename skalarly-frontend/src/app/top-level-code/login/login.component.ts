@@ -81,14 +81,76 @@ export class LoginComponent implements OnInit, AfterViewInit {
   // login
   stayLoggedIn: boolean = false;
   failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
-  // attempt login
-  dotCount: number = 3;
-  dots = Array(this.dotCount).fill(0);
-  intervalId: any;
+  // form function
+  private createControlObservable<T, R>(
+    controlName: string,
+    debounce: number,
+    startWithState: R,
+    validateFn: (value: T) => boolean,
+    switchMapFn: (value: T, isValid: boolean) => Observable<R>
+  ): Observable<R> {
+    return this.loginForm.controls[controlName].valueChanges.pipe(
+      debounceTime(debounce),
+      distinctUntilChanged(),
+      startWith(startWithState),
+      map((value) => {
+        // Ensure the value is of the expected type T
+        const controlValue = this.loginForm.controls[controlName].value as T;
+        return [controlValue, validateFn(controlValue)] as [T, boolean];
+      }),
+      switchMap(([value, isValid]) => switchMapFn(value, isValid))
+    );
+  }
 
-  updateDotCount(newCount: number): void {
-    this.dotCount = newCount;
-    this.dots = Array(this.dotCount).fill(0);
+  // Switch map function for email
+  private emailSwitchMapFn(
+    email: string,
+    isValid: boolean
+  ): Observable<{ emailFound: boolean; emailState: string; error: string }> {
+    if (email === '') {
+      return of({ emailFound: false, emailState: 'initial', error: '' });
+    } else if (isValid) {
+      return concat(
+        of({ emailFound: false, emailState: 'loading', error: '' }),
+        this.authorizeService.searchEmails(email).pipe(
+          map((emailFound) => ({
+            emailFound,
+            emailState: emailFound ? 'check' : 'initial',
+            error: '' // Include error property even if it's empty
+          }))
+        )
+      );
+    } else {
+      return of({
+        emailFound: false,
+        emailState: 'initial',
+        error: 'notFound' // Specify the error
+      });
+    }
+  }
+
+  // Switch map function to handle changes in password
+  private handlePasswordChange(
+    password: string,
+    isValid: boolean
+  ): Observable<{
+    isPasswordValid: boolean;
+    lockState: string;
+    error?: string;
+  }> {
+    if (password === '') {
+      return of({ isPasswordValid: false, lockState: 'closed', error: '' });
+    } else if (isValid) {
+      // Add any additional logic if needed when password is valid
+      return of({ isPasswordValid: true, lockState: 'open' });
+    } else {
+      // Handle invalid password case
+      return of({
+        isPasswordValid: false,
+        lockState: 'closed',
+        error: 'notFound'
+      });
+    }
   }
 
   constructor(
@@ -114,55 +176,23 @@ export class LoginComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     // randomize phrases
     this.loginSpecificService.randomizePairs();
+
     // email
-    this.email$ = this.loginForm.controls['email'].valueChanges.pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      startWith({ emailFound: false, emailState: 'initial' }),
-      switchMap((query) => {
-        if (this.loginForm.controls['email'].valid) {
-          // Emit a loading state before making the API call
-          return concat(
-            of({ emailFound: false, emailState: 'loading', error: '' }),
-            this.authorizeService.searchEmails(query).pipe(
-              map((emailFound) => ({
-                emailFound,
-                emailState: emailFound ? 'check' : 'initial'
-              }))
-            )
-          );
-        } else {
-          return of({
-            emailFound: false,
-            emailState: 'initial',
-            error: 'notFound'
-          });
-        }
-      })
+    this.email$ = this.createControlObservable(
+      'email',
+      500,
+      { emailFound: false, emailState: 'initial', error: '' },
+      (email) => this.loginForm.controls['email'].valid, // Validation function
+      this.emailSwitchMapFn // Switch map function
     );
+
     // password
-    this.password$ = this.loginForm.controls['password'].valueChanges.pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      startWith({ isPasswordValid: false, lockState: 'closed' }),
-      switchMap((password) => {
-        const isPasswordValid: boolean | undefined =
-          this.loginForm.get('password')?.valid;
-        if (isPasswordValid === true) {
-          const lockState: string = 'open';
-          // Emit an object based on the validity of the password
-          return of({
-            isPasswordValid: isPasswordValid,
-            lockState: lockState
-          });
-        } else {
-          return of({
-            isPasswordValid: false,
-            lockState: 'closed',
-            error: 'notFound'
-          });
-        }
-      })
+    this.password$ = this.createControlObservable(
+      'password',
+      500,
+      { isPasswordValid: false, lockState: 'closed' },
+      (password) => this.loginForm.controls['password'].valid, // Validation function
+      this.handlePasswordChange // Switch map function for password
     );
   }
 

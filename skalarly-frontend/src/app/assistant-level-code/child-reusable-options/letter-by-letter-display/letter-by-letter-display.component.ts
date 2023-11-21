@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnChanges,
-  OnDestroy,
-  SimpleChanges
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginSpecificService } from '../../custom-architecture-aids/services/login-validation/login-specific.service';
 import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/animations/fadeOut-animation';
@@ -31,7 +24,6 @@ export class LetterByLetterComponent implements OnChanges {
   @Input() autoGenerate: boolean = false;
   @Input() lastLetterAnimation: boolean = false;
   animatedText: Letter[] = [];
-
   private renderCount: number = 0;
   private maxRenders: number = 7;
 
@@ -99,7 +91,6 @@ export class LetterByLetterComponent implements OnChanges {
         classAnimation: randomClass
       };
     });
-
     this.animatedText = letters;
   }
 
@@ -108,9 +99,9 @@ export class LetterByLetterComponent implements OnChanges {
       this.message = this.loginSpecificService.updatePhrase();
       this.letterAnimation(this.message);
       this.renderCount++;
-      setTimeout(() => this.renderOn(), 7000); // Schedule the next call
-    } else {
-      this.renderCount = 0;
+      //   setTimeout(() => this.renderOn(), 7000); // next call
+      // } else {
+      //   this.renderCount = 0;
     }
   }
 }
