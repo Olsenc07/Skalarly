@@ -12,14 +12,16 @@
           <mat-label>{{ label }}</mat-label>
         <input matInput type="text" [formControl]="typedFilter" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
-          <ng-container *ngFor="let list  of (List$  | async ) as Lists; index as i; trackBy: trackByList">
-            <mat-option (click)="newSelection(list)" *ngIf="(list[labelFlexible]) as info" 
+          @for(list  of (List$  | async ) as Lists; let i = $index ; track list.name){
+            @if(list[labelFlexible] as info) {
+            <mat-option (click)="newSelection(list)"  
             [value]="info">
                 <span 
                 [innerHTML]="info | titlecase | bold: typedFilter.value! ">
                 </span>
             </mat-option>
-          </ng-container>
+          }
+        }
         </mat-autocomplete>
           <ng-container *ngIf="hint !== null ">
             <mat-hint>{{ hint }}</mat-hint>

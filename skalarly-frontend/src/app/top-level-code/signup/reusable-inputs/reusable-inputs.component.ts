@@ -108,8 +108,4 @@ export class ReusableInputsComponent implements OnInit {
     this.selectedChange.emit(entry);
   }
 
-  // efficent rendering
-  trackByList(i: number, list: InstitutionDataInterface): string {
-    return list.name;
-  }
 }

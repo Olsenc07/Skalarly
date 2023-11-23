@@ -47,7 +47,6 @@ export class PullToRefreshDirective {
   // .... may beable to reuse desktop code
   //  but user touch events to trigger it
 
-
   // wheel events for desktop
   // clean up the hold functionality because it
   // works for flick and hold rn but only want hold 3s trigger
