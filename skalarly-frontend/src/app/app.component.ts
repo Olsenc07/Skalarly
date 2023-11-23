@@ -38,8 +38,8 @@ import { refresh } from './assistant-level-code/custom-architecture-aids/animati
   animations: [dialog, fadeToggle, refresh]
 })
 export class AppComponent implements OnDestroy {
-  showIcon: boolean = false;
   private routeSub$: Subject<void> = new Subject<void>();
+  visible: boolean = false;
   reloadState: 'initial' | 'intermediate' | 'final' | null = null;
   routerUrl: string | undefined;
   // mobile first
@@ -80,18 +80,18 @@ export class AppComponent implements OnDestroy {
         }
       });
   }
-  onHoldDetected(): void {
-    this.showIcon = true; // Show icon when hold is detected
+  onHoldDetected(display: boolean): void {
+    this.visible = display; // Show icon when hold is detected
   }
   onDeltaYChange(reload: number): void {
     console.log('word', reload);
-    if (reload == 0) {
+    if (reload == 1) {
       this.reloadState = 'initial';
     }
-    if (reload == 1) {
+    if (reload == 2) {
       this.reloadState = 'intermediate';
     }
-    if (reload === 2) {
+    if (reload === 3) {
       this.reloadState = 'final';
       // Special case for a 3-second hold, trigger a reload
       setTimeout(() => location.reload(), 700);
