@@ -38,9 +38,9 @@ import { refresh } from './assistant-level-code/custom-architecture-aids/animati
   animations: [dialog, fadeToggle, refresh]
 })
 export class AppComponent implements OnDestroy {
-  pullProgress: number = 0;
+  showIcon: boolean = false;
   private routeSub$: Subject<void> = new Subject<void>();
-  iconState: string = '';
+  reloadState: 'initial' | 'intermediate' | 'final' | null = null;
   routerUrl: string | undefined;
   // mobile first
   orientation: boolean = true;
@@ -80,33 +80,35 @@ export class AppComponent implements OnDestroy {
         }
       });
   }
-  onDeltaYChange(reload: number, reset: boolean): void {
-    if (reload > 9) {
-    this.updateAnimationParams(reload);
-    if (!reset) {
-      this.pullProgress = reload;
-    } else {
-      // released
-      if (reload <= -75) {
-        location.reload();
-      }
-      // reset screen, reload wasn't reached
-      this.pullProgress = 0;
+  onHoldDetected(): void {
+    this.showIcon = true; // Show icon when hold is detected
+  }
+  onDeltaYChange(reload: number): void {
+    console.log('word', reload);
+    if (reload == 0) {
+      this.reloadState = 'initial';
+    }
+    if (reload == 1) {
+      this.reloadState = 'intermediate';
+    }
+    if (reload === 2) {
+      this.reloadState = 'final';
+      // Special case for a 3-second hold, trigger a reload
+      setTimeout(() => location.reload(), 700);
     }
   }
-  }
-  updateAnimationParams(pullValue: number) {
-    // Calculate the scale, rotation, opacity, and duration based on pullValue
-    const scale: number = 1 + pullValue / 100; // Example calculation
-    const rotate: number = pullValue * 2; // Example calculation
-    const opacity: number = 1 - pullValue / 200; // Example calculation
-    const duration: string = `${Math.max(500 - pullValue * 2, 200)}ms`; // Example calculation
-    // Set the animation parameters
-    this.animationParams = {
-      transformStyle: `scale(${scale}) rotate(${rotate}deg)`,
-      opacityStyle: opacity,
-      duration: duration
-    };
+  getIcon(reloadState: string | null): string {
+    if (reloadState === null) {
+      return 'cycle';
+    }
+    switch (reloadState) {
+      case 'final':
+        return 'task_alt';
+      case 'intermediate':
+        return 'published_with_changes';
+      default:
+        return 'cycle';
+    }
   }
 
   // mobile functions

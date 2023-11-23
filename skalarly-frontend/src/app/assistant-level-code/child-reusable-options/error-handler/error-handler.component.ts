@@ -2,12 +2,11 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
 import { dialog } from '../../custom-architecture-aids/animations/dialog-animation';
-
 @Component({
   standalone: true,
   selector: 'app-error-handler',
   templateUrl: './error-handler.component.html',
-  styleUrl: '../top-level-code/login/login.component.scss',
+  styleUrl: './error-handler.component.scss',
   animations: [dialog],
   imports: [NgIf]
 })

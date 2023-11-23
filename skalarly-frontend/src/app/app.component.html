@@ -57,18 +57,17 @@
 </ng-template>
 }
 <!-- page refresh pull down, eventully use GSAP for a fun animation-->
-  <ng-container appPullToRefresh (deltaYChange)="onDeltaYChange($event.deltaY, $event.reset)">
-<!-- @if(pullProgress > 10){ -->
-    <!-- The refresh icon that animates    -->
+  <ng-container appPullToRefresh (holdDetected)="onHoldDetected()" (deltaYChange)="onDeltaYChange($event.state)">
+@if(reloadState ! = null){
+    <!-- The refresh icon. that animates    -->
     <div class="refresh-icon-container">
-    <mat-icon [@dialog]
-    [@refresh]="animationParams"
+    <mat-icon [@dialog] [@refresh]
     class="material-symbols-outlined refresh-icon-border" 
-    [ngClass]="{'glow-effect': pullProgress <= -70}">
-    {{ pullProgress >= -70 ? 'cycle' : 'task_alt' }}
+    [ngClass]="{'glow-effect': reloadState === 'final'}">
+    {{ getIcon(reloadState)}}
   </mat-icon>
 </div>
-<!-- } -->
+}
   </ng-container>
   <router-outlet content ></router-outlet>  <!-- Primary outlet for main content -->
  <!-- Render as component based on path of routes -->

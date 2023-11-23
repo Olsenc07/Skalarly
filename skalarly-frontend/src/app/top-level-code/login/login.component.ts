@@ -94,29 +94,26 @@ export class LoginComponent implements OnInit, AfterViewInit {
       distinctUntilChanged(),
       startWith(startWithState),
       map((value) => {
-        // Ensure the value is of the expected type T
-        const controlValue = this.loginForm.controls[controlName].value as T;
+        const controlValue: T = this.loginForm.controls[controlName].value;
         return [controlValue, validateFn(controlValue)] as [T, boolean];
       }),
       switchMap(([value, isValid]) => switchMapFn(value, isValid))
     );
   }
-
   // Switch map function for email
   private emailSwitchMapFn(
     email: string,
     isValid: boolean
-  ): Observable<{ emailFound: boolean; emailState: string; error: string }> {
+  ): Observable<{ emailFound: boolean; emailState: string; error?: string }> {
     if (email === '') {
-      return of({ emailFound: false, emailState: 'initial', error: '' });
+      return of({ emailFound: false, emailState: 'initial' });
     } else if (isValid) {
       return concat(
-        of({ emailFound: false, emailState: 'loading', error: '' }),
+        of({ emailFound: false, emailState: 'loading' }),
         this.authorizeService.searchEmails(email).pipe(
           map((emailFound) => ({
             emailFound,
-            emailState: emailFound ? 'check' : 'initial',
-            error: '' // Include error property even if it's empty
+            emailState: emailFound ? 'check' : 'initial'
           }))
         )
       );
@@ -124,11 +121,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
       return of({
         emailFound: false,
         emailState: 'initial',
-        error: 'notFound' // Specify the error
+        error: 'notFound'
       });
     }
   }
-
   // Switch map function to handle changes in password
   private handlePasswordChange(
     password: string,
@@ -139,12 +135,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
     error?: string;
   }> {
     if (password === '') {
-      return of({ isPasswordValid: false, lockState: 'closed', error: '' });
+      return of({ isPasswordValid: false, lockState: 'closed' });
     } else if (isValid) {
-      // Add any additional logic if needed when password is valid
       return of({ isPasswordValid: true, lockState: 'open' });
     } else {
-      // Handle invalid password case
       return of({
         isPasswordValid: false,
         lockState: 'closed',
@@ -182,8 +176,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
       'email',
       500,
       { emailFound: false, emailState: 'initial', error: '' },
-      (email) => this.loginForm.controls['email'].valid, // Validation function
-      this.emailSwitchMapFn // Switch map function
+      this.isEmailValid.bind(this),
+      this.emailSwitchMapFn
     );
 
     // password
@@ -191,9 +185,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
       'password',
       500,
       { isPasswordValid: false, lockState: 'closed' },
-      (password) => this.loginForm.controls['password'].valid, // Validation function
-      this.handlePasswordChange // Switch map function for password
+      this.isPasswordValid.bind(this), // Updated
+      this.handlePasswordChange
     );
+  }
+  isEmailValid(value: string): boolean {
+    return this.loginForm.controls['email'].valid;
+  }
+
+  isPasswordValid(value: string): boolean {
+    return this.loginForm.controls['password'].valid;
   }
 
   ngAfterViewInit(): void {
