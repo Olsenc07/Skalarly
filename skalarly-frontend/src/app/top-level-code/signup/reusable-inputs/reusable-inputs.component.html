@@ -12,12 +12,12 @@
           <mat-label>{{ label }}</mat-label>
         <input matInput type="text" [formControl]="typedFilter" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
-          @for(list  of (List$  | async ) as Lists; let i = $index ; track list.name){
-            @if(list[labelFlexible] as info) {
+          @for(list  of (List$  | async ); let i = $index ; track list.name){
+            @if(list[labelFlexible]) {
             <mat-option (click)="newSelection(list)"  
-            [value]="info">
+            [value]="list[labelFlexible]">
                 <span 
-                [innerHTML]="info | titlecase | bold: typedFilter.value! ">
+                [innerHTML]="list[labelFlexible] | titlecase | bold: typedFilter.value! ">
                 </span>
             </mat-option>
           }

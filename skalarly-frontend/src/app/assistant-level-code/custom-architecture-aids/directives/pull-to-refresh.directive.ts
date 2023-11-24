@@ -1,38 +1,93 @@
-import {
-  Directive,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
-// compatible for mobile and desktoptype scrolling
-// need to only allow when skalar is at top of a scrollable page
 @Directive({
   standalone: true,
   selector: '[appPullToRefresh]'
 })
 export class PullToRefreshDirective {
-  @Output() deltaYChange: EventEmitter<{ state: number }> = new EventEmitter<{
-    state: number;
-  }>();
-  @Output() holdDetected: EventEmitter<{ visible: boolean }> =
-    new EventEmitter<{
-      visible: boolean;
-    }>();
-  @Input() targetElementId!: string;
   private cycleCount: number = 0;
   private isCounting: boolean = false;
-  private thresholdReached: boolean = false;
+  private thresholdReached = false;
   private lastDeltaY: number | null = null;
   private lastEventTime: number | null = null;
-  holdTimer: any;
-  holdInterval: any;
-  debounceTimer: any;
+  private touchStartY = 0;
+  private isTouching = false;
+  private holdTimer: any;
+  private debounceTimer: any;
 
-  // reusable code
+  @Output() deltaYChange: EventEmitter<{
+    state: number;
+  }> = new EventEmitter<{ state: number }>();
+  @Output() holdDetected: EventEmitter<{
+    visible: boolean;
+  }> = new EventEmitter<{ visible: boolean }>();
+
+  // desktop
+  @HostListener('window:wheel', ['$event'])
+  onWheel(event: WheelEvent): void {
+    this.handleInteraction(event.deltaY, window.scrollY, event.timeStamp);
+  }
+  // mobile
+  @HostListener('touchstart', ['$event'])
+  onTouchStart(event: TouchEvent): void {
+    this.touchStartY = event.touches[0].clientY;
+    this.isTouching = true;
+  }
+  @HostListener('touchmove', ['$event'])
+  onTouchMove(event: TouchEvent): void {
+    if (this.isTouching) {
+      const touchY = event.touches[0].clientY;
+      this.handleInteraction(
+        touchY - this.touchStartY,
+        window.scrollY,
+        event.timeStamp
+      );
+    }
+  }
+  @HostListener('touchend')
+  onTouchEnd(): void {
+    this.isTouching = false;
+    this.stopHoldCount();
+  }
+  // reusable functions
+  private handleInteraction(
+    deltaY: number,
+    scrollTop: number,
+    timeStamp: number
+  ): void {
+    if (this.isAtTopOfPage(scrollTop) && this.isPullingDown(deltaY)) {
+      this.handlePullDownStart();
+    } else if (this.thresholdReached) {
+      this.handlePotentialStop(deltaY, timeStamp);
+    }
+    this.lastDeltaY = deltaY;
+    this.lastEventTime = timeStamp;
+  }
+
+  private handlePullDownStart(): void {
+    if (!this.thresholdReached) {
+      this.thresholdReached = true;
+      this.holdDetected.emit({ visible: true });
+      this.startHoldCount();
+    }
+  }
+
+  private handlePotentialStop(deltaY: number, timeStamp: number): void {
+    const deltaYChange = this.calculateDeltaYChange(deltaY);
+    const timeChange = this.calculateTimeChange(timeStamp);
+
+    if (deltaYChange > 50 && timeChange < 100) {
+      // 'Flick' gesture threshold
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = setTimeout(() => {
+        if (deltaYChange > 2) {
+          this.stopHoldCount();
+          this.thresholdReached = false;
+        }
+      }, 1000);
+    }
+  }
+
   onDeltaYChange(cycleCount: number): void {
     if (cycleCount === 1) {
       this.deltaYChange.emit({ state: 1 });
@@ -42,54 +97,22 @@ export class PullToRefreshDirective {
       this.deltaYChange.emit({ state: 3 });
     }
   }
+  private calculateDeltaYChange(currentDeltaY: number): number {
+    return this.lastDeltaY !== null
+      ? Math.abs(this.lastDeltaY - currentDeltaY)
+      : 0;
+  }
 
-  // Mobile touch events
-  // .... may beable to reuse desktop code
-  //  but user touch events to trigger it
+  private calculateTimeChange(currentTime: number): number {
+    return this.lastEventTime !== null ? currentTime - this.lastEventTime : 0;
+  }
 
-  // wheel events for desktop
-  // clean up the hold functionality because it
-  // works for flick and hold rn but only want hold 3s trigger
-  @HostListener('window:wheel', ['$event'])
-  onWheel(event: WheelEvent): void {
-    const currentScrollTop = window.scrollY;
-    const currentTime = event.timeStamp;
-    console.log('found', currentScrollTop);
-    console.log('2', event.deltaY);
-    const deltaYChange =
-      this.lastDeltaY !== null ? Math.abs(this.lastDeltaY - event.deltaY) : 0;
-    const timeChange =
-      this.lastEventTime !== null ? currentTime - this.lastEventTime : 0;
-    if (currentScrollTop === 0 && event.deltaY < -15) {
-      if (!this.thresholdReached) {
-        this.thresholdReached = true;
-        this.lastDeltaY = event.deltaY;
-        // Scrolling up (pulling down) and threshold exceeded
-        if (!this.isCounting) {
-          this.holdDetected.emit({ visible: true });
-          this.startHoldCount();
-        }
-      } else {
-        if (deltaYChange > 50 && timeChange < 100) {
-          // Threshold for a 'flick' gesture
-          // Implement debounce mechanism
-          clearTimeout(this.debounceTimer);
-          this.debounceTimer = setTimeout(() => {
-            if (
-              this.lastDeltaY !== null &&
-              Math.abs(this.lastDeltaY - event.deltaY) > 2
-            ) {
-              console.log('deltaY changed, stop counting');
-              this.stopHoldCount();
-              this.thresholdReached = false;
-            }
-          }, 1000);
-          this.lastDeltaY = event.deltaY;
-        }
-      }
-      this.lastDeltaY = event.deltaY;
-      this.lastEventTime = currentTime;
-    }
+  private isAtTopOfPage(scrollTop: number): boolean {
+    return scrollTop === 0;
+  }
+
+  private isPullingDown(deltaY: number): boolean {
+    return deltaY < -15; // Threshold for pulling down
   }
   private startHoldCount(): void {
     // Clear any existing timer

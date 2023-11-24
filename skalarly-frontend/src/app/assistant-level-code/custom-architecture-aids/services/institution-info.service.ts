@@ -6,8 +6,8 @@ import {
   of,
   shareReplay
 } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { InstitutionDataInterface } from '../interfaces/institution-interface';
 
 @Injectable({
@@ -26,8 +26,8 @@ export class InstitutionInfoService {
   // institution data
   private institutions$: Observable<string[]> | null = null;
 
-// defalt value canada or usa
-country = signal('Canada')
+  // defalt value canada or usa
+  country = signal('Canada');
 
   constructor(private http: HttpClient) {}
   institutionInfo() {

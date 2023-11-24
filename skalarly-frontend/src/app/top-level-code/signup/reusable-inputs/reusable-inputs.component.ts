@@ -107,5 +107,4 @@ export class ReusableInputsComponent implements OnInit {
     // If choice came from difficulty drop down
     this.selectedChange.emit(entry);
   }
-
 }

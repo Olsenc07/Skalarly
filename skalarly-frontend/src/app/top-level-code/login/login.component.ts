@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Inject,
@@ -56,7 +57,8 @@ import { reusableAnimations } from './imports/animation-imports';
     ReactiveFormsModule,
     ValidationAnimationDirective,
     SkeletonLoaderLoginComponent
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit, AfterViewInit {
   // animation based
@@ -196,7 +198,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   isPasswordValid(value: string): boolean {
     return this.loginForm.controls['password'].valid;
   }
-
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.skalarlyState = 'rise';
