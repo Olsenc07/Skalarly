@@ -25,7 +25,7 @@ import {
 import { BoldPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
 import { CommonModule } from '@angular/common';
 import { type InstitutionDataInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
-import { InstitutionInfoService } from '../../custom-architecture-aids/services/institution-info.service';
+import { InstitutionInfoService } from '../../custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RemoveSpacesPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
@@ -34,8 +34,8 @@ import { TitleCasePipe } from '@angular/common';
 @Component({
   standalone: true,
   selector: 'app-reusable-dropdown',
-  templateUrl: './reusable-dropdown.component.html',
-  styleUrls: ['./reusable-dropdown.component.scss'],
+  templateUrl: './reusable-dropdown-signup.component.html',
+  styleUrls: ['./reusable-dropdown-signup.component.scss'],
   imports: [
     BoldPipe,
     CommonModule,
@@ -50,6 +50,7 @@ import { TitleCasePipe } from '@angular/common';
 export class ReusableDropDownComponent implements OnInit {
   // used to display drop down filtered options
   typedFilter: FormControl<string | null> = new FormControl<string | null>('');
+  @Input() countryApi: boolean = false;
   @Input() label: string | null = null;
   labelFlexible: 'country' | 'name';
   @Input() hint: string | null = null;
@@ -76,11 +77,8 @@ export class ReusableDropDownComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.listSub = this.List$.subscribe(
-      (categories: InstitutionDataInterface[]) => {
-        this.initialList$.next(categories);
-      }
-    );
+  
+  this.institutionInfoService.fetchCountries();
 
     // Filters list
     // startWith('') allows list to be displayed before typing
@@ -100,7 +98,11 @@ export class ReusableDropDownComponent implements OnInit {
       )
     );
   }
-
+  // if (this.countryApi) {
+  get countriesSignal() {
+    return this.institutionInfoService.getCountriesSignal();
+  }
+  // }
   // Selection has been made
   newSelection(entry: InstitutionDataInterface) {
     // If choice came from difficulty drop down

@@ -5,13 +5,15 @@ const router = Router();
 // store the universities data
 let universitiesData = [];
 // Define an API endpoint to fetch universities data
-router.get('/countries', async (req, res) => {
+router.get('/countries', async(req, res) => {
+  console.log('hey')
   try {
     // Fetch data from the GitHub URL
-    const response = await axios.get('https://raw.githubusercontent.com/Hipo/university-domains-list/master/world_universities_and_domains.json');
+    const response = await axios.get('http://universities.hipolabs.com/search');
     const universitiesData = response.data;
     // Extract the list of unique countries
-     const countries = [...new Set(universitiesData.map(world => world.country))];
+     const countriesSet = [...new Set(universitiesData.map(world => world.country))];
+     let countries = Array.from(countriesSet);
     //  I want Canada and USA as first two options
      countries.sort((a, b) => {
         if (a.country === 'Canada' || a.country === 'USA') {

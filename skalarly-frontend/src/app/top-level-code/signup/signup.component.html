@@ -1,15 +1,15 @@
 <progress id="progress" [value]="progressValue" max="100"> </progress>
 <!-- choosing the instituiton sets email varification
 have canada, usa at top  -->
-<app-reusable-dropdown [label]="'Country of study'" [List$]="country$"
+<app-reusable-dropdown [countryApi]="true" [label]="'Country of study'" [List$]="country$"
 (selectedChange)="updateCountrySelection($event)" [hint]="'Which country do you study in?'">
 </app-reusable-dropdown>
 <!-- if province-state needs to be chosen -->
-<ng-container *ngIf="displayStateProvince">
+@if(displayStateProvince) {
 <app-reusable-dropdown [label]="'State or Province'"  [List$]="region$"
 (selectedChange)="stateSelection($event)"  [hint]="'Which State or Province is your school in?'">
 </app-reusable-dropdown>
-</ng-container>
+}
 <!-- Institution selection -->
 <ng-container *ngIf="institutionsLoaded">
 <app-reusable-dropdown [label]="'Where do you attend school?'" [List$]="institutions$"
@@ -19,11 +19,11 @@ have canada, usa at top  -->
 <!-- make this form in a reusable file!! -->
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
   <app-reusable-inputs [control]="usernameControl" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
-  [error]="getError('username')"
+  [error]="getError('username') | errorPipe"
   (controlValueChanged)="handleValueChange('username', $event)"></app-reusable-inputs>
   
   <app-reusable-inputs [control]="emailControl" label="Email" placeholder="Email" icon="fa-solid fa-at"
-  [error]="getError('username')"
+  [error]="getError('username') | errorPipe"
   (controlValueChanged)="handleValueChange('email', $event)"></app-reusable-inputs>
   
   <app-reusable-input-password [control]="passwordControl" label="Password" placeholder="Password" icon="fa-solid fa-lock" controlType="password"

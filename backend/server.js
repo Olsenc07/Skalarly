@@ -26,10 +26,10 @@ mongoose.connect(process.env.mongodb)
 const webpush = require('web-push');
 
 // Routes
-const accountManagementRoute = require('/app/backend/routes/account-management');
-const authorizeRoute = require('/app/backend/routes/authorize');
-const SchoolsRoute = require('/app/backend/routes/institutions-info');
-const skalarsRoute = require('/app/backend/routes/skalars');
+const accountManagementRoute = require('/skalarly-fs/backend/routes/account-management.js');
+const authorizeRoute = require('/skalarly-fs/backend/routes/authorize');
+const schoolsRoute = require('/skalarly-fs/backend/routes/institutions-info');
+const skalarsRoute = require('/skalarly-fs/backend/routes/skalars');
 
 
 // Server Activation
@@ -55,7 +55,7 @@ app.use((req, res, next) => {
  });
 app.use("/api/authorize", authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
-app.use("/api/schoolsRoute", SchoolsRoute)
+app.use("/api/schools", schoolsRoute)
 app.use("/api/skalars", skalarsRoute);
 
 // Secured ReRouting
@@ -85,8 +85,5 @@ app.get('*', requireHTTPS, (req, res) => {
 app.get("/worker.js", (req, res) => {
     res.sendFile('/app/skalarly-frontend/src/worker.js');
   });
-
-
-
 
 export default app

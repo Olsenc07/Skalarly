@@ -3,6 +3,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators
 } from '@angular/forms';
 import type {
@@ -23,16 +24,16 @@ import { CommonModule } from '@angular/common';
 import { ErrorPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/error.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { type InstitutionDataInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
-import { InstitutionInfoService } from '../../assistant-level-code/custom-architecture-aids/services/institution-info.service';
+import { InstitutionInfoService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
-import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-dropdown/reusable-dropdown.component';
+import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-dropdown-signup/reusable-dropdown-signup.component';
 import { ReusableInputPasswordComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-password/reusable-input-password.component';
 import { ReusableInputsComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs/reusable-inputs.component';
 import { Router } from '@angular/router';
-import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-account/signup-form-state.service';
+import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
 import { Title } from '@angular/platform-browser';
 import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
@@ -50,7 +51,8 @@ import { passwordValidator } from '../../assistant-level-code/custom-architectur
     ReusableDropDownComponent,
     ReusableInputsComponent,
     RemoveSpacesPipe,
-    ReusableInputPasswordComponent
+    ReusableInputPasswordComponent,
+    ErrorPipe
   ]
 })
 export class SignUpComponent implements OnInit, OnDestroy {
@@ -118,8 +120,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private institutionInfoService: InstitutionInfoService,
     private readonly router: Router,
     private snackBar: MatSnackBar,
-    private titleService: Title,
-    private errorPipe: ErrorPipe
+    private titleService: Title
   ) {
     this.signUpForm = new FormGroup({
       username: new FormControl<InitialAccountInterface['username'] | null>(
@@ -162,10 +163,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
     return this.signUpForm.get('password') as FormControl;
   }
   getError(controlName: string): string | null {
-    const controlErrors = this.signUpForm.get(controlName)?.errors;
+    const controlErrors: ValidationErrors | null | undefined =
+      this.signUpForm.get(controlName)?.errors;
     if (controlErrors) {
-      const firstErrorKey = Object.keys(controlErrors)[0];
-      return this.errorPipe.transform(firstErrorKey);
+      return Object.keys(controlErrors)[0];
     }
     return null;
   }
@@ -186,7 +187,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       // eslint-disable-next-line rxjs-angular/prefer-async-pipe
       .subscribe();
     // get country/institute/email data
-    this.country$ = this.institutionInfoService.institutionInfo();
+    // this.country$ = this.institutionInfoService.institutionInfo();
   }
   handleValueChange(controlName: string, value: string): void {
     const control = this.signUpForm.get(controlName);
@@ -197,40 +198,40 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   // state-province selection
   stateSelection(stateProvince: InstitutionDataInterface): void {
-    this.institutions$ = this.institutionInfoService.getInstituitonsData(
-      this.countryChosen,
-      stateProvince['state-province']
-    );
+    // this.institutions$ = this.institutionInfoService.getInstituitonsData(
+    //   this.countryChosen,
+    //   stateProvince['state-province']
+    // );
   }
   updateCountrySelection(country: InstitutionDataInterface): void {
     // get institutions from that country chosen
     // but first check for state-province
     // then trigger institute data
-    this.institutionInfoService
-      .fetchStateProvinces(country.country)
-      .subscribe((stateProvinces: string[]) => {
-        // check if there are state-provinces, and if not, pass undefined
-        if (stateProvinces.length > 0) {
-          //  choose state-province
-          this.displayStateProvince = true;
-          this.countryChosen = country.country;
-        } else {
-          // If there are no state-provinces, stateProvince is undefined
-          this.infoForm.get('region')!.setValue(null);
-          this.displayStateProvince = false;
-          this.institutions$ = this.institutionInfoService.getInstituitonsData(
-            country.country
-          );
-        }
-      });
+    // this.institutionInfoService
+    //   .fetchStateProvinces(country.country)
+    //   .subscribe((stateProvinces: string[]) => {
+    //     // check if there are state-provinces, and if not, pass undefined
+    //     if (stateProvinces.length > 0) {
+    //       //  choose state-province
+    //       this.displayStateProvince = true;
+    //       this.countryChosen = country.country;
+    //     } else {
+    //       // If there are no state-provinces, stateProvince is undefined
+    //       this.infoForm.get('region')!.setValue(null);
+    //       this.displayStateProvince = false;
+    //       this.institutions$ = this.institutionInfoService.getInstituitonsData(
+    //         country.country
+    //       );
+    //     }
+    //   });
   }
   regionSelection(countryChosen: string, region: string): void {
-    // after
-    this.institutions$ = this.institutionInfoService.getInstituitonsData(
-      countryChosen,
-      region
-    );
-    this.infoForm.get('region')!.setValue(region);
+    // // after
+    // this.institutions$ = this.institutionInfoService.getInstituitonsData(
+    //   countryChosen,
+    //   region
+    // );
+    // this.infoForm.get('region')!.setValue(region);
   }
   // assign institution form control
   // and then cache domain options and pass values to email validation

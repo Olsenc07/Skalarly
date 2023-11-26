@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { type PassWordInterface } from '../../custom-architecture-aids/interfaces/password-interface';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -12,8 +13,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   imports: [
     CommonModule,
-    MatFormFieldModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatTooltipModule,
     ReactiveFormsModule
   ],
@@ -23,8 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class ReusableInputPasswordComponent {
   @Input() label?: string;
   @Input() control!: FormControl;
-  @Input() controlType?: 'text' | 'password' = 'text';
-  @Input() placeholder?: string;
+  @Input() controlType!: 'text' | 'password';
+  @Input() placeholder!: string;
   @Input() icon?: string;
   @Output() controlValueChanged: EventEmitter<string> =
     new EventEmitter<string>();

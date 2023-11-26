@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReusableInputsComponent } from './reusable-dropdown.component';
+import { ReusableInputsComponent } from './reusable-dropdown-signup.component';
 
 describe('ReusableInputsComponent', () => {
   let component: ReusableInputsComponent;

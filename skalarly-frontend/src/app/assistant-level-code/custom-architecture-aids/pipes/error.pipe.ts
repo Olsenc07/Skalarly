@@ -6,22 +6,22 @@ type ErrorMessages = {
   uniqueEmailError: string;
   patternEmailError: string;
 };
-@Pipe({ name: 'errorPipe' })
+@Pipe({ name: 'errorPipe', standalone: true })
 export class ErrorPipe implements PipeTransform {
-  transform(value: string): string {
-    const errorMessages: ErrorMessages = {
-      required: 'This field is required.',
-      uniqueUserNameError: 'Username is already in use. Please try another.',
-      patternUserNameError:
-        'Only letters, numbers, and underscores are allowed.',
-      uniqueEmailError: 'Email is already in use. Please try another.',
-      patternEmailError:
-        'This email does not match the format of the institute you have chosen.'
-      // Add other error messages here
-    };
-    if (value in errorMessages) {
-      return errorMessages[value as keyof ErrorMessages];
+  transform(value: string | null): string {
+    if (value === null) {
+      return ''; // Or any default message you see fit
+    } else {
+      const errorMessages: ErrorMessages = {
+        required: 'This field is required.',
+        uniqueUserNameError: 'Username is already in use. Please try another.',
+        patternUserNameError:
+          'Only letters, numbers, and underscores are allowed.',
+        uniqueEmailError: 'Email is already in use. Please try another.',
+        patternEmailError:
+          'This email does not match the format of the institution you have chosen.'
+      };
+      return errorMessages[value as keyof ErrorMessages] || 'Invalid field.';
     }
-    return 'Invalid field.';
   }
 }

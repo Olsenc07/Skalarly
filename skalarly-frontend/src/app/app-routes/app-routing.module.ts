@@ -55,6 +55,7 @@ export const routes: Routes = [
       import(
         '../top-level-code/feed-folder/specific-feed-page/specific-feed-page.component'
       ).then((mod) => mod.SpecificFeedPageComponent),
+    // title should be ttitle of post
     data: { title: 'Skalarly Feed' }
   },
   // one single post, able to be viewed by viewers without skalarly accounts
@@ -81,6 +82,7 @@ export const routes: Routes = [
       import('../top-level-code/profiles/profile/profile.component').then(
         (mod) => mod.ProfileComponent
       ),
+     // title should be skalars username
     data: { title: 'Profile' }
     //   ,
     // children: [

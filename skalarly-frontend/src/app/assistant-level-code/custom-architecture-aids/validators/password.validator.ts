@@ -13,14 +13,9 @@ export function passwordValidator(): AsyncValidatorFn {
       distinctUntilChanged(),
       map((value) => {
         if (!value) {
-          // Return null if the control value is empty (e.g., the user hasn't entered a password)
           return null;
         }
-
-        // have a nice display of when these condtions are met
-        //  should just be for signup
         if (!passwordRegex.test(control.value)) {
-          // Password does not meet the criteria
           return { invalidPassword: true };
         }
         // Password meets the criteria

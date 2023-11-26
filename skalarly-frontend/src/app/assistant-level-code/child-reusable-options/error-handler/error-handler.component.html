@@ -1,8 +1,7 @@
-<div [@dialog]>
     <div >
         <div mat-card-title>We have a message for you</div>
-    
-        <span class="material-icons-outlined icon">
+        <mat-divider></mat-divider>
+        <span class="material-symbols-outlined icon">
             self_improvement
             </span>
     </div>
@@ -12,7 +11,6 @@
     </div>
     <div >
         <h2> Need to login?</h2>
-        <ng-content select="[login-content]"></ng-content>  <!-- login template projected -->
-    </div>
+        <ng-content select="[login-projectable]"></ng-content>
     </div>
     </div>
