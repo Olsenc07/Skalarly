@@ -12,7 +12,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   OnInit,
   Output,
@@ -48,7 +47,7 @@ import { TitleCasePipe } from '@angular/common';
     TitleCasePipe
   ]
 })
-export class ReusableInputsComponent implements OnInit {
+export class ReusableDropDownComponent implements OnInit {
   // used to display drop down filtered options
   typedFilter: FormControl<string | null> = new FormControl<string | null>('');
   @Input() label: string | null = null;

@@ -5,7 +5,6 @@ type ErrorMessages = {
   patternUserNameError: string;
   uniqueEmailError: string;
   patternEmailError: string;
-  [key: string]: string; // allows indexing with any string key
 };
 @Pipe({ name: 'errorPipe' })
 export class ErrorPipe implements PipeTransform {
@@ -20,6 +19,9 @@ export class ErrorPipe implements PipeTransform {
         'This email does not match the format of the institute you have chosen.'
       // Add other error messages here
     };
-    return errorMessages[value] || 'Invalid field.';
+    if (value in errorMessages) {
+      return errorMessages[value as keyof ErrorMessages];
+    }
+    return 'Invalid field.';
   }
 }

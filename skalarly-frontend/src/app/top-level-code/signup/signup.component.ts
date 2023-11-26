@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -22,19 +22,18 @@ import {
 } from 'rxjs';
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
 import { CommonModule } from '@angular/common';
+import { ErrorPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/error.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { type InstitutionDataInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
 import { InstitutionInfoService } from '../../assistant-level-code/custom-architecture-aids/services/institution-info.service';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { type PassWordInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/password-interface';
 import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
-import { ReusableInputsComponent } from './reusable-dropdown/reusable-dropdown.component';
+import { ReusableDropDownComponent } from './reusable-dropdown/reusable-dropdown.component';
+import { ReusableInputPasswordComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-password/reusable-input-password.component';
+import { ReusableInputsComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs/reusable-inputs.component';
 import { Router } from '@angular/router';
-import { SaveSignUpGuard } from '.././../app-routes/route-guards/signup-guard';
 import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-account/signup-form-state.service';
 import { Title } from '@angular/platform-browser';
 import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
@@ -47,32 +46,18 @@ import { passwordValidator } from '../../assistant-level-code/custom-architectur
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
     HttpClientModule,
     MatButtonModule,
     MatSelectModule,
-    MatTooltipModule,
+    ReusableDropDownComponent,
     ReusableInputsComponent,
-    RemoveSpacesPipe
+    RemoveSpacesPipe,
+    ReusableInputPasswordComponent
   ]
 })
 export class SignUpComponent implements OnInit, OnDestroy {
   progressValue: number = 0;
   signUpForm: FormGroup;
-  passwordRequirements$: Observable<PassWordInterface>;
-  passwordRequirements: {
-    key: string;
-    text: string;
-  }[] = [
-    { key: 'length', text: 'At least 8 characters' },
-    { key: 'uppercase', text: 'At least one uppercase letter (A-Z)' },
-    { key: 'lowercase', text: 'At least one lowercase letter (a-z)' },
-    { key: 'digit', text: 'At least one digit (0-9)' },
-    {
-      key: 'special',
-      text: 'At least one special character (e.g., "&#64;"#$%^&+=!)'
-    }
-  ];
   private values$: Subject<void> = new Subject<void>();
   // second major stage
   userInteracted: boolean = false;
@@ -134,9 +119,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private formStateService: SignUpFormStateService,
     private institutionInfoService: InstitutionInfoService,
     private readonly router: Router,
-    private saveSignUpGuard: SaveSignUpGuard,
     private snackBar: MatSnackBar,
-    private titleService: Title
+    private titleService: Title,
+    private errorPipe: ErrorPipe
   ) {
     this.signUpForm = new FormGroup({
       username: new FormControl<InitialAccountInterface['username'] | null>(
@@ -163,15 +148,27 @@ export class SignUpComponent implements OnInit, OnDestroy {
         [Validators.required, passwordValidator]
       )
     });
-    this.passwordRequirements$ = this.signUpForm
-      .get('password')!
-      .valueChanges.pipe(
-        map((password) => this.calculatePasswordRequirements(password))
-      );
+  }
+  get usernameControl(): FormControl {
+    return this.signUpForm.get('username') as FormControl;
   }
 
-  // look over username stuff
-  ngOnInit() {
+  get emailControl(): FormControl {
+    return this.signUpForm.get('email') as FormControl;
+  }
+
+  get passwordControl(): FormControl {
+    return this.signUpForm.get('password') as FormControl;
+  }
+  getError(controlName: string): string | null {
+    const controlErrors = this.signUpForm.get(controlName)?.errors;
+    if (controlErrors) {
+      const firstErrorKey = Object.keys(controlErrors)[0];
+      return this.errorPipe.transform(firstErrorKey);
+    }
+    return null;
+  }
+  ngOnInit(): void {
     this.titleService.setTitle('Skalarly Signup Page');
     combineLatest([
       this.signUpForm.get('username')!.valueChanges,
@@ -203,24 +200,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
         }
       });
   }
-  private calculatePasswordRequirements(password: string): PassWordInterface {
-    return {
-      length: password.length >= 8,
-      uppercase: /[A-Z]/.test(password),
-      lowercase: /[a-z]/.test(password),
-      digit: /\d/.test(password),
-      special: /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password)
-    };
-  }
-
-  private updateRequirementStyle(requirement: string, isMet: boolean): void {
-    const element = document.getElementById(requirement);
-    if (element) {
-      isMet
-        ? element.classList.add('condition-met')
-        : element.classList.remove('condition-met');
+  handleValueChange(controlName: string, value: string): void {
+    const control = this.signUpForm.get(controlName);
+    if (control) {
+      control.setValue(value);
     }
   }
+
   // state-province selection
   stateSelection(stateProvince: InstitutionDataInterface): void {
     this.institutions$ = this.institutionInfoService.getInstituitonsData(

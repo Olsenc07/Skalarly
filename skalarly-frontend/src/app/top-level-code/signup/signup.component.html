@@ -18,39 +18,18 @@ have canada, usa at top  -->
 </ng-container>
 <!-- make this form in a reusable file!! -->
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
-  <app-form-field [control]="signUpForm.get('username')" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"></app-form-field>
-  <app-form-field [control]="signUpForm.get('email')" label="Email" placeholder="Email" icon="fa-solid fa-at"></app-form-field>
-  <app-form-field [control]="signUpForm.get('password')" label="Password" placeholder="Password" icon="fa-solid fa-lock" controlType="password"></app-form-field>
-<mat-form-field>
-    <mat-label>
-        <i [class.condition-met]="signUpForm.get('password')?.valid" 
-         matSuffix class="fa-solid fa-lock"></i>
-    </mat-label>
-    <input matInput type="password" placeholder="Password" required
-    formControlName="password" [value]="signUpForm.get('password')?.value | removeSpaces"> 
-    <!-- toggle password visibility -->
-    <button matSuffix mat-icon-button  [ngClass]="{ 'showing': visiblePassword }"
-    (click)="toggleVisibility()"
-    matTooltip="{{ visiblePassword ? 'Show Password' : 'Hide Password' }}" >
-      <i class="fa-solid fa-eye"></i>
-    </button>
-</mat-form-field>
-
-
+  <app-reusable-inputs [control]="usernameControl" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
+  [error]="getError('username')"
+  (controlValueChanged)="handleValueChange('username', $event)"></app-reusable-inputs>
+  
+  <app-reusable-inputs [control]="emailControl" label="Email" placeholder="Email" icon="fa-solid fa-at"
+  [error]="getError('username')"
+  (controlValueChanged)="handleValueChange('email', $event)"></app-reusable-inputs>
+  
+  <app-reusable-input-password [control]="passwordControl" label="Password" placeholder="Password" icon="fa-solid fa-lock" controlType="password"
+  (controlValueChanged)="handleValueChange('password', $event)"></app-reusable-input-password>
+  
   <!-- Password Requirements -->
-  <!-- unrendered when no value or conditons are met -->
-  <ng-template *ngIf="signUpForm.get('password')?.value && signUpForm.get('password')?.invalid">
-  <div class="password-requirements">
-    <p>Password Requirements:</p>
-    <ul>
-      @for(requirement of passwordRequirements; track requirement.key){
-      <li [class.condition-met]="requirement.key">
-    {{ requirement.text }}
-  </li>
-}
-    </ul>
-  </div>
-</ng-template>
 <button mat-raised-button type="submit" [disabled]="signUpForm.invalid">
   Validate
 </button>
