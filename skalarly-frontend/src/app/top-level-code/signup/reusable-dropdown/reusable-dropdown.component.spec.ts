@@ -1,17 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReusableInputsComponent } from './reusable-inputs.component';
+import { ReusableInputsComponent } from './reusable-dropdown.component';
 
 describe('ReusableInputsComponent', () => {
   let component: ReusableInputsComponent;
   let fixture: ComponentFixture<ReusableInputsComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ReusableInputsComponent]
-    })
-    .compileComponents();
-    
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ReusableInputsComponent]
+    });
     fixture = TestBed.createComponent(ReusableInputsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

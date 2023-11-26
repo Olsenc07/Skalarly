@@ -1,52 +1,26 @@
 <progress id="progress" [value]="progressValue" max="100"> </progress>
 <!-- choosing the instituiton sets email varification
 have canada, usa at top  -->
-<app-reusable-inputs [label]="'Country of study'" [List$]="country$"
+<app-reusable-dropdown [label]="'Country of study'" [List$]="country$"
 (selectedChange)="updateCountrySelection($event)" [hint]="'Which country do you study in?'">
-</app-reusable-inputs>
+</app-reusable-dropdown>
 <!-- if province-state needs to be chosen -->
 <ng-container *ngIf="displayStateProvince">
-<app-reusable-inputs [label]="'State or Province'"  [List$]="region$"
+<app-reusable-dropdown [label]="'State or Province'"  [List$]="region$"
 (selectedChange)="stateSelection($event)"  [hint]="'Which State or Province is your school in?'">
-</app-reusable-inputs>
+</app-reusable-dropdown>
 </ng-container>
 <!-- Institution selection -->
 <ng-container *ngIf="institutionsLoaded">
-<app-reusable-inputs [label]="'Where do you attend school?'" [List$]="institutions$"
+<app-reusable-dropdown [label]="'Where do you attend school?'" [List$]="institutions$"
 (selectedChange)="chosenInstituition($event)" [hint]="'Current academic instituiton'">
-</app-reusable-inputs>
+</app-reusable-dropdown>
 </ng-container>
 <!-- make this form in a reusable file!! -->
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
-  <!-- username -->
-  <mat-form-field>
-    <mat-label>
-      <i [class.condition-met]="signUpForm.get('username')?.valid" matSuffix
-       class="fa-solid fa-user-graduate"></i>
-    </mat-label>
-    <input matInput type="text" placeholder="Username" required
-    formControlName="username" [value]="signUpForm.get('username')?.value | removeSpaces">
-    <ng-container *ngIf="signUpForm.get('username')?.hasError">
-    <mat-error *ngIf="signUpForm.get('username')?.hasError('required')">A Username is required.</mat-error>
-    <mat-error *ngIf="signUpForm.get('username')?.hasError('uniqueUserNameError')">Username is already in use. Please try another</mat-error>
-    <mat-error *ngIf="signUpForm.get('username')?.hasError('patternUserNameError')">Only letters, numbers and underscores are allowed</mat-error>
-  </ng-container>
-  </mat-form-field>
-  <!-- create email -->
-  <mat-form-field>
-    <mat-label>
-      <i [class.condition-met]="signUpForm.get('email')?.valid" matSuffix
-       class="fa-solid fa-at"></i>
-    </mat-label>
-    <input matInput type="email" placeholder="name@school" required
-    formControlName="email" [value]="signUpForm.get('email')?.value | removeSpaces">
-    <ng-container *ngIf="signUpForm.get('email')?.hasError">
-    <mat-error *ngIf="signUpForm.get('email')?.hasError('required')">An academic email is required.</mat-error>
-    <mat-error *ngIf="signUpForm.get('email')?.hasError('uniqueEmailError')">Email is already in use. Please try another.</mat-error>
-    <mat-error *ngIf="signUpForm.get('email')?.hasError('patternEmailError')">This email doesn't match the format of the institue you have chosen.</mat-error>
-  </ng-container>
-  </mat-form-field>
-<!-- create password -->
+  <app-form-field [control]="signUpForm.get('username')" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"></app-form-field>
+  <app-form-field [control]="signUpForm.get('email')" label="Email" placeholder="Email" icon="fa-solid fa-at"></app-form-field>
+  <app-form-field [control]="signUpForm.get('password')" label="Password" placeholder="Password" icon="fa-solid fa-lock" controlType="password"></app-form-field>
 <mat-form-field>
     <mat-label>
         <i [class.condition-met]="signUpForm.get('password')?.valid" 
@@ -69,11 +43,11 @@ have canada, usa at top  -->
   <div class="password-requirements">
     <p>Password Requirements:</p>
     <ul>
-      <li #length>At least 8 characters</li>
-      <li #uppercase>At least one uppercase letter (A-Z)</li>
-      <li #lowercase>At least one lowercase letter (a-z)</li>
-      <li #digit>At least one digit (0-9)</li>
-      <li #special>At least one special character (e.g., "&#64;"#$%^&+=!)</li>
+      @for(requirement of passwordRequirements; track requirement.key){
+      <li [class.condition-met]="requirement.key">
+    {{ requirement.text }}
+  </li>
+}
     </ul>
   </div>
 </ng-template>

@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  SimpleChanges
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -19,9 +13,12 @@ import {
   Observable,
   Subject,
   Subscription,
+  combineLatest,
   debounceTime,
   distinctUntilChanged,
-  takeUntil
+  map,
+  takeUntil,
+  tap
 } from 'rxjs';
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
 import { CommonModule } from '@angular/common';
@@ -35,9 +32,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { type PassWordInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/password-interface';
 import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
-import { ReusableInputsComponent } from './reusable-inputs/reusable-inputs.component';
+import { ReusableInputsComponent } from './reusable-dropdown/reusable-dropdown.component';
 import { Router } from '@angular/router';
 import { SaveSignUpGuard } from '.././../app-routes/route-guards/signup-guard';
+import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-account/signup-form-state.service';
 import { Title } from '@angular/platform-browser';
 import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
@@ -58,9 +56,25 @@ import { passwordValidator } from '../../assistant-level-code/custom-architectur
     RemoveSpacesPipe
   ]
 })
-export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
+export class SignUpComponent implements OnInit, OnDestroy {
   progressValue: number = 0;
   signUpForm: FormGroup;
+  passwordRequirements$: Observable<PassWordInterface>;
+  passwordRequirements: {
+    key: string;
+    text: string;
+  }[] = [
+    { key: 'length', text: 'At least 8 characters' },
+    { key: 'uppercase', text: 'At least one uppercase letter (A-Z)' },
+    { key: 'lowercase', text: 'At least one lowercase letter (a-z)' },
+    { key: 'digit', text: 'At least one digit (0-9)' },
+    {
+      key: 'special',
+      text: 'At least one special character (e.g., "&#64;"#$%^&+=!)'
+    }
+  ];
+  private values$: Subject<void> = new Subject<void>();
+  // second major stage
   userInteracted: boolean = false;
   visiblePassword: boolean = false;
   country$: Observable<InstitutionDataInterface[]> = new Observable<
@@ -82,7 +96,6 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   private skalarInfoSub$: Subject<void> = new Subject<void>();
 
   institutionsLoaded: boolean = false;
-
   // skalar info forms
   infoForm: FormGroup = new FormGroup({
     club: new FormControl<SkalarInfoInterface['club']>(null, [
@@ -118,6 +131,7 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private accountManagementService: AccountManagementService,
+    private formStateService: SignUpFormStateService,
     private institutionInfoService: InstitutionInfoService,
     private readonly router: Router,
     private saveSignUpGuard: SaveSignUpGuard,
@@ -149,11 +163,30 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
         [Validators.required, passwordValidator]
       )
     });
+    this.passwordRequirements$ = this.signUpForm
+      .get('password')!
+      .valueChanges.pipe(
+        map((password) => this.calculatePasswordRequirements(password))
+      );
   }
 
   // look over username stuff
   ngOnInit() {
     this.titleService.setTitle('Skalarly Signup Page');
+    combineLatest([
+      this.signUpForm.get('username')!.valueChanges,
+      this.signUpForm.get('email')!.valueChanges,
+      this.signUpForm.get('password')!.valueChanges
+    ])
+      .pipe(
+        map(
+          ([username, email, password]) => !!username || !!email || !!password
+        ),
+        tap((hasValue) => this.formStateService.setUnsavedChanges(hasValue)),
+        takeUntil(this.values$)
+      )
+      // eslint-disable-next-line rxjs-angular/prefer-async-pipe
+      .subscribe();
     // get country/institute/email data
     this.country$ = this.institutionInfoService.institutionInfo();
     // username check
@@ -169,6 +202,24 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
           this.signUpForm.get('username')?.setErrors(errors);
         }
       });
+  }
+  private calculatePasswordRequirements(password: string): PassWordInterface {
+    return {
+      length: password.length >= 8,
+      uppercase: /[A-Z]/.test(password),
+      lowercase: /[a-z]/.test(password),
+      digit: /\d/.test(password),
+      special: /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password)
+    };
+  }
+
+  private updateRequirementStyle(requirement: string, isMet: boolean): void {
+    const element = document.getElementById(requirement);
+    if (element) {
+      isMet
+        ? element.classList.add('condition-met')
+        : element.classList.remove('condition-met');
+    }
   }
   // state-province selection
   stateSelection(stateProvince: InstitutionDataInterface): void {
@@ -223,73 +274,6 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
       });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['signUpForm'] && !changes['signUpForm'].firstChange) {
-      this.signUpForm.valueChanges.subscribe(() => {
-        this.userInteracted = true;
-      });
-    }
-    // password check
-    if (changes['signUpForm'].currentValue.get('password')) {
-      this.signUpForm
-        .get('password')
-        ?.valueChanges.subscribe((newValue: string) => {
-          const password: string = newValue;
-          const requirements: PassWordInterface = {
-            length: password.length >= 8,
-            uppercase: /[A-Z]/.test(password),
-            lowercase: /[a-z]/.test(password),
-            digit: /\d/.test(password),
-            special: /[!@#$%^&*()_+{}[\]:;<>,.?~\\-]/.test(password)
-          };
-
-          // Update the style of each requirement element based on whether it's met
-          if (requirements.length) {
-            document?.getElementById('length')?.classList.add('condition-met');
-          } else {
-            document
-              ?.getElementById('length')
-              ?.classList.remove('condition-met');
-          }
-          // uppercase letter
-          if (requirements.uppercase) {
-            document
-              ?.getElementById('uppercase')
-              ?.classList.add('condition-met');
-          } else {
-            document
-              ?.getElementById('uppercase')
-              ?.classList.remove('condition-met');
-          }
-          // lowercase letter
-          if (requirements.lowercase) {
-            document
-              ?.getElementById('lowercase')
-              ?.classList.add('condition-met');
-          } else {
-            document
-              ?.getElementById('lowercase')
-              ?.classList.remove('condition-met');
-          }
-          // digit
-          if (requirements.digit) {
-            document?.getElementById('digit')?.classList.add('condition-met');
-          } else {
-            document
-              ?.getElementById('digit')
-              ?.classList.remove('condition-met');
-          }
-          // special
-          if (requirements.special) {
-            document?.getElementById('special')?.classList.add('condition-met');
-          } else {
-            document
-              ?.getElementById('special')
-              ?.classList.remove('condition-met');
-          }
-        });
-    }
-  }
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;
@@ -374,7 +358,8 @@ export class SignUpComponent implements OnInit, OnChanges, OnDestroy {
   // clean up
   // if skalar trys to close entire browser before cpmpleting,delete saved content
   ngOnDestroy(): void {
-    this.saveSignUpGuard.canDeactivate();
+    this.values$.next(); // Emit a value to signal unsubscription
+    this.values$.complete();
     // if not alreayd unsubbed
     this.usernameSub?.unsubscribe();
     this.institutionsSub?.unsubscribe();

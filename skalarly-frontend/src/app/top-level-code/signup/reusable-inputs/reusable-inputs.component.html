@@ -1,31 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Reusbale Inputs</title>
-</head>
-
-<body>
-    <div class="institutions-form-choice">
-        <!-- filter by typing -->
-        <mat-form-field appearance="outline">
-          <mat-label>{{ label }}</mat-label>
-        <input matInput type="text" [formControl]="typedFilter" [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" >
-          @for(list  of (List$  | async ); let i = $index ; track list.name){
-            @if(list[labelFlexible]) {
-            <mat-option (click)="newSelection(list)"  
-            [value]="list[labelFlexible]">
-                <span 
-                [innerHTML]="list[labelFlexible] | titlecase | bold: typedFilter.value! ">
-                </span>
-            </mat-option>
-          }
-        }
-        </mat-autocomplete>
-          <ng-container *ngIf="hint !== null ">
-            <mat-hint>{{ hint }}</mat-hint>
-          </ng-container>
-        </mat-form-field>
-      </div>
-</body>
+<mat-form-field>
+    <mat-label>
+      <i [class.condition-met]="control.valid" [class]="icon"></i> {{ label }}
+    </mat-label>
+    <input [type]="controlType" matInput [placeholder]="placeholder" [formControl]="control">
+  @for (error of control.errors | errorKeys){
+    @if (control.hasError(error)){
+      <mat-error >{{ error | errorPipe }}</mat-error>
+    }
+  }
+  </mat-form-field>
+  

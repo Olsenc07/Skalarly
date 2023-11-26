@@ -1,33 +1,19 @@
-import { AccountManagementService } from 'src/app/assistant-level-code/custom-architecture-aids/services/account-management.service';
 import { Injectable } from '@angular/core';
-import { SignUpComponent } from 'src/app/top-level-code/signup/signup.component';
+import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-account/signup-form-state.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SaveSignUpGuard {
-  constructor(
-    private signUpComponent: SignUpComponent,
-    private accountManagementService: AccountManagementService
-  ) {}
-  canDeactivate(): boolean | Promise<boolean> {
-    const useGuard: boolean = this.signUpComponent.getRouteGuardStatus();
-    if (useGuard) {
-      // User has interacted with the form,
+  constructor(private formStateService: SignUpFormStateService) {}
+
+  canDeactivate(): boolean {
+    if (this.formStateService.getUnsavedChanges()) {
       const confirmNavigation = window.confirm(
-        "You have not completed creating you'r account, all progress will be lost. Do you want to continue?"
+        'You have not completed creating your account, all progress will be lost. Do you want to continue?'
       );
-      if (confirmNavigation) {
-        // delete any saved values and navigate out
-        // Delete any saved/cached data
-        this.accountManagementService.clearData();
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      // User hasn't interacted with the form, allow navigation
-      return true;
+      return confirmNavigation;
     }
+    return true;
   }
 }
