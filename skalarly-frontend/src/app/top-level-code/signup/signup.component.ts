@@ -14,8 +14,6 @@ import {
   Subject,
   Subscription,
   combineLatest,
-  debounceTime,
-  distinctUntilChanged,
   map,
   takeUntil,
   tap
@@ -30,7 +28,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
-import { ReusableDropDownComponent } from './reusable-dropdown/reusable-dropdown.component';
+import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-dropdown/reusable-dropdown.component';
 import { ReusableInputPasswordComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-password/reusable-input-password.component';
 import { ReusableInputsComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs/reusable-inputs.component';
 import { Router } from '@angular/router';
@@ -145,7 +143,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
       ),
       password: new FormControl<InitialAccountInterface['password'] | null>(
         null,
-        [Validators.required, passwordValidator]
+        {
+          validators: [Validators.required],
+          asyncValidators: [passwordValidator()]
+        }
       )
     });
   }
@@ -186,19 +187,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
       .subscribe();
     // get country/institute/email data
     this.country$ = this.institutionInfoService.institutionInfo();
-    // username check
-    this.usernameSub = this.signUpForm
-      .get('username')
-      ?.valueChanges.pipe(debounceTime(500), distinctUntilChanged())
-      .subscribe((username: string | null) => {
-        if (username !== null) {
-          const errors = emailUsernameValidator(
-            this.signUpForm.get('username')?.value,
-            true
-          );
-          this.signUpForm.get('username')?.setErrors(errors);
-        }
-      });
   }
   handleValueChange(controlName: string, value: string): void {
     const control = this.signUpForm.get(controlName);

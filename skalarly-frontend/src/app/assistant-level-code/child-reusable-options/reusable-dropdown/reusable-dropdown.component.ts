@@ -25,7 +25,7 @@ import {
 import { BoldPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
 import { CommonModule } from '@angular/common';
 import { type InstitutionDataInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
-import { InstitutionInfoService } from '../../../assistant-level-code/custom-architecture-aids/services/institution-info.service';
+import { InstitutionInfoService } from '../../custom-architecture-aids/services/institution-info.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RemoveSpacesPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';

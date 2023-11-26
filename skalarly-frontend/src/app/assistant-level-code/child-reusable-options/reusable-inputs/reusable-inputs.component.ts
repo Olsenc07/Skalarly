@@ -20,7 +20,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 export class ReusableInputsComponent {
   @Input() label?: string;
   @Input() control!: FormControl;
-  @Input() error?: string;
+  @Input() error: string | null = null;
   @Input() controlType?: 'text' | 'email' = 'text';
   @Input() placeholder?: string;
   @Input() icon?: string;
