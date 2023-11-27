@@ -1,5 +1,6 @@
 import { Router } from 'express';
-const axios = require('axios');
+import axios from 'axios';
+
 const router = Router();
 
 // store the universities data
@@ -31,7 +32,7 @@ router.get('/countries', async(req, res) => {
   }
 });
 // state-provinces if not null for specific country
-app.get('/countries/state-provinces', (req, res) => {
+router.get('/countries/state-provinces', (req, res) => {
     const { country } = req.query;
   
     if (!country) {
@@ -45,7 +46,7 @@ app.get('/countries/state-provinces', (req, res) => {
 });
 
 // fetch universities data for a specific country
-app.get('/countries/country', (req, res) => {
+router.get('/countries/country', (req, res) => {
     const { country } = req.query;
   
     if (!country) {
@@ -58,7 +59,7 @@ app.get('/countries/country', (req, res) => {
     res.json(filteredUniversities);
   });
 
-app.get('/institutions/details', (req, res) => {
+router.get('/institutions/details', (req, res) => {
   const { country, name } = req.query;
 
   if (!country || !name) {

@@ -10,4 +10,5 @@ const checkAuthor = async (reg, res, next) => {
        res.status(401).json({ message: "Your session has timed out. Please relogin!"});
     }
 };
-module.exports = checkAuthor;
+
+export default checkAuthor;

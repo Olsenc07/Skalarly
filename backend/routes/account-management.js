@@ -1,37 +1,14 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import { findOne, findOneAndDelete } from '/app/backend/models/skalar';
+import  Skalar  from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/models/skalar.js';
 
-// Is this a new email?
-// also used for login to find if email exists
-router.get('/emailValidation', async(req,res) => {
-    let checkEmail = req.query.email;
-    console.log('emailValidation', checkEmail);
-    await findOne({email: checkEmail})
-    .then(search => {
-        if(search){
-            console.log('email found', search);
-            res.status(200);
-            // or change ang send json and chnage the return of observable in service or something
-            return true
-            }
-            else{
-                console.log('email not found');
-                res.status(200);
-                return false
-            }
-        }).catch(err => {
-            res.status(401);
-            console.log('error', err);
-            })
-        })
 
 // Has this username already been used?
 router.get('/uniqueUserName', async(req,res) => {
     let userName = req.query.username;
     console.log('uniqueUserName', userName);
-    await findOne({user: userName})
+    await Skalar.findOne({user: userName})
     .then(search => {
         if(search){
             console.log('username', search);
@@ -51,7 +28,7 @@ router.get('/uniqueUserName', async(req,res) => {
 // verify account once 7 digits have been imported
 router.get('/verifyAccount', async (req, res, next) => {
     const token = req.query.token;
-    const user = await findOne({ emailToken: token });
+    const user = await Skalar.findOne({ emailToken: token });
     if (user) {
         user.emailToken = null;
         user.isVerified = 'true';
@@ -72,7 +49,7 @@ router.delete('deleteUncompletedSignUp', async (req, res, next) => {
         const email = req.body.email; // Get email from the request body
     
         // Perform the findOneAndDelete operation based on the email
-        const result = await findOneAndDelete({ email });
+        const result = await Skalar.findOneAndDelete({ email });
         if (result) {
           // Data was deleted successfully
           res.status(200).json({ message: 'Data deleted successfully' });
@@ -86,3 +63,4 @@ router.delete('deleteUncompletedSignUp', async (req, res, next) => {
         res.status(500).json({ message: 'Internal server error' });
       }
 })
+export default router;

@@ -2,62 +2,84 @@
 @use 'src/app/assistant-level-code/universal-reusable-styles/common' as universal;
 
 // animations-7 conditions
-@mixin keyframes($animation-type) {
-  @if $animation-type == 'Appearance' {
-    @keyframes magicalAppearance {
-      0% { transform: scale(0.8) rotate(-10deg); opacity: 0.5; }
-      50% { transform: scale(1.1) rotate(10deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-  } @else  if $animation-type == 'Pulse' {
-    @keyframes magicalPulse {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.2); opacity: 0.5; }
-    }
-  }  @else if $animation-type == 'Fade' {
-    @keyframes magicalFade {
-      0% { transform: scale(0.5); opacity: 0; }
-      50% { transform: scale(1.2); opacity: 0.5; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-  } @else if $animation-type == 'Flip' {
-    @keyframes magicalFlip {
-      0% { transform: rotateY(0); opacity: 0; }
-      50% { transform: rotateY(180deg); opacity: 0.5; }
-      100% { transform: rotateY(360deg); opacity: 1; }
-    }
-  } @else if $animation-type == 'Spin' {
-    @keyframes magicalSpin {
-      from { transform: rotate(0deg); opacity: 0.5; }
-      to { transform: rotate(360deg); opacity: 1; }
-    }
-  } @else if $animation-type == 'Slide' {
-    @keyframes magicalSlide {
-      from { transform: translateX(-100%); opacity: 0.5; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-  } @else if $animation-type == 'Bounce' {
-    @keyframes magicalBounce {
-      0%, 100% { transform: translateY(0); opacity: 1; }
-      50% { transform: translateY(-20px); opacity: 0.5; }
-    }
-  }
-}
-@mixin animation($name, $duration: 1s, $timing-function: ease, $fill-mode: forwards) {
+@mixin animation($animation-type) {
   display: inline-block;
   color: var(--pairingColor);
-  @include keyframes($name);
-  animation: magical#{$name} $duration $timing-function $fill-mode;
+  @if $animation-type == 'Appearance' {
+    // Existing properties for 'Appearance'
+  } @else if $animation-type == 'Pulse' {
+    --scale-start: 1;
+    --rotate-start: 0deg;
+    --opacity-start: 1;
+    --scale-mid: 1.2;
+    --rotate-mid: 0deg;
+    --opacity-mid: 0.5;
+    --scale-end: 1;
+    --rotate-end: 0deg;
+    --opacity-end: 1;
+  } @else if $animation-type == 'Fade' {
+    --scale-start: 0.5;
+    --rotate-start: 0deg;
+    --opacity-start: 0;
+    --scale-mid: 1.2;
+    --rotate-mid: 0deg;
+    --opacity-mid: 0.5;
+    --scale-end: 1;
+    --rotate-end: 0deg;
+    --opacity-end: 1;
+  } @else if $animation-type == 'Flip' {
+    --scale-start: 1;
+    --rotate-start: 0deg;
+    --opacity-start: 0;
+    --scale-mid: 1;
+    --rotate-mid: 180deg;
+    --opacity-mid: 0.5;
+    --scale-end: 1;
+    --rotate-end: 360deg;
+    --opacity-end: 1;
+  } @else if $animation-type == 'Spin' {
+    --scale-start: 1;
+    --rotate-start: 0deg;
+    --opacity-start: 0.5;
+    --scale-mid: 1;
+    --rotate-mid: 180deg;
+    --opacity-mid: 1;
+    --scale-end: 1;
+    --rotate-end: 360deg;
+    --opacity-end: 1;
+  }   @else if $animation-type == 'Slide' {
+    --scale-start: 1;
+    --rotate-start: 0deg;
+    --opacity-start: 0.5;
+    --scale-mid: 1;
+    --rotate-mid: 0deg;
+    --opacity-mid: 1;
+    --scale-end: 1;
+    --rotate-end: 0deg;
+    --opacity-end: 1;
+    // Customize further if needed
+  } @else if $animation-type == 'Bounce' {
+    --scale-start: 1;
+    --rotate-start: 0deg;
+    --opacity-start: 1;
+    --scale-mid: 1;
+    --rotate-mid: 0deg;
+    --opacity-mid: 0.5;
+    --scale-end: 1;
+    --rotate-end: 0deg;
+    --opacity-end: 1;
+  }
 }
-.font-size-small {
-    @include responsive.responsiveFontSizeSmaller;
-  }
-  .font-size-default {
-    @include responsive.responsiveFontSize;
-  }
-  .font-size-large {
-    @include responsive.responsiveFontSizeLarger;
-  }
+
+.font-size {
+  &-small { font-size: var(--font-size-smaller) }
+  &-default { font-size: var(--font-size) }
+  &-large { font-size: var(--font-size-larger) }
+}
+@keyframes glow-animation {
+  from { opacity: 0; transform: translateX(-100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
   @mixin animationEnter($delay) {
     animation: glow-animation 0.25s $delay forwards;
     opacity: 0;
@@ -67,40 +89,36 @@
     white-space: nowrap;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    @keyframes glow-animation {
-      from {
-        opacity: 0;
-        transform: translateX(-100%);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
   }
   .animations{
     @include animationEnter(0.5s);
   }
   // last letter options
-  .magical-letter {
-    @include animation('Appearance');
+  @mixin magical-letter-animation($type) {
+    @include animation($type);
   }
-  .magical-letterpulse {
-    @include animation('Pulse');
-  }
+     
+    // Apply the mixin to each class
+    .magical-letter {
+      @include magical-letter-animation('Appearance');
+    }
+    .magical-letterpulse {
+      @include magical-letter-animation('Pulse');
+    }
+  
   .magical-letterfade {
-    @include animation('Fade');
+    @include magical-letter-animation('Fade');
   }
   .magical-letterflip {
-    @include animation('Flip');
+    @include magical-letter-animation('Flip');
   }
   .magical-letterspin {
-    @include animation('Spin');
+    @include magical-letter-animation('Spin');
   }
   .magical-letterslide {
-    @include animation('Slide');
+    @include magical-letter-animation('Slide');
   }
   .magical-letterbounce {
-    @include animation('Bounce');
+    @include magical-letter-animation('Bounce');
   }
   

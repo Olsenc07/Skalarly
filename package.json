@@ -2,12 +2,13 @@
   "name": "skalarly-fs",
   "version": "1.0.0",
   "description": "connection",
-  "main": "/app/backend/server.js",
+  "type": "module",
+  "main": "/skalarly-fs/backend/server.js",
   "scripts": {
     "test": "cypress",
-    "start": "node /app/backend.server.js",
+    "start": "node /Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/server.js",
     "heroku-postbuild": "cd skalarly-frontend && npm install && npm run build",
-    "dev": "nodemon ./backend/server.js"
+    "dev": "nodemon /Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/Olsenc07/skalarly-fs#readme",
   "dependencies": {
+    "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",

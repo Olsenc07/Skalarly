@@ -1,7 +1,7 @@
-import { Schema, model } from 'mongoose';
-const uniqueValidator = require('mongoose-unique-validator');
+import mongoose, { model } from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
 
-const skalarSchema = Schema({
+const skalarSchema = mongoose.Schema({
    email: { type: String, required: true},
    emailToken: { type: String },
    isVerified: { type: String },

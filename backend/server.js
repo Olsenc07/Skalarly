@@ -1,18 +1,34 @@
-// SERVER NODE.JS
+// SERVER NODE.JS Using ES6 module
 import express from 'express';
-const bodyParser = require('body-parser');
-import https from 'http';
-
+import bodyParser from 'body-parser';
+import https from 'https';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import fs from 'fs';
+// Browser Push Notifications
+import webpush from 'web-push';
+// MongoDB
+import mongoose from 'mongoose';
+// Routes
+import accountManagementRoute from './routes/account-management.js';
+import authorizeRoute from './routes/authorize.js';
+import schoolsRoute from './routes/institutions-info.js';
+import skalarsRoute from './routes/skalars.js';
+// Constructing __dirname 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 // App Variables
 // Express
 const app = express();
-const routes = require('/app/backend/api');
-app.use('/api', routes)
-const server = https.createServer(app)
+const server = https.createServer(
+//   {
+//   key: fs.readFileSync('path/to/private.key'),
+//   cert: fs.readFileSync('path/to/certificate.crt')
+// }, 
+app);
 const port = process.env.PORT || 4200;
 
-// MongoDB
-const mongoose = require('mongoose');
+
 //  DataBase connection
 mongoose.connect(process.env.mongodb)
 .then(()  => {
@@ -21,16 +37,6 @@ mongoose.connect(process.env.mongodb)
 .catch(() => {
     console.log('Not connected to database');
 });
-
-// Browser Push Notifications
-const webpush = require('web-push');
-
-// Routes
-const accountManagementRoute = require('/skalarly-fs/backend/routes/account-management.js');
-const authorizeRoute = require('/skalarly-fs/backend/routes/authorize');
-const schoolsRoute = require('/skalarly-fs/backend/routes/institutions-info');
-const skalarsRoute = require('/skalarly-fs/backend/routes/skalars');
-
 
 // Server Activation
 server.listen(port, () => {
@@ -41,10 +47,14 @@ server.listen(port, () => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(express.static('build'));
-app.use('/account-management', express.static('/app/backend/account-management'));
-app.use('/authorize', express.static('/app/backend/authorize'));
-app.use('/schools', express.static('/app/backend/institutions-info'));
-app.use('/skalars', express.static('/app/backend/skalars'));
+app.use('/account-management', express.static('/skalarly-fs/backend/routes/account-management.js'));
+app.use('/authorize', express.static('/skalarly-fs/backend/routes/authorize.js'));
+app.use('/schools', express.static('/skalarly-fs/backend/routes/institutions-info.js'));
+app.use('/skalars', express.static('/skalarly-fs/backend/routes/skalars.js'));
+
+// Static files
+const angularAppPath = join(__dirname, '/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src/app');
+app.use(express.static(angularAppPath));
 
 // CORS
 app.use((req, res, next) => {
@@ -75,15 +85,12 @@ function requireHTTPS(req, res, next) {
 // app.use(express.static('/app/../static'));
 
 // Catch-all route to serve the Angular app
-app.get("/", requireHTTPS, (req, res) => {
-    res.status(200).sendFile('/app/skalarly-frontend/src/app');   
+app.get("*", requireHTTPS, (req, res) => {
+  res.status(200).sendFile(join(angularAppPath, 'index.html'));   
 })
-app.get('*', requireHTTPS, (req, res) => {
-  res.sendFile('/app/skalarly-frontend/static/index.html');
-});
 // PWA 
 app.get("/worker.js", (req, res) => {
-    res.sendFile('/app/skalarly-frontend/src/worker.js');
+  res.status(200).sendFile(join(angularAppPath, 'worker.js'));
   });
 
 export default app

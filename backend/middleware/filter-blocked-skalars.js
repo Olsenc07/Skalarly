@@ -1,4 +1,4 @@
-import { findById } from '/app/backend/models/SkalarInfo';
+import SkalarInfo  from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/models/skalarInfo.js';
 
 const filterBlockedUsers = async (req, res, next) =>  {
     try {
@@ -7,7 +7,7 @@ const filterBlockedUsers = async (req, res, next) =>  {
     const idSearch = req.query?.id;
 
     if(idSearch){
-    const userSearch = await findById(idSearch).exec();
+    const userSearch = await SkalarInfo.findById(idSearch).exec();
 
     if (!userSearch) {
       return res.status(404).json({ message: 'Skalar not found.' });
@@ -17,7 +17,7 @@ const filterBlockedUsers = async (req, res, next) =>  {
    next(); // Continue to the next middleware or route handler
     }
   }else{
-      const user = await findById(userId).exec();
+      const user = await SkalarInfo.findById(userId).exec();
       // Filter out blocked users from the search query
       const filteredQuery = {
         $and: [
@@ -36,5 +36,5 @@ const filterBlockedUsers = async (req, res, next) =>  {
 });
 }
 };
-  // Export the middleware function for use in routes
-module.exports = filterBlockedUsers;
+
+export default filterBlockedUsers;

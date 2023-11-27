@@ -1,10 +1,12 @@
 import { Router } from 'express';
 const router = Router();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import verifyEmail from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/middleware/verify-email.js';
+
 
 // Models Used
-import { findOne } from '/app/backend/models/skalar';
+import  Skalar  from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/models/skalar.js';
 
 // Login
 // verify email can be done when seeing if email exist
@@ -15,7 +17,7 @@ router.post("/login", verifyEmail, async(reg, res, next) => {
     console.log('login body stayloggedin', reg.body.stayLoggedIn);
 
 
-    await findOne({ email: reg.body.email })
+    await Skalar.findOne({ email: reg.body.email })
     .then(test1 => {
         console.log('test1', test1)
         UserInfo.findOne({username: test1.username})
@@ -95,7 +97,7 @@ if(userInfo){
 // stayLoggedIn
 router.post("/stayLoggedIn",  async(reg, res, next) => {
     console.log('got the jam', reg.body.UserId);
-   await User.findOne({ _id: reg.body.UserId })
+   await Skalar.findOne({ _id: reg.body.UserId })
     .then(user => {
             fetchedUser = user;
     const token = jwt.sign(

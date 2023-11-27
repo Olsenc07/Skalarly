@@ -37,7 +37,7 @@ $form-margins: (
     overflow: hidden; 
 }
   button[join] {
-    @include responsive.responsiveFontSize;
+    @include responsive.responsiveFontSize();
       margin: 1% 0%;
       position: relative; // Needed for absolute positioning of children
       overflow: hidden; // To handle any overflow issues
@@ -178,10 +178,10 @@ div[column] {
       display: inline-flex;
       justify-content: center;
       align-items: center;
-      @include responsive.responsiveFontSize
+      @include responsive.responsiveFontSize()
     }
     div[skalarly] {
-      @include responsive.responsiveFontSizeLarger; 
+      @include responsive.responsiveFontSize('larger'); 
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent; 
@@ -194,7 +194,7 @@ div[column] {
 h2 {
   margin: 1% 0%;
   color: #bdc3c7;
-  @include responsive.responsiveFontSize; 
+  @include responsive.responsiveFontSize(); 
 }
       .input-boxes{
         display: flex;

@@ -1,14 +1,14 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import { find, findOne, findById } from '/app/backend/models/SkalarInfo';
+import  SkalarInfo  from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/models/skalarInfo.js';
 
 // Middleware
-const filterBlockedUsers = require('/app/backend/middleware/filter-blocked-skalars');
+import filterBlockedUsers from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/middleware/filter-blocked-skalars.js';
 
 // searching self
 router.get('/selfInfo', async(req,res) => {
-    await findOne({Creator: req.query.userId})
+    await SkalarInfo.findOne({Creator: req.query.userId})
         // .select('-password') if i was fetching user info, dont want password passed on front end
         .then(documents => {
             res.status(200).json({
@@ -41,7 +41,7 @@ router.get('/skalarsInfo', filterBlockedUsers, async(req,res) => {
 
             });
           }
-        const skalars = await findById(idProfile).exec();
+        const skalars = await SkalarInfo.findById(idProfile).exec();
         if (skalars) {
           console.log('Skalar found', skalars);
           res.status(200).json(skalars);
@@ -64,7 +64,7 @@ router.get('/skalarsInfoSearch', filterBlockedUsers, async(req,res) => {
     const filteredQuery = req.filteredQuery;
     console.log('search input', input);
     console.log('filteredQuery', filteredQuery);
-    await find({ $and: [
+    await SkalarInfo.find({ $and: [
         {
      username: { // searching for skalar
         $regex: new RegExp(input,'gi')

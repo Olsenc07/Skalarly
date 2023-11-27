@@ -1,14 +1,5 @@
 @use '../universal-reusable-styles/break-points' as device;
-// responsive mobile first
-$fontSize: map-get(device.$font-sizes, 'base');
-$fontSubSize: map-get(device.$font-sub-sizes, 'base');
-:root {
-  --font-size: #{$fontSize};
-  --font-sub-size: #{$fontSubSize};
-  --font-size-smaller: calc(var(--font-size) - var(--font-sub-size));
-  --font-size-larger: calc(var(--font-size) + var(--font-sub-size));
-  --line-height: #{map-get(device.$line-heights, 'base')};
-}
+
 // reusable algorithms
 @mixin media-query($screen, $min-width) {
     $index: index(map-keys(device.$device-sizes), $screen);
@@ -24,58 +15,38 @@ $fontSubSize: map-get(device.$font-sub-sizes, 'base');
         @content;
       }
 }
-@mixin mobileFirst {
-    font-family: var(--skalarly-font);
-    font-size: var(--font-size);
-    line-height: calc(var(--font-size) * var(--line-height));
+// Shared font style mixin
+@mixin fontStyles($sizeVariant: 'default') {
+  font-family: var(--skalarly-font);
+  $fontSizeVar: if($sizeVariant == 'smaller', '--font-size-smaller', if($sizeVariant == 'larger', '--font-size-larger', '--font-size'));
+  font-size: #{$fontSizeVar};
+  line-height: calc(#{$fontSizeVar} * var(--line-height));
 }
-@mixin mobileFirstSmaller {
-    font-family: var(--skalarly-font);
-    --font-sizeS: calc(var(--font-size) - var(--font-sub-size));
-    font-size: var(--font-sizeS) ;
-    line-height: calc(var(--font-sizeS) * var(--line-height));
-}
-@mixin mobileFirstLarger {
-    font-family: var(--skalarly-font);
-    --font-sizeL: calc(var(--font-size) + var(--font-sub-size));
-    font-size: var(--font-sizeL) ;
-    line-height: calc(var(--font-sizeL) * var(--line-height));
-}
-// Actual styles
-@mixin responsiveFontSize {  
-    @include mobileFirst;
-    @each $screen, $min-width in device.$device-sizes {
+// Responsive font size mixin with size variants
+@mixin responsiveFontSize($sizeVariant: 'default') {
+  @include fontStyles($sizeVariant);
+
+  @each $screen, $min-width in device.$device-sizes {
     @if $screen != 'base' {
       @include media-query($screen, $min-width) {
-        // Apply the media query with the constructed conditions.
-          --font-size: #{map-get(device.$font-sizes, $screen)};
-          --line-height: #{map-get(device.$line-heights, $screen) * map-get(device.$font-sizes, $screen)};
-          font-size: var(--font-size);
-          line-height: var(--line-height);
-        }}}
+        --font-size: #{map-get(device.$font-sizes, $screen)};
+        --font-sub-size: #{map-get(device.$font-sub-sizes, $screen)};
+        --line-height: #{map-get(device.$line-heights, $screen) * map-get(device.$font-sizes, $screen)};
+        font-size: var(--font-size);
+        line-height: var(--line-height);
+      }
+    }
   }
-  @mixin responsiveFontSizeSmaller {  
-    @include mobileFirstSmaller;
-    @each $screen, $min-width in device.$device-sizes {
-    @if $screen != 'base' {
-        @include media-query($screen, $min-width) {
-          --font-size: #{map-get(device.$font-sizes, $screen)};
-          --font-sub-size: #{map-get(device.$font-sub-sizes, $screen)};
-          --line-height: #{map-get(device.$line-heights, $screen) * map-get(device.$font-sizes, $screen)};
-          font-size: calc(var(--font-size) - var(--font-sub-size));
-          line-height: calc(var(--font-size) * var(--line-height));
-        }}}
-  }
-  @mixin responsiveFontSizeLarger {  
-   @include mobileFirstLarger;
-    @each $screen, $min-width in device.$device-sizes {
-    @if $screen != 'base' {
-        @include media-query($screen, $min-width) {
-          --font-size: #{map-get(device.$font-sizes, $screen)};
-          --font-sub-size: #{map-get(device.$font-sub-sizes, $screen)};
-          --line-height: #{map-get(device.$line-heights, $screen) * map-get(device.$font-sizes, $screen)};
-          font-size: calc(var(--font-size) + var(--font-sub-size));
-          line-height: calc(var(--font-size) * var(--line-height));
-        }}}
-  }
-  
+}
+// Apply the mixins
+.font-size-small {
+  @include responsiveFontSize('smaller');
+}
+
+.font-size-default {
+  @include responsiveFontSize();
+}
+
+.font-size-large {
+  @include responsiveFontSize('larger');
+}
