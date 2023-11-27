@@ -84,7 +84,6 @@ export class AppComponent implements OnDestroy {
     this.visible = display; // Show icon when hold is detected
   }
   onDeltaYChange(reload: number): void {
-    console.log('word', reload);
     if (reload == 1) {
       this.reloadState = 'initial';
     }

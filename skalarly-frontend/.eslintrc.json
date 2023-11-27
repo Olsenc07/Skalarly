@@ -5,6 +5,7 @@
   ],
   "env": {
     "browser": true,
+    "jasmine": true,
     "node": true
   },
   "overrides": [
@@ -67,7 +68,7 @@
       "files": [
         "*.html"
       ],
-      "plugins": ["rxjs-angular"],
+      "plugins": ["rxjs-angular", "jasmine"],
       "extends": [
         "plugin:@angular-eslint/template/recommended"
       ],

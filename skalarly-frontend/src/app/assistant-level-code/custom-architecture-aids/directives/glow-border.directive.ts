@@ -38,7 +38,6 @@ export class GlowBorderDirective implements AfterViewInit, OnDestroy {
       );
     }
   }
-
   private updateGlow(isInvalid: boolean): void {
     if (isInvalid) {
       this.hasError = !this.ngControl.untouched;
