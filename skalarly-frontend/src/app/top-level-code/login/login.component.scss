@@ -31,7 +31,8 @@ $form-margins: (
     // border neat
     border-top: 15px solid transparent;
     border-left: 15px solid transparent;    
-    border-image: linear-gradient(308deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7)) 1 stretch;
+    // border-image: linear-gradient(308deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 75, 179, 0.7)) 1 stretch;
+    border-image: linear-gradient(308deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
     padding-bottom: 1%;
     margin: 1%;
     overflow: hidden; 
@@ -98,7 +99,7 @@ $form-margins: (
     top: 50%;
     left: 75%;
   }
-  form {
+  div[entire-page] {
     @include responsiveMargins;
     @include common.common;
     position: relative;
@@ -194,14 +195,14 @@ div[column] {
 h2 {
   margin: 1% 0%;
   color: #bdc3c7;
-  @include responsive.responsiveFontSize(); 
+  @include responsive.responsiveFontSize('larger'); 
 }
       .input-boxes{
         display: flex;
         justify-content: center;
         border-right: 15px solid transparent;
         border-bottom: 15px solid transparent;    
-        border-image: linear-gradient(135deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 86, 179, 0.7)) 1 stretch;
+        border-image: linear-gradient(135deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
         padding-bottom: 1%;
         margin: 1%;
         overflow: hidden; 

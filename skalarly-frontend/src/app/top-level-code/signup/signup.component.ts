@@ -28,6 +28,7 @@ import { InstitutionInfoService } from 'src/app/assistant-level-code/custom-arch
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatStepperModule } from '@angular/material/stepper';
 import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
 import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-dropdown-signup/reusable-dropdown-signup.component';
 import { ReusableInputPasswordComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-password/reusable-input-password.component';
@@ -48,6 +49,7 @@ import { passwordValidator } from '../../assistant-level-code/custom-architectur
     HttpClientModule,
     MatButtonModule,
     MatSelectModule,
+    MatStepperModule,
     ReusableDropDownComponent,
     ReusableInputsComponent,
     RemoveSpacesPipe,
@@ -195,7 +197,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
       control.setValue(value);
     }
   }
-
+  sendEmail(): void {
+    console.log('email sent');
+  }
   // state-province selection
   stateSelection(stateProvince: InstitutionDataInterface): void {
     // this.institutions$ = this.institutionInfoService.getInstituitonsData(

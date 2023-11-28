@@ -4,10 +4,6 @@
 $random-pair: universal.random-color-pair();
 $firstChoice: map-get($random-pair, primary);
 $secondChoice: map-get($random-pair, pairing);
-:root {
-  --first: #{$firstChoice};
-  --second: #{$secondChoice};
-};
 $device-sizes: (
  base: 576px, //mobile devices typically 0px - 576px
  tablet: 768px, //ipads & tablets 577x - 768px

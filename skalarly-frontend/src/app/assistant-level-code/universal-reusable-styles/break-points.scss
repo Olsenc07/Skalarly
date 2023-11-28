@@ -23,11 +23,11 @@ $font-sizes: (
 );
 // sub font sizes chart
 $font-sub-sizes: (
-  base: .05rem,
-  tablet: .075rem,
-  laptop: .1rem,
-  desktop: .125rem,
-  tv: .15rem
+  base: .5rem,
+  tablet: .1rem,
+  laptop: .15rem,
+  desktop: .2rem,
+  tv: .3rem
 );
 // scale line height by * font size
 $line-heights: (
@@ -46,15 +46,4 @@ $chip-sizes: (
    tv: 55%
 );
 $input-margin: 3%; 
-
-{map-get($font-sizes, 'base')};
-{map-get($font-sub-sizes, 'base')};
-// responsive mobile first
-:root {
-  --font-size: 
-  --font-sub-size: 
-  --font-size-smaller: calc(#{$font-size} - #{font-sub-size});
-  --font-size-larger: calc(var(--font-size) + var(--font-sub-size));
-  --line-height: #{map-get($line-heights, 'base')};
-}
 

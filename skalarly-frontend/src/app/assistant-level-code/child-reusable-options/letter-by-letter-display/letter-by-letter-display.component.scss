@@ -1,80 +1,36 @@
 @use 'src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @use 'src/app/assistant-level-code/universal-reusable-styles/common' as universal;
 
-// animations-7 conditions
+$animation-properties: (
+  'Appearance': (scale-start: 0.8, rotate-start: -10deg, opacity-start: 0.5, scale-mid: 1.1, rotate-mid: 10deg, opacity-mid: 1, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
+  'Pulse': (scale-start: 1, rotate-start: 0deg, opacity-start: 1, scale-mid: 1.2, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
+  'Fade': (scale-start: 0.5, rotate-start: 0deg, opacity-start: 0, scale-mid: 1.2, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
+  'Flip': (scale-start: 1, rotate-start: 0deg, opacity-start: 0, scale-mid: 1, rotate-mid: 180deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 360deg, opacity-end: 1),
+  'Spin': (scale-start: 1, rotate-start: 0deg, opacity-start: 0.5, scale-mid: 1, rotate-mid: 180deg, opacity-mid: 1, scale-end: 1, rotate-end: 360deg, opacity-end: 1),
+  'Slide': (scale-start: 1, rotate-start: 0deg, opacity-start: 0.5, scale-mid: 1, rotate-mid: 0deg, opacity-mid: 1, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
+  'Bounce': (scale-start: 1, rotate-start: 0deg, opacity-start: 1, scale-mid: 1, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1)
+);
 @mixin animation($animation-type) {
   display: inline-block;
   color: var(--pairingColor);
-  @if $animation-type == 'Appearance' {
-    // Existing properties for 'Appearance'
-  } @else if $animation-type == 'Pulse' {
-    --scale-start: 1;
-    --rotate-start: 0deg;
-    --opacity-start: 1;
-    --scale-mid: 1.2;
-    --rotate-mid: 0deg;
-    --opacity-mid: 0.5;
-    --scale-end: 1;
-    --rotate-end: 0deg;
-    --opacity-end: 1;
-  } @else if $animation-type == 'Fade' {
-    --scale-start: 0.5;
-    --rotate-start: 0deg;
-    --opacity-start: 0;
-    --scale-mid: 1.2;
-    --rotate-mid: 0deg;
-    --opacity-mid: 0.5;
-    --scale-end: 1;
-    --rotate-end: 0deg;
-    --opacity-end: 1;
-  } @else if $animation-type == 'Flip' {
-    --scale-start: 1;
-    --rotate-start: 0deg;
-    --opacity-start: 0;
-    --scale-mid: 1;
-    --rotate-mid: 180deg;
-    --opacity-mid: 0.5;
-    --scale-end: 1;
-    --rotate-end: 360deg;
-    --opacity-end: 1;
-  } @else if $animation-type == 'Spin' {
-    --scale-start: 1;
-    --rotate-start: 0deg;
-    --opacity-start: 0.5;
-    --scale-mid: 1;
-    --rotate-mid: 180deg;
-    --opacity-mid: 1;
-    --scale-end: 1;
-    --rotate-end: 360deg;
-    --opacity-end: 1;
-  }   @else if $animation-type == 'Slide' {
-    --scale-start: 1;
-    --rotate-start: 0deg;
-    --opacity-start: 0.5;
-    --scale-mid: 1;
-    --rotate-mid: 0deg;
-    --opacity-mid: 1;
-    --scale-end: 1;
-    --rotate-end: 0deg;
-    --opacity-end: 1;
-    // Customize further if needed
-  } @else if $animation-type == 'Bounce' {
-    --scale-start: 1;
-    --rotate-start: 0deg;
-    --opacity-start: 1;
-    --scale-mid: 1;
-    --rotate-mid: 0deg;
-    --opacity-mid: 0.5;
-    --scale-end: 1;
-    --rotate-end: 0deg;
-    --opacity-end: 1;
+  
+  $properties: map-get($animation-properties, $animation-type);
+  @each $property, $value in $properties {
+    --#{$property}: #{$value};
   }
+  @keyframes animation#{$animation-type} {
+    0% { transform: scale(var(--scale-start)) rotate(var(--rotate-start)); opacity: var(--opacity-start); }
+    50% { transform: scale(var(--scale-mid)) rotate(var(--rotate-mid)); opacity: var(--opacity-mid); }
+    100% { transform: scale(var(--scale-end)) rotate(var(--rotate-end)); opacity: var(--opacity-end); }
+  }
+
+  animation: animation#{$animation-type} 1s ease-in-out forwards;
 }
 
 .font-size {
-  &-small { font-size: var(--font-size-smaller) }
-  &-default { font-size: var(--font-size) }
-  &-large { font-size: var(--font-size-larger) }
+  &-small {  @include responsive.responsiveFontSize('smaller'); }
+  &-default { @include responsive.responsiveFontSize(); }
+  &-large {  @include responsive.responsiveFontSize('larger'); }
 }
 @keyframes glow-animation {
   from { opacity: 0; transform: translateX(-100%); }
@@ -90,6 +46,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+ 
   .animations{
     @include animationEnter(0.5s);
   }

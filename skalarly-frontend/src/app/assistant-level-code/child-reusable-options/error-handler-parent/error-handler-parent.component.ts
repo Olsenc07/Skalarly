@@ -9,7 +9,6 @@ import { dialog } from '../../custom-architecture-aids/animations/dialog-animati
   standalone: true,
   imports: [CommonModule, ErrorHandlerComponent, LoginComponent],
   templateUrl: './error-handler-parent.component.html',
-  styleUrl: './error-handler-parent.component.scss',
   animations: [dialog]
 })
 export class ErrorHandlerParentComponent {}

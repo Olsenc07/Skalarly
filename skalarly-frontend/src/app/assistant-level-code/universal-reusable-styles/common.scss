@@ -28,58 +28,59 @@ $all: 100%;
 }
 $color-pairs: (
   'mystic-turquoise': (
-    primary: #287182, // Darker Mystic Turquoise
-    pairing: #4f6d7a  // Steel Blue
+    primary: rgba(40, 113, 130, 0.5), // Faded Mystic Turquoise
+    pairing: rgba(79, 109, 122, 0.5)  // Faded Steel Blue
   ),
   'celestial-blue': (
-    primary: #3b5a91, // Darker Celestial Blue
-    pairing: #5a7d9a  // Atlantic Blue
+    primary: rgba(59, 90, 145, 0.5), // Faded Celestial Blue
+    pairing: rgba(90, 125, 154, 0.5)  // Faded Atlantic Blue
   ),
   'sapphire-blue': (
-    primary: #1e4379, // Darker Sapphire Blue
-    pairing: #486b83  // Oceanic Blue
+    primary: rgba(30, 67, 121, 0.5), // Faded Sapphire Blue
+    pairing: rgba(72, 107, 131, 0.5)  // Faded Oceanic Blue
   ),
   'shimmering-sky': (
-    primary: #6ea4d4, // Darker Shimmering Sky
-    pairing: #7fb7be  // Sky Reflection Blue
+    primary: rgba(110, 164, 212, 0.5), // Faded Shimmering Sky
+    pairing: rgba(127, 183, 190, 0.5)  // Faded Sky Reflection Blue
   ),
   'nebula-navy': (
-    primary: #000080, // Nebula Navy
-    pairing: #3c6997  // Nautical Blue
+    primary: rgba(0, 0, 128, 0.5), // Faded Nebula Navy
+    pairing: rgba(60, 105, 151, 0.5)  // Faded Nautical Blue
   ),
   'steel-blue': (
-    primary: #4f6d7a, // Steel Blue
-    pairing: #778da9  // Dusty Blue
+    primary: rgba(79, 109, 122, 0.5), // Faded Steel Blue
+    pairing: rgba(119, 141, 169, 0.5)  // Faded Dusty Blue
   ),
   'atlantic-blue': (
-    primary: #5a7d9a, // Atlantic Blue
-    pairing: #94c9a9  // Teal Blue
+    primary: rgba(90, 125, 154, 0.5), // Faded Atlantic Blue
+    pairing: rgba(148, 201, 169, 0.5)  // Faded Teal Blue
   ),
   'oceanic-blue': (
-    primary: #486b83, // Oceanic Blue
-    pairing: #005f73  // Deep Sea Blue
+    primary: rgba(72, 107, 131, 0.5), // Faded Oceanic Blue
+    pairing: rgba(0, 95, 115, 0.5)    // Faded Deep Sea Blue
   ),
   'dusty-blue': (
-    primary: #778da9, // Dusty Blue
-    pairing: #6ea4d4  // Darker Shimmering Sky
+    primary: rgba(119, 141, 169, 0.5), // Faded Dusty Blue
+    pairing: rgba(110, 164, 212, 0.5)  // Faded Darker Shimmering Sky
   ),
   'nautical-blue': (
-    primary: #3c6997, // Nautical Blue
-    pairing: #3b5a91  // Darker Celestial Blue
+    primary: rgba(60, 105, 151, 0.5), // Faded Nautical Blue
+    pairing: rgba(59, 90, 145, 0.5)   // Faded Darker Celestial Blue
   ),
   'deep-sea-blue': (
-    primary: #005f73, // Deep Sea Blue
-    pairing: #287182  // Darker Mystic Turquoise
+    primary: rgba(0, 95, 115, 0.5), // Faded Deep Sea Blue
+    pairing: rgba(40, 113, 130, 0.5) // Faded Darker Mystic Turquoise
   ),
   'teal-blue': (
-    primary: #94c9a9, // Teal Blue
-    pairing: #1e4379  // Darker Sapphire Blue
+    primary: rgba(148, 201, 169, 0.5), // Faded Teal Blue
+    pairing: rgba(30, 67, 121, 0.5)   // Faded Darker Sapphire Blue
   ),
   'sky-reflection-blue': (
-    primary: #7fb7be, // Sky Reflection Blue
-    pairing: #000080  // Nebula Navy
+    primary: rgba(127, 183, 190, 0.5), // Faded Sky Reflection Blue
+    pairing: rgba(0, 0, 128, 0.5)      // Faded Nebula Navy
   )
 );
+
 @function random-color-pair() {
   $keys: map-keys($color-pairs);
   $random-key: nth($keys, random(length($keys)));

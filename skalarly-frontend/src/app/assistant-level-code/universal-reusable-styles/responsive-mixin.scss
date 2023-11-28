@@ -15,38 +15,54 @@
         @content;
       }
 }
-// Shared font style mixin
+// Mobile First Shared font style mixin
 @mixin fontStyles($sizeVariant: 'default') {
+$base-font-size: map-get(device.$font-sizes, 'base');
+$base-font-sub-size: map-get(device.$font-sub-sizes, 'base');
+$base-line-height: map-get(device.$line-heights, 'base');
+$final-font-size: $base-font-size; // Default size
+  // Adjust font size based on variant
+  @if $sizeVariant == 'smaller' {
+    $final-font-size: calc($base-font-size - $base-font-sub-size);
+  } @else if $sizeVariant == 'larger' {
+    $final-font-size: calc($base-font-size + $base-font-sub-size);
+  }
   font-family: var(--skalarly-font);
-  $fontSizeVar: if($sizeVariant == 'smaller', '--font-size-smaller', if($sizeVariant == 'larger', '--font-size-larger', '--font-size'));
-  font-size: #{$fontSizeVar};
-  line-height: calc(#{$fontSizeVar} * var(--line-height));
+  font-size: $final-font-size;
+  line-height: calc($final-font-size * $base-line-height);
 }
-// Responsive font size mixin with size variants
+// if not base, scale with screen sizes
 @mixin responsiveFontSize($sizeVariant: 'default') {
   @include fontStyles($sizeVariant);
 
   @each $screen, $min-width in device.$device-sizes {
     @if $screen != 'base' {
       @include media-query($screen, $min-width) {
-        --font-size: #{map-get(device.$font-sizes, $screen)};
-        --font-sub-size: #{map-get(device.$font-sub-sizes, $screen)};
-        --line-height: #{map-get(device.$line-heights, $screen) * map-get(device.$font-sizes, $screen)};
-        font-size: var(--font-size);
-        line-height: var(--line-height);
+        $screen-font-size: map-get(device.$font-sizes, $screen);
+        $screen-font-sub-size: map-get(device.$font-sub-sizes, $screen);
+        $screen-line-height: map-get(device.$line-heights, $screen);
+        $final-font-size: $screen-font-size;
+        // Adjust the font size based on the screen
+        @if $sizeVariant == 'smaller' {
+          $final-font-size: $screen-font-size - $screen-font-sub-size;
+        } @else if $sizeVariant == 'larger' {
+          $final-font-size: $screen-font-size + $screen-font-sub-size;
+        }
+        $final-line-height: $final-font-size * $screen-line-height;
+
+        font-size: $final-font-size;
+        line-height: $final-line-height;
       }
     }
   }
 }
-// Apply the mixins
-.font-size-small {
-  @include responsiveFontSize('smaller');
-}
-
+// three options
 .font-size-default {
   @include responsiveFontSize();
 }
-
+.font-size-small {
+  @include responsiveFontSize('smaller');
+}
 .font-size-large {
   @include responsiveFontSize('larger');
 }

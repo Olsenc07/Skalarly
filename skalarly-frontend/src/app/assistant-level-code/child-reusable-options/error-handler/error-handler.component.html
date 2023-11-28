@@ -1,16 +1,16 @@
-    <div >
-        <div mat-card-title>We have a message for you</div>
-        <mat-divider></mat-divider>
-        <span class="material-symbols-outlined icon">
-            self_improvement
-            </span>
-    </div>
+    <div class="error-screen">
+        <div mat-card-title>Hello Fellow Skalar</div>
+        <div mat-card-subtitle>We have a message for you</div>
     <div >
     <div mat-dialog-content>
-    <div >{{ data.message }}</div>
+    <div class="error-message">{{ data.message }}</div>
     </div>
-    <div >
-        <h2> Need to login?</h2>
-        <ng-content select="[login-projectable]"></ng-content>
+
+        <button mat-raised-button
+        routerLink="/sign-up" >Create Account?</button>
+        <app-login-format>
+            <ng-content select="[login-projectable]">
+            </ng-content>
+        </app-login-format>
     </div>
-    </div>
+</div>

@@ -1,0 +1,48 @@
+@use '/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src/app/assistant-level-code/universal-reusable-styles/responsive-mixin.scss' as responsive;
+.error-screen {
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 30px;
+  margin: auto;
+  
+div[mat-card-title] {
+    @include responsive.responsiveFontSize('large');
+    text-align: center;
+    }
+div[mat-card-subtitle] {
+    @include responsive.responsiveFontSize('smaller');
+    color: #666;
+    text-align: center;
+      }
+
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include responsive.responsiveFontSize();
+      border-image: linear-gradient(308deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
+    }
+  
+    div[mat-dialog-content] {
+        padding: 15px;
+        text-align: center;
+        color: #333;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    
+        .error-message {
+          color: rgb(243, 100, 95);
+          font-weight: 500;
+          line-height: 1.5;
+        }
+    }
+    h2 {
+        @include responsive.responsiveFontSize('large');
+        color: #3b5998; // A softer color for the login prompt
+      }
+  }

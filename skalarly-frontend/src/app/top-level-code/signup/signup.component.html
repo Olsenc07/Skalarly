@@ -1,6 +1,8 @@
 <progress id="progress" [value]="progressValue" max="100"> </progress>
-<!-- choosing the instituiton sets email varification
-have canada, usa at top  -->
+<mat-stepper #stepper linear>
+  <mat-stepper orientation="vertical">
+  <div> First page 
+<mat-step>
 <app-reusable-dropdown [countryApi]="true" [label]="'Country of study'" [List$]="country$"
 (selectedChange)="updateCountrySelection($event)" [hint]="'Which country do you study in?'">
 </app-reusable-dropdown>
@@ -16,7 +18,12 @@ have canada, usa at top  -->
 (selectedChange)="chosenInstituition($event)" [hint]="'Current academic instituiton'">
 </app-reusable-dropdown>
 </ng-container>
+<div>
+  <button mat-button matStepperNext type="button">Next</button>
+</div>
+</mat-step>
 <!-- make this form in a reusable file!! -->
+<mat-step >  
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
   <app-reusable-inputs [control]="usernameControl" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
   [error]="getError('username') | errorPipe"
@@ -30,8 +37,15 @@ have canada, usa at top  -->
   (controlValueChanged)="handleValueChange('password', $event)"></app-reusable-input-password>
   
   <!-- Password Requirements -->
-<button mat-raised-button type="submit" [disabled]="signUpForm.invalid">
+<button mat-raised-button type="submit" [disabled]="signUpForm.invalid" initial>
   Validate
 </button>
 </form>
+<div>
+  <button mat-button matStepperPrevious type="button">Back</button>
+  <button mat-button matStepperNext type="button" (click)="sendEmail()">Next</button>
+</div></mat-step>
 <!-- Onto Validation 7 digits from email-->
+</div>
+
+</mat-stepper>

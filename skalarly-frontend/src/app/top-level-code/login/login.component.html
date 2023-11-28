@@ -1,5 +1,6 @@
  @defer {
-<form [formGroup]="loginForm" (ngSubmit)="login()">
+    <!-- content projection to be used in error handler -->
+<div entire-page>
   <div class="login-header">
     <!-- logo full fades in on valid email -->
     <img ngSrc="assets/images/Skalar_Hat_Icon.png" priority
@@ -11,8 +12,8 @@
       </div>
   </h2>
   </div>
-  <!-- content projection to be used in error handler -->
   <ng-container login-projectable>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
   <div class="input-boxes" >
     <div>
 <span inputs>
@@ -117,10 +118,9 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </div>
 </div>
 </div>
-</ng-container>
-
 </form>
-
+</ng-container>
+</div>
 <!-- welcome and join animation -->
 <div class="welcome-container">
 @if (!nextAnimations) {
