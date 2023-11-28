@@ -1,15 +1,13 @@
-@use '/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src/app/assistant-level-code/universal-reusable-styles/responsive-mixin.scss' as responsive;
+@use '/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 .error-screen {
-    display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  padding: 30px;
-  margin: auto;
-  
+  button{
+    color: var(--pairingColor)
+  }
 div[mat-card-title] {
     @include responsive.responsiveFontSize('large');
     text-align: center;

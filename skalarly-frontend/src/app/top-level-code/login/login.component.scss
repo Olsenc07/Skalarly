@@ -50,7 +50,6 @@ $form-margins: (
         box-shadow: 3px 3px #93b9e6;
       }
       color: white;
-      font-family: 'Cormorant Garamond', serif;
       // add ons
       &[mat-raised-button]{
       @include animation.riseFloat;

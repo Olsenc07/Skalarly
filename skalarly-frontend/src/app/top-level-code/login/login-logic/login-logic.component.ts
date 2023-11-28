@@ -33,11 +33,11 @@ import { MatButton } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { loginImports } from '../imports/login-imports';
 import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
-import { reusableAnimations } from './../imports/logic-animation-imports';
+import { reusableLogicAnimations } from './../imports/animation-logic-imports';
 @Component({
   selector: 'app-login-logic',
   standalone: true,
-  animations: [...reusableAnimations],
+  animations: [...reusableLogicAnimations],
   imports: [
     loginImports,
     CommonModule,
