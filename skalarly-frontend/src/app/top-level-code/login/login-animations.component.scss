@@ -8,19 +8,6 @@
   }
 }
 }
-@mixin shakeLogin{
-@keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  25%, 75% {
-    transform: translateX(-5px); 
-  }
-  50% {
-    transform: translateX(5px); 
-  }
-}
-}
 @mixin fadeAway{
     @keyframes fadeOut {
       0% {
@@ -46,25 +33,7 @@
   }
 }
 
-@mixin magic {
-  @keyframes rotateAndShimmer {
-   0% {
-      transform: rotate(0deg);
-      background: linear-gradient(75deg, #add8e6, var(--pairingColor), var(--pairingColor2));
-      background-position: 0 0;
-      opacity: 1;
-    }
-    80% {
-      transform: rotate(360deg);
-      background: linear-gradient(75deg, #add8e6, var(--pairingColor), var(--pairingColor2));
-      background-position: 500px 0;
-      opacity: 1; 
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-}
+
 @mixin gradientFlow {
 @keyframes gradient-flow {
   0%, 100% {

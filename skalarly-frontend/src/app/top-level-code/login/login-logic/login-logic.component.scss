@@ -1,0 +1,108 @@
+@use 'login-logic-animations.component' as animation;
+@use '../../../assistant-level-code/universal-reusable-styles/break-points' as device;
+@use '../../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
+@use '../../../assistant-level-code/universal-reusable-styles/common' as common;
+div[column] {
+    @include common.common;
+    padding: 3% 1% 0% 1%;
+  
+    &:first-of-type {
+      mat-form-field {
+        justify-content: flex-start;
+      }
+    }
+    &:not(:first-of-type) 
+      mat-form-field{
+      justify-content: flex-end;
+    }
+  }
+div[loginButton]{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    @include responsive.responsiveFontSize()
+  }
+div[forgot]{
+    display: flex;
+    justify-content: flex-end;
+    button[forgot]{
+      align-items: center;
+      background: none;
+      border: none;
+      font-style: italic;
+      text-decoration: underline;
+    }
+  }
+.mat-mdc-checkbox{ 
+    display: flex;
+  }  
+  span[inputs] {
+  @include common.common(flex, column);
+  align-items: baseline;
+  @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
+   @include common.common(flex, row);
+  }}
+  span[matPrefix] { 
+    margin-left: 15%;
+  }
+.login-options {
+  display: flex;
+  align-items: center;
+  text-align: center;
+       }
+.failed-login-animation {
+      @include animation.shakeLogin;
+      animation: shake; 
+      animation-duration: 0.5s; 
+      animation-timing-function: ease-in-out;
+      }
+// approved login
+.glowing-text {
+  @include common.approved;
+}
+.input-boxes{
+    display: flex;
+    justify-content: center;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid transparent;    
+    border-image: linear-gradient(135deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
+    padding-bottom: 1%;
+    margin: 1%;
+    overflow: hidden; 
+      &:first-of-type {
+        mat-checkbox {
+        margin-left: device.$input-margin; 
+
+        }
+      }
+      &:last-of-type{
+        button[forgot] {
+        margin-right: device.$input-margin; 
+      }
+    }
+    div {
+      width: 100%;
+    }
+  }
+  @mixin common-fingerprint-style {
+    content: '';
+    position: absolute;
+    top: -3px; left: -3px;
+    bottom: -3px; right: -3px;
+    z-index: -1;
+    border-radius: 50%;
+}
+  .fingerprint-border-initial {
+    &::before {
+        @include common-fingerprint-style;
+        @include animation.initial;
+        animation: initialGlow 1.5s ease-in-out;
+    }
+  }
+  .fingerprint-border {
+    &::before {
+    @include common-fingerprint-style;
+      @include animation.magic;
+      animation: rotateAndShimmer 1.5s linear forwards;
+    }
+  }

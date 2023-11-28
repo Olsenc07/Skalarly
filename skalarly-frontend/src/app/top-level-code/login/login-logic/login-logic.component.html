@@ -1,0 +1,106 @@
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+  <div class="input-boxes" >
+    <div>
+<span inputs>
+    <div column>
+  <!-- enter email -->
+  <ng-container *ngIf="(email$ | async) as emailInfo" >
+  <mat-form-field  appearance="outline" >
+    <input matInput formControlName="email"  placeholder="ex: name@institution.ca" type="email"
+    id="skalarlyEmail" [appGlowBorder]="isGlowing" />
+    <mat-label [class.condition-met]="emailInfo.emailFound">
+         Academic Email</mat-label>
+         @if(emailInfo?.error === 'notFound') {
+    <mat-error>No account matches this email</mat-error>
+         }
+  <mat-icon matPrefix class="material-symbols-outlined" 
+    [@spinChange]="emailInfo.emailState">
+    @switch (emailInfo.emailState) {
+      @case ('initial') { alternate_email }
+      @case ('spinning') { update }
+      @case ('check') { check_circle }
+    }
+  </mat-icon>
+  </mat-form-field>
+</ng-container> 
+  <div class="login-options">
+    <!-- Keep skalar logged in -->
+    <mat-checkbox [checked]="stayLoggedIn" color="primary" (change)="stayIn()" >
+     <app-letter-by-letter [customClass]="'small'"
+     [message]="stayLogIn"
+     [autoGenerate]="false"
+     [lastLetterAnimation]="false"
+     [welcomeSouthPaw]="false">
+     </app-letter-by-letter>
+    </mat-checkbox>
+    </div>
+    </div>
+  <div column>
+   <!-- enter password -->
+   <ng-container *ngIf="(password$ | async) as passwordInfo" >
+  <mat-form-field appearance="outline">
+    <span matPrefix class="material-symbols-outlined"
+    [@lock]="passwordInfo.lockState" placeholder="Password" >
+    <mat-icon>
+      {{ !passwordInfo.isPasswordValid ? 'lock' : 'lock_open' }}
+    </mat-icon>
+      </span>
+ <input matInput formControlName="password" placeholder="Password" 
+ [type]="visiblePassword ? 'text' : 'password'"
+ #skalarlyPassword [appGlowBorder]="isGlowing" />
+ <mat-label [class.condition-met]="loginForm.get('password')!.valid">
+   Password</mat-label>
+   @if(passwordInfo?.error === 'notFound'){
+ <mat-error>Invalid password</mat-error>
+   }
+<button matSuffix mat-icon-button type="button"
+(click)="$event.stopPropagation(); toggleVisibility()" [@rotate180]="visiblePassword"
+matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
+<span class="material-symbols-outlined">
+    <mat-icon>
+    {{ visiblePassword ? 'visibility' : 'visibility_off' }}
+    </mat-icon>
+</span>
+</button>
+</mat-form-field>
+</ng-container>
+<!-- forgot password -->
+<div forgot>
+<button type="button" (click)="navigate()" forgot>
+  <app-letter-by-letter
+  [customClass]="'small'" [message]="forgot"
+  [lastLetterAnimation]="false" [autoGenerate]="false" [welcomeSouthPaw]="false"></app-letter-by-letter>
+</button>
+</div>
+</div>
+</span>
+<!-- Login Button -->
+<div loginButton >
+  <button mat-fab type="submit" class="material-symbols-outlined"
+    [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
+    [@shake]="failedLoginAnimation"
+    (keydown.enter)="enterClicked()">
+  @switch (progressState) {
+    @case ('default') {
+  <span class="fingerprint-border-initial">
+    fingerprint
+  </span>
+}
+<!-- Processing login -->
+  @case ('loading') {
+    <span class="fingerprint-border">
+      fingerprint
+    </span>
+}
+<!-- approved -->
+  @case ('complete') {
+<span [@fadeInGrow] class="glowing-text">
+ approval_delegation
+</span>
+}
+  }
+</button>
+</div>
+</div>
+</div>
+</form>
