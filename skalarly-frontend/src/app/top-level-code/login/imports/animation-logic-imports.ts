@@ -4,7 +4,6 @@ import { fadeToggle } from '../../../assistant-level-code/custom-architecture-ai
 import { fingerprintActivation } from 'src/app/assistant-level-code/custom-architecture-aids/animations/activateFingerPrint-animation';
 import { lock } from '../../../assistant-level-code/custom-architecture-aids/animations/lock-animation';
 import { rotate180 } from '../../../assistant-level-code/custom-architecture-aids/animations/rotate180-animation';
-import { shake } from '../../../assistant-level-code/custom-architecture-aids/animations/shake-animation';
 import { spinChange } from '../../../assistant-level-code/custom-architecture-aids/animations/spin-change-animation';
 
 export const reusableLogicAnimations: AnimationTriggerMetadata[] = [
@@ -12,7 +11,6 @@ export const reusableLogicAnimations: AnimationTriggerMetadata[] = [
   fingerprintActivation,
   lock,
   rotate180,
-  shake,
   spinChange,
   fadeToggle
 ];

@@ -77,8 +77,8 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <!-- Login Button -->
 <div loginButton >
   <button mat-fab type="submit" class="material-symbols-outlined"
+  [class.fingerprint-border-declined]="progressState === 'declined'"
     [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
-    [@shake]="failedLoginAnimation"
     (keydown.enter)="enterClicked()">
   @switch (progressState) {
     @case ('default') {

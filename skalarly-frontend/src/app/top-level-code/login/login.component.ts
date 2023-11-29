@@ -8,6 +8,8 @@ import { ErrorHandlerComponent } from '../../assistant-level-code/child-reusable
 import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { LoginLogicComponent } from './login-logic/login-logic.component';
 import { LoginSpecificService } from '../../assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgOptimizedImage } from '@angular/common';
 // import { Router } from '@angular/router';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
@@ -24,6 +26,8 @@ import { reusableAnimations } from './imports/animation-imports';
     LetterByLetterComponent,
     LoginLogicComponent,
     ErrorHandlerComponent,
+    MatButtonModule,
+    MatTooltipModule,
     NgOptimizedImage,
     SkeletonLoaderLoginComponent,
     ValidationAnimationDirective

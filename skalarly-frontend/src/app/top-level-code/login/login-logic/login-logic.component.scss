@@ -50,12 +50,6 @@ div[forgot]{
   align-items: center;
   text-align: center;
        }
-.failed-login-animation {
-      @include animation.shakeLogin;
-      animation: shake; 
-      animation-duration: 0.5s; 
-      animation-timing-function: ease-in-out;
-      }
 // approved login
 .glowing-text {
   @include common.approved;
@@ -105,4 +99,9 @@ div[forgot]{
       @include animation.magic;
       animation: rotateAndShimmer 1.5s linear forwards;
     }
+  }
+  fix
+  .fingerprint-border-declined {
+      @include animation.declined;
+      animation: shake 1.5s ease-in-out;
   }

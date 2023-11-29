@@ -54,7 +54,7 @@ export class LoginLogicComponent implements OnInit {
   stayLogIn: string = 'Stay logged In';
   forgot: string = 'Forgot Password?';
   isGlowing: boolean = false;
-  progressState: 'default' | 'loading' | 'complete' = 'default';
+  progressState: 'default' | 'loading' | 'declined' | 'complete' = 'default';
   // email
   email$: Observable<EmailInterface> = new Observable<EmailInterface>();
   // password
@@ -65,7 +65,6 @@ export class LoginLogicComponent implements OnInit {
   visiblePassword: boolean = false;
   // login
   stayLoggedIn: boolean = false;
-  failedLoginAnimation: 'initial' | 'left' | 'right' = 'initial';
   @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
     null;
   constructor(
@@ -184,12 +183,8 @@ export class LoginLogicComponent implements OnInit {
   login(): void {
     this.progressState = 'loading';
     setTimeout(() => {
-      this.failedLoginAnimation = 'right';
-      setTimeout(() => {
-        this.failedLoginAnimation = 'initial'; // Reset to the initial state
-        this.progressState = 'default';
-      }, 100);
-    });
+      this.progressState = 'declined';
+    }, 100);
     // when success this.progressState = 'complete';
 
     // this.authorizeService
