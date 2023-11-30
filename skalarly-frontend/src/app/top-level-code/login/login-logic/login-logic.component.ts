@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Input,
   OnInit,
   ViewChild
 } from '@angular/core';
@@ -50,6 +51,7 @@ import { reusableLogicAnimations } from './../imports/animation-logic-imports';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginLogicComponent implements OnInit {
+  @Input() alwaysVertical?: boolean = false;
   // animated
   stayLogIn: string = 'Stay logged In';
   forgot: string = 'Forgot Password?';
@@ -184,7 +186,12 @@ export class LoginLogicComponent implements OnInit {
     this.progressState = 'loading';
     setTimeout(() => {
       this.progressState = 'declined';
-    }, 100);
+
+      // This timeout starts after the above one finishes
+      setTimeout(() => {
+        this.progressState = 'default';
+      }, 1000); // 1 second after 'declined'
+    }, 2000); // 2 seconds to go to 'declined'
     // when success this.progressState = 'complete';
 
     // this.authorizeService

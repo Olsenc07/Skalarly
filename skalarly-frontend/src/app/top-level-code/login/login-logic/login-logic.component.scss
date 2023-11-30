@@ -36,12 +36,16 @@ div[forgot]{
 .mat-mdc-checkbox{ 
     display: flex;
   }  
-  span[inputs] {
+  .normal-style{
   @include common.common(flex, column);
   align-items: baseline;
   @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
    @include common.common(flex, row);
   }}
+  .error-style{
+    @include common.common(flex, column);
+    align-items: baseline;
+  }
   span[matPrefix] { 
     margin-left: 15%;
   }
@@ -62,7 +66,6 @@ div[forgot]{
     border-image: linear-gradient(135deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
     padding-bottom: 1%;
     margin: 1%;
-    overflow: hidden; 
       &:first-of-type {
         mat-checkbox {
         margin-left: device.$input-margin; 
@@ -100,8 +103,14 @@ div[forgot]{
       animation: rotateAndShimmer 1.5s linear forwards;
     }
   }
-  fix
   .fingerprint-border-declined {
-      @include animation.declined;
-      animation: shake 1.5s ease-in-out;
+    // content: ""; 
+    // position: absolute; 
+    top: -3px;
+    left: -3px;
+    bottom: -3px;
+    right: -3px;
+    border-radius: 50%;
+    @include animation.declined;
+      animation: shake .3s linear;
   }

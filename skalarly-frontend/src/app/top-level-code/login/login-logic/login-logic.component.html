@@ -1,10 +1,10 @@
     <form [formGroup]="loginForm" (ngSubmit)="login()">
   <div class="input-boxes" >
     <div>
-<span inputs>
+<span [ngClass]="{ 'normal-style': !alwaysVertical, 'error-style': alwaysVertical}">
     <div column>
   <!-- enter email -->
-  <ng-container *ngIf="(email$ | async) as emailInfo" >
+  @if(email$ | async; as emailInfo) {
   <mat-form-field  appearance="outline" >
     <input matInput formControlName="email"  placeholder="ex: name@institution.ca" type="email"
     id="skalarlyEmail" [appGlowBorder]="isGlowing" />
@@ -22,7 +22,7 @@
     }
   </mat-icon>
   </mat-form-field>
-</ng-container> 
+  }
   <div class="login-options">
     <!-- Keep skalar logged in -->
     <mat-checkbox [checked]="stayLoggedIn" color="primary" (change)="stayIn()" >
@@ -37,14 +37,12 @@
     </div>
   <div column>
    <!-- enter password -->
-   <ng-container *ngIf="(password$ | async) as passwordInfo" >
+   @if(password$ | async; as passwordInfo){
   <mat-form-field appearance="outline">
-    <span matPrefix class="material-symbols-outlined"
-    [@lock]="passwordInfo.lockState" placeholder="Password" >
-    <mat-icon>
+    <mat-icon matPrefix class="material-symbols-outlined"
+    [@lock]="passwordInfo.lockState" placeholder="Password">
       {{ !passwordInfo.isPasswordValid ? 'lock' : 'lock_open' }}
     </mat-icon>
-      </span>
  <input matInput formControlName="password" placeholder="Password" 
  [type]="visiblePassword ? 'text' : 'password'"
  #skalarlyPassword [appGlowBorder]="isGlowing" />
@@ -63,7 +61,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </span>
 </button>
 </mat-form-field>
-</ng-container>
+   }
 <!-- forgot password -->
 <div forgot>
 <button type="button" (click)="navigate()" forgot>
@@ -75,7 +73,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </div>
 </span>
 <!-- Login Button -->
-<div loginButton >
+<div loginButton>
   <button mat-fab type="submit" class="material-symbols-outlined"
   [class.fingerprint-border-declined]="progressState === 'declined'"
     [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
@@ -86,6 +84,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
     fingerprint
   </span>
 }
+
 <!-- Processing login -->
   @case ('loading') {
     <span class="fingerprint-border">

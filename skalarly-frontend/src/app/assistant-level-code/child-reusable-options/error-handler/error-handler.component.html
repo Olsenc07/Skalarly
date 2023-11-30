@@ -4,11 +4,14 @@
     <div >
     <div mat-dialog-content>
     <div class="error-message">{{ data.message }}</div>
+    <mat-divider></mat-divider>
     </div>
-        <app-login-logic>
+        <app-login-logic [alwaysVertical]="true">
         </app-login-logic>
+        <footer>
         Don't have an account?
         <button mat-button 
         routerLink="/sign-up">Join Skalarly</button>
+    </footer>
     </div>
 </div>

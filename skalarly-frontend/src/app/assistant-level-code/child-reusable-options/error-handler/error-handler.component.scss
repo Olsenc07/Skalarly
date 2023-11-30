@@ -39,6 +39,9 @@ div[mat-card-subtitle] {
           line-height: 1.5;
         }
     }
+    footer{
+    padding-left: 3%
+    }
     h2 {
         @include responsive.responsiveFontSize('large');
         color: #3b5998; // A softer color for the login prompt
