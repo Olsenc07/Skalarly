@@ -37,7 +37,7 @@ $form-margins: (
     margin: 1%;
     overflow: hidden; 
 }
-  button[join] {
+  buttoin[join] {
     @include responsive.responsiveFontSize();
       margin: 1% 0%;
       position: relative; // Needed for absolute positioning of children

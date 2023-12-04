@@ -167,11 +167,11 @@ export class LoginLogicComponent implements OnInit {
       this.handlePasswordChange
     );
   }
-  isEmailValid(value: string): boolean {
+  isEmailValid(): boolean {
     return this.loginForm.controls['email'].valid;
   }
 
-  isPasswordValid(value: string): boolean {
+  isPasswordValid(): boolean {
     return this.loginForm.controls['password'].valid;
   }
   // toggle password visbility

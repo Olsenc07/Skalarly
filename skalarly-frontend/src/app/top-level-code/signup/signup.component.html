@@ -1,8 +1,9 @@
+<div>
 <progress id="progress" [value]="progressValue" max="100"> </progress>
-<mat-stepper #stepper linear>
-  <mat-stepper orientation="vertical">
-  <div> First page 
+  <mat-stepper orientation="vertical" #stepper >
+    <!-- only step when form is valid -->
 <mat-step>
+  <ng-template matStepLabel>Choose your instituition</ng-template>
 <app-reusable-dropdown [countryApi]="true" [label]="'Country of study'" [List$]="country$"
 (selectedChange)="updateCountrySelection($event)" [hint]="'Which country do you study in?'">
 </app-reusable-dropdown>
@@ -46,6 +47,5 @@
   <button mat-button matStepperNext type="button" (click)="sendEmail()">Next</button>
 </div></mat-step>
 <!-- Onto Validation 7 digits from email-->
-</div>
-
 </mat-stepper>
+</div>
