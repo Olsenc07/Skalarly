@@ -1,61 +1,93 @@
+// @use '../universal-reusable-styles/break-points' as device;
+
+// // reusable algorithms
+// @mixin media-query($screen, $min-width) {
+//     $index: index(map-keys(device.$device-sizes), $screen);
+//     $next-index: $index + 1;
+//     $device-sizes-keys: map-keys(device.$device-sizes);
+//     $next-screen: if($next-index <= length($device-sizes-keys), nth($device-sizes-keys, $next-index), null);
+//     $max-width: if($next-screen, map-get(device.$device-sizes, $next-screen) - 1px, null);
+//     $media-query: "(min-width: #{$min-width})";
+//     @if $max-width {
+//         $media-query: "#{$media-query} and (max-width: #{$max-width})";
+//       }
+//       @media #{$media-query} {
+//         @content;
+//       }
+// }
+// // Mobile First Shared font style mixin
+// @mixin fontStyles($sizeVariant: 'default') {
+// $base-font-size: map-get(device.$font-sizes, 'base');
+// $base-font-sub-size: map-get(device.$font-sub-sizes, 'base');
+// $base-line-height: map-get(device.$line-heights, 'base');
+// $final-font-size: $base-font-size; // Default size
+//   // Adjust font size based on variant
+//   @if $sizeVariant == 'smaller' {
+//     $final-font-size: calc($base-font-size - $base-font-sub-size);
+//   } @else if $sizeVariant == 'larger' {
+//     $final-font-size: calc($base-font-size + $base-font-sub-size);
+//   }
+//   font-family: var(--skalarly-font);
+//   font-size: $final-font-size;
+//   line-height: calc($final-font-size * $base-line-height);
+// }
+// // if not base, scale with screen sizes
+// @mixin responsiveFontSize($sizeVariant: 'default') {
+//   @include fontStyles($sizeVariant);
+
+//   @each $screen, $min-width in device.$device-sizes {
+//     @if $screen != 'base' {
+//       @include media-query($screen, $min-width) {
+//         $screen-font-size: map-get(device.$font-sizes, $screen);
+//         $screen-font-sub-size: map-get(device.$font-sub-sizes, $screen);
+//         $screen-line-height: map-get(device.$line-heights, $screen);
+//         $final-font-size: $screen-font-size;
+//         // Adjust the font size based on the screen
+//         @if $sizeVariant == 'smaller' {
+//           $final-font-size: $screen-font-size - $screen-font-sub-size;
+//         } @else if $sizeVariant == 'larger' {
+//           $final-font-size: $screen-font-size + $screen-font-sub-size;
+//         }
+//         $final-line-height: $final-font-size * $screen-line-height;
+
+//         font-size: $final-font-size;
+//         line-height: $final-line-height;
+//       }
+//     }
+//   }
+// }
 @use '../universal-reusable-styles/break-points' as device;
 
-// reusable algorithms
-@mixin media-query($screen, $min-width) {
-    $index: index(map-keys(device.$device-sizes), $screen);
-    $next-index: $index + 1;
-    $device-sizes-keys: map-keys(device.$device-sizes);
-    $next-screen: if($next-index <= length($device-sizes-keys), nth($device-sizes-keys, $next-index), null);
-    $max-width: if($next-screen, map-get(device.$device-sizes, $next-screen) - 1px, null);
-    $media-query: "(min-width: #{$min-width})";
-    @if $max-width {
-        $media-query: "#{$media-query} and (max-width: #{$max-width})";
-      }
-      @media #{$media-query} {
-        @content;
-      }
-}
-// Mobile First Shared font style mixin
-@mixin fontStyles($sizeVariant: 'default') {
-$base-font-size: map-get(device.$font-sizes, 'base');
-$base-font-sub-size: map-get(device.$font-sub-sizes, 'base');
-$base-line-height: map-get(device.$line-heights, 'base');
-$final-font-size: $base-font-size; // Default size
-  // Adjust font size based on variant
-  @if $sizeVariant == 'smaller' {
-    $final-font-size: calc($base-font-size - $base-font-sub-size);
-  } @else if $sizeVariant == 'larger' {
-    $final-font-size: calc($base-font-size + $base-font-sub-size);
+@mixin media-query($screen) {
+  $min-width: map-get(device.$device-sizes, $screen);
+  @if $min-width != null {
+    @media (min-width: #{$min-width}) {
+      @content;
+    }
   }
-  font-family: var(--skalarly-font);
-  font-size: $final-font-size;
-  line-height: calc($final-font-size * $base-line-height);
 }
-// if not base, scale with screen sizes
+
+@mixin fontStyles($sizeVariant: 'default', $screen: 'base') {
+  $font-size: if($screen == 'base', 
+                 map-get(device.$font-sizes, $sizeVariant), 
+                 map-get(device.$font-sizes, $screen + '-' + $sizeVariant));
+  font-family: var(--skalarly-font);
+  font-size: $font-size;
+  line-height: calc(#{$font-size} * map-get(device.$line-heights, $screen));
+}
+
 @mixin responsiveFontSize($sizeVariant: 'default') {
   @include fontStyles($sizeVariant);
 
-  @each $screen, $min-width in device.$device-sizes {
+  @each $screen in map-keys(device.$device-sizes) {
     @if $screen != 'base' {
-      @include media-query($screen, $min-width) {
-        $screen-font-size: map-get(device.$font-sizes, $screen);
-        $screen-font-sub-size: map-get(device.$font-sub-sizes, $screen);
-        $screen-line-height: map-get(device.$line-heights, $screen);
-        $final-font-size: $screen-font-size;
-        // Adjust the font size based on the screen
-        @if $sizeVariant == 'smaller' {
-          $final-font-size: $screen-font-size - $screen-font-sub-size;
-        } @else if $sizeVariant == 'larger' {
-          $final-font-size: $screen-font-size + $screen-font-sub-size;
-        }
-        $final-line-height: $final-font-size * $screen-line-height;
-
-        font-size: $final-font-size;
-        line-height: $final-line-height;
+      @include media-query($screen) {
+        @include fontStyles($sizeVariant, $screen);
       }
     }
   }
 }
+
 // three options
 .font-size-default {
   @include responsiveFontSize();
