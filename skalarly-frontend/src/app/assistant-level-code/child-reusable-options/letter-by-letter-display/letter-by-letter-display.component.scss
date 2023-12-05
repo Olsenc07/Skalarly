@@ -1,5 +1,5 @@
-@use 'src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
-@use 'src/app/assistant-level-code/universal-reusable-styles/common' as universal;
+@use '../../universal-reusable-styles/responsive-mixin' as responsive;
+@use '../../universal-reusable-styles/common' as universal;
 
 $animation-properties: (
   'Appearance': (scale-start: 0.8, rotate-start: -10deg, opacity-start: 0.5, scale-mid: 1.1, rotate-mid: 10deg, opacity-mid: 1, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
@@ -27,7 +27,7 @@ $animation-properties: (
   animation: animation#{$animation-type} 1s ease-in-out forwards;
 }
 
-.font-size {
+span.font-size {
   &-small {  @include responsive.responsiveFontSize('smaller'); }
   &-default { @include responsive.responsiveFontSize(); }
   &-large {  @include responsive.responsiveFontSize('larger'); }

@@ -99,9 +99,9 @@ export class LetterByLetterComponent implements OnChanges {
       this.message = this.loginSpecificService.updatePhrase();
       this.letterAnimation(this.message);
       this.renderCount++;
-      //   setTimeout(() => this.renderOn(), 7000); // next call
-      // } else {
-      //   this.renderCount = 0;
+      setTimeout(() => this.renderOn(), 7000); // next call
+    } else {
+      this.renderCount = 0;
     }
   }
 }

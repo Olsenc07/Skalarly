@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ErrorHandlerComponent } from './error-handler.component';
 
 describe('ErrorHandlerComponent', () => {

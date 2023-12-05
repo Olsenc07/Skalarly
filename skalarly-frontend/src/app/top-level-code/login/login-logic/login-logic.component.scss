@@ -31,6 +31,7 @@ div[forgot]{
       border: none;
       font-style: italic;
       text-decoration: underline;
+      cursor: pointer;
     }
   }
 .mat-mdc-checkbox{ 
@@ -105,12 +106,13 @@ div[forgot]{
   }
   .fingerprint-border-declined {
     // content: ""; 
-    // position: absolute; 
+    position: relative;
+    // or absolute 
     top: -3px;
     left: -3px;
     bottom: -3px;
     right: -3px;
     border-radius: 50%;
     @include animation.declined;
-      animation: shake .3s linear;
+    animation: shake .3s linear;
   }

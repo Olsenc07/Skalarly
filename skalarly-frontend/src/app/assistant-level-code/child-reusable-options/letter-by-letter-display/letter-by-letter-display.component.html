@@ -1,12 +1,13 @@
         <span
+        [class.font-size-small]="customClass === 'small'"
+        [class.font-size-default]="customClass === 'default'"
+        [class.font-size-large]="customClass === 'large'"
             [@fadeOut]="autoGenerate ? 'active' : 'inactive' "
             (@fadeOut.done)="autoGenerate ? renderOn() : null">
             @for (item of animatedText; let i = $index; let isLast = $last; track item) {
             @if (item.letter !== ' ') {
                 <span class="animations"
-                [class.font-size-small]="customClass === 'small'"
-                [class.font-size-default]="customClass === 'default'"
-                [class.font-size-large]="customClass === 'large'"
+               
                 [style.animation-delay]="item.delay + 's'"
                 [ngClass]="item.classAnimation"> 
                     {{  item.letter }}

@@ -10,31 +10,18 @@ $form-margins: (
   desktop: 15%,  
   tv: 20%        
 );
-// @mixin responsiveMargins {
-//   // Mobile First
-//   --margin-form: #{map-get($form-margins, 'base')};
-//   margin: 0% var(--margin-form);
-//   @each $screen, $min-width in device.$device-sizes {
-//     @if $screen != 'base' {
-//       @include responsive.media-query($screen, $min-width){
-//       // Use built media query string
-//         margin: 0% #{map-get($form-margins, $screen)};
-//       }}}
-// }
 @mixin responsiveMargins {
   // Mobile First
-  --margin-form: #{map-get($form-margins, 'base')};
+  --margin-form: map-get($form-margins, 'base');
   margin: 0% var(--margin-form);
-
-  @each $screen in map-keys(device.$device-sizes) {
+  @each $screen, $min-width in device.$device-sizes {
     @if $screen != 'base' {
-      @include responsive.media-query($screen) {
-        --margin-form: #{map-get($form-margins, $screen)};
-        margin: 0% var(--margin-form);
-      }
-    }
-  }
+      @include responsive.media-query($screen, $min-width){
+      // Use built media query string
+        margin: 0% map-get($form-margins, $screen);
+      }}}
 }
+
 // logo and top of login screen
 .login-header {
     text-align: center; 
@@ -117,6 +104,10 @@ div[column] {
 }
 
 
+h2 {
+  margin: 1% 0%;
+  color: #bdc3c7;
+  @include responsive.responsiveFontSize('larger'); 
 
 div[skalarly] {
     @include responsive.responsiveFontSize('larger'); 
@@ -128,12 +119,8 @@ div[skalarly] {
     @include animation.gradientFlow;
     animation: gradient-flow 6s linear infinite; 
     }
-   
-h2 {
-  margin: 1% 0%;
-  color: #bdc3c7;
-  @include responsive.responsiveFontSize('larger'); 
-}
+  }
+
      
       .welcome-container {
         @include common.common;

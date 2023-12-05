@@ -1,5 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@use 'app/assistant-level-code/universal-reusable-styles/break-points' as device;
 @use 'app/assistant-level-code/universal-reusable-styles/common' as universal;
 @use 'app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
@@ -81,3 +80,5 @@ router-outlet[content] {
   box-sizing: border-box; // include padding in the content's height calculation 
 }
 }
+
+  
