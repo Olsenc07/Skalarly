@@ -19,7 +19,7 @@ interface Letter {
 })
 export class LetterByLetterComponent implements OnChanges {
   @Input() message: string = '';
-  @Input() customClass: 'small' | 'default' | 'large' = 'small';
+  @Input() customClass: 'small' | 'default' | 'large' = 'default';
   @Input() welcomeSouthPaw: boolean = false;
   @Input() autoGenerate: boolean = false;
   @Input() lastLetterAnimation: boolean = false;
@@ -61,7 +61,7 @@ export class LetterByLetterComponent implements OnChanges {
     return nextClass;
   }
 
-  // updates text
+  // updates message with user interaction
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['message']) {
       this.letterAnimation(this.message);
@@ -99,7 +99,7 @@ export class LetterByLetterComponent implements OnChanges {
       this.message = this.loginSpecificService.updatePhrase();
       this.letterAnimation(this.message);
       this.renderCount++;
-      setTimeout(() => this.renderOn(), 7000); // next call
+      setTimeout(() => this.renderOn(), 4000); // next call
     } else {
       this.renderCount = 0;
     }

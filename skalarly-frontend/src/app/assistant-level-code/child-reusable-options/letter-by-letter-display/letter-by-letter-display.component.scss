@@ -14,10 +14,6 @@ $animation-properties: (
   display: inline-block;
   color: var(--pairingColor);
   
-  $properties: map-get($animation-properties, $animation-type);
-  @each $property, $value in $properties {
-    --#{$property}: #{$value};
-  }
   @keyframes animation#{$animation-type} {
     0% { transform: scale(var(--scale-start)) rotate(var(--rotate-start)); opacity: var(--opacity-start); }
     50% { transform: scale(var(--scale-mid)) rotate(var(--rotate-mid)); opacity: var(--opacity-mid); }
@@ -27,11 +23,7 @@ $animation-properties: (
   animation: animation#{$animation-type} 1s ease-in-out forwards;
 }
 
-span.font-size {
-  &-small {  @include responsive.responsiveFontSize('smaller'); }
-  &-default { @include responsive.responsiveFontSize(); }
-  &-large {  @include responsive.responsiveFontSize('larger'); }
-}
+
 @keyframes glow-animation {
   from { opacity: 0; transform: translateX(-100%); }
   to { opacity: 1; transform: translateX(0); }
@@ -50,6 +42,9 @@ span.font-size {
   .animations{
     @include animationEnter(0.5s);
   }
+  .font-size-small {  @include responsive.responsiveFontSize('smaller'); }
+  .font-size-default { @include responsive.responsiveFontSize(); }
+  .font-size-large {  @include responsive.responsiveFontSize('larger'); }
   // last letter options
   @mixin magical-letter-animation($type) {
     @include animation($type);

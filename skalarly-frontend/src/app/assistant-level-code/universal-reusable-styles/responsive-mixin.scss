@@ -15,41 +15,29 @@
         @content;
       }
 }
-// if not base, scale with screen sizes
 @mixin responsiveFontSize($sizeVariant: 'default') {
   @each $screen, $min-width in map-keys(device.$device-sizes) {
-     $base-font-size: map-get(device.$font-sizes, 'base');
-     $base-font-sub-size: map-get(device.$font-sub-sizes, 'base');
-     $base-line-height: map-get(device.$line-heights, 'base');
-     $final-font-size: $base-font-size; // Default size
-    @if $screen != 'base' {
-      @include media-query($screen, $min-width) {
-        // Adjust font size per screen
-        $screen-font-size: map-get(device.$font-sizes, $screen);
-        $screen-font-sub-size: map-get(device.$font-sub-sizes, $screen);
-        $final-font-size: $screen-font-size; // Default for the screen
-        @if $sizeVariant == 'smaller' {
-          $final-font-size: $screen-font-size - $screen-font-sub-size;
-        } @else if $sizeVariant == 'larger' {
-          $final-font-size: $screen-font-size + $screen-font-sub-size;
+  
+          $screen-font-size: map-get(device.$font-sizes, $screen);
+          $screen-font-sub-size: map-get(device.$font-sub-sizes, $screen);
+          $line-height-ratio: map-get(device.$line-heights, $screen);
+    
+          // Calculate the final font size
+          $final-font-size: $screen-font-size;
+    
+    
+          
+          @if $sizeVariant == 'smaller' {
+            $final-font-size: $screen-font-size - $screen-font-sub-size;
+          } @else if $sizeVariant == 'larger' {
+            $final-font-size: $screen-font-size + $screen-font-sub-size;
+          }
+    
+          // Apply styles
+          font-size: $final-font-size;
+          line-height: $final-font-size * $line-height-ratio;
         }
-        $final-line-height: $final-font-size * map-get(device.$line-heights, $screen);
-
-        font-size: $final-font-size;
-        line-height: $final-line-height;
-      }
-    }
+     
+    
   }
-}
 
-
-// three options
-.font-size-default {
-  @include responsiveFontSize();
-}
-.font-size-small {
-  @include responsiveFontSize('smaller');
-}
-.font-size-large {
-  @include responsiveFontSize('larger');
-}
