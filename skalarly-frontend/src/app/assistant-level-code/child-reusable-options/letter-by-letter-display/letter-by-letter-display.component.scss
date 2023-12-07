@@ -1,6 +1,8 @@
 @use '../../universal-reusable-styles/responsive-mixin' as responsive;
-@use '../../universal-reusable-styles/common' as universal;
-
+@use '../../universal-reusable-styles/common' as universial;
+div{
+  @include universial.common(flex, row)
+}
 $animation-properties: (
   'Appearance': (scale-start: 0.8, rotate-start: -10deg, opacity-start: 0.5, scale-mid: 1.1, rotate-mid: 10deg, opacity-mid: 1, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
   'Pulse': (scale-start: 1, rotate-start: 0deg, opacity-start: 1, scale-mid: 1.2, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
@@ -13,13 +15,11 @@ $animation-properties: (
 @mixin animation($animation-type) {
   display: inline-block;
   color: var(--pairingColor);
-  
   @keyframes animation#{$animation-type} {
     0% { transform: scale(var(--scale-start)) rotate(var(--rotate-start)); opacity: var(--opacity-start); }
     50% { transform: scale(var(--scale-mid)) rotate(var(--rotate-mid)); opacity: var(--opacity-mid); }
     100% { transform: scale(var(--scale-end)) rotate(var(--rotate-end)); opacity: var(--opacity-end); }
   }
-
   animation: animation#{$animation-type} 1s ease-in-out forwards;
 }
 
@@ -31,7 +31,7 @@ $animation-properties: (
   @mixin animationEnter($delay) {
     animation: glow-animation 0.25s $delay forwards;
     opacity: 0;
-    background: universal.generateGradient();
+    background: universial.generateGradient();
     transition: background 0.3s, color 0.3s;
     background-clip: text;
     white-space: nowrap;

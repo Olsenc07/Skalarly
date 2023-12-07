@@ -80,5 +80,8 @@ router-outlet[content] {
   box-sizing: border-box; // include padding in the content's height calculation 
 }
 }
-
+app-letter-by-letter{
+  display: flex;
+  flex-direction: row;
+}
   

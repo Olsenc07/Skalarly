@@ -68,6 +68,7 @@ export class LetterByLetterComponent implements OnChanges {
     }
     if (changes['autoGenerate'] && this.autoGenerate) {
       this.renderOn();
+      console.log('hey')
     }
   }
 

@@ -16,8 +16,9 @@
       }
 }
 @mixin responsiveFontSize($sizeVariant: 'default') {
-  @each $screen, $min-width in map-keys(device.$device-sizes) {
-  
+  @each $screen, $min-width in device.$device-sizes {
+    @debug $min-width;
+    @media (min-width: $min-width) {
           $screen-font-size: map-get(device.$font-sizes, $screen);
           $screen-font-sub-size: map-get(device.$font-sub-sizes, $screen);
           $line-height-ratio: map-get(device.$line-heights, $screen);
@@ -38,6 +39,6 @@
           line-height: $final-font-size * $line-height-ratio;
         }
      
-    
+      }
   }
 
