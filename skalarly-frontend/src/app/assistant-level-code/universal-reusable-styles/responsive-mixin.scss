@@ -17,28 +17,21 @@
 }
 @mixin responsiveFontSize($sizeVariant: 'default') {
   @each $screen, $min-width in device.$device-sizes {
-    @debug $min-width;
     @media (min-width: $min-width) {
           $screen-font-size: map-get(device.$font-sizes, $screen);
           $screen-font-sub-size: map-get(device.$font-sub-sizes, $screen);
           $line-height-ratio: map-get(device.$line-heights, $screen);
-    
           // Calculate the final font size
           $final-font-size: $screen-font-size;
-    
-    
-          
           @if $sizeVariant == 'smaller' {
             $final-font-size: $screen-font-size - $screen-font-sub-size;
           } @else if $sizeVariant == 'larger' {
             $final-font-size: $screen-font-size + $screen-font-sub-size;
           }
-    
           // Apply styles
           font-size: $final-font-size;
           line-height: $final-font-size * $line-height-ratio;
         }
-     
       }
   }
 

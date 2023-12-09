@@ -3,26 +3,35 @@
 div{
   @include universial.common(flex, row)
 }
-$animation-properties: (
-  'Appearance': (scale-start: 0.8, rotate-start: -10deg, opacity-start: 0.5, scale-mid: 1.1, rotate-mid: 10deg, opacity-mid: 1, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
-  'Pulse': (scale-start: 1, rotate-start: 0deg, opacity-start: 1, scale-mid: 1.2, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
-  'Fade': (scale-start: 0.5, rotate-start: 0deg, opacity-start: 0, scale-mid: 1.2, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
-  'Flip': (scale-start: 1, rotate-start: 0deg, opacity-start: 0, scale-mid: 1, rotate-mid: 180deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 360deg, opacity-end: 1),
-  'Spin': (scale-start: 1, rotate-start: 0deg, opacity-start: 0.5, scale-mid: 1, rotate-mid: 180deg, opacity-mid: 1, scale-end: 1, rotate-end: 360deg, opacity-end: 1),
-  'Slide': (scale-start: 1, rotate-start: 0deg, opacity-start: 0.5, scale-mid: 1, rotate-mid: 0deg, opacity-mid: 1, scale-end: 1, rotate-end: 0deg, opacity-end: 1),
-  'Bounce': (scale-start: 1, rotate-start: 0deg, opacity-start: 1, scale-mid: 1, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1)
-);
-@mixin animation($animation-type) {
+
+  $Appearance: (scale-start: 0.8, rotate-start: -10deg, opacity-start: 0.5, scale-mid: 1.1, rotate-mid: 10deg, opacity-mid: 1, scale-end: 1, rotate-end: 0deg, opacity-end: 1);
+  $Pulse: (scale-start: 1, rotate-start: 0deg, opacity-start: 1, scale-mid: 1.2, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1);
+  $Fade: (scale-start: 0.5, rotate-start: 0deg, opacity-start: 0, scale-mid: 1.2, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1);
+  $Flip: (scale-start: 1, rotate-start: 0deg, opacity-start: 0, scale-mid: 1, rotate-mid: 180deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 360deg, opacity-end: 1);
+  $Spin: (scale-start: 1, rotate-start: 0deg, opacity-start: 0.5, scale-mid: 1, rotate-mid: 180deg, opacity-mid: 1, scale-end: 1, rotate-end: 360deg, opacity-end: 1);
+  $Slide: (scale-start: 1, rotate-start: 0deg, opacity-start: 0.5, scale-mid: 1, rotate-mid: 0deg, opacity-mid: 1, scale-end: 1, rotate-end: 0deg, opacity-end: 1);
+  $Bounce: (scale-start: 1, rotate-start: 0deg, opacity-start: 1, scale-mid: 1, rotate-mid: 0deg, opacity-mid: 0.5, scale-end: 1, rotate-end: 0deg, opacity-end: 1);
+
+  @mixin animation($name, $animation-type) {
+    @debug $animation-type;
   display: inline-block;
   color: var(--pairingColor);
-  @keyframes animation#{$animation-type} {
-    0% { transform: scale(var(--scale-start)) rotate(var(--rotate-start)); opacity: var(--opacity-start); }
-    50% { transform: scale(var(--scale-mid)) rotate(var(--rotate-mid)); opacity: var(--opacity-mid); }
-    100% { transform: scale(var(--scale-end)) rotate(var(--rotate-end)); opacity: var(--opacity-end); }
+  @keyframes #{$name} {
+    0% { 
+      transform: scale(map-get($animation-type, scale-start)) rotate(map-get($animation-type, rotate-start)); 
+      opacity: map-get($animation-type, opacity-start); 
+    }
+    50% { 
+      transform: scale(map-get($animation-type, scale-mid)) rotate(map-get($animation-type, rotate-mid)); 
+      opacity: map-get($animation-type, opacity-mid); 
+    }
+    100% { 
+      transform: scale(map-get($animation-type, scale-end)) rotate(map-get($animation-type, rotate-end)); 
+      opacity: map-get($animation-type, opacity-end); 
+    }
   }
-  animation: animation#{$animation-type} 1s ease-in-out forwards;
+  animation: animation#{$name} 1s ease-in-out forwards;
 }
-
 
 @keyframes glow-animation {
   from { opacity: 0; transform: translateX(-100%); }
@@ -45,32 +54,27 @@ $animation-properties: (
   .font-size-small {  @include responsive.responsiveFontSize('smaller'); }
   .font-size-default { @include responsive.responsiveFontSize(); }
   .font-size-large {  @include responsive.responsiveFontSize('larger'); }
-  // last letter options
-  @mixin magical-letter-animation($type) {
-    @include animation($type);
-  }
      
     // Apply the mixin to each class
-    .magical-letter {
-      @include magical-letter-animation('Appearance');
+  .magical-letter {
+      @include animation('Appearance', $Appearance);
     }
-    .magical-letterpulse {
-      @include magical-letter-animation('Pulse');
+  .magical-letterpulse {
+      @include animation('Pulse', $Pulse);
     }
-  
   .magical-letterfade {
-    @include magical-letter-animation('Fade');
+    @include animation('Fade', $Fade);
   }
   .magical-letterflip {
-    @include magical-letter-animation('Flip');
+    @include animation('Flip', $Flip);
   }
   .magical-letterspin {
-    @include magical-letter-animation('Spin');
+    @include animation('Spin', $Spin);
   }
   .magical-letterslide {
-    @include magical-letter-animation('Slide');
+    @include animation('Slide', $Slide);
   }
   .magical-letterbounce {
-    @include magical-letter-animation('Bounce');
+    @include animation('Bounce', $Bounce);
   }
   

@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginSpecificService } from '../../custom-architecture-aids/services/login-validation/login-specific.service';
-import { fadeOut } from 'src/app/assistant-level-code/custom-architecture-aids/animations/fadeOut-animation';
 
 interface Letter {
   letter: string;
@@ -14,8 +13,7 @@ interface Letter {
   selector: 'app-letter-by-letter',
   templateUrl: './letter-by-letter-display.component.html',
   styleUrl: './letter-by-letter-display.component.scss',
-  imports: [CommonModule],
-  animations: [fadeOut]
+  imports: [CommonModule]
 })
 export class LetterByLetterComponent implements OnChanges {
   @Input() message: string = '';
@@ -65,10 +63,6 @@ export class LetterByLetterComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['message']) {
       this.letterAnimation(this.message);
-    }
-    if (changes['autoGenerate'] && this.autoGenerate) {
-      this.renderOn();
-      console.log('hey')
     }
   }
 
