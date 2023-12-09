@@ -84,7 +84,6 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
     fingerprint
   </span>
 }
-
 <!-- Processing login -->
   @case ('loading') {
     <span class="fingerprint-border">
@@ -96,6 +95,9 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <span [@fadeInGrow] class="glowing-text">
  approval_delegation
 </span>
+}
+@default{
+        fingerprint
 }
   }
 </button>

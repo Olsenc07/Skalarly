@@ -105,14 +105,10 @@ div[forgot]{
     }
   }
   .fingerprint-border-declined {
-    // content: ""; 
     position: relative;
-    // or absolute 
-    top: -3px;
-    left: -3px;
-    bottom: -3px;
-    right: -3px;
+// or absolute 
     border-radius: 50%;
     @include animation.declined;
-    animation: shake .3s linear;
+    animation: shake .5s linear;
   }
+ 

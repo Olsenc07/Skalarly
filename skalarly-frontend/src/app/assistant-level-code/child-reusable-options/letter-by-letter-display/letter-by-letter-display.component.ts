@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginSpecificService } from '../../custom-architecture-aids/services/login-validation/login-specific.service';
 
@@ -38,7 +44,10 @@ export class LetterByLetterComponent implements OnChanges {
   shuffledClasses: string[] = [];
   currentClassIndex: number = 0;
 
-  constructor(private loginSpecificService: LoginSpecificService) {
+  constructor(
+    private loginSpecificService: LoginSpecificService,
+    private cdr: ChangeDetectorRef
+  ) {
     this.shuffleClasses();
   }
 
@@ -64,6 +73,9 @@ export class LetterByLetterComponent implements OnChanges {
     if (changes['message']) {
       this.letterAnimation(this.message);
     }
+    if (changes['autoGenerate'] && this.autoGenerate) {
+      this.renderOn();
+    }
   }
 
   letterAnimation(message: string): void {
@@ -87,12 +99,15 @@ export class LetterByLetterComponent implements OnChanges {
       };
     });
     this.animatedText = letters;
+    console.log('count', this.animatedText);
   }
 
   renderOn(): void {
+    console.log('count', this.renderCount);
     if (this.renderCount < this.maxRenders) {
       this.message = this.loginSpecificService.updatePhrase();
       this.letterAnimation(this.message);
+      this.cdr.detectChanges();
       this.renderCount++;
       setTimeout(() => this.renderOn(), 4000); // next call
     } else {

@@ -1,4 +1,3 @@
-    <!-- <div [@fadeOut]="autoGenerate">  -->
     @for (item of animatedText; let i = $index; let isLast = $last; track item) {
         @if (item.letter !== ' ') {
         <div 
@@ -12,4 +11,3 @@
                 &nbsp;
                 }
             }
-        <!-- </div> -->

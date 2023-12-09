@@ -37,6 +37,7 @@ import { reusableAnimations } from './imports/animation-imports';
 export class LoginComponent implements OnInit, AfterViewInit {
   // animation based
   nextAnimations: boolean = false;
+  toggle: boolean = false;
   skalarlyState: string = 'initial';
   join: string = 'Join';
   welcome: string = 'Welcome To Skalarly';
@@ -59,5 +60,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   welcomeRiseDone(): void {
     this.nextAnimations = true;
     this.welcome = this.loginSpecificService.updatePhrase();
+    this.toggle = true;
   }
 }

@@ -86,7 +86,7 @@ $form-margins: (
   button[join]:hover:after {
     content: '\2728'; // Unicode character for sparkle
     position: absolute;
-    top: 50%;
+    top: 5%;
     left: 75%;
   }
   div[entire-page] {

@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -71,7 +72,8 @@ export class LoginLogicComponent implements OnInit {
     null;
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
-    private readonly router: Router
+    private readonly router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
@@ -184,13 +186,16 @@ export class LoginLogicComponent implements OnInit {
   }
   login(): void {
     this.progressState = 'loading';
+    this.cdr.detectChanges(); // Detect changes immediately
+
     setTimeout(() => {
       this.progressState = 'declined';
+      this.cdr.detectChanges(); // Detect changes when state changes to 'declined'
 
-      // This timeout starts after the above one finishes
       setTimeout(() => {
         this.progressState = 'default';
-      }, 1000); // 1 second after 'declined'
+        this.cdr.detectChanges(); // Detect changes when state resets to 'default'
+      }, 1000);
     }, 2000); // 2 seconds to go to 'declined'
     // when success this.progressState = 'complete';
 
