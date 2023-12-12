@@ -42,7 +42,7 @@ $form-margins: (
     @include responsive.responsiveFontSize();
       margin: 1% 0%;
       position: relative; // Needed for absolute positioning of children
-      overflow: hidden; // To handle any overflow issues
+      overflow: hidden; 
       background-image: linear-gradient(to right, #84aade,#e3e3e3d6);
       transition: background-image 1.5s ease; 
       &.welcome-text-south-paw {
@@ -58,7 +58,6 @@ $form-margins: (
       }
       align-items: center;
       text-align: center;
-      // Magic glow effect
       &:before {
         content: '';
         position: absolute;
@@ -76,7 +75,7 @@ $form-margins: (
       }
       // Active/Tap state
       &:active {
-        background-color: darken(#9b72aa, 10%); 
+        background-color: darken(#446cf0, 10%); 
       }
   }
  
@@ -120,10 +119,8 @@ div[skalarly] {
     animation: gradient-flow 6s linear infinite; 
     }
   }
-
-     
-      .welcome-container {
+  .welcome-container {
         @include common.common;
         align-items: center; 
-      }
+    }
 

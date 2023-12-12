@@ -32,7 +32,8 @@ export class LoginSpecificService {
     'the Achievement',
     'the Learning',
     'to Nurture',
-    'the Aspiration'
+    'the Aspiration',
+    'like-minded People'
   ];
   randomizePairs(): void {
     const randomizedPair: string[] = [];

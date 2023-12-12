@@ -1,4 +1,4 @@
-    <div class="institutions-form-choice">
+    <div class="form-wrapper">
         <!-- filter by typing -->
         <mat-form-field appearance="outline">
           <mat-label>{{ label }}</mat-label>
@@ -15,8 +15,9 @@
           }
         } -->
         </mat-autocomplete>
-          <ng-container *ngIf="hint !== null ">
-            <mat-hint>{{ hint }}</mat-hint>
-          </ng-container>
+         
         </mat-form-field>
+        @if(hint !== null ){
+          <mat-hint>{{ hint }}</mat-hint>
+         }
       </div>

@@ -21,7 +21,7 @@ export class CustomTitleStrategy extends TitleStrategy {
       childRoute = childRoute.firstChild;
     }
 
-    const title: string = childRoute.data['title'] ?? 'Skalarly';
+    const title: string = childRoute.data['title'] ?? 'Skalarly ';
     this.titleService.setTitle(title);
   }
 }

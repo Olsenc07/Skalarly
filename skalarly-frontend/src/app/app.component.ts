@@ -40,7 +40,7 @@ import { refresh } from './assistant-level-code/custom-architecture-aids/animati
 export class AppComponent implements OnDestroy {
   private routeSub$: Subject<void> = new Subject<void>();
   visible: boolean = false;
-  reloadState: 'initial' | 'intermediate' | 'final' | null = null;
+  reloadState: 'initial' | 'intermediate' | 'final' = 'initial';
   routerUrl: string | undefined;
   // mobile first
   orientation: boolean = true;

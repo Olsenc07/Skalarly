@@ -1,10 +1,10 @@
 <div>
 <progress id="progress" [value]="progressValue" max="100"> </progress>
-  <mat-stepper orientation="vertical" #stepper >
+  <mat-stepper orientation="horizontal" #stepper >
     <!-- only step when form is valid -->
 <mat-step>
   <ng-template matStepLabel>Choose your instituition</ng-template>
-<app-reusable-dropdown [countryApi]="true" [label]="'Country of study'" [List$]="country$"
+<app-reusable-dropdown [countryApi]="true" [label]="'Country'" [List$]="country$"
 (selectedChange)="updateCountrySelection($event)" [hint]="'Which country do you study in?'">
 </app-reusable-dropdown>
 <!-- if province-state needs to be chosen -->
@@ -14,18 +14,19 @@
 </app-reusable-dropdown>
 }
 <!-- Institution selection -->
-<ng-container *ngIf="institutionsLoaded">
+@if(institutionsLoaded){
 <app-reusable-dropdown [label]="'Where do you attend school?'" [List$]="institutions$"
 (selectedChange)="chosenInstituition($event)" [hint]="'Current academic instituiton'">
 </app-reusable-dropdown>
-</ng-container>
+}
 <div>
   <button mat-button matStepperNext type="button">Next</button>
 </div>
 </mat-step>
 <!-- make this form in a reusable file!! -->
-<mat-step >  
+<mat-step>  
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
+  <ng-template matStepLabel>Acount Info</ng-template>
   <app-reusable-inputs [control]="usernameControl" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
   [error]="getError('username') | errorPipe"
   (controlValueChanged)="handleValueChange('username', $event)"></app-reusable-inputs>

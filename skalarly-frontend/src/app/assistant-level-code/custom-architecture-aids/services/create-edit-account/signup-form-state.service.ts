@@ -5,11 +5,13 @@ import { Injectable } from '@angular/core';
 export class SignUpFormStateService {
   private hasUnsavedChanges: boolean = false;
   setUnsavedChanges(state: boolean): void {
+    console.log('check 1?', state);
     this.hasUnsavedChanges = state;
   }
 
   // Method to check form state
   getUnsavedChanges(): boolean {
+    console.log('unsaved?', this.hasUnsavedChanges);
     return this.hasUnsavedChanges;
   }
 }

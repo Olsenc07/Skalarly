@@ -12,7 +12,6 @@ import mongoose from 'mongoose';
 // Routes
 import accountManagementRoute from './routes/account-management.js';
 import authorizeRoute from './routes/authorize.js';
-import schoolsRoute from './routes/institutions-info.js';
 import skalarsRoute from './routes/skalars.js';
 // Constructing __dirname 
 const __filename = fileURLToPath(import.meta.url);
@@ -49,7 +48,6 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(express.static('build'));
 app.use('/account-management', express.static('/skalarly-fs/backend/routes/account-management.js'));
 app.use('/authorize', express.static('/skalarly-fs/backend/routes/authorize.js'));
-app.use('/schools', express.static('/skalarly-fs/backend/routes/institutions-info.js'));
 app.use('/skalars', express.static('/skalarly-fs/backend/routes/skalars.js'));
 
 // Static files
@@ -65,7 +63,6 @@ app.use((req, res, next) => {
  });
 app.use("/api/authorize", authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
-app.use("/api/schools", schoolsRoute)
 app.use("/api/skalars", skalarsRoute);
 
 // Secured ReRouting

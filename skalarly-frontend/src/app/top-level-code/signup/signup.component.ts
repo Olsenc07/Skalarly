@@ -173,7 +173,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     return null;
   }
   ngOnInit(): void {
-    this.titleService.setTitle('Skalarly Signup Page');
+    this.titleService.setTitle('Signup - Skalarly');
     combineLatest([
       this.signUpForm.get('username')!.valueChanges,
       this.signUpForm.get('email')!.valueChanges,

@@ -77,7 +77,7 @@ export class ReusableDropDownComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.institutionInfoService.fetchCountries();
+    this.institutionInfoService.getCountries();
 
     // Filters list
     // startWith('') allows list to be displayed before typing

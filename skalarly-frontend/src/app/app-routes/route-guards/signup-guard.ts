@@ -8,6 +8,7 @@ export class SaveSignUpGuard {
   constructor(private formStateService: SignUpFormStateService) {}
 
   canDeactivate(): boolean {
+    console.log('guard');
     if (this.formStateService.getUnsavedChanges()) {
       const confirmNavigation = window.confirm(
         'You have not completed creating your account, all progress will be lost. Do you want to continue?'

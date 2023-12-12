@@ -11,11 +11,11 @@ import { LoginSpecificService } from '../../assistant-level-code/custom-architec
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgOptimizedImage } from '@angular/common';
-// import { Router } from '@angular/router';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
 
 import { ValidationAnimationDirective } from '../../assistant-level-code/custom-architecture-aids/directives/login-validation-animation.directive';
 import { reusableAnimations } from './imports/animation-imports';
+import { Router } from '@angular/router';
 @Component({
   standalone: true,
   selector: 'app-login-format',
@@ -43,7 +43,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   welcome: string = 'Welcome To Skalarly';
 
   constructor(
-    private loginSpecificService: LoginSpecificService // eslint-disable-next-line no-unused-vars
+    private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +56,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.skalarlyState = 'rise';
     }, 7000);
+  }
+  navigate(): void {
+    this.router.navigate(['/sign-up']);
   }
   // reusbale function
   welcomeRiseDone(): void {

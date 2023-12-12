@@ -21,13 +21,13 @@
     "lib": [
       "es2022",
       "dom"
-    ]
+    ],
+    "types": ["cypress", "node", "jasmine", "zone.js"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
-    "types": ["node", "jasmine", "zone.js"]
+    "strictTemplates": true
   }
 }

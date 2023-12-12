@@ -11,7 +11,7 @@ export const dialog: AnimationTriggerMetadata = trigger('dialog', [
   transition('* <=> *', [
     style({
       opacity: 0,
-      transform: 'translateY(100%)' // start from below the page
+      transform: 'translateX(100%)', // start from below the page
     }),
     animate(
       '1s ease',

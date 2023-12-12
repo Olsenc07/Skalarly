@@ -5,6 +5,7 @@
   ],
   "env": {
     "browser": true,
+    "cypress/globals": true,
     "jasmine": true,
     "node": true
   },
@@ -24,6 +25,7 @@
         "eslint:recommended",
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:cypress/recommended",
         "plugin:prettier/recommended"
       ],
       "rules": {
@@ -68,7 +70,7 @@
       "files": [
         "*.html"
       ],
-      "plugins": ["rxjs-angular", "jasmine"],
+      "plugins": ["cypress","rxjs-angular", "jasmine"],
       "extends": [
         "plugin:@angular-eslint/template/recommended"
       ],

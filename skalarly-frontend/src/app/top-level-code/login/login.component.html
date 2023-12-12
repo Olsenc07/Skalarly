@@ -19,7 +19,7 @@
 <div class="welcome-container">
 @if (!nextAnimations) {
   <button mat-raised-button
-  routerLink="/sign-up" join>
+  (click)="navigate()" join>
   <span>Join</span>
   </button>
 } @else {

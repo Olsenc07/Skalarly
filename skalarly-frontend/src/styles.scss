@@ -13,6 +13,7 @@ $toolbar-background-color: #282828;
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family: var(--skalarly-font); 
 }
 b {
 // for matching search results to an api call list
@@ -20,7 +21,6 @@ b {
 color: lightblue
 }
 body {
-  // better to implement specific cases. This is to confusing
   margin: 0;
   padding: 0;
   background-image: linear-gradient(whitesmoke,white);
