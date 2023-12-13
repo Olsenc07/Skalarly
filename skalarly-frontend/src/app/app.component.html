@@ -59,7 +59,7 @@
 <!-- page refresh pull down, eventully use GSAP for a fun animation-->
   <ng-container appPullToRefresh 
    (holdDetected)="onHoldDetected($event.visible)" (deltaYChange)="onDeltaYChange($event.state)">
-<!-- @if(visible){ -->
+@if(visible){
     <!-- The refresh icon. that animates    -->
     <div class="refresh-icon-container" [@refresh]="reloadState">
     <mat-icon [@dialog]  
@@ -68,7 +68,7 @@
     {{ getIcon(reloadState)}}
   </mat-icon>
 </div>
-<!-- } -->
+}
   </ng-container>
   <router-outlet content ></router-outlet> <!-- Primary outlet for main content -->
  <!-- Render as component based on path of routes -->
