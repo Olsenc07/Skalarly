@@ -36,6 +36,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/Skalarly-FS/",
               "allowedCommonJsDependencies": ["zone.js"],
               "budgets": [
                 {
