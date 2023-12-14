@@ -1,1 +1,1 @@
-web: node /app/backend/server.js
+web: node /Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/server.js

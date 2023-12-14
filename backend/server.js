@@ -51,7 +51,7 @@ app.use('/authorize', express.static('/skalarly-fs/backend/routes/authorize.js')
 app.use('/skalars', express.static('/skalarly-fs/backend/routes/skalars.js'));
 
 // Static files
-const angularAppPath = join(__dirname, '/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src/app');
+const angularAppPath = join(__dirname, 'dist', 'skalarly-fs');
 app.use(express.static(angularAppPath));
 
 // CORS
@@ -79,7 +79,7 @@ function requireHTTPS(req, res, next) {
   }
 
 // Serve the static Angular files from the 'dist' directory when build
-// app.use(express.static('/app/../static'));
+app.use(express.static('/app/../static'));
 
 // Catch-all route to serve the Angular app
 app.get("*", requireHTTPS, (req, res) => {
