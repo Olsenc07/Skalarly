@@ -31,4 +31,4 @@ jobs:
       run: |
         npm install -g angular-cli-ghpages
         ng build --prod --base-href /Skalarly-FS/
-        npx angular-cli-ghpages --dir=dist/Skalarly-FS
+        npx angular-cli-ghpages --dir=dist/skalarly
