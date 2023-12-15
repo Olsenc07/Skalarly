@@ -6,9 +6,9 @@
   "main": "/skalarly-fs/backend/server.js",
   "scripts": {
     "test": "cypress",
-    "start": "node /skalarly-fs/backend/server.js",
+    "start": "node ./backend/server.js",
     "heroku-postbuild": "cd skalarly-frontend && npm install && npm run build",
-    "dev": "nodemon /skalarly-fs/backend/server.js"
+    "dev": "nodemon ./backend/server.js"
   },
   "repository": {
     "type": "git",
