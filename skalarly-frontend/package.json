@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "cypress:open": " cypress open",
     "cypress:run": " cypress run",
-    "build:prod": "ng build --prod",
+    "build:prod": "ng build --configuration=production",
     "start:prod": "http-server ./dist -p 4200",
     "build-and-deploy:prod": "run-s build:prod start:prod",
     "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run"
@@ -33,7 +33,7 @@
     "eslint-plugin-jasmine": "^4.1.3",
     "eslint-plugin-prettier": "^5.0.1",
     "ngx-skeleton-loader": "^8.1.0",
-    "node": "^21.1.0",
+    "node": "^20.10.0",
     "prettier": "^3.1.0",
     "rxjs": "~7.8.1",
     "tough-cookie": "4.1.3",

@@ -27,7 +27,6 @@ const server = https.createServer(
 app);
 const port = process.env.PORT || 4200;
 
-
 //  DataBase connection
 mongoose.connect(process.env.mongodb)
 .then(()  => {
@@ -51,8 +50,7 @@ app.use('/authorize', express.static('/skalarly-fs/backend/routes/authorize.js')
 app.use('/skalars', express.static('/skalarly-fs/backend/routes/skalars.js'));
 
 // Static files
-const angularAppPath = join(__dirname, 'dist', 'skalarly-fs');
-app.use(express.static(angularAppPath));
+app.use(express.static('/skalarly-MVP/skalarly-fs/static'));
 
 // CORS
 app.use((req, res, next) => {
