@@ -9,8 +9,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "cypress:open": " cypress open",
-    "cypress:run": " cypress run",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "build:prod": "ng build --configuration=production",
     "build-and-deploy:prod": "run-s build:prod start:prod",
     "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run"
