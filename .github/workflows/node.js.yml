@@ -12,13 +12,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [20.x]
+ 
     steps:
     - uses: actions/checkout@v3
- #  Cache Node.js modules
+
     - name: Cache Node.js modules
       uses: actions/cache@v2
       with:
@@ -26,7 +23,7 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    # Node.js
+
     - name: Use Node.js 
       uses: actions/setup-node@v3
       with:
@@ -34,16 +31,15 @@ jobs:
 
     - run: npm ci
     - run: npm test
-    # Frontend 
+
      - name: Build Angular App
-      run: |
+       run: |
         cd ../skalarly-frontend
         npm run build:prod 
 
-    # Deploy to GitHub Pages
      - name: Deploy to GitHub Pages
        run: npx angular-cli-ghpages --dir=dist/skalarly
-    # Deploy to Heroku
+
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
