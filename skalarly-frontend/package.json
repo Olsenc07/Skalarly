@@ -1,6 +1,7 @@
 {
-  "name": "skalarly",
+  "name": "skalarly-frontend",
   "version": "0.0.0",
+  "description": "front-end for Skalarly application",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

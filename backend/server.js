@@ -86,4 +86,8 @@ app.get("/worker.js", (req, res) => {
   res.status(200).sendFile(join(angularAppPath, 'worker.js'));
   });
 
+
+  // maybe idk.. match files to old and how it worked?
+const routes = require('../backend/api');
+app.use('/api', routes)
 export default app
