@@ -1,13 +1,9 @@
 {
     "name": "skalarly-backend",
     "version": "1.0.0",
-    "description": "back-end for Skalarly application",
+    "description": "mongoose connection",
     "type": "module",
-    "main": "./server.js",
-    "scripts": {
-      "start": "node ./server.js",
-      "dev": "nodemon ./server.js"
-    },
+    "main": "./backend/server.js",
     "repository": {
       "type": "git",
       "url": "git+https://github.com/Olsenc07/skalarly-fs.git"
@@ -27,5 +23,4 @@
       "nodemon": "^3.0.1"
     }
   }
-  
   
