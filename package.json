@@ -1,21 +1,20 @@
 {
   "name": "skalarly-fs",
   "version": "1.0.0",
-  "description": "connection",
+  "description": "Backend for Skalarly application",
   "type": "module",
-  "main": "/skalarly-fs/backend/server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "test": "cypress",
-    "start": "node ./backend/server.js",
-    "heroku-postbuild": "cd skalarly-frontend && npm install && npm run build",
-    "dev": "nodemon ./backend/server.js"
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "npm install --prefix skalarly-frontend && npm run build --prefix skalarly-frontend"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Olsenc07/skalarly-fs.git"
   },
-  "keywords": [],
-  "author": "\"\"",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Olsenc07/skalarly-fs/issues"
@@ -24,12 +23,13 @@
   "dependencies": {
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
-    "cypress": "^13.6.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "mongoose-unique-validator": "^4.0.0",
-    "nodemon": "^3.0.1",
     "web-push": "^3.6.6"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
