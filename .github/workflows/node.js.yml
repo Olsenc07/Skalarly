@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v8
 
     - name: Cache Node.js modules
-      uses: actions/cache@v2
+      uses: actions/cache@v8
       with:
         path: ~/.npm
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -22,7 +22,7 @@ jobs:
           ${{ runner.os }}-node-
 
     - name: Use Node.js 
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v8
       with:
         node-version: '20.x'  # Consider using an LTS version like '16.x'
 
