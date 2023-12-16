@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No tests specified\"",
     "heroku-postbuild": "npm install --prefix skalarly-frontend && npm run build --prefix skalarly-frontend"
   },
   "repository": {
