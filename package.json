@@ -8,7 +8,7 @@
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
     "test": "echo \"No tests specified\"",
-    "heroku-postbuild": "npm install  && npm run build:prod --prefix skalarly-frontend"
+    "heroku-postbuild": "npm install && npm run build:prod --prefix skalarly-frontend"
   },
   "repository": {
     "type": "git",
