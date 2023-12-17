@@ -36,8 +36,9 @@ jobs:
         npm run build:prod 
 
     - name: Deploy to GitHub Pages
-      run: npx angular-cli-ghpages --dir=skalarly-frontend/dist/skalarly
+      run: npx angular-cli-ghpages --dir=/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/dist
 
+      
     - name: Deploy to Heroku
       uses: akhileshns/heroku-deploy@v3.12.12
       with:
