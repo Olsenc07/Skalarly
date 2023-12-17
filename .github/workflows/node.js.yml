@@ -32,6 +32,7 @@ jobs:
     - name: Build Angular App
       run: |
         cd skalarly-frontend  
+        npm install
         npm run build:prod 
 
     - name: Deploy to GitHub Pages
