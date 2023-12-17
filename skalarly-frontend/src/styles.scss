@@ -3,7 +3,7 @@
 @use 'app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
-// universal font
+/* universal font */
 :root{
 --skalarly-font: 'Cormorant Garamond', serif;
 }
@@ -16,8 +16,8 @@ $toolbar-background-color: #282828;
   font-family: var(--skalarly-font); 
 }
 b {
-// for matching search results to an api call list
-// displays light blue for `<b>${match}</b>` bold.pipe implementation
+/* for matching search results to an api call list */
+/* displays light blue for `<b>${match}</b>` bold.pipe implementation */
 color: lightblue
 }
 body {
@@ -28,7 +28,7 @@ body {
   @include universal.pageSize;
  }
  button{
-  // google standard for mobile buttons
+  /* google standard for mobile buttons */
   min-height: 48px; 
  }
 .condition-met{
@@ -74,10 +74,10 @@ mat-toolbar{
   'opsz' 24
 }
 router-outlet[content] {
-    flex: 1; // allow the content area to expand and fill available space 
+    flex: 1; /* allow the content area to expand and fill available space */
 @media (orientation: portrait) {
-  padding-bottom: 4em; // adjust this value to match the footer's height in app scss 
-  box-sizing: border-box; // include padding in the content's height calculation 
+  padding-bottom: 4em; /* adjust this value to match the footer's height in app scss */
+  box-sizing: border-box; /* include padding in the content's height calculation */
 }
 }
 app-letter-by-letter{
