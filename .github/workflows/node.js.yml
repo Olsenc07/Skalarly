@@ -45,7 +45,7 @@ jobs:
     - name: Deploy to GitHub Pages
       run: npx angular-cli-ghpages --dir=skalarly-frontend/dist --no-silent --repo=https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com/Olsenc07/Skalarly-FS.git
       env:
-        GH_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+        MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
 
 
     - name: Deploy to Heroku
