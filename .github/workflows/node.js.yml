@@ -36,14 +36,10 @@ jobs:
         npm run build:prod 
 
 
-    - name: Configuring Git User Info
-      run: |
-        git config --global user.name "Chase Olsen"
-        git config --global user.email "skalolsen@gmail.com"
-
-
     - name: Deploy to GitHub Pages
-      run: npx angular-cli-ghpages --dir=skalarly-frontend/dist --no-silent
+      run: npx angular-cli-ghpages --dir=skalarly-frontend/dist --no-silent --repo=https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Olsenc07/Skalarly-FS.git
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
     - name: Deploy to Heroku
