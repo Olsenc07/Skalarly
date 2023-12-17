@@ -1,4 +1,4 @@
-@use '/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
+@use '/skalarly-frontend/src/app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 .error-screen {
   display: flex;
   flex-direction: column;
@@ -42,6 +42,6 @@ div[mat-card-subtitle] {
     }
     h2 {
         @include responsive.responsiveFontSize('large');
-        color: #3b5998; // A softer color for the login prompt
+        color: #3b5998; 
       }
   }

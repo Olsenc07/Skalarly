@@ -1,19 +1,19 @@
-// Device Breakpoints
+/* Device Breakpoints */
 $device-sizes: (
- base: 0px, // portrait phones
- tablet: 600px, // landscape phones
- laptop: 768px, // tablets
- desktop: 992px, // desktop
- tv: 1200px // tv and extra large screen 
+ base: 0px, /* portrait phones */
+ tablet: 600px, /* landscape phones */
+ laptop: 768px, /* tablets */
+ desktop: 992px, /* desktop */
+ tv: 1200px /* tv and extra large screen */
 );
 $device-sizes-height: (
-    small: 320px, // Small mobile devices
-    medium: 480px, // Medium mobile devices, large phones
-    large: 640px, // Large phones (in landscape), small tablets
-    extra-large: 800px, // Large tablets in portrait
-    tv: 1080px // Typical TV screens, large displays
+    small: 320px, /* Small mobile devices */
+    medium: 480px, /* Medium mobile devices, large phones */
+    large: 640px, /* Large phones (in landscape), small tablets */
+    extra-large: 800px, /* Large tablets in portrait */
+    tv: 1080px /* Typical TV screens, large displays */
 );
-// corresponding font sizes
+/* corresponding font sizes */
 $font-sizes: (
   base: 1rem,
   tablet: 1.1rem,
@@ -21,7 +21,7 @@ $font-sizes: (
   desktop: 1.3rem,
   tv: 1.4rem
 );
-// sub font sizes chart
+/* sub font sizes chart */
 $font-sub-sizes: (
   base: .07rem,
   tablet: .09rem,
@@ -29,7 +29,7 @@ $font-sub-sizes: (
   desktop: .2rem,
   tv: .3rem
 );
-// scale line height by * font size
+/* scale line height by * font size */
 $line-heights: (
   base: 1.6,
   tablet: 1.55,
@@ -37,7 +37,7 @@ $line-heights: (
   desktop: 1.45,
   tv: 1.4
 );
-// chip sizes based off font
+/* chip sizes based off font */
 $chip-sizes: (
    base: 15%,
    tablet: 25%,

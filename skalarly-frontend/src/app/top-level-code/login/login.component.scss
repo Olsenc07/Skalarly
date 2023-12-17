@@ -11,28 +11,27 @@ $form-margins: (
   tv: 20%        
 );
 @mixin responsiveMargins {
-  // Mobile First
+  /* Mobile First */
   --margin-form: map-get($form-margins, 'base');
   margin: 0% var(--margin-form);
   @each $screen, $min-width in device.$device-sizes {
     @if $screen != 'base' {
       @include responsive.media-query($screen, $min-width){
-      // Use built media query string
         margin: 0% map-get($form-margins, $screen);
       }}}
 }
 
-// logo and top of login screen
+/* logo and top of login screen */
 .login-header {
     text-align: center; 
     @include common.common;
     align-items: center;
     padding-top: 3%;
     margin: 0;
-    // border neat
+    /* border neat */
     border-top: 15px solid transparent;
     border-left: 15px solid transparent;    
-    // border-image: linear-gradient(308deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 75, 179, 0.7)) 1 stretch;
+    /* border-image: linear-gradient(308deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 75, 179, 0.7)) 1 stretch; */
     border-image: linear-gradient(308deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
     padding-bottom: 1%;
     margin: 1%;
@@ -41,7 +40,7 @@ $form-margins: (
   button[join] {
     @include responsive.responsiveFontSize();
       margin: 1% 0%;
-      position: relative; // Needed for absolute positioning of children
+      position: relative; /* Needed for absolute positioning of children */
       overflow: hidden; 
       background-image: linear-gradient(to right, #84aade,#e3e3e3d6);
       transition: background-image 1.5s ease; 
@@ -51,7 +50,7 @@ $form-margins: (
         box-shadow: 3px 3px #93b9e6;
       }
       color: white;
-      // add ons
+      /* add ons */
       &[mat-raised-button]{
       @include animation.riseFloat;
       animation: float 4s ease-in-out;
@@ -69,11 +68,11 @@ $form-margins: (
         opacity: 0;
         transition: opacity 0.3s;
       }
-      // Hover state
+      /* Hover state */
       &:hover:before {
         opacity: 1;
       }
-      // Active/Tap state
+      /* Active/Tap state */
       &:active {
         background-color: darken(#446cf0, 10%); 
       }
@@ -81,9 +80,9 @@ $form-margins: (
  
  
   
-  // Sparkle on hover
+  /* Sparkle on hover */
   button[join]:hover:after {
-    content: '\2728'; // Unicode character for sparkle
+    content: '\2728'; //*ode character for sparkle */
     position: absolute;
     top: 5%;
     left: 75%;
@@ -96,7 +95,7 @@ $form-margins: (
     background-color: ghostwhite;
   }
 
-// *1 *2
+/* *1 *2 */
 div[column] {
   @include common.common;
   padding: 3% 1% 0% 1%;
@@ -114,7 +113,7 @@ div[skalarly] {
     -webkit-background-clip: text;
     color: transparent; 
     background-image: common.generateGradient();
-    background-size: 200% 200%; // Extends the background to allow for the "flow" effect
+    background-size: 200% 200%; /* Extends the background to allow for the "flow" effect */
     @include animation.gradientFlow;
     animation: gradient-flow 6s linear infinite; 
     }

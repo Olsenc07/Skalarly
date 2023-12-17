@@ -5,13 +5,13 @@ $random-pair: universal.random-color-pair();
 $firstChoice: map-get($random-pair, primary);
 $secondChoice: map-get($random-pair, pairing);
 $device-sizes: (
- base: 576px, //mobile devices typically 0px - 576px
- tablet: 768px, //ipads & tablets 577x - 768px
- labtop: 1024px, // labtops & small screens 769px - 1024px
- desktop: 1200px, // desktops & large screen 1025px - 1200px
- tv: 1440px // tv and extra large screen 1440px & greater 
+ base: 576px, /* mobile devices typically 0px - 576px */
+ tablet: 768px, /* ipads & tablets 577x - 768px */
+ labtop: 1024px, /* labtops & small screens 769px - 1024px */
+ desktop: 1200px, /* desktops & large screen 1025px - 1200px */
+ tv: 1440px /* tv and extra large screen 1440px & greater */
 );
-// refresh icon 
+/* refresh icon */
 $font-sizes-header: (
   base: 3rem,
   tablet: 3.125rem,
@@ -20,7 +20,7 @@ $font-sizes-header: (
   tv: 3.5rem
 );
 
-// state change of navigation icons
+/* state change of navigation icons */
 @mixin active($state, $active){
     @include universal.common;
     align-items: center;
@@ -29,15 +29,15 @@ $font-sizes-header: (
     font-size: 1.5em;
 }
 } 
-// mat-toolbar
+/* mat-toolbar */
 @mixin toolbar{
     display: flex;
     position: sticky;
     z-index: 2;
-    // may need to increase this basd on mobile 50px footer height/tablet 70px fh
+    /* may need to increase this basd on mobile 50px footer height/tablet 70px fh */
     height: 4em;
 } 
-// * 1
+/* *1 */
 .footer{
 @include toolbar;
 bottom: 0;
@@ -55,12 +55,12 @@ bottom: 0;
       z-index: -1;
     }
   }
-// *2
+/* *2 */
 .header{
 @include toolbar;
 top: 0;
 }
-// *1 *2
+/* *1 *2 */
 .navigation{
     @include universal.common;
     @include universal.pageSize

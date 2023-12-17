@@ -96,7 +96,7 @@ $Bounce: (
   .font-size-default { @include responsive.responsiveFontSize(); }
   .font-size-large {  @include responsive.responsiveFontSize('larger'); }
      
-    // Apply the mixin to each class
+  /* Apply the mixin to each class */
   .magical-letter {
       @include animation('Appearance', $Appearance);
     }

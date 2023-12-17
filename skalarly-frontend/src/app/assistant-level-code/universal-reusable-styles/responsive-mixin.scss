@@ -1,6 +1,6 @@
  @use '../universal-reusable-styles/break-points' as device;
  
-// reusable algorithms
+/* reusable algorithms */
 @mixin media-query($screen, $min-width) {
     $index: index(map-keys(device.$device-sizes), $screen);
     $next-index: $index + 1;
@@ -21,14 +21,14 @@
           $screen-font-size: map-get(device.$font-sizes, $screen);
           $screen-font-sub-size: map-get(device.$font-sub-sizes, $screen);
           $line-height-ratio: map-get(device.$line-heights, $screen);
-          // Calculate the final font size
+          /* Calculate the final font size */
           $final-font-size: $screen-font-size;
           @if $sizeVariant == 'smaller' {
             $final-font-size: $screen-font-size - $screen-font-sub-size;
           } @else if $sizeVariant == 'larger' {
             $final-font-size: $screen-font-size + $screen-font-sub-size;
           }
-          // Apply styles
+          /* Apply styles */
           font-size: $final-font-size;
           line-height: $final-font-size * $line-height-ratio;
         }
