@@ -4,6 +4,10 @@
   "description": "Wrapper for Skalarly application",
   "type": "module",
   "main": "backend/server.js",
+   "engines": {
+    "node": "20.10.0",
+    "npm": "10.2.3"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
