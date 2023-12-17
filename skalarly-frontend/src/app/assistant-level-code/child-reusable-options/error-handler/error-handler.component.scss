@@ -6,7 +6,7 @@
   justify-content: center;
   background-color: #fff;
   button{
-    color: var(--pairingColor)
+    color: var(--pairingColor);
   }
 div[mat-card-title] {
     @include responsive.responsiveFontSize('large');
@@ -38,7 +38,7 @@ div[mat-card-subtitle] {
         }
     }
     footer{
-    padding-left: 3%
+    padding-left: 3%;
     }
     h2 {
         @include responsive.responsiveFontSize('large');
