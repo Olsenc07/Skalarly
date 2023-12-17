@@ -38,7 +38,7 @@ jobs:
 
     - name: Configuring Git User Info
       run: |
-        git config --global user.name "Chase Olsen"
+        git config --global user.name "Olsenc07"
         git config --global user.email "skalolsen@gmail.com"
 
 
