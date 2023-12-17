@@ -8,7 +8,7 @@
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
     "test": "echo \"No tests specified\"",
-    "heroku-postbuild": "npm install && cd skalarly-frontend && npm run build:prod"
+    "heroku-postbuild": "cd skalarly-frontend && npm run build:prod"
   },
   "repository": {
     "type": "git",
@@ -29,8 +29,6 @@
     "web-push": "^3.6.6"
   },
   "devDependencies": {
-    "@angular/cli": "^17.0.7",
-    "@angular-devkit/build-angular": "17.0.7",
     "nodemon": "^3.0.1"
   }
 }
