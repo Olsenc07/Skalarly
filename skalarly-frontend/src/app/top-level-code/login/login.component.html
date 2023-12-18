@@ -23,7 +23,8 @@
   <span>Join</span>
   </button>
 } @else {
-  <button mat-stroked-button [class.welcome-text-south-paw]="nextAnimations"
+  <button mat-stroked-button
+  (click)="navigate()" [class.welcome-text-south-paw]="nextAnimations"
    [@bubble]="nextAnimations ? 'animate' : 'noAnimate'" join>
   <app-letter-by-letter [customClass]="'small'"
   [lastLetterAnimation]="true"
