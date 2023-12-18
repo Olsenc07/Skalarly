@@ -36,6 +36,11 @@ import { Router } from '@angular/router';
 import { loginImports } from '../imports/login-imports';
 import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { reusableLogicAnimations } from './../imports/animation-logic-imports';
+interface IconConfig {
+  icon: string;
+  class: string;
+  animation: string;
+}
 @Component({
   selector: 'app-login-logic',
   standalone: true,
@@ -51,6 +56,7 @@ import { reusableLogicAnimations } from './../imports/animation-logic-imports';
   styleUrl: './login-logic.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class LoginLogicComponent implements OnInit {
   @Input() alwaysVertical?: boolean = false;
   // animated
@@ -188,15 +194,16 @@ export class LoginLogicComponent implements OnInit {
     this.progressState = 'loading';
     this.cdr.detectChanges(); // Detect changes immediately
 
-    setTimeout(() => {
-      this.progressState = 'declined';
-      this.cdr.detectChanges(); // Detect changes when state changes to 'declined'
+  setTimeout(() => {
+    this.progressState = 'declined';
+    this.cdr.detectChanges(); // Detect changes when state changes to 'declined'
 
-      setTimeout(() => {
-        this.progressState = 'default';
-        this.cdr.detectChanges(); // Detect changes when state resets to 'default'
-      }, 1000);
-    }, 2000); // 2 seconds to go to 'declined'
+    setTimeout(() => {
+      this.progressState = 'default';
+      this.cdr.detectChanges(); // Detect changes when state resets to 'default'
+    }, 3000); // Wait 3 seconds before returning to default
+  }, 3000);
+   // 2 seconds to go to 'declined'
     // when success this.progressState = 'complete';
 
     // this.authorizeService
@@ -230,6 +237,21 @@ export class LoginLogicComponent implements OnInit {
     //     }
     //   });
   }
+  getIconConfig(progressState: string): IconConfig{
+    switch (progressState) {
+      case 'default':
+        return { icon: 'fingerprint', class: 'initial', animation: 'fingerprint-border-initial' };
+      case 'loading':
+        return { icon: 'fingerprint', class: 'loading', animation: 'fingerprint-border' };
+      case 'complete':
+        return { icon: 'approval_delegation', class: 'approved', animation: 'fingerprint-border-approved' };
+        case 'declined':
+        return { icon: 'block', class: 'declined', animation: 'fingerprint-border-declined' };
+      default:
+        return { icon: 'fingerprint', class: '', animation: '' };
+    }
+  }
+  
   // ability to login using enter click
   enterClicked(): void {
     if (this.loginForm.valid) {

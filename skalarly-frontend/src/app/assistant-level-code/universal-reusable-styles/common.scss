@@ -90,6 +90,8 @@ $secondChoice: map-get($random-pair, pairing);
 :root {
   --firstChoice: #{$firstChoice};
   --secondChoice: #{$secondChoice};
+  --error: rgba(220, 20, 60, 0.5); /* Crimson Flame */
+  --approved: hwb(51 0% 0%); 
   --pairingColor: #486b83; /* Oceanic Blue */
   --pairingColor2: #778da9; /* Dusty Blue */
 }

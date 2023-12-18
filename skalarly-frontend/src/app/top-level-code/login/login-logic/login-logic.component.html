@@ -54,11 +54,9 @@
 <button matSuffix mat-icon-button type="button"
 (click)="$event.stopPropagation(); toggleVisibility()" [@rotate180]="visiblePassword"
 matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
-<span class="material-symbols-outlined">
-    <mat-icon>
+    <mat-icon matSuffix class="material-symbols-outlined">
     {{ visiblePassword ? 'visibility' : 'visibility_off' }}
     </mat-icon>
-</span>
 </button>
 </mat-form-field>
    }
@@ -74,32 +72,15 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </span>
 <!-- Login Button -->
 <div loginButton>
-  <button mat-fab type="submit" class="material-symbols-outlined"
-  [class.fingerprint-border-declined]="progressState === 'declined'"
+  <button mat-fab type="submit" 
     [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
+    [ngClass]="getIconConfig(progressState).animation" 
     (keydown.enter)="enterClicked()">
-  @switch (progressState) {
-    @case ('default') {
-  <span class="fingerprint-border-initial">
-    fingerprint
-  </span>
-}
-<!-- Processing login -->
-  @case ('loading') {
-    <span class="fingerprint-border">
-      fingerprint
-    </span>
-}
-<!-- approved -->
-  @case ('complete') {
-<span [@fadeInGrow] class="glowing-text">
- approval_delegation
-</span>
-}
-@default{
-        fingerprint
-}
-  }
+    <mat-icon [@iconFade]="progressState"
+    [ngClass]="getIconConfig(progressState).class" 
+    class="material-symbols-outlined">
+      {{ getIconConfig(progressState).icon }}
+    </mat-icon>
 </button>
 </div>
 </div>

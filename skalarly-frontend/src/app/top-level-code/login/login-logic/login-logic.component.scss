@@ -55,10 +55,6 @@ div[forgot]{
   align-items: center;
   text-align: center;
        }
-// approved login
-.glowing-text {
-  @include common.approved;
-}
 .input-boxes{
     display: flex;
     justify-content: center;
@@ -82,33 +78,34 @@ div[forgot]{
       width: 100%;
     }
   }
-  @mixin common-fingerprint-style {
-    content: '';
-    position: absolute;
-    top: -3px; left: -3px;
-    bottom: -3px; right: -3px;
-    z-index: -1;
-    border-radius: 50%;
-}
   .fingerprint-border-initial {
     &::before {
-        @include common-fingerprint-style;
         @include animation.initial;
         animation: initialGlow 1.5s ease-in-out;
     }
+    .initial {
+      color: var(--firstChoice);
+    }
   }
   .fingerprint-border {
-    &::before {
-    @include common-fingerprint-style;
+    &::before {  
       @include animation.magic;
       animation: rotateAndShimmer 1.5s linear forwards;
     }
+    .loading {
+      color: var(--secondChoice);
+    }
   }
   .fingerprint-border-declined {
-    position: relative;
-// or absolute 
-    border-radius: 50%;
     @include animation.declined;
     animation: shake .5s linear;
+    .declined {
+      color: var(--error);
+    }
   }
- 
+  .fingerprint-border-approved {
+    @include common.approved;
+    .approved{
+      color: var(--approved);
+    }
+  }
