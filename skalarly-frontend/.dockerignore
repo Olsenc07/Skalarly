@@ -1,0 +1,18 @@
+# Exclude node_modules directory
+node_modules
+
+# Exclude .git directory
+.git
+
+# Exclude log files
+*.log
+
+# Exclude development and test-related files
+.env
+.env.local
+.env.development
+.env.test
+
+# Exclude other unnecessary files
+.DS_Store
+.vscode/
