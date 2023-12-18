@@ -26,28 +26,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
-      - name: Build Backend Docker Image
+      - name: Build and Push Backend Docker Image to Heroku
         run: |
-          docker buildx -t my-backend-image -f backend/Dockerfile .
-          docker buildx build --push -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend backend -f backend/Dockerfile
+          docker buildx build --tag registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend --file backend/Dockerfile --push .
 
-      - name: Build Frontend Docker Image
+      - name: Build and Push Frontend Docker Image to Heroku
         run: |
-          docker buildx -t my-frontend-image -f skalarly-frontend/Dockerfile .
-          docker buildx build --push -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend skalarly-frontend -f skalarly-frontend/Dockerfile
+          docker buildx build --tag registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend --file skalarly-frontend/Dockerfile --push .
 
       - name: Log in to Heroku Container Registry
         run: echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
-
-      - name: Push Backend Docker Image
-        run: |
-          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend
-          docker push my-backend-image
-
-      - name: Push Frontend Docker Image
-        run: |
-          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend
-          docker push my-frontend-image
 
       - name: Release Docker Image
         run: |
@@ -71,10 +59,3 @@ jobs:
         run: npx angular-cli-ghpages --dir=skalarly-frontend/dist --no-silent --repo=https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com/Olsenc07/Skalarly-FS.git
         env:
           MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
-
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.12.14
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
