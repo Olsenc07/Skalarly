@@ -25,6 +25,9 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
+              
+      - name: Log in to Heroku Container Registry
+        run: echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
 
       - name: Build and Push Backend Docker Image to Heroku
         run: |
@@ -33,9 +36,6 @@ jobs:
       - name: Build and Push Frontend Docker Image to Heroku
         run: |
           docker buildx build --tag registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend --file skalarly-frontend/Dockerfile --push .
-
-      - name: Log in to Heroku Container Registry
-        run: echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
 
       - name: Release Docker Image
         run: |
