@@ -4,7 +4,6 @@ import bodyParser from 'body-parser';
 import https from 'https';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import fs from 'fs';
 // Browser Push Notifications
 import webpush from 'web-push';
 // MongoDB
@@ -36,6 +35,19 @@ mongoose.connect(process.env.mongodb)
     console.log('Not connected to database');
 });
 
+// Secured ReRouting
+function requireHTTPS(req, res, next) {
+  // The 'x-forwarded-proto' check is for Heroku
+  if (
+    (req.get("x-forwarded-proto") !== "https")
+    &&
+  (process.env.NODE_ENV !== "development")
+  ) {
+    return res.redirect("https://" + req.get("host") + req.url);
+  }
+  next();
+}
+
 // Server Activation
 server.listen(port, () => {
     console.log(`Listening to requests on ${port}`);
@@ -44,13 +56,15 @@ server.listen(port, () => {
 // App Configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
-app.use(express.static('build'));
-app.use('/account-management', express.static('/skalarly-fs/backend/routes/account-management.js'));
-app.use('/authorize', express.static('/skalarly-fs/backend/routes/authorize.js'));
-app.use('/skalars', express.static('/skalarly-fs/backend/routes/skalars.js'));
+
+// Define the path to the Angular app's build output
+const angularAppPath = join(__dirname, 'skalarly-frontend', 'dist', 'skalarly');
 
 // Static files
-app.use(express.static('dist/skalarly'));
+app.use(express.static(angularAppPath));
+
+// Secured ReRouting
+app.use(requireHTTPS);
 
 // CORS
 app.use((req, res, next) => {
@@ -63,31 +77,14 @@ app.use("/api/authorize", authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
 app.use("/api/skalars", skalarsRoute);
 
-// Secured ReRouting
-function requireHTTPS(req, res, next) {
-    // The 'x-forwarded-proto' check is for Heroku
-    if (
-      (req.get("x-forwarded-proto") !== "https")
-      &&
-    (process.env.NODE_ENV !== "development")
-    ) {
-      return res.redirect("https://" + req.get("host") + req.url);
-    }
-    next();
-  }
-
 // Catch-all route to serve the Angular app
-const angularAppPath = path.join(__dirname, '..', 'dist', 'skalarly');
-app.get("*", requireHTTPS, (req, res) => {
-  res.status(200).sendFile(join(angularAppPath, 'index.html'));   
-})
+app.get('*', (req, res) => {
+  res.sendFile(join(angularAppPath, 'index.html'));
+});
+
 // PWA 
 app.get("/worker.js", (req, res) => {
   res.status(200).sendFile(join(angularAppPath, 'worker.js'));
   });
 
-
-  // maybe idk.. match files to old and how it worked?
-const routes = require('../backend/api');
-app.use('/api', routes)
 export default app
