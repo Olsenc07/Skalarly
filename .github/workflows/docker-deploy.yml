@@ -12,56 +12,42 @@ jobs:
     environment: github-pages
 
     steps:
-      - uses: actions/checkout@v3
-
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
       - name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-   
 
       - name: Build Backend Docker Image
         run: |
-          docker buildx registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend backend/Dockerfile .
+          docker build -t my-backend-image -f backend/Dockerfile .
+          docker buildx build --push -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend backend -f backend/Dockerfile
 
-
-          docker build -t my-backend-image -f backend/Dockerfile 
       - name: Build Frontend Docker Image
         run: |
-          docker buildx registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend skalarly-frontend/Dockerfile .
-      
-
           docker build -t my-frontend-image -f skalarly-frontend/Dockerfile .
+          docker buildx build --push -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend skalarly-frontend -f skalarly-frontend/Dockerfile
+
       - name: Log in to Heroku Container Registry
         run: echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
-    
+
       - name: Push Backend Docker Image
         run: |
           docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend
+          docker push my-backend-image
 
       - name: Push Frontend Docker Image
         run: |
           docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend
-
-
-      - name: Push Backend Docker Image
-        run: |
-            docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend
-  
-            docker push my-backend-image
-  
-      - name: Push Frontend Docker Image
-        run: |
-          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend
-  
           docker push my-frontend-image
-
 
       - name: Release Docker Image
         run: |
@@ -72,7 +58,7 @@ jobs:
 
       - name: Build Angular App
         run: |
-          cd skalarly-frontend  
+          cd skalarly-frontend
           npm install
           npm run build:prod 
 
