@@ -30,10 +30,14 @@ jobs:
         run: |
           docker buildx registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend backend/Dockerfile .
 
+
+          docker build -t my-backend-image -f backend/Dockerfile 
       - name: Build Frontend Docker Image
         run: |
           docker buildx registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend skalarly-frontend/Dockerfile .
       
+
+          docker build -t my-frontend-image -f skalarly-frontend/Dockerfile .
       - name: Log in to Heroku Container Registry
         run: echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
     
@@ -44,6 +48,20 @@ jobs:
       - name: Push Frontend Docker Image
         run: |
           docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend
+
+
+      - name: Push Backend Docker Image
+        run: |
+            docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend
+  
+            docker push my-backend-image
+  
+      - name: Push Frontend Docker Image
+        run: |
+          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend
+  
+          docker push my-frontend-image
+
 
       - name: Release Docker Image
         run: |
