@@ -28,11 +28,11 @@ jobs:
 
       - name: Build Backend Docker Image
         run: |
-          docker buildx registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend backend/Dockerfile . --load
+          docker buildx registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend backend/Dockerfile .
 
       - name: Build Frontend Docker Image
         run: |
-          docker buildx registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend skalarly-frontend/Dockerfile . --load
+          docker buildx registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend skalarly-frontend/Dockerfile .
       
       - name: Log in to Heroku Container Registry
         run: echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
