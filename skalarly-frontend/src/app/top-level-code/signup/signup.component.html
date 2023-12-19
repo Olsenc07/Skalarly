@@ -31,11 +31,11 @@
     
   <app-reusable-inputs  label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
   [error]="getError('username') | errorPipe"
-  (controlValueChanged)="handleValueChange('username', $event)"></app-reusable-inputs>
+  ></app-reusable-inputs>
   
   <app-reusable-inputs label="Email" placeholder="Email" icon="fa-solid fa-at"
   [error]="getError('username') | errorPipe"
-  (controlValueChanged)="handleValueChange('email', $event)"></app-reusable-inputs>
+></app-reusable-inputs>
   
   <app-reusable-input-password [control]="passwordControl" label="Password" placeholder="Password" icon="fa-solid fa-lock" controlType="password"
   (controlValueChanged)="handleValueChange('password', $event)"></app-reusable-input-password>

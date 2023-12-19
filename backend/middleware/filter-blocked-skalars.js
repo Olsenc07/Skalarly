@@ -1,6 +1,6 @@
 import { SkalarInfo }  from '../models/skalarInfo.js';
 
-const filterBlockedUsers = async (req, res, next) =>  {
+async function filterBlockedUsers(req, res, next) {
     try {
     // req.query.userId; might be '' if not logged in
     const userId = req.query.userId;
@@ -37,4 +37,4 @@ const filterBlockedUsers = async (req, res, next) =>  {
 }
 };
 
-export {filterBlockedUsers};
+export default filterBlockedUsers;
