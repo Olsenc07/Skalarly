@@ -28,17 +28,22 @@
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
   <ng-template matStepLabel>Account Info</ng-template>
   <div class="input-list">
-    
-  <app-reusable-inputs  label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
+
+  <app-reusable-inputs class="input-individual" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
   [error]="getError('username') | errorPipe"
   ></app-reusable-inputs>
-  
-  <app-reusable-inputs label="Email" placeholder="Email" icon="fa-solid fa-at"
+
+
+<!-- @if(username is valid){ -->
+  <app-reusable-inputs class="input-individual" label="Email" placeholder="Email" icon="fa-solid fa-at"
   [error]="getError('username') | errorPipe"
 ></app-reusable-inputs>
-  
-  <app-reusable-input-password [control]="passwordControl" label="Password" placeholder="Password" icon="fa-solid fa-lock" controlType="password"
+<!-- } -->
+
+<!-- @if(email is valid){ -->
+  <app-reusable-input-password class="input-individual" [control]="passwordControl" label="Password" placeholder="Password" icon="fa-solid fa-lock" controlType="password"
   (controlValueChanged)="handleValueChange('password', $event)"></app-reusable-input-password>
+<!-- } -->
     <!-- Password Requirements -->
 </div>
 
@@ -46,7 +51,7 @@
   Validate
 </button>
 </form>
-<div>
+<div class="nav-wrapper">
   <button mat-button matStepperPrevious type="button">Back</button>
   <button mat-button matStepperNext type="button" (click)="sendEmail()">Next</button>
 </div></mat-step>
@@ -77,7 +82,7 @@
   
   <!-- Profile Picture, Year of studies, Birthday, 
   Drop dowm for 'looking to obtain ..', bio -->
-  <div>
+  <div class="nav-wrapper">
   <button mat-button matStepperPrevious type="button">Back</button>
   <button mat-button matStepperNext type="button">Next</button>
 </div>
@@ -97,7 +102,7 @@
     </form>
     <form>
     </form>
-    <div>
+    <div class="nav-wrapper">
     <button mat-button matStepperPrevious type="button">Back</button>
     <button mat-button matStepperNext type="button">Next</button>
     <button mat-raised-button type="submit" [disabled]="skalarInfoForm.invalid">Create</button>

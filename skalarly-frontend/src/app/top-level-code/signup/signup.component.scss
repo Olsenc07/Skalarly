@@ -10,7 +10,11 @@
   background-color: #007BFF; 
   z-index: 2; 
 }
-.input-list{
+.input-list {
+  @include common.common;
+  align-items: center;
+}
+.input-individual{
   @include common.common;
   align-items: center;
 }
@@ -28,7 +32,6 @@ mat-stepper {
     font-family: var(--skalarly-font);
     .mat-step-icon-selected, .mat-step-icon-state-edit {
       background-color: var(--pairingColor);
-      color: #fff;
     }
   }
 
@@ -42,15 +45,16 @@ mat-stepper {
   }
 
   button[matStepperNext]{
+      color: #fff;
       @include responsive.responsiveFontSize();
       background-image: linear-gradient(to left, var(--firstChoice), var(--secondChoice));
     }
     button[matStepperPrevious] {
+      color: #fff;
       @include responsive.responsiveFontSize();
       background-image: linear-gradient(to right, var(--firstChoice), var(--secondChoice));
     }
   
-
   .mat-step-label {
     @include responsive.responsiveFontSize('smaller');
     color: #333;
@@ -73,6 +77,10 @@ mat-stepper {
         color: #666;
       }
     }
+  }
+  .nav-wrapper{
+    display: flex;
+    justify-content: space-between;
   }
 }
 
