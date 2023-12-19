@@ -37,4 +37,4 @@ const filterBlockedUsers = async (req, res, next) =>  {
 }
 };
 
-export {filterBlockedUsers};
+export default filterBlockedUsers;
