@@ -1,4 +1,4 @@
-import SkalarInfo  from '../models/skalarInfo.js';
+import { SkalarInfo }  from '../models/skalarInfo.js';
 
 const filterBlockedUsers = async (req, res, next) =>  {
     try {
