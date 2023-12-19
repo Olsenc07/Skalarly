@@ -10,7 +10,10 @@
   background-color: #007BFF; 
   z-index: 2; 
 }
-
+.input-list{
+  @include common.common;
+  align-items: center;
+}
 mat-stepper {
   display: flex;
   flex-direction: column;

@@ -24,4 +24,4 @@ const userInfoSchema = mongoose.Schema({
   
  const SkalarInfo = mongoose.model('SkalarInfo', userInfoSchema);
 
-    export { SkalarInfo };
+export { SkalarInfo };
