@@ -1,8 +1,9 @@
+# Build stage
 FROM node:20.10.0 as build-step
 
 WORKDIR /app
 
-COPY package*.json  ./
+COPY package*.json ./
 
 RUN npm install
 
@@ -12,7 +13,14 @@ RUN npm run build:prod
 
 # Serve stage
 FROM node:20.10.0
+
+# Install 'serve' to serve the app
 RUN npm install -g serve
+
 WORKDIR /app
-COPY --from=build-step /app/dist/skalarly /app
-CMD ["serve", "-p", "80", "-s", "."]
+
+# Copy the build output from the previous stage
+COPY --from=build-step /app/dist/skalarly .
+
+# Heroku sets the port dynamically via the PORT environment variable
+CMD ["serve", "-s", ".", "-l", "tcp://0.0.0.0:${PORT:-4200}"]
