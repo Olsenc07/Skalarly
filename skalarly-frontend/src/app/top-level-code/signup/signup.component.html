@@ -26,7 +26,7 @@
 <!-- make this form in a reusable file!! -->
 <mat-step>  
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
-  <ng-template matStepLabel>Acount Info</ng-template>
+  <ng-template matStepLabel>Account Info</ng-template>
   <app-reusable-inputs [control]="usernameControl" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
   [error]="getError('username') | errorPipe"
   (controlValueChanged)="handleValueChange('username', $event)"></app-reusable-inputs>
@@ -48,25 +48,28 @@
   <button mat-button matStepperNext type="button" (click)="sendEmail()">Next</button>
 </div></mat-step>
 <!-- Onto Validation 7 digits from email-->
-<mat-step>Personal Info
+<mat-step>
+  <ng-template matStepLabel>Basic Info</ng-template>
+  <!-- Name, Birthday, Profile Picture, Year of studies, Birthday, 
+  Drop dowm for 'looking to obtain ..', bio -->
   <button mat-button matStepperPrevious type="button">Back</button>
   <button mat-button matStepperNext type="button">Next</button>
 </mat-step>
-<mat-step>Academic Info
-  <mat-step>
+<mat-step>
+  <ng-template matStepLabel>Academic Info</ng-template>
     <form [formGroup]="academicForm" (ngSubmit)="addSkalarInfo()">
       <app-inputs-dynamic [inputsArray]="getArray('majorArray')" placeholder="Major"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('minorArray')" placeholder="Minor"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('sportArray')" placeholder="Sport"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('clubArray')" placeholder="Club"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('courses')" placeholder="Enter Course Code"></app-inputs-dynamic>
+      <!-- <input accoldates, certificates, publishings,... /> -->
     </form>
     
     <!-- Navigation buttons -->
     <button mat-button matStepperPrevious type="button">Back</button>
     <button mat-button matStepperNext type="button">Next</button>
     <button mat-raised-button type="submit" [disabled]="academicForm.invalid">Create</button>
-  </mat-step>
 </mat-step>
 </mat-stepper>
 </div>
