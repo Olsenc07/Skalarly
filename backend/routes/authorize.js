@@ -2,7 +2,7 @@ import { Router } from 'express';
 const router = Router();
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import verifyEmail from '../middleware/verify-email.js';
+import { verifyEmail } from '../middleware/verify-email.js';
 
 
 // Models Used

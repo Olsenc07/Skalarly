@@ -18,6 +18,7 @@ const userInfoSchema = mongoose.Schema({
     Following: { type: Number, default: 0},
     // ProfilePicPath: { type: String},
     // cloudinary_id: { type: String},
+    blocklist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     skalar: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
  });
   

@@ -1,10 +1,10 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import  SkalarInfo  from '../models/skalarInfo.js';
+import { SkalarInfo } from '../models/skalarInfo.js';
 
 // Middleware
-import filterBlockedUsers from '../middleware/filter-blocked-skalars.js';
+import { filterBlockedUsers } from '../middleware/filter-blocked-skalars.js';
 
 // searching self
 router.get('/selfInfo', async(req,res) => {
