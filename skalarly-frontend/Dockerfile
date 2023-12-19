@@ -11,6 +11,9 @@ COPY . .
 
 RUN npm run build:prod
 
+# Debugging: List build output
+RUN ls -la dist/skalarly
+
 # Serve stage
 FROM node:20.10.0
 
