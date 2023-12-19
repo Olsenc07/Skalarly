@@ -23,4 +23,5 @@ WORKDIR /app
 COPY --from=build-step /app/dist/skalarly .
 
 # Heroku sets the port dynamically via the PORT environment variable
-CMD ["serve", "-s", ".", "-l", "tcp://0.0.0.0:${PORT:-4200}"]
+CMD serve -s . -l tcp://0.0.0.0:${PORT}
+
