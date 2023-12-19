@@ -4,7 +4,7 @@
       {{ label }}
     </mat-label>
     <input [type]="controlType" matInput [placeholder]="placeholder" [formControl]="control"
-    (input)="controlValueChanged.emit(control.value)">
+    (input)="controlValueChanged.emit(control.value)" [name]="name">
     @if (error){
       <mat-error >{{ error }}</mat-error>
     }

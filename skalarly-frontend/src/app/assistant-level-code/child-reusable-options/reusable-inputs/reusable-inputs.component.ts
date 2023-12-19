@@ -26,6 +26,15 @@ export class ReusableInputsComponent {
   @Input() controlType!: 'text' | 'email';
   @Input() placeholder!: string;
   @Input() icon?: string;
+  @Input() name!: string;
+
   @Output() controlValueChanged: EventEmitter<string> =
     new EventEmitter<string>();
+
+    constructor() {
+      // Initialize the control based on controlType
+      if (this.controlType === 'text' || this.controlType === 'email') {
+        this.control = new FormControl('');
+      }
+    }
 }

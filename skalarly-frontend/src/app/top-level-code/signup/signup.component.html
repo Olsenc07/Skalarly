@@ -28,12 +28,12 @@
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
   <ng-template matStepLabel>Account Info</ng-template>
   <div class="input-list">
-
-  <app-reusable-inputs [control]="usernameControl" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
+    
+  <app-reusable-inputs [control]="usernameControl" name="username" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
   [error]="getError('username') | errorPipe"
   (controlValueChanged)="handleValueChange('username', $event)"></app-reusable-inputs>
   
-  <app-reusable-inputs [control]="emailControl" label="Email" placeholder="Email" icon="fa-solid fa-at"
+  <app-reusable-inputs [control]="emailControl" name="email" label="Email" placeholder="Email" icon="fa-solid fa-at"
   [error]="getError('username') | errorPipe"
   (controlValueChanged)="handleValueChange('email', $event)"></app-reusable-inputs>
   
