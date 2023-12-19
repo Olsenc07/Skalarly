@@ -1,5 +1,4 @@
 import { SkalarInfo }  from '../models/skalarInfo.js';
-
 async function filterBlockedUsers(req, res, next) {
     try {
     // req.query.userId; might be '' if not logged in
@@ -35,6 +34,5 @@ async function filterBlockedUsers(req, res, next) {
   res.status(401).json({ message: 'Authentication failed.'
 });
 }
-};
-
+}
 export default filterBlockedUsers;
