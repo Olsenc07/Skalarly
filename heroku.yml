@@ -1,4 +1,0 @@
-build:
-  docker:
-    web: backend/Dockerfile
-    worker: skalarly-frontend/Dockerfile

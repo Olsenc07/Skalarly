@@ -18,53 +18,18 @@ const __dirname = dirname(__filename);
 // App Variables
 // Express
 const app = express();
-const server = https.createServer(
-//   {
-//   key: fs.readFileSync('path/to/private.key'),
-//   cert: fs.readFileSync('path/to/certificate.crt')
-// }, 
-app);
 const port = process.env.PORT || 4200;
 
 //  DataBase connection
 mongoose.connect(process.env.mongodb)
 .then(()  => {
-    console.log('Connected to database!');
-})
+    console.log('Connected to database!')})
 .catch(() => {
-    console.log('Not connected to database');
-});
-
-// Secured ReRouting
-function requireHTTPS(req, res, next) {
-  // The 'x-forwarded-proto' check is for Heroku
-  if (
-    (req.get("x-forwarded-proto") !== "https")
-    &&
-  (process.env.NODE_ENV !== "development")
-  ) {
-    return res.redirect("https://" + req.get("host") + req.url);
-  }
-  next();
-}
-
-// Server Activation
-server.listen(port, () => {
-    console.log(`Listening to requests on ${port}`);
-  })
+    console.log('Not connected to database')});
 
 // App Configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
-
-// Define the path to the Angular app's build output
-const angularAppPath = join(__dirname, 'skalarly-frontend', 'dist', 'skalarly');
-
-// Static files
-app.use(express.static(angularAppPath));
-
-// Secured ReRouting
-app.use(requireHTTPS);
 
 // CORS
 app.use((req, res, next) => {
@@ -77,14 +42,9 @@ app.use("/api/authorize", authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
 app.use("/api/skalars", skalarsRoute);
 
-// Catch-all route to serve the Angular app
-app.get('*', (req, res) => {
-  res.sendFile(join(angularAppPath, 'index.html'));
-});
-
-// PWA 
-app.get("/worker.js", (req, res) => {
-  res.status(200).sendFile(join(angularAppPath, 'worker.js'));
-  });
+// Server Activation
+app.listen(port, () => {
+  console.log(`Listening to requests on ${port}`);
+})
 
 export default app
