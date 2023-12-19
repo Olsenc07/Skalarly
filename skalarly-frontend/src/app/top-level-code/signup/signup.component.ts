@@ -345,36 +345,39 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   // final submit
   addSkalarInfo(): void {
-    this.accountManagementService
-      .createAccount(this.infoForm)
-      .pipe(takeUntil(this.skalarInfoSub$))
-      .subscribe((success) => {
-        if (success) {
-          const messageWithIcon = `
-    <h2>
-    <i class="fa-solid fa-graduation-cap"></i>
-      Welcome to Skalarly!
-      <i class="fa-solid fa-graduation-cap"></i>
-    </h2>
-    <br>
-   <span>
-   We're delighted to have you kick-start your academic journey with us. 
-   Here you're an esteemed member of our vibrant educational community.
-    Get ready to connect with fellow learners, explore enriching content, and embark on a shared academic adventure.
-   </span> `;
-          this.updateProgress(100);
-          // display message
-          this.snackBar.open(messageWithIcon, '', {
-            duration: 5000,
-            panelClass: ['snackbar-cleared-icon'] // add styling
-          });
-          // navigate to home page
-          this.router.navigate(['/home']);
-        } else {
-          // handle failed creation
-          // try again
-        }
-      });
+    // to test
+    this.router.navigate(['/home']);
+
+  //   this.accountManagementService
+  //     .createAccount(this.infoForm)
+  //     .pipe(takeUntil(this.skalarInfoSub$))
+  //     .subscribe((success) => {
+  //       if (success) {
+  //         const messageWithIcon = `
+  //   <h2>
+  //   <i class="fa-solid fa-graduation-cap"></i>
+  //     Welcome to Skalarly!
+  //     <i class="fa-solid fa-graduation-cap"></i>
+  //   </h2>
+  //   <br>
+  //  <span>
+  //  We're delighted to have you kick-start your academic journey with us. 
+  //  Here you're an esteemed member of our vibrant educational community.
+  //   Get ready to connect with fellow learners, explore enriching content, and embark on a shared academic adventure.
+  //  </span> `;
+  //         this.updateProgress(100);
+  //         // display message
+  //         this.snackBar.open(messageWithIcon, '', {
+  //           duration: 5000,
+  //           panelClass: ['snackbar-cleared-icon'] // add styling
+  //         });
+  //         // navigate to home page
+  //         this.router.navigate(['/home']);
+  //       } else {
+  //         // handle failed creation
+  //         // try again
+  //       }
+  //     });
   }
   updateProgress(value: number) {
     this.progressValue = value;
