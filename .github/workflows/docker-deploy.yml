@@ -50,7 +50,12 @@ jobs:
         run: |
           git config --global user.name "Olsenc07"
           git config --global user.email "skalolsen@gmail.com"
-
+      - name: Build Angular App
+        run: |
+            cd skalarly-frontend
+            npm install
+            npm run build:prod
+        
       - name: Deploy to GitHub Pages
         run: npx angular-cli-ghpages --dir=skalarly-frontend/dist --no-silent --repo=https://x-access-token:${{ secrets.MY_GITHUB_TOKEN }}@github.com/Olsenc07/Skalarly-FS.git
         env: 
