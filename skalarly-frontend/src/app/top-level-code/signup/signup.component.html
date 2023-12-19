@@ -61,6 +61,8 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
+    <mat-slide-toggle> Private Account
+    </mat-slide-toggle>
     <!-- <mat-form-field>
     <input matInput type="file" (change)="onFileSelected($event)">
   </mat-form-field>
@@ -77,18 +79,23 @@
 </mat-step>
 <mat-step>
   <ng-template matStepLabel>Academic Info</ng-template>
-    <form [formGroup]="academicForm" (ngSubmit)="addSkalarInfo()">
-      <app-inputs-dynamic [inputsArray]="getArray('majorArray')" placeholder="Major"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('minorArray')" placeholder="Minor"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('sportArray')" placeholder="Sport"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('clubArray')" placeholder="Club"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('courses')" placeholder="Enter Course Code"></app-inputs-dynamic>
+    <form [formGroup]="skalarInfoForm" (ngSubmit)="addSkalarInfo()">
+      <app-inputs-dynamic [inputsArray]="getArray('major')" placeholder="Major"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('minor')" placeholder="Minor"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('sport')" placeholder="Sport"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('club')" placeholder="Club"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('coursesCompleted')" placeholder="Course Code"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('coursesPursing')" placeholder="Course Code"></app-inputs-dynamic>
       <!-- <input accoldates, certificates, publishings,... /> -->
+    </form>
+    <form>
+    </form>
+    <form>
     </form>
     <div>
     <button mat-button matStepperPrevious type="button">Back</button>
     <button mat-button matStepperNext type="button">Next</button>
-    <button mat-raised-button type="submit" [disabled]="academicForm.invalid">Create</button>
+    <button mat-raised-button type="submit" [disabled]="skalarInfoForm.invalid">Create</button>
   </div>
 </mat-step>
 </mat-stepper>

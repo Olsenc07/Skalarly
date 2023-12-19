@@ -30,6 +30,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
 import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-dropdown-signup/reusable-dropdown-signup.component';
@@ -53,6 +54,7 @@ import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/chi
     MatDatepickerModule,
     MatSelectModule,
     MatStepperModule,
+    MatSlideToggleModule,
     ReusableDropDownComponent,
     ReusableInputsComponent,
     RemoveSpacesPipe,
@@ -124,18 +126,19 @@ export class SignUpComponent implements OnInit, OnDestroy {
   });
 
     // final major stage
-    academicForm: FormGroup = new FormGroup({
-      majorArray: new FormArray([]),
-      minorArray: new FormArray([]),
-      sportArray: new FormArray([]),
-      clubArray: new FormArray([]),
-      courses: new FormArray([])
+    skalarInfoForm: FormGroup = new FormGroup({
+      major: new FormArray([]),
+      minor: new FormArray([]),
+      sport: new FormArray([]),
+      club: new FormArray([]),
+      coursesCompleted: new FormArray([]),
+      coursesPursing: new FormArray([])
     });
 
 
   // Helper method to get the FormArray
   getArray(name: string): FormArray {
-    return this.academicForm.get(name) as FormArray;
+    return this.skalarInfoForm.get(name) as FormArray;
   }
 
   constructor(
