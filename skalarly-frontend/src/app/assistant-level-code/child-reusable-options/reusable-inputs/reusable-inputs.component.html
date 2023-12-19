@@ -3,8 +3,8 @@
      <!-- <mat-icon></mat-icon> -->
       {{ label }}
     </mat-label>
-    <input [type]="controlType" matInput [placeholder]="placeholder" [formControl]="control"
-    (input)="controlValueChanged.emit(control.value)" [name]="name">
+    <input [type]="controlType" matInput [placeholder]="placeholder" [formControl]="controlAbstract"
+    (input)="controlValueChanged.emit(controlAbstract.value)">
     @if (error){
       <mat-error >{{ error }}</mat-error>
     }
