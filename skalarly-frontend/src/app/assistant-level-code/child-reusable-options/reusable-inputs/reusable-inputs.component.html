@@ -1,6 +1,7 @@
 <mat-form-field>
     <mat-label>
-      <i [class.condition-met]="control.valid" [class]="icon"></i> {{ label }}
+     <!-- <mat-icon></mat-icon> -->
+      {{ label }}
     </mat-label>
     <input [type]="controlType" matInput [placeholder]="placeholder" [formControl]="control"
     (input)="controlValueChanged.emit(control.value)">
