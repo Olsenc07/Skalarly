@@ -20,7 +20,7 @@ RUN npm install -g serve
 WORKDIR /app
 
 # Copy the build output from the previous stage
-COPY --from=build-step /app/dist/skalarly .
+COPY --from=build-step /dist/skalarly .
 
 # Heroku sets the port dynamically via the PORT environment variable
 CMD ["serve", "-s", ".", "-l", "tcp://0.0.0.0:${PORT:-4200}"]
