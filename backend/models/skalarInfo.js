@@ -1,27 +1,24 @@
-import mongoose, { model } from 'mongoose';
+import mongoose from 'mongoose';
 
 const userInfoSchema = mongoose.Schema({
     username: { type: String, required: true},
     name: { type: String },
-    // bio: { type: String },
-    // // courseId: { type: Array},
-    // // gender: { type: String },
+    bio: { type: String },
     region: { type: String, default: null}, //state/province
     institution: { type: String},
     domains: [{type: String}],
     webPages: [{type: String}],
-    // birthday: { type: String},
-    // major: { type: String},
-    // minor: { type: String},
-    // sport: { type: String},
-    // club: { type: String},
-    // publicAccount: { type: Boolean},
-    // // pronouns: { type: String},
-    // Followers: { type: Number},
-    // Following: { type: Number},
+    birthday: { type: String},
+    major: [{ type: String}],
+    minor: [{ type: String}],
+    sport: [{ type: String}],
+    club: [{ type: String}],
+    publicAccount: { type: Boolean},
+    Followers: { type: Number, default: 0},
+    Following: { type: Number, default: 0},
     // ProfilePicPath: { type: String},
     // cloudinary_id: { type: String},
     skalar: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
  });
   
- export default model('SkalarInfo', userInfoSchema);
+ export default mongoose.model('SkalarInfo', userInfoSchema);
