@@ -47,8 +47,7 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
-      # Additional steps for your deployment can be added here.
-
+          
       - name: Configuring Git User Info
         run: |
           git config --global user.name "Olsenc07"

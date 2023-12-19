@@ -65,11 +65,11 @@
       <app-inputs-dynamic [inputsArray]="getArray('courses')" placeholder="Enter Course Code"></app-inputs-dynamic>
       <!-- <input accoldates, certificates, publishings,... /> -->
     </form>
-    
-    <!-- Navigation buttons -->
+    <div>
     <button mat-button matStepperPrevious type="button">Back</button>
     <button mat-button matStepperNext type="button">Next</button>
     <button mat-raised-button type="submit" [disabled]="academicForm.invalid">Create</button>
+  </div>
 </mat-step>
 </mat-stepper>
 </div>
