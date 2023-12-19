@@ -48,13 +48,25 @@
   <button mat-button matStepperNext type="button" (click)="sendEmail()">Next</button>
 </div></mat-step>
 <!-- Onto Validation 7 digits from email-->
-<mat-step>Personal Info</mat-step>
-<mat-step>Academic Info
-
-  <button mat-raised-button>Create</button>
+<mat-step>Personal Info
+  <button mat-button matStepperPrevious type="button">Back</button>
+  <button mat-button matStepperNext type="button">Next</button>
 </mat-step>
-
-
-
+<mat-step>Academic Info
+  <mat-step>
+    <form [formGroup]="academicForm" (ngSubmit)="addSkalarInfo()">
+      <app-inputs-dynamic [inputsArray]="getArray('majorArray')" placeholder="Major"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('minorArray')" placeholder="Minor"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('sportArray')" placeholder="Sport"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('clubArray')" placeholder="Club"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('courses')" placeholder="Enter Course Code"></app-inputs-dynamic>
+    </form>
+    
+    <!-- Navigation buttons -->
+    <button mat-button matStepperPrevious type="button">Back</button>
+    <button mat-button matStepperNext type="button">Next</button>
+    <button mat-raised-button type="submit" [disabled]="academicForm.invalid">Create</button>
+  </mat-step>
+</mat-step>
 </mat-stepper>
 </div>

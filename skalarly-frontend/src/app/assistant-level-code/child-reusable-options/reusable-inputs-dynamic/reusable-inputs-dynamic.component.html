@@ -1,0 +1,16 @@
+@for (control of inputsArray.controls; let i = $index; track control){
+    <mat-form-field>
+      <mat-label>
+        {{ placeholder }}
+      </mat-label>
+      <input matInput [formControl]="control"/>
+    </mat-form-field>
+    @if (inputsArray.length > 1) {
+        <button mat-icon-button (click)="removeInput(i)">
+      <mat-icon>remove_circle</mat-icon>
+
+        </button>
+    }
+}
+  <button mat-button (click)="addInput()">Add {{ placeholder }}</button>
+  

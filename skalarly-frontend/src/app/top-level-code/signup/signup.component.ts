@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -38,6 +39,7 @@ import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-arch
 import { Title } from '@angular/platform-browser';
 import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
+import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs-dynamic/reusable-inputs-dynamic.component';
 
 @Component({
   standalone: true,
@@ -54,6 +56,7 @@ import { passwordValidator } from '../../assistant-level-code/custom-architectur
     ReusableInputsComponent,
     RemoveSpacesPipe,
     ReusableInputPasswordComponent,
+    ReusableInputsDynamicComponent,
     ErrorPipe
   ]
 })
@@ -74,7 +77,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   displayStateProvince: boolean = false;
   private usernameSub?: Subscription;
   // Choosing institution
-  institutions$: Observable<InstitutionDataInterface[]> = new Observable<
+  nstitutions$: Observable<InstitutionDataInterface[]> = new Observable<
     InstitutionDataInterface[]
   >();
   domain: string[] | undefined = undefined;
@@ -83,7 +86,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private skalarInfoSub$: Subject<void> = new Subject<void>();
 
   institutionsLoaded: boolean = false;
-  // skalar info forms
+
+  // skalar info form
   infoForm: FormGroup = new FormGroup({
     club: new FormControl<SkalarInfoInterface['club']>(null, [
       Validators.required
@@ -115,6 +119,21 @@ export class SignUpComponent implements OnInit, OnDestroy {
       [Validators.required]
     )
   });
+
+    // final major stage
+    academicForm: FormGroup = new FormGroup({
+      majorArray: new FormArray([]),
+      minorArray: new FormArray([]),
+      sportArray: new FormArray([]),
+      clubArray: new FormArray([]),
+      courses: new FormArray([])
+    });
+
+
+  // Helper method to get the FormArray
+  getArray(name: string): FormArray {
+    return this.academicForm.get(name) as FormArray;
+  }
 
   constructor(
     private accountManagementService: AccountManagementService,
