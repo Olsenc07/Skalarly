@@ -77,7 +77,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   displayStateProvince: boolean = false;
   private usernameSub?: Subscription;
   // Choosing institution
-  nstitutions$: Observable<InstitutionDataInterface[]> = new Observable<
+  institutions$: Observable<InstitutionDataInterface[]> = new Observable<
     InstitutionDataInterface[]
   >();
   domain: string[] | undefined = undefined;
