@@ -62,6 +62,8 @@ import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/chi
 })
 export class SignUpComponent implements OnInit, OnDestroy {
   progressValue: number = 0;
+  selectedFile: File | undefined;
+  imagePreview: string | ArrayBuffer = '';
   signUpForm: FormGroup;
   private values$: Subject<void> = new Subject<void>();
   // second major stage
@@ -316,6 +318,27 @@ export class SignUpComponent implements OnInit, OnDestroy {
       }
     });
   }
+// basic info
+// onFileSelected(event: Event) {
+//   const file = (event.target as HTMLInputElement).files[0];
+//   this.selectedFile = file;
+//   const reader = new FileReader();
+//   reader.onload = () => {
+//     this.imagePreview = reader.result;
+//   };
+//   reader.readAsDataURL(file);
+// }
+
+// onUpload() {
+//   const formData = new FormData();
+//   formData.append('image', this.selectedFile, this.selectedFile.name);
+//   this.http.post('http://localhost:3000/api/upload', formData).subscribe(
+//     (response) => console.log(response),
+//     (error) => console.log(error)
+//   );
+// }
+
+
   // final submit
   addSkalarInfo(): void {
     this.accountManagementService

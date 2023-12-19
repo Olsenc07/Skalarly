@@ -1,10 +1,10 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import  SkalarInfo  from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/models/skalarInfo.js';
+import  SkalarInfo  from '../backend/models/skalarInfo.js';
 
 // Middleware
-import filterBlockedUsers from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/middleware/filter-blocked-skalars.js';
+import filterBlockedUsers from '../middleware/filter-blocked-skalars.js';
 
 // searching self
 router.get('/selfInfo', async(req,res) => {

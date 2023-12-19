@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import  Skalar  from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/models/skalar.js';
+import  Skalar  from '../models/skalar.js';
 
 
 // Has this username already been used?

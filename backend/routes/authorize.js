@@ -2,11 +2,11 @@ import { Router } from 'express';
 const router = Router();
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import verifyEmail from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/middleware/verify-email.js';
+import verifyEmail from '../middleware/verify-email.js';
 
 
 // Models Used
-import  Skalar  from '/Users/chaseolsen/skalarly-MVP/skalarly-fs/backend/models/skalar.js';
+import  Skalar  from '../models/skalar.js';
 
 // Login
 // verify email can be done when seeing if email exist
