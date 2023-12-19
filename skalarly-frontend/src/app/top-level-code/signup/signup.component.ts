@@ -27,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { type InstitutionDataInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
 import { InstitutionInfoService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -40,7 +41,6 @@ import { Title } from '@angular/platform-browser';
 import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs-dynamic/reusable-inputs-dynamic.component';
-
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
@@ -50,6 +50,7 @@ import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/chi
     ReactiveFormsModule,
     HttpClientModule,
     MatButtonModule,
+    MatDatepickerModule,
     MatSelectModule,
     MatStepperModule,
     ReusableDropDownComponent,

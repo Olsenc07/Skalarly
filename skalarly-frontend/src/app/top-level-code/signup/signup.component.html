@@ -52,6 +52,15 @@
   <ng-template matStepLabel>Basic Info</ng-template>
   <div>
     image upload
+    <app-reusable-inputs [label]="'Full Name'"></app-reusable-inputs>
+    <mat-form-field>
+      <mat-label>Birthday</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
     <!-- <mat-form-field>
     <input matInput type="file" (change)="onFileSelected($event)">
   </mat-form-field>
@@ -59,7 +68,7 @@
     <img [src]="imagePreview" *ngIf="imagePreview" class="image-preview"> -->
   </div>
   
-  <!-- Name, Birthday, Profile Picture, Year of studies, Birthday, 
+  <!-- Profile Picture, Year of studies, Birthday, 
   Drop dowm for 'looking to obtain ..', bio -->
   <div>
   <button mat-button matStepperPrevious type="button">Back</button>

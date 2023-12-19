@@ -23,7 +23,7 @@ export class ReusableInputsComponent {
   @Input() label?: string;
   @Input() control!: FormControl;
   @Input() error: string | null = null;
-  @Input() controlType!: 'text' | 'email';
+  @Input() controlType!: 'text';
   @Input() placeholder!: string;
   @Input() icon?: string;
   @Output() controlValueChanged: EventEmitter<string> =
