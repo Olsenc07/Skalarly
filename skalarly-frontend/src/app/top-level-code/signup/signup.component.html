@@ -2,8 +2,7 @@
 <progress id="progress" [value]="progressValue" max="100"> </progress>
   <mat-stepper orientation="horizontal" #stepper >
     <!-- only step when form is valid -->
-<mat-step>
-  <ng-template matStepLabel>Choose your instituition</ng-template>
+<mat-step label="Choose your instituition">
 <app-reusable-dropdown [countryApi]="true" [label]="'Country'" [List$]="country$"
 (selectedChange)="updateCountrySelection($event)" [title]="'Which country do you study in?'">
 </app-reusable-dropdown>
@@ -24,7 +23,7 @@
 </div>
 </mat-step>
 <!-- make this form in a reusable file!! -->
-<mat-step>  
+<mat-step [stepControl]="signUpForm">  
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
   <ng-template matStepLabel>Account Info</ng-template>
   <div class="input-list">
@@ -54,11 +53,11 @@
 <div class="nav-wrapper">
   <button mat-button matStepperPrevious type="button">Back</button>
   <button mat-button matStepperNext type="button" (click)="sendEmail()">Next</button>
-</div></mat-step>
+</div>
+</mat-step>
 <!-- Onto Validation 7 digits from email-->
-<mat-step>
-  <ng-template matStepLabel>Basic Info</ng-template>
-  <div>
+<mat-step label="Basic Info">
+  <div class="input-list">
     image upload
     <app-reusable-inputs [label]="'Full Name'"></app-reusable-inputs>
     <app-reusable-inputs [label]="'Bio'"></app-reusable-inputs>
@@ -87,8 +86,7 @@
   <button mat-button matStepperNext type="button">Next</button>
 </div>
 </mat-step>
-<mat-step>
-  <ng-template matStepLabel>Academic Info</ng-template>
+<mat-step [stepControl]="skalarInfoForm" label="Academic Info">
     <form [formGroup]="skalarInfoForm" (ngSubmit)="addSkalarInfo()">
       <app-inputs-dynamic [inputsArray]="getArray('major')" placeholder="Major"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('minor')" placeholder="Minor"></app-inputs-dynamic>
