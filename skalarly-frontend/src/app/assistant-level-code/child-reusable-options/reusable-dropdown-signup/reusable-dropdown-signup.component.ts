@@ -54,6 +54,8 @@ export class ReusableDropDownComponent implements OnInit {
   @Input() label: string | null = null;
   labelFlexible: 'country' | 'name';
   @Input() hint: string | null = null;
+
+  @Input() title: string | null = null;
   @Input() List$!: Observable<InstitutionDataInterface[]>;
   private listSub?: Subscription;
   // its own view

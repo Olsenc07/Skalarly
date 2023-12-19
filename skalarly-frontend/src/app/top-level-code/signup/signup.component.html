@@ -5,18 +5,18 @@
 <mat-step>
   <ng-template matStepLabel>Choose your instituition</ng-template>
 <app-reusable-dropdown [countryApi]="true" [label]="'Country'" [List$]="country$"
-(selectedChange)="updateCountrySelection($event)" [hint]="'Which country do you study in?'">
+(selectedChange)="updateCountrySelection($event)" [title]="'Which country do you study in?'">
 </app-reusable-dropdown>
 <!-- if province-state needs to be chosen -->
 @if(displayStateProvince) {
 <app-reusable-dropdown [label]="'State or Province'"  [List$]="region$"
-(selectedChange)="stateSelection($event)"  [hint]="'Which State or Province is your school in?'">
+(selectedChange)="stateSelection($event)"  [title]="'Which State or Province is your school in?'">
 </app-reusable-dropdown>
 }
 <!-- Institution selection -->
 @if(institutionsLoaded){
 <app-reusable-dropdown [label]="'Where do you attend school?'" [List$]="institutions$"
-(selectedChange)="chosenInstituition($event)" [hint]="'Current academic instituiton'">
+(selectedChange)="chosenInstituition($event)" [title]="'Current academic instituiton'">
 </app-reusable-dropdown>
 }
 <div>
