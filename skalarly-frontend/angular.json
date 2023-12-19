@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": ["zone.js/dist/zone"],
-            "outputPath": "skalarly-frontend/dist",
+            "outputPath": "/dist/skalarly",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
