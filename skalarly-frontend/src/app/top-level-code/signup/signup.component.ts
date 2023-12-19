@@ -24,24 +24,29 @@ import { AccountManagementService } from '../../assistant-level-code/custom-arch
 import { CommonModule } from '@angular/common';
 import { ErrorPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/error.pipe';
 import { HttpClientModule } from '@angular/common/http';
-import { type InstitutionDataInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
-import { InstitutionInfoService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
-import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+
+import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
+import { InstitutionDataInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
+import { InstitutionInfoService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
+import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
+
 import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
 import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-dropdown-signup/reusable-dropdown-signup.component';
 import { ReusableInputPasswordComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-password/reusable-input-password.component';
 import { ReusableInputsComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs/reusable-inputs.component';
-import { Router } from '@angular/router';
-import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
-import { Title } from '@angular/platform-browser';
-import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
-import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs-dynamic/reusable-inputs-dynamic.component';
+import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
+
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
@@ -52,6 +57,8 @@ import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/chi
     HttpClientModule,
     MatButtonModule,
     MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
     MatSelectModule,
     MatStepperModule,
     MatSlideToggleModule,
@@ -63,6 +70,7 @@ import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/chi
     ErrorPipe
   ]
 })
+
 export class SignUpComponent implements OnInit, OnDestroy {
   progressValue: number = 0;
   selectedFile: File | undefined;
