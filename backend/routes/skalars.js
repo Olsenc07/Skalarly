@@ -4,7 +4,7 @@ const router = Router();
 import { SkalarInfo } from '../models/skalarInfo.js';
 
 // Middleware
-import filterBlockedUsers  from '../middleware/filter-blocked-skalars.js';
+// import filterBlockedUsers  from '../middleware/filter-blocked-skalars.js';
 
 // searching self
 router.get('/selfInfo', async(req,res) => {
@@ -22,8 +22,8 @@ router.get('/selfInfo', async(req,res) => {
             });
         });
 })
-// finding skalars info for thier profile
-router.get('/skalarsInfo', filterBlockedUsers, async(req,res) => {
+// finding skalars info for thier profile filterBlockedUsers
+router.get('/skalarsInfo', async(req,res) => {
     const idProfile = req.query.id;
     // From Middleware
     const cancelNavigation = req.blocked;
@@ -57,8 +57,8 @@ router.get('/skalarsInfo', filterBlockedUsers, async(req,res) => {
         });
       }
 })
-// searching skalars
-router.get('/skalarsInfoSearch', filterBlockedUsers, async(req,res) => {
+// searching skalars filterBlockedUsers
+router.get('/skalarsInfoSearch', async(req,res) => {
     const input = req.query.input;
     // From Middleware
     const filteredQuery = req.filteredQuery;
