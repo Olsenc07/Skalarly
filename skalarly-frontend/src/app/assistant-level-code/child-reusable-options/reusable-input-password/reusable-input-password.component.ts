@@ -5,9 +5,11 @@ import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { type PassWordInterface } from '../../custom-architecture-aids/interfaces/password-interface';
 import { ReactiveFormsModule } from '@angular/forms';
+import { rotate180 } from '../../../assistant-level-code/custom-architecture-aids/animations/rotate180-animation';
 
 @Component({
   selector: 'app-reusable-input-password',
@@ -17,16 +19,18 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     MatTooltipModule,
     ReactiveFormsModule
   ],
+  animations: [rotate180],
   templateUrl: './reusable-input-password.component.html',
   styleUrl: './reusable-input-password.component.scss'
 })
 export class ReusableInputPasswordComponent {
   @Input() label?: string;
   @Input() control!: FormControl;
-  @Input() controlType!: 'text' | 'password';
+  @Input() controlType: 'text' | 'password' = 'password';
   @Input() placeholder!: string;
   @Input() icon?: string;
   @Output() controlValueChanged: EventEmitter<string> =

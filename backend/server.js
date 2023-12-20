@@ -1,7 +1,9 @@
 // SERVER NODE.JS Using ES6 module
 // dev
 import dotenv from 'dotenv';
-dotenv.config();
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
+}
 const portEnv = process.env.PORT;
 const db = process.env.mongodb;
 import express from 'express';

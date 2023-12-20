@@ -35,7 +35,8 @@
   [error]="getError('email') | errorPipe"
 ></app-reusable-inputs>
 
-  <app-reusable-input-password class="input-individual" [control]="passwordControl" label="Password" placeholder="Password" icon="'fa-solid fa-lock'" controlType="password"
+  <app-reusable-input-password class="input-individual" [control]="passwordControl" label="Password" placeholder="Password" 
+  icon="lock"
   (controlValueChanged)="handleValueChange('password', $event)"></app-reusable-input-password>
 
     <!-- Password Requirements -->
