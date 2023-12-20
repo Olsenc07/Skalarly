@@ -1,5 +1,4 @@
 <div>
-<progress id="progress" [value]="progressValue" max="100"> </progress>
   <mat-stepper orientation="horizontal" #stepper >
     <!-- only step when form is valid -->
 <mat-step label="Choose your instituition">
@@ -18,9 +17,7 @@
 (selectedChange)="chosenInstituition($event)" [title]="'Current academic instituiton'">
 </app-reusable-dropdown>
 }
-<div>
   <button mat-button matStepperNext type="button">Next</button>
-</div>
 </mat-step>
 <!-- make this form in a reusable file!! -->
 <mat-step [stepControl]="signUpForm">  
@@ -28,21 +25,19 @@
   <ng-template matStepLabel>Account Info</ng-template>
   <div class="input-list">
 
-  <app-reusable-inputs class="input-individual" label="Username" placeholder="Username" icon="fa-solid fa-user-graduate"
+  <app-reusable-inputs class="input-individual" [isValid]="isValid"  (valueChange)="onValueChange($event)"
+    label="Username" placeholder="Username" icon="account_circle"
   [error]="getError('username') | errorPipe"
   ></app-reusable-inputs>
 
-
-<!-- @if(username is valid){ -->
-  <app-reusable-inputs class="input-individual" label="Email" placeholder="Email" icon="fa-solid fa-at"
-  [error]="getError('username') | errorPipe"
+  <app-reusable-inputs class="input-individual" [isValid]="isValid"  (valueChange)="onValueChange($event)"
+   label="Email" placeholder="Email" icon="alternate_email"
+  [error]="getError('email') | errorPipe"
 ></app-reusable-inputs>
-<!-- } -->
 
-<!-- @if(email is valid){ -->
-  <app-reusable-input-password class="input-individual" [control]="passwordControl" label="Password" placeholder="Password" icon="fa-solid fa-lock" controlType="password"
+  <app-reusable-input-password class="input-individual" [control]="passwordControl" label="Password" placeholder="Password" icon="'fa-solid fa-lock'" controlType="password"
   (controlValueChanged)="handleValueChange('password', $event)"></app-reusable-input-password>
-<!-- } -->
+
     <!-- Password Requirements -->
 </div>
 
@@ -58,9 +53,14 @@
 <!-- Onto Validation 7 digits from email-->
 <mat-step label="Basic Info">
   <div class="input-list">
-    image upload
+    <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
+    <button mat-button (click)="fileInput.click()">Choose File</button>
+    <button mat-button (click)="onCameraClick()">Take a Photo</button>
+    @if(imagePreview){
+    <img [src]="imagePreview" class="image-preview">
+    }
     <app-reusable-inputs [label]="'Full Name'"></app-reusable-inputs>
-    <app-reusable-inputs [label]="'Bio'"></app-reusable-inputs>
+    <app-reusable-inputs [label]="'Bio'" [default]="false"></app-reusable-inputs>
 
     <mat-form-field>
       <mat-label>Birthday</mat-label>
@@ -102,7 +102,6 @@
     </form>
     <div class="nav-wrapper">
     <button mat-button matStepperPrevious type="button">Back</button>
-    <button mat-button matStepperNext type="button">Next</button>
     <button mat-raised-button type="submit" [disabled]="skalarInfoForm.invalid">Create</button>
   </div>
 </mat-step>

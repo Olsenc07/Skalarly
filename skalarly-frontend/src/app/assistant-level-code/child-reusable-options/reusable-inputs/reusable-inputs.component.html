@@ -1,11 +1,23 @@
-<mat-form-field>
-    <mat-label>
-     <!-- <mat-icon></mat-icon> -->
+<div class="form-wrapper">
+  @if(title){
+  <h2>{{ title }}</h2>
+  }
+<mat-form-field appearance="outline">
+    <mat-label> @if(label){
       {{ label }}
+     }
     </mat-label>
-    <input type="text" matInput [placeholder]="placeholder" [formControl]="input"
->
+      @if(icon){
+     <mat-icon matPrefix class="material-symbols-outlined"
+      [class.condition-met]="isValid">{{icon}}</mat-icon>
+      }
+    
+@if(default){
+    <input type="text" matInput [placeholder]="placeholder" [formControl]="input">
+ } @else { 
+  <textarea matInput></textarea>}
     @if (error){
       <mat-error >{{ error }}</mat-error>
     }
   </mat-form-field>
+  </div>

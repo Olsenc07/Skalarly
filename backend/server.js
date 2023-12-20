@@ -1,4 +1,9 @@
 // SERVER NODE.JS Using ES6 module
+// dev
+import dotenv from 'dotenv';
+dotenv.config();
+const portEnv = process.env.PORT;
+const db = process.env.mongodb;
 import express from 'express';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
@@ -17,15 +22,15 @@ const __dirname = dirname(__filename);
 
 // App Variables
 const app = express();
-const port = process.env.PORT || 4200;
+const port = portEnv || 4200;
 
 //  DataBase connection
-mongoose.connect(process.env.mongodb)
+mongoose.connect(db)
 .then(()  => {
-    console.log('Connected to database!')})
-.catch(() => {
-    console.log('Not connected to database!')});
-
+  console.log('Connected to database!')})
+.catch((error) => {
+  console.error('MongoDB connection error:', error);
+})
 // App Configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -43,6 +48,7 @@ app.use("/api/authorize", authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
 app.use("/api/skalars", skalarsRoute);
 
+// Production
 // Serve Angular Application - this assumes 'ng build' outputs to 'dist/skalarly-frontend'
 const angularAppPath = join(__dirname, 'dist', 'skalarly-frontend');
 app.use(express.static(angularAppPath));

@@ -72,9 +72,8 @@ import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-arch
 })
 
 export class SignUpComponent implements OnInit, OnDestroy {
-  progressValue: number = 0;
   selectedFile: File | undefined;
-  imagePreview: string | ArrayBuffer = '';
+  imagePreview: string | ArrayBuffer | null = '';
   signUpForm: FormGroup;
   private values$: Subject<void> = new Subject<void>();
   // second major stage
@@ -310,7 +309,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
       .subscribe((success) => {
         if (success) {
           // navigate to next page
-          this.updateProgress(35);
         } else {
           // handle failed creation
           // try again
@@ -322,7 +320,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.accountManagementService.validateAccount(code).subscribe((success) => {
       if (success) {
         // if successful
-        this.updateProgress(70);
         // allow further signup
       } else {
         // handle failed validation
@@ -350,6 +347,46 @@ export class SignUpComponent implements OnInit, OnDestroy {
 //   );
 // }
 
+// Account Info
+isValid = false; // Validity status
+
+onValueChange(value: string) {
+  // Perform validation and update isValid
+  this.isValid = this.validateValue(value);
+}
+
+validateValue(value: string): boolean {
+  // Custom validation logic
+  return value.length > 3; // Example: valid if length is greater than 3
+}
+// Inside your Angular component
+onFileSelected(event: Event) {
+  console.log('file selected');
+  const inputElement = event.target as HTMLInputElement;
+  if (inputElement && inputElement.files && inputElement.files.length > 0) {
+    const file = inputElement.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+onCameraClick() {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    console.error('Media Devices API or getUserMedia is not supported in this browser.');
+    return;
+  }
+
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+      // You'll need to handle the stream here.
+      // For example, you could display it in a video element for the user to take a picture.
+    })
+    .catch(err => {
+      console.error('Error accessing the camera:', err);
+    });
+}
 
   // final submit
   addSkalarInfo(): void {
@@ -386,9 +423,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   //         // try again
   //       }
   //     });
-  }
-  updateProgress(value: number) {
-    this.progressValue = value;
   }
 
   // clean up
