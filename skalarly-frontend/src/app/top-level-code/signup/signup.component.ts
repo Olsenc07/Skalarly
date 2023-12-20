@@ -25,6 +25,7 @@ import { CommonModule } from '@angular/common';
 import { ErrorPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/error.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -56,6 +57,7 @@ import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-arch
     ReactiveFormsModule,
     HttpClientModule,
     MatButtonModule,
+    MatIconModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,

@@ -6,6 +6,7 @@ import {
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
@@ -16,6 +17,7 @@ type FormControlOrGroup = FormControl<string | null> | FormGroup;
   selector: 'app-inputs-dynamic',
   templateUrl: './reusable-inputs-dynamic.component.html',
   imports: [
+    MatButtonModule,
     MatIconModule,
     MatInputModule,
     MatSelectModule,
