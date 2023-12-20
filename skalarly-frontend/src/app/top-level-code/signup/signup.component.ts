@@ -76,6 +76,7 @@ import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-arch
 export class SignUpComponent implements OnInit, OnDestroy {
   selectedFile: File | undefined;
   imagePreview: string | ArrayBuffer | null = '';
+  instituitionForm: FormGroup;
   signUpForm: FormGroup;
   private values$: Subject<void> = new Subject<void>();
   // second major stage
@@ -159,6 +160,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private titleService: Title
   ) {
+    this.instituitionForm = new FormGroup({})
     this.signUpForm = new FormGroup({
       username: new FormControl<InitialAccountInterface['username'] | null>(
         null,

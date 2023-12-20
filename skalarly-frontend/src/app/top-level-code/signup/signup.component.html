@@ -1,7 +1,10 @@
 <div>
   <mat-stepper orientation="horizontal" #stepper >
     <!-- only step when form is valid -->
-<mat-step label="Choose your instituition">
+<mat-step  [stepControl]="instituitionForm">
+  <ng-template matStepLabel>Choose your instituition</ng-template>
+
+  <form [formGroup]="instituitionForm" (ngSubmit)="createAccount()"></form>
 <app-reusable-dropdown [countryApi]="true" [label]="'Country'" [List$]="country$"
 (selectedChange)="updateCountrySelection($event)" [title]="'Which country do you study in?'">
 </app-reusable-dropdown>
