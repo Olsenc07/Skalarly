@@ -96,10 +96,10 @@
 </mat-step>
 <mat-step [stepControl]="skalarInfoForm" label="Academic Info">
     <form [formGroup]="skalarInfoForm" (ngSubmit)="addSkalarInfo()">
-      <app-inputs-dynamic [inputsArray]="getArray('major')" placeholder="Major"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('minor')" placeholder="Minor"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('sport')" placeholder="Sport"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('club')" placeholder="Club"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('major')" placeholder="Major" icon="school"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('minor')" placeholder="Minor" icon="book"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('sport')" placeholder="Sport" icon="sports"></app-inputs-dynamic>
+      <app-inputs-dynamic [inputsArray]="getArray('club')" placeholder="Club" icon="group"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('coursesCompleted')" placeholder="Course Code"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('coursesPursing')" placeholder="Course Code"></app-inputs-dynamic>
       <!-- <input accoldates, certificates, publishings,... /> -->
