@@ -55,14 +55,19 @@
 <mat-step label="Basic Info">
   <div class="input-list">
     <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
-    <button mat-button (click)="fileInput.click()">Choose File</button>
-    <button mat-button (click)="onCameraClick()">Take a Photo</button>
+    Upload Photo
+    <button mat-icon-button (click)="fileInput.click()">attach_file</button>
+    Take Photo
+    <button mat-icon-button (click)="onCameraClick()">add_a_photo</button>
     @if(imagePreview){
     <img [src]="imagePreview" class="image-preview">
     }
     <app-reusable-inputs [label]="'Full Name'"></app-reusable-inputs>
     <app-reusable-inputs [label]="'Bio'" [default]="false"></app-reusable-inputs>
-
+    <!-- lloking to obtain have a drop down of types of degrees with autocomplete
+       <app-reusable-inputs [label]=""></app-reusable-inputs> -->
+    <app-inputs-dynamic [inputsArray]="getArray('links')" placeholder="Social Link" [controlType]="'url'"></app-inputs-dynamic>
+  
     <mat-form-field>
       <mat-label>Birthday</mat-label>
       <input matInput [matDatepicker]="picker">
@@ -73,15 +78,9 @@
 
     <mat-slide-toggle> Private Account
     </mat-slide-toggle>
-    <!-- <mat-form-field>
-    <input matInput type="file" (change)="onFileSelected($event)">
-  </mat-form-field>
-    <button (click)="onUpload()">Upload</button>
-    <img [src]="imagePreview" *ngIf="imagePreview" class="image-preview"> -->
+ 
   </div>
   
-  <!-- Profile Picture, Year of studies, Birthday, 
-  Drop dowm for 'looking to obtain ..', bio -->
   <div class="nav-wrapper">
   <button mat-button matStepperPrevious type="button">Back</button>
   <button mat-button matStepperNext type="button">Next</button>

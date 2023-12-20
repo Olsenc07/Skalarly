@@ -13,6 +13,10 @@ const userInfoSchema = mongoose.Schema({
     minor: [{ type: String}],
     sport: [{ type: String}],
     club: [{ type: String}],
+    socialLinks: [
+        { platform: { type: String, required: true }, 
+        url: { type: String, required: true } }
+    ],
     publicAccount: { type: Boolean},
     Followers: { type: Number, default: 0},
     Following: { type: Number, default: 0},

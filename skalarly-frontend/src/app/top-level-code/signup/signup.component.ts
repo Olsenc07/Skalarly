@@ -139,7 +139,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
       sport: new FormArray([]),
       club: new FormArray([]),
       coursesCompleted: new FormArray([]),
-      coursesPursing: new FormArray([])
+      coursesPursing: new FormArray([]),
+      links: new FormArray([])
     });
 
 

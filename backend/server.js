@@ -31,6 +31,10 @@ mongoose.connect(db)
 .then(()  => {
   console.log('Connected to database!')})
 .catch((error) => {
+  console.error('mary', process.env.NODE_ENV);
+
+  console.error('password', db);
+
   console.error('MongoDB connection error:', error);
 })
 // App Configuration
