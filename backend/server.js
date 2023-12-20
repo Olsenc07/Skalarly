@@ -20,11 +20,11 @@ const app = express();
 const port = process.env.PORT || 4200;
 
 //  DataBase connection
-mongoose.connect(process.env.mongodb)
-.then(()  => {
-    console.log('Connected to database!')})
-.catch(() => {
-    console.log('Not connected to database')});
+// mongoose.connect(process.env.mongodb)
+// .then(()  => {
+//     console.log('Connected to database!')})
+// .catch(() => {
+//     console.log('Not connected to database')});
 
 // App Configuration
 app.use(bodyParser.json());
