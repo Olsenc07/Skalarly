@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -20,7 +20,7 @@ type FormControlOrGroup = FormControl<string | null> | FormGroup;
     InputImports
   ]
 })
-export class ReusableInputsDynamicComponent {
+export class ReusableInputsDynamicComponent implements OnChanges {
   socialMediaOptions = [
     { name: 'LinkedIn', placeholder: 'LinkedIn URL', icon: 'linkedin' },
     { name: 'Twitter', placeholder: 'Twitter URL', icon: 'twitter' },
@@ -55,9 +55,11 @@ export class ReusableInputsDynamicComponent {
     control: new FormControl<string | null>(null),
     socialMedia: new FormControl(this.selectedOption)
   });
-  constructor() {
-    this.initializeInputArray();
-}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['controlType']) {
+      this.initializeInputArray();
+    }
+  }
 
 private initializeInputArray(): void {
   console.log('hey')
