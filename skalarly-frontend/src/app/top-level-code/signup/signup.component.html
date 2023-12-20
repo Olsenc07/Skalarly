@@ -56,9 +56,17 @@
   <div class="input-list">
     <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
     Upload Photo
-    <button mat-icon-button (click)="fileInput.click()">attach_file</button>
+    <button mat-icon-button (click)="fileInput.click()">
+      <mat-icon>
+      attach_file
+    </mat-icon>
+  </button>
     Take Photo
-    <button mat-icon-button (click)="onCameraClick()">add_a_photo</button>
+    <button mat-icon-button (click)="onCameraClick()">
+      <mat-icon>
+      add_a_photo
+    </mat-icon>
+    </button>
     @if(imagePreview){
     <img [src]="imagePreview" class="image-preview">
     }
