@@ -7,6 +7,9 @@
           @if(label){
           <mat-label>{{ label }}</mat-label>
           }
+          @if(icon){
+            <mat-icon matPrefix class="material-symbols-outlined">{{icon}}</mat-icon>
+             }
         <input matInput type="text" [formControl]="typedFilter" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
           <!-- @for(list  of countriesSignal.value; let i = $index ; track list.name){

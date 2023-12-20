@@ -17,19 +17,17 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import {
   MatAutocomplete,
   MatAutocompleteModule
 } from '@angular/material/autocomplete';
 import { BoldPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
-import { CommonModule } from '@angular/common';
 import { type InstitutionDataInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
-import { InstitutionInfoService } from '../../custom-architecture-aids/services/create-edit-account/institution-info.service';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { InstitutionInfoService } from '../../../custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { RemoveSpacesPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
 import { TitleCasePipe } from '@angular/common';
+import { InputImports } from '../input-imports';
 
 @Component({
   standalone: true,
@@ -38,11 +36,8 @@ import { TitleCasePipe } from '@angular/common';
   styleUrls: ['./reusable-dropdown-signup.component.scss'],
   imports: [
     BoldPipe,
-    CommonModule,
     MatAutocompleteModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
+    InputImports,
     RemoveSpacesPipe,
     TitleCasePipe
   ]
@@ -54,6 +49,7 @@ export class ReusableDropDownComponent implements OnInit {
   @Input() label: string | null = null;
   labelFlexible: 'country' | 'name';
   @Input() hint: string | null = null;
+  @Input() icon?: string;
 
   @Input() title: string | null = null;
   @Input() List$!: Observable<InstitutionDataInterface[]>;

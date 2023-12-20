@@ -3,7 +3,6 @@ import {
   FormArray,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -21,55 +20,36 @@ import {
   tap
 } from 'rxjs';
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
-import { CommonModule } from '@angular/common';
-import { ErrorPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/error.pipe';
-import { HttpClientModule } from '@angular/common/http';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import {MatIconModule} from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatStepperModule } from '@angular/material/stepper';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ErrorPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/error.pipe';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
 import { InstitutionDataInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
-import { InstitutionInfoService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
+import { InstitutionInfoService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
 
 import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
-import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-dropdown-signup/reusable-dropdown-signup.component';
-import { ReusableInputPasswordComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-password/reusable-input-password.component';
-import { ReusableInputsComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs/reusable-inputs.component';
-import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs-dynamic/reusable-inputs-dynamic.component';
-import { SignUpFormStateService } from 'src/app/assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
+import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-dropdown-signup/reusable-dropdown-signup.component';
+import { ReusableInputPasswordComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-input-password/reusable-input-password.component';
+import { ReusableInputsComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-inputs/reusable-inputs.component';
+import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-types/reusable-inputs-dynamic/reusable-inputs-dynamic.component';
+import { SignUpFormStateService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
+import { SignUpImports } from './signup-imports';
 
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatSelectModule,
-    MatStepperModule,
-    MatSlideToggleModule,
     ReusableDropDownComponent,
     ReusableInputsComponent,
     RemoveSpacesPipe,
     ReusableInputPasswordComponent,
     ReusableInputsDynamicComponent,
-    ErrorPipe
+    ErrorPipe,
+    SignUpImports
   ]
 })
 
@@ -78,6 +58,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   imagePreview: string | ArrayBuffer | null = '';
   instituitionForm: FormGroup;
   signUpForm: FormGroup;
+  personalForm: FormGroup;
   private values$: Subject<void> = new Subject<void>();
   // second major stage
   userInteracted: boolean = false;
@@ -160,7 +141,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private titleService: Title
   ) {
-    this.instituitionForm = new FormGroup({})
+    this.instituitionForm = new FormGroup({});
     this.signUpForm = new FormGroup({
       username: new FormControl<InitialAccountInterface['username'] | null>(
         null,
@@ -189,6 +170,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
         }
       )
     });
+    this.personalForm = new FormGroup({});
   }
   get usernameControl(): FormControl {
     return this.signUpForm.get('username') as FormControl;
@@ -332,25 +314,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
       }
     });
   }
-// basic info
-// onFileSelected(event: Event) {
-//   const file = (event.target as HTMLInputElement).files[0];
-//   this.selectedFile = file;
-//   const reader = new FileReader();
-//   reader.onload = () => {
-//     this.imagePreview = reader.result;
-//   };
-//   reader.readAsDataURL(file);
-// }
-
-// onUpload() {
-//   const formData = new FormData();
-//   formData.append('image', this.selectedFile, this.selectedFile.name);
-//   this.http.post('http://localhost:3000/api/upload', formData).subscribe(
-//     (response) => console.log(response),
-//     (error) => console.log(error)
-//   );
-// }
 
 // Account Info
 isValid = false; // Validity status
@@ -431,6 +394,9 @@ onCameraClick() {
   }
 
   // clean up
+  navigate(): void {
+    this.router.navigate(['/login']);
+  }
   // if skalar trys to close entire browser before cpmpleting,delete saved content
   ngOnDestroy(): void {
     this.values$.next(); // Emit a value to signal unsubscription

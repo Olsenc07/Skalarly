@@ -1,0 +1,4 @@
+@use '../../../../assistant-level-code/universal-reusable-styles/common' as common;
+.form-wrapper{
+    @include common.common;
+}

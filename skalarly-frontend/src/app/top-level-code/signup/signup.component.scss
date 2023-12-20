@@ -1,13 +1,30 @@
 @use '../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @use '../../assistant-level-code/universal-reusable-styles/common' as common;
 
-.input-list {
+.input-list .input-individual{
   @include common.common;
   align-items: center;
 }
-.input-individual{
-  @include common.common;
+.back{
+  box-shadow: 0 0 3px 3px var(--secondChoice);
+  left: 3%;
+  top: 3%;
+  background-color: whitesmoke;
+  color: black;
+  z-index: 2;
+  position: absolute;
+}
+.center{
+  display: flex;
+  justify-content: center;
+}
+.image-individual{
+  display: flex;
   align-items: center;
+}
+mat-card{
+  display: flex;
+  margin-bottom: 3%;
 }
 mat-stepper {
   display: flex;
@@ -34,7 +51,11 @@ mat-stepper {
   .mat-stepper-vertical-line {
     border-left-color: var(--firstChoice);
   }
-
+.image-selection{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
   button[matStepperNext]{
       color: #fff;
       @include responsive.responsiveFontSize();

@@ -1,23 +1,17 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AbstractControl, FormControl } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import {MatIconModule} from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ReactiveFormsModule } from '@angular/forms';
 import { Subject, debounceTime, filter, distinctUntilChanged, takeUntil } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { InputImports } from '../input-imports';
 
 @Component({
   selector: 'app-reusable-inputs',
   standalone: true,
   imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
+    MatButtonModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    InputImports
   ],
   templateUrl: './reusable-inputs.component.html',
   styleUrl: './reusable-inputs.component.scss'
@@ -27,6 +21,7 @@ export class ReusableInputsComponent implements OnDestroy {
   @Input() default: boolean = true;
   @Input() title?: string;
   @Input() label?: string;
+  @Input() hint?: string;
   @Input() error: string | null = null;
   @Input() placeholder!: string;
   @Input() icon?: string;

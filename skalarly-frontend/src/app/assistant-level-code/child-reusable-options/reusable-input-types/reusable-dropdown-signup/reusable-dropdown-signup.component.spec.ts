@@ -1,12 +1,12 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BoldPipe } from '../../custom-architecture-aids/pipes/bold.pipe';
-import { InstitutionInfoService } from '../../custom-architecture-aids/services/create-edit-account/institution-info.service';
+import { BoldPipe } from '../../../custom-architecture-aids/pipes/bold.pipe';
+import { InstitutionInfoService } from '../../../custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RemoveSpacesPipe } from '../../custom-architecture-aids/pipes/white-space.pipe';
+import { RemoveSpacesPipe } from '../../../custom-architecture-aids/pipes/white-space.pipe';
 import { ReusableDropDownComponent } from './reusable-dropdown-signup.component';
 
 describe('ReusableDropDownComponent', () => {

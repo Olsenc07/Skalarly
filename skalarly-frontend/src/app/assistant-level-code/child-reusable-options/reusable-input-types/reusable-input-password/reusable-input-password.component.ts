@@ -1,25 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import {MatIconModule} from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { type PassWordInterface } from '../../custom-architecture-aids/interfaces/password-interface';
+import { type PassWordInterface } from '../../../custom-architecture-aids/interfaces/password-interface';
 import { ReactiveFormsModule } from '@angular/forms';
-import { rotate180 } from '../../../assistant-level-code/custom-architecture-aids/animations/rotate180-animation';
+import { rotate180 } from '../../../custom-architecture-aids/animations/rotate180-animation';
+import { InputImports } from '../input-imports';
 
 @Component({
   selector: 'app-reusable-input-password',
   standalone: true,
   imports: [
-    CommonModule,
     MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
+    InputImports,
     MatTooltipModule,
     ReactiveFormsModule
   ],

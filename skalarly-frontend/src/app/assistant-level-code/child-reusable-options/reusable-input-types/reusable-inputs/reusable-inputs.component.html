@@ -20,9 +20,12 @@
       <mat-error >{{ error }}</mat-error>
     }
     @if(input.value){
-    <button mat-icon-button matSuffix  (click)="input.reset()">
-      <mat-icon>clear</mat-icon>
+    <button matSuffix mat-icon-button (click)="input.reset()">
+      <mat-icon  class="material-symbols-outlined">cancel</mat-icon>
     </button>
+  }
+  @if (hint){
+  <mat-hint>{{hint}}</mat-hint>
   }
   </mat-form-field>
   </div>

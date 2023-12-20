@@ -4,13 +4,11 @@ import {
   FormArray,
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
 } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { InputImports } from '../input-imports';
+
 type FormControlOrGroup = FormControl<string | null> | FormGroup;
 @Component({
   standalone: true,
@@ -18,11 +16,8 @@ type FormControlOrGroup = FormControl<string | null> | FormGroup;
   templateUrl: './reusable-inputs-dynamic.component.html',
   imports: [
     MatButtonModule,
-    MatIconModule,
-    MatInputModule,
     MatSelectModule,
-    MatFormFieldModule,
-    ReactiveFormsModule
+    InputImports
   ]
 })
 export class ReusableInputsDynamicComponent {
@@ -53,22 +48,36 @@ export class ReusableInputsDynamicComponent {
   @Input() placeholder?: string;
   @Input() icon?: string;
   @Input() controlType: 'text' | 'url' = 'text';
+  selectedOption = this.socialMediaOptions.find(
+    option => option.name === this.selectedSocialMedia?.value
+  );
+  newGroup = new FormGroup({
+    control: new FormControl<string | null>(null),
+    socialMedia: new FormControl(this.selectedOption)
+  });
+  constructor() {
+    this.initializeInputArray();
+}
 
+private initializeInputArray(): void {
+  console.log('hey')
+    if (this.controlType === 'text') {
+        this.inputsArray.push(
+            new FormControl<string>(''));
+    } else if (this.controlType === 'url') {
+        this.inputsArray.push(this.newGroup);
+    }
+}
   selectedSocialMedia = new FormControl('');
 
   addInput(): void {
     if (this.controlType === 'text') {
       this.inputsArray.push(new FormControl<string>(''));
     } else if (this.controlType === 'url') {
-      const selectedOption = this.socialMediaOptions.find(
-        option => option.name === this.selectedSocialMedia.value
-      );
-      if (selectedOption) {
-        const newGroup = new FormGroup({
-          control: new FormControl<string | null>(null),
-          socialMedia: new FormControl(selectedOption)
-        });
-        this.inputsArray.push(newGroup);
+      
+      if (this.selectedOption) {
+    
+        this.inputsArray.push(this.newGroup);
       }
     }
   }

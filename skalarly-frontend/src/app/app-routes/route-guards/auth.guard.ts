@@ -19,10 +19,10 @@ export class AuthGuard {
     let hasNavigated: boolean = false;
     if (!isAuth) {
       const snackBarRef = this.snackBar.open(
-        "Skalarly requries an account to access it/'s content.",
-        "Create an account to see what you/'r missing.",
+        "Skalarly requries an account to access it's content.",
+        "Create an account to see what you'r missing.",
         {
-          duration: 2500
+          duration: 3500
         }
       );
       snackBarRef.onAction().subscribe(() => {

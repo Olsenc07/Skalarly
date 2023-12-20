@@ -1,6 +1,6 @@
+  <!-- doesn't show initial input field, only when added -->
   @if(controlType === 'text'){
 @for (controlOrGroup of inputsArray.controls; let i = $index; track controlOrGroup){
-
   @if(isFormControl(controlOrGroup)){
     <mat-form-field appearance="outline">
       <mat-label>
@@ -13,8 +13,7 @@
     </mat-form-field>
     @if (inputsArray.length > 1) {
         <button mat-icon-button (click)="removeInput(i)">
-      <mat-icon>remove_circle</mat-icon>
-
+      <mat-icon class="material-symbols-outlined">cancel</mat-icon>
         </button>
     }
 }
@@ -43,5 +42,9 @@
   </mat-form-field>
 }}}}
 <!-- both cases -->
-<button mat-button (click)="addInput()">Add + {{ placeholder }}</button>
+<button mat-icon-button (click)="addInput()"> 
+<mat-icon class="material-symbols-outlined">
+  add_circle
+</mat-icon>
+</button>
 
