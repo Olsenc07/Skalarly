@@ -27,16 +27,16 @@ const app = express();
 const port = portEnv || 4200;
 
 //  DataBase connection
-mongoose.connect(db)
-.then(()  => {
-  console.log('Connected to database!')})
-.catch((error) => {
-  console.error('mary', process.env.NODE_ENV);
+// mongoose.connect(db)
+// .then(()  => {
+//   console.log('Connected to database!')})
+// .catch((error) => {
+//   console.error('mary', process.env.NODE_ENV);
 
-  console.error('password', db);
+//   console.error('password', db);
 
-  console.error('MongoDB connection error:', error);
-})
+//   console.error('MongoDB connection error:', error);
+// })
 // App Configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));

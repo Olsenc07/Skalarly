@@ -14,9 +14,15 @@
 @if(default){
     <input type="text" matInput [placeholder]="placeholder" [formControl]="input">
  } @else { 
-  <textarea matInput></textarea>}
+  <textarea matInput></textarea>
+}
     @if (error){
       <mat-error >{{ error }}</mat-error>
     }
+    @if(input.value){
+    <button mat-icon-button matSuffix  (click)="input.reset()">
+      <mat-icon>clear</mat-icon>
+    </button>
+  }
   </mat-form-field>
   </div>
