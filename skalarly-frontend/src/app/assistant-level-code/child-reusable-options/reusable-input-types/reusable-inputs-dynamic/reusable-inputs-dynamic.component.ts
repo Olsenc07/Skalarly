@@ -61,8 +61,8 @@ export class ReusableInputsDynamicComponent implements OnChanges {
     }
   }
 
+
 private initializeInputArray(): void {
-  console.log('hey')
     if (this.controlType === 'text') {
         this.inputsArray.push(
             new FormControl<string>(''));

@@ -10,4 +10,6 @@ COPY . .
 
 EXPOSE 4200
 
+ENV NODE_ENV production
+
 CMD ["node", "server.js"]

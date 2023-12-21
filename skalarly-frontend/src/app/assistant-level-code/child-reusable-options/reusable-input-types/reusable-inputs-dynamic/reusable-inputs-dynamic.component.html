@@ -25,7 +25,8 @@
 @if(isFormGroup(controlOrGroup)){
  @if(controlOrGroup.get('control'); as abstractControl){
 <!-- Drop Down Social Media Options -->
-<mat-form-field>
+<mat-form-field appearance="outline">
+  <mat-label>Social Links</mat-label>
 <mat-select [formControl]="selectedSocialMedia">
   <mat-option *ngFor="let option of socialMediaOptions" [value]="option.name">
     {{ option.name }}
