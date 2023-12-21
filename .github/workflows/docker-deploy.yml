@@ -28,15 +28,14 @@ jobs:
 
       - name: Build and Push Backend Docker Image to Heroku
         run: |
-          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend ./backend
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend ./backend .
           docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend
 
       - name: Build and Push Frontend Docker Image to Heroku
         run: |
-          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend ./skalarly-frontend
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend ./skalarly-frontend .
           docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend
 
-     
       - name: Release Backend Docker Image
         run: heroku container:release backend --app ${{ secrets.HEROKU_APP_NAME }}
         env:
@@ -47,7 +46,6 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
-          
       - name: Configuring Git User Info
         run: |
           git config --global user.name "Olsenc07"
