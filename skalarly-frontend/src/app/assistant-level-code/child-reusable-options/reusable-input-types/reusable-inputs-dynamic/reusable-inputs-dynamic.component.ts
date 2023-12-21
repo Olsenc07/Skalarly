@@ -14,6 +14,7 @@ type FormControlOrGroup = FormControl<string | null> | FormGroup;
   standalone: true,
   selector: 'app-inputs-dynamic',
   templateUrl: './reusable-inputs-dynamic.component.html',
+  styleUrl: './reusable-inputs-dynamic.component.scss',
   imports: [
     MatButtonModule,
     MatSelectModule,

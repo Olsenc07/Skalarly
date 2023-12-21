@@ -142,12 +142,24 @@
             <mat-card-title>Specialization:</mat-card-title>
           </mat-card-header>
           <mat-card-content>
-      <app-inputs-dynamic class="input-individual" [inputsArray]="getArray('major')" placeholder="Major" icon="school"></app-inputs-dynamic>
-      <app-inputs-dynamic class="input-individual" [inputsArray]="getArray('minor')" placeholder="Minor" icon="book"></app-inputs-dynamic>
-      <app-inputs-dynamic class="input-individual" [inputsArray]="getArray('sport')" placeholder="Sport" icon="sports"></app-inputs-dynamic>
-      <app-inputs-dynamic class="input-individual" [inputsArray]="getArray('club')" placeholder="Club" icon="group"></app-inputs-dynamic>
-      <app-inputs-dynamic class="input-individual" [inputsArray]="getArray('coursesCompleted')" placeholder="Course Code"></app-inputs-dynamic>
-      <app-inputs-dynamic class="input-individual" [inputsArray]="getArray('coursesPursing')" placeholder="Course Code"></app-inputs-dynamic>
+            <mat-grid-list cols="3" rowHeight="3:1">
+              <mat-grid-tile>
+      <app-inputs-dynamic [inputsArray]="getArray('major')" placeholder="Major" icon="school"></app-inputs-dynamic>
+              </mat-grid-tile>
+              <mat-grid-tile>
+      <app-inputs-dynamic [inputsArray]="getArray('minor')" placeholder="Minor" icon="book"></app-inputs-dynamic>
+              </mat-grid-tile>
+              <mat-grid-tile>
+      <app-inputs-dynamic [inputsArray]="getArray('sport')" placeholder="Sport" icon="sports"></app-inputs-dynamic>
+              </mat-grid-tile>
+      <app-inputs-dynamic [inputsArray]="getArray('club')" placeholder="Club" icon="group"></app-inputs-dynamic>
+      <mat-grid-tile>
+      <app-inputs-dynamic [inputsArray]="getArray('coursesCompleted')" placeholder="Completed Course" icon="verified"></app-inputs-dynamic>
+      </mat-grid-tile>
+            </mat-grid-list>
+      <mat-grid-tile>
+      <app-inputs-dynamic [inputsArray]="getArray('coursesPursing')" placeholder="Pursuing Course" icon="add_task"></app-inputs-dynamic>
+      </mat-grid-tile>
       <!-- <input accoldates, certificates, publishings,... /> -->
       </mat-card-content>
       </mat-card>
