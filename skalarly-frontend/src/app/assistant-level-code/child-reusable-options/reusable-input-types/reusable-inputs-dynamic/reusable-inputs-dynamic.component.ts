@@ -60,7 +60,8 @@ export class ReusableInputsDynamicComponent implements OnChanges {
       this.initializeInputArray();
     }
   }
-
+  // then combine controlOrGroup0 & controlOrGroup
+  controlOrGroup0: FormControl<string | null> = new FormControl<string | null>('')
 
 private initializeInputArray(): void {
     if (this.controlType === 'text') {
