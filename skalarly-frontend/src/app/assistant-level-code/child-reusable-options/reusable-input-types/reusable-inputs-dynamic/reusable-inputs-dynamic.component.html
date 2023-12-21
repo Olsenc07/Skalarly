@@ -1,5 +1,14 @@
   <!-- doesn't show initial input field, only when added -->
   @if(controlType === 'text'){
+    <mat-form-field appearance="outline">
+      <mat-label>
+        {{ placeholder }}
+      </mat-label>
+      @if(icon){
+        <mat-icon matPrefix class="material-symbols-outlined">{{icon}}</mat-icon>
+         }
+      <input matInput [type]="controlType" [formControl]="controlOrGroup"/>
+    </mat-form-field>
 @for (controlOrGroup of inputsArray.controls; let i = $index; track controlOrGroup){
   @if(isFormControl(controlOrGroup)){
     <mat-form-field appearance="outline">
