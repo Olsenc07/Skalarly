@@ -26,30 +26,34 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }} 
 
+      # Backend
       - name: Build and Push Backend Docker Image to Heroku
         run: |
-          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend ./backend 
-          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/backend
-
-      - name: Build and Push Frontend Docker Image to Heroku
-        run: |
-          docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend ./skalarly-frontend 
-          docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/frontend
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}/web ./backend 
+          docker push registry.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}/web
 
       - name: Release Backend Docker Image
-        run: heroku container:release backend --app ${{ secrets.HEROKU_APP_NAME }}
+        run: heroku container:release web --app ${{ secrets.HEROKU_BACKEND_APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+      # Frontend
+      - name: Build and Push Frontend Docker Image to Heroku
+        run: |
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_FS_APP_NAME }}/web ./skalarly-frontend 
+          docker push registry.heroku.com/${{ secrets.HEROKU_FS_APP_NAME }}/web
 
       - name: Release Frontend Docker Image
-        run: heroku container:release frontend --app ${{ secrets.HEROKU_APP_NAME }}
+        run: heroku container:release web --app ${{ secrets.HEROKU_FS_APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
+      # Configuration and Deployment to GitHub Pages
       - name: Configuring Git User Info
         run: |
           git config --global user.name "Olsenc07"
           git config --global user.email "skalolsen@gmail.com"
+
       - name: Build Angular App
         run: |
             cd skalarly-frontend
