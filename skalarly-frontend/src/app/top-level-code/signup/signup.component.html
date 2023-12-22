@@ -45,20 +45,23 @@
       <mat-card-header>
         <mat-card-title>Credentials:</mat-card-title>
       </mat-card-header>
+      <mat-divider></mat-divider>
         <mat-card-content>
-  <app-reusable-inputs class="input-individual" [isValid]="isValid"  (valueChange)="onValueChange($event)"
+  <app-reusable-inputs class="input-list-inputs input-list-first" [isValid]="isValid"  (valueChange)="onValueChange($event)"
     label="Username" placeholder="Username" icon="account_circle"
   [error]="getError('username') | errorPipe"
   ></app-reusable-inputs>
-
-  <app-reusable-inputs class="input-individual" [isValid]="isValid"  (valueChange)="onValueChange($event)"
+  <!-- @if(){ -->
+  <app-reusable-inputs class="input-list-inputs" [isValid]="isValid" (valueChange)="onValueChange($event)"
    label="Email" placeholder="Email" icon="alternate_email"
   [error]="getError('email') | errorPipe" [hint]="'Match Insitution chosen'"
 ></app-reusable-inputs>
-
-  <app-reusable-input-password class="input-individual" [control]="passwordControl" label="Password" placeholder="Password" 
+  <!-- }
+  @if(){ -->
+  <app-reusable-input-password class="input-list-inputs" [control]="passwordControl" label="Password" placeholder="Password" 
   icon="lock"
   (controlValueChanged)="handleValueChange('password', $event)"></app-reusable-input-password>
+  <!-- } -->
   <div class="center">
   <button mat-raised-button type="submit" [disabled]="signUpForm.invalid" initial>
     Validate
@@ -84,6 +87,8 @@
       <mat-card-header>
         <mat-card-title>Personalize:</mat-card-title>
       </mat-card-header>
+      <mat-divider></mat-divider>
+
         <mat-card-content>
           <div class="image-selection">
             <div class="image-individual">
@@ -114,7 +119,6 @@
     <!-- lloking to obtain have a drop down of types of degrees with autocomplete
        <app-reusable-inputs [label]=""></app-reusable-inputs> -->
        <div class="input-individual">
-    <app-inputs-dynamic [inputsArray]="getArray('links')" placeholder="Social Link" [controlType]="'url'"></app-inputs-dynamic>
     <mat-form-field appearance="outline">
       <mat-label>Birthday</mat-label>
       <input matInput [matDatepicker]="picker">
@@ -123,6 +127,11 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-slide-toggle color="primary"> Private Account</mat-slide-toggle>
+    <div class="input-list">
+    <h1>Connect other networks</h1>
+    <app-inputs-dynamic [inputsArray]="getArray('links')" placeholder="Social Link" 
+    [controlType]="'url'"></app-inputs-dynamic>
+  </div>
   </div>
  </mat-card-content>
  </mat-card>
@@ -141,12 +150,18 @@
             <mat-card-title>Specialization:</mat-card-title>
           </mat-card-header>
           <mat-card-content>
+            <div class="two-by-two">
       <app-inputs-dynamic [inputsArray]="getArray('major')" placeholder="Major" icon="school"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('minor')" placeholder="Minor" icon="book"></app-inputs-dynamic>
+    </div>
+    <div class="two-by-two">
       <app-inputs-dynamic [inputsArray]="getArray('sport')" placeholder="Sport" icon="sports"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('club')" placeholder="Club" icon="group"></app-inputs-dynamic>
+      </div>
+      <div class="two-by-two">
       <app-inputs-dynamic [inputsArray]="getArray('coursesCompleted')" placeholder="Completed Course" icon="verified"></app-inputs-dynamic>
       <app-inputs-dynamic [inputsArray]="getArray('coursesPursing')" placeholder="Pursuing Course" icon="add_task"></app-inputs-dynamic>
+      </div>
       <!-- <input accoldates, certificates, publishings,... /> -->
       </mat-card-content>
       </mat-card>

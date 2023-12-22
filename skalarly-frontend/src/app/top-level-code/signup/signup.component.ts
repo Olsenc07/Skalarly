@@ -24,7 +24,7 @@ import { ErrorPipe } from '../../assistant-level-code/custom-architecture-aids/p
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import {MatDividerModule} from '@angular/material/divider'
 import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
 import { InstitutionDataInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
 import { InstitutionInfoService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
@@ -49,6 +49,7 @@ import { SignUpImports } from './signup-imports';
     ReusableInputPasswordComponent,
     ReusableInputsDynamicComponent,
     ErrorPipe,
+    MatDividerModule,
     SignUpImports
   ]
 })

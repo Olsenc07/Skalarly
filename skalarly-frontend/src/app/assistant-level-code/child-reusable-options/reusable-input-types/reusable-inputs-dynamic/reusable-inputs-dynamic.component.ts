@@ -23,6 +23,7 @@ type FormControlOrGroup = FormControl<string | null> | FormGroup;
 })
 export class ReusableInputsDynamicComponent implements OnChanges {
   socialMediaOptions = [
+    { name: '', placeholder: '', icon: '' },
     { name: 'LinkedIn', placeholder: 'LinkedIn URL', icon: 'linkedin' },
     { name: 'Twitter', placeholder: 'Twitter URL', icon: 'twitter' },
     { name: 'Instagram', placeholder: 'Instagram URL', icon: 'instagram' },

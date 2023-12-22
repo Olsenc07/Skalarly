@@ -5,6 +5,12 @@
   @include common.common;
   align-items: center;
 }
+.input-list-inputs{
+  @include common.common;
+}
+.input-list-first{
+  margin-top: 3%;
+}
 .back{
   box-shadow: 0 0 3px 3px var(--secondChoice);
   left: 3%;
@@ -21,6 +27,12 @@
 .image-individual{
   display: flex;
   align-items: center;
+}
+.two-by-two{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 mat-card{
   display: flex;
