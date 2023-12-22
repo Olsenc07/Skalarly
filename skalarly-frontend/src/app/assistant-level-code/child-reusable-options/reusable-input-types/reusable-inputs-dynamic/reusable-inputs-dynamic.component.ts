@@ -64,7 +64,7 @@ export class ReusableInputsDynamicComponent implements OnChanges {
   // then combine controlOrGroupText & controlOrGroup
   // then combine controlOrGroupUrl & controlOrGroup
   controlOrGroupText: FormControl<string | null> = new FormControl<string | null>('')
-  controlOrGroupUrl = new FormGroup({
+  controlOrGroupUrl = new FormControl({
     control: new FormControl<string | null>(null),
     socialMedia: new FormControl(this.selectedOption)
   });
