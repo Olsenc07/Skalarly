@@ -8,7 +8,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import {MatGridListModule} from '@angular/material/grid-list';
 import { MatStepperModule } from '@angular/material/stepper';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -25,7 +24,6 @@ import { NgModule } from '@angular/core';
       MatSlideToggleModule,
       MatSelectModule,
       MatNativeDateModule,
-      MatGridListModule,
       ReactiveFormsModule,
       HttpClientModule
     ]

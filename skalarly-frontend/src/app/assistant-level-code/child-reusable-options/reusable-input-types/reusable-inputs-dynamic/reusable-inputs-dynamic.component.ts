@@ -14,7 +14,7 @@ type FormControlOrGroup = FormControl<string | null> | FormGroup;
   standalone: true,
   selector: 'app-inputs-dynamic',
   templateUrl: './reusable-inputs-dynamic.component.html',
-  styleUrl: './reusable-inputs-dynamic.component.scss',
+  styleUrl: '../reusable-inputs/reusable-inputs.component.scss',
   imports: [
     MatButtonModule,
     MatSelectModule,
@@ -62,12 +62,7 @@ export class ReusableInputsDynamicComponent implements OnChanges {
     }
   }
   // then combine controlOrGroupText & controlOrGroup
-  // then combine controlOrGroupUrl & controlOrGroup
   controlOrGroupText: FormControl<string | null> = new FormControl<string | null>('')
-  controlOrGroupUrl = new FormControl({
-    control: new FormControl<string | null>(null),
-    socialMedia: new FormControl(this.selectedOption)
-  });
 
 private initializeInputArray(): void {
     if (this.controlType === 'text') {

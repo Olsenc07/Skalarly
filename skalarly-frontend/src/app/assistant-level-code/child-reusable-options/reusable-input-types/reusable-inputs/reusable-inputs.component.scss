@@ -1,4 +1,10 @@
-@use '../../../../assistant-level-code/universal-reusable-styles/common' as common;
 .form-wrapper{
-    @include common.common;
-}
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    }    
+.input-add-wrapper{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    }    
