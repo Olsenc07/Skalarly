@@ -51,17 +51,17 @@
     label="Username" placeholder="Username" icon="account_circle"
   [error]="getError('username') | errorPipe"
   ></app-reusable-inputs>
-  <!-- @if(){ -->
+  @if(signUpForm.get('username')?.valid){ 
   <app-reusable-inputs class="input-list-inputs" [isValid]="isValid" (valueChange)="onValueChange($event)"
    label="Email" placeholder="Email" icon="alternate_email"
   [error]="getError('email') | errorPipe" [hint]="'Match Insitution chosen'"
 ></app-reusable-inputs>
-  <!-- }
-  @if(){ -->
+  }
+  @if(signUpForm.get('email')?.valid){ 
   <app-reusable-input-password class="input-list-inputs" [control]="passwordControl" label="Password" placeholder="Password" 
   icon="lock"
   (controlValueChanged)="handleValueChange('password', $event)"></app-reusable-input-password>
-  <!-- } -->
+   } 
   <div class="center">
   <button mat-raised-button type="submit" [disabled]="signUpForm.invalid" initial>
     Validate
