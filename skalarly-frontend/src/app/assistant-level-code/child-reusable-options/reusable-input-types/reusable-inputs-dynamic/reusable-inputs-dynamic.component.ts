@@ -61,8 +61,13 @@ export class ReusableInputsDynamicComponent implements OnChanges {
       this.initializeInputArray();
     }
   }
-  // then combine controlOrGroup0 & controlOrGroup
-  controlOrGroup0: FormControl<string | null> = new FormControl<string | null>('')
+  // then combine controlOrGroupText & controlOrGroup
+  // then combine controlOrGroupUrl & controlOrGroup
+  controlOrGroupText: FormControl<string | null> = new FormControl<string | null>('')
+  // controlOrGroupUrl = new FormGroup({
+  //   control: new FormControl<string | null>(null),
+  //   socialMedia: new FormControl(this.selectedOption)
+  // });
 
 private initializeInputArray(): void {
     if (this.controlType === 'text') {
