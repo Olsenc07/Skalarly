@@ -23,7 +23,7 @@ color: lightblue
 body {
   margin: 0;
   padding: 0;
-  background-image: linear-gradient(whitesmoke,white);
+  background-color: #f9f8fe;
   @include universal.common;
   @include universal.pageSize;
  }

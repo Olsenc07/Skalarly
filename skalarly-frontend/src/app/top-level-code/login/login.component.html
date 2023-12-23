@@ -1,20 +1,68 @@
 @defer { 
-      <div entire-page>
-  <div class="login-header">
-    <!-- logo full fades in on valid email -->
-    <img ngSrc="assets/images/Skalar_Hat_Icon.png" priority
-    width="94.5" height="75" sizes="15vw"
-    alt="Skalar Grad Wizard Hat Icon">
-  <h2> Enhance Your Academic Experience With <br>
-    <div skalarly>
-      Skalarly
+  @if(orientation){
+    <div entire-page>
+      <div class="login-header">
+        <!-- logo full fades in on valid email -->
+        <img ngSrc="assets/images/Skalar_Hat_Icon.png" priority
+        width="74.5" height="55" sizes="15vw"
+        alt="Skalar Grad Wizard Hat Icon">
+      <h2> Enhance Your Academic Experience With <br>
+        <div skalarly>
+          Skalarly
+          </div>
+      </h2>
       </div>
-  </h2>
+      <app-login-logic>
+      </app-login-logic>
+<!-- welcome and join animation -->
+<div class="welcome-container">
+  <h2>Don't have an account?</h2>
+  @if (!nextAnimations) {
+    <button mat-raised-button
+    (click)="navigate()" join>
+    <span>Join</span>
+    </button>
+  } @else {
+    <button mat-stroked-button
+    (click)="navigate()" [class.welcome-text-south-paw]="nextAnimations"
+     [@bubble]="nextAnimations ? 'animate' : 'noAnimate'" join>
+    <app-letter-by-letter [customClass]="'small'"
+    [lastLetterAnimation]="true"
+    [message]="join" [autoGenerate]="false" 
+    [welcomeSouthPaw]="true"></app-letter-by-letter>
+    </button>
+    }
+  <!-- array animation of words -->
+      <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
+      (@welcomeRise.done)="welcomeRiseDone()" >
+    <app-letter-by-letter 
+     [customClass]="'large'"
+     [message]="welcome"
+     [lastLetterAnimation]="true"
+     [autoGenerate]="toggle" 
+     [welcomeSouthPaw]="false" 
+    ></app-letter-by-letter>
+      </div>
   </div>
+      </div>
+  } @else {
+      <div entire-page>
+        <mat-card>
+          <mat-card-content>
+            <div class="login-header">
+              <!-- logo full fades in on valid email -->
+              <img ngSrc="assets/images/Skalar_Hat_Icon.png" priority
+              width="94.5" height="75" sizes="15vw"
+              alt="Skalar Grad Wizard Hat Icon">
+            <h2> Enhance Your Academic Experience With <br>
+              <div skalarly>
+                Skalarly
+                </div>
+            </h2>
+            </div>
 <!-- form logic -->
 <app-login-logic>
 </app-login-logic>
-</div>
 <!-- welcome and join animation -->
 <div class="welcome-container">
 @if (!nextAnimations) {
@@ -44,6 +92,10 @@
   ></app-letter-by-letter>
     </div>
 </div>
+</mat-card-content>
+</mat-card>
+</div>
+  }
 } @loading {
   <div column>
  <!-- pre load skeleton -->

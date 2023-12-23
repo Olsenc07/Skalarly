@@ -10,6 +10,13 @@ $form-margins: (
   desktop: 15%,  
   tv: 20%        
 );
+$form-margins0: (
+  base: 0%,     
+  tablet: 1%,  
+  laptop: 2%,   
+  desktop: 3%,  
+  tv: 5%        
+);
 @mixin responsiveMargins {
   /* Mobile First */
   --margin-form: map-get($form-margins, 'base');
@@ -17,7 +24,7 @@ $form-margins: (
   @each $screen, $min-width in device.$device-sizes {
     @if $screen != 'base' {
       @include responsive.media-query($screen, $min-width){
-        margin: 0% map-get($form-margins, $screen);
+        margin: map-get($form-margins0, $screen) map-get($form-margins, $screen);
       }}}
 }
 
@@ -29,8 +36,8 @@ $form-margins: (
     padding-top: 3%;
     margin: 0;
     /* border neat */
-    border-top: 15px solid transparent;
-    border-left: 15px solid transparent;    
+    border-top: 3px solid transparent;
+    border-left: 3px solid transparent;    
     /* border-image: linear-gradient(308deg, rgba(255, 255, 255, 0), rgba(102, 178, 255, 0.3), rgba(0, 75, 179, 0.7)) 1 stretch; */
     border-image: linear-gradient(308deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
     padding-bottom: 1%;
@@ -78,8 +85,6 @@ $form-margins: (
       }
   }
  
- 
-  
   /* Sparkle on hover */
   button[join]:hover:after {
     content: '\2728'; //*ode character for sparkle */
@@ -91,10 +96,8 @@ $form-margins: (
     @include responsiveMargins;
     @include common.common;
     position: relative;
-    border: outset;
     background-color: ghostwhite;
   }
-
 /* *1 *2 */
 div[column] {
   @include common.common;
@@ -121,5 +124,11 @@ div[skalarly] {
   .welcome-container {
         @include common.common;
         align-items: center; 
+        margin-top: 3%;
+        @each $screen, $min-width in device.$device-sizes {
+          @if $screen != 'base' {
+            @include responsive.media-query($screen, $min-width){
+              margin-top: 0%;
+            }}}
     }
 

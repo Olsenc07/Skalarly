@@ -5,7 +5,6 @@ $all: 100%;
     flex-direction: $portrait;
 }
 @mixin pageSize{
-    height: 100vh;
     width: $all;
     box-sizing: border-box;
 }

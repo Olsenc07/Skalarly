@@ -1,7 +1,10 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  Input,
+  NgZone,
   OnInit
 } from '@angular/core';
 import { ErrorHandlerComponent } from '../../assistant-level-code/child-reusable-options/error-handler/error-handler.component';
@@ -12,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgOptimizedImage } from '@angular/common';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
+import {MatCardModule} from '@angular/material/card';
 
 import { ValidationAnimationDirective } from '../../assistant-level-code/custom-architecture-aids/directives/login-validation-animation.directive';
 import { reusableAnimations } from './imports/animation-imports';
@@ -27,6 +31,7 @@ import { Router } from '@angular/router';
     LoginLogicComponent,
     ErrorHandlerComponent,
     MatButtonModule,
+    MatCardModule,
     MatTooltipModule,
     NgOptimizedImage,
     SkeletonLoaderLoginComponent,
@@ -35,6 +40,8 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit, AfterViewInit {
+   // mobile first
+   orientation: boolean = true;
   // animation based
   nextAnimations: boolean = false;
   toggle: boolean = false;
@@ -44,8 +51,26 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   constructor(
     private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
-    private readonly router: Router
-  ) {}
+    private readonly router: Router,
+    private ngZone: NgZone,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {
+    window
+    .matchMedia('(orientation: portrait)')
+    .addEventListener('change', (e: MediaQueryListEvent) => {
+      this.ngZone.run(() => {
+      // true is portrait
+      this.orientation = e.matches;
+      this.changeDetectorRef.detectChanges();
+      console.log('hey 88',  this.orientation);
+      if (this.orientation) {
+        // mobile, small tablets
+      } else {
+        // desktop, large tablets
+      }
+    });
+    });
+  }
 
   ngOnInit(): void {
     // randomize phrases
