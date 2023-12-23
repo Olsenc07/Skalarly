@@ -23,7 +23,7 @@ color: lightblue
 body {
   margin: 0;
   padding: 0;
-  background-color: #f9f8fe;
+  background-color: ghostwhite;
   @include universal.common;
   @include universal.pageSize;
  }
@@ -74,10 +74,10 @@ mat-toolbar{
   'opsz' 24
 }
 router-outlet[content] {
-    flex: 1; /* allow the content area to expand and fill available space */
+  box-sizing: border-box;
+  flex: 1; /* allow the content area to expand and fill available space */
 @media (orientation: portrait) {
   padding-bottom: 4em; /* adjust this value to match the footer's height in app scss */
-  box-sizing: border-box; /* include padding in the content's height calculation */
 }
 }
 app-letter-by-letter{

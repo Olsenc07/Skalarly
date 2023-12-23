@@ -96,7 +96,6 @@ $form-margins0: (
     @include responsiveMargins;
     @include common.common;
     position: relative;
-    background-color: ghostwhite;
   }
 /* *1 *2 */
 div[column] {

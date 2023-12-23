@@ -4,7 +4,6 @@ import {
   Component,
   OnInit,
   WritableSignal,
-  effect,
   signal
 } from '@angular/core';
 import { ErrorHandlerComponent } from '../../assistant-level-code/child-reusable-options/error-handler/error-handler.component';
@@ -21,7 +20,7 @@ import { ValidationAnimationDirective } from '../../assistant-level-code/custom-
 import { reusableAnimations } from './imports/animation-imports';
 import { Router } from '@angular/router';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
-import { Subscription } from 'rxjs';
+
 @Component({
   standalone: true,
   selector: 'app-login-format',

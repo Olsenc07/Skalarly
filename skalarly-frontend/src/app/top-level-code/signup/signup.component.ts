@@ -37,6 +37,7 @@ import { ReusableInputsComponent } from '../../assistant-level-code/child-reusab
 import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-types/reusable-inputs-dynamic/reusable-inputs-dynamic.component';
 import { SignUpFormStateService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
 import { SignUpImports } from './signup-imports';
+import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
 
 @Component({
   standalone: true,
@@ -55,6 +56,7 @@ import { SignUpImports } from './signup-imports';
 })
 
 export class SignUpComponent implements OnInit, OnDestroy {
+  title: string = 'Which country do you study in?';
   selectedFile: File | undefined;
   imagePreview: string | ArrayBuffer | null = '';
   instituitionForm: FormGroup;
@@ -140,7 +142,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private institutionInfoService: InstitutionInfoService,
     private readonly router: Router,
     private snackBar: MatSnackBar,
-    private titleService: Title
+    private titleService: Title,
+    protected orientationService: OrientationService
   ) {
     this.instituitionForm = new FormGroup({});
     this.signUpForm = new FormGroup({
@@ -208,8 +211,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
       )
       // eslint-disable-next-line rxjs-angular/prefer-async-pipe
       .subscribe();
-    // get country/institute/email data
-    // this.country$ = this.institutionInfoService.institutionInfo();
+      if (this.displayStateProvince) {
+        this.title = 'Which State or Province is your school in?';
+      } else if (this.institutionsLoaded) {
+        this.title = 'Current academic institution';
+      } else {
+        this.title = 'Which country do you study in?';
+      }
   }
   handleValueChange(controlName: string, value: string): void {
     const control = this.signUpForm.get(controlName);
@@ -228,6 +236,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     // );
   }
   updateCountrySelection(country: InstitutionDataInterface): void {
+    this.title = 'Which country do you study in?';
     // get institutions from that country chosen
     // but first check for state-province
     // then trigger institute data
