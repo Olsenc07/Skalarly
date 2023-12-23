@@ -12,7 +12,7 @@ Code Quality Assurance: Employing strict eslint plugins, I ensure that every lin
 
 🚀 Current Deployment and Upcoming Enhancements
 
-Live on Heroku: Skalarly is already live and waiting for you at www.skalarly.com. Experience the features and the dynamic nature of the application right now.
+Live on Heroku: Skalarly is already live and waiting for you at skalarly.com. Experience the features and the dynamic nature of the application right now.
 
 Comprehensive Tech Stack Integration:
 
