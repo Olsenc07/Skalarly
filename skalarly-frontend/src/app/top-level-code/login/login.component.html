@@ -1,5 +1,5 @@
 @defer { 
-  @if(orientation){
+  @if(orientationService.orientation()){
     <div entire-page>
       <div class="login-header">
         <!-- logo full fades in on valid email -->
@@ -52,7 +52,7 @@
             <div class="login-header">
               <!-- logo full fades in on valid email -->
               <img ngSrc="assets/images/Skalar_Hat_Icon.png" priority
-              width="94.5" height="75" sizes="15vw"
+              width="74.5" height="55" sizes="15vw"
               alt="Skalar Grad Wizard Hat Icon">
             <h2> Enhance Your Academic Experience With <br>
               <div skalarly>

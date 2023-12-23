@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, WritableSignal, signal } from '@angular/core';
 import {
   NavigationEnd,
   Router,
@@ -18,6 +18,7 @@ import { SearchBarComponent } from './top-level-code/search-bar/search-bar.compo
 import { dialog } from './assistant-level-code/custom-architecture-aids/animations/dialog-animation';
 import { fadeToggle } from './assistant-level-code/custom-architecture-aids/animations/fadeToggle-animation';
 import { refresh } from './assistant-level-code/custom-architecture-aids/animations/refresh-animation';
+import { OrientationService } from './assistant-level-code/custom-architecture-aids/services/orientation.service';
 
 @Component({
   standalone: true,
@@ -43,7 +44,7 @@ export class AppComponent implements OnDestroy {
   reloadState: 'initial' | 'intermediate' | 'final' = 'initial';
   routerUrl: string | undefined;
   // mobile first
-  orientation: boolean = true;
+  orientation: WritableSignal<boolean> = signal(true);
   searchIconClicked: boolean = false;
   animationParams:
     | {
@@ -53,7 +54,8 @@ export class AppComponent implements OnDestroy {
       }
     | undefined;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+    protected orientationService: OrientationService) {
     // tracking skalars current page
     this.router.events
       .pipe(
@@ -66,18 +68,6 @@ export class AppComponent implements OnDestroy {
       // eslint-disable-next-line rxjs-angular/prefer-async-pipe
       .subscribe((event: NavigationEnd) => {
         this.routerUrl = event.url;
-      });
-    // Determing device orientation
-    window
-      .matchMedia('(orientation: portrait)')
-      .addEventListener('change', (e: MediaQueryListEvent) => {
-        // true is portrait
-        this.orientation = e.matches;
-        if (this.orientation) {
-          // mobile, small tablets
-        } else {
-          // desktop, large tablets
-        }
       });
   }
   onHoldDetected(display: boolean): void {

@@ -4,7 +4,7 @@
 <mat-toolbar class="header">
   <!-- logo -->
 <!-- *1 search bar icon, mobile first  -->
-    @if(orientation){
+    @if(orientationService.orientation()){
       <!-- search icon to display search -->
       <ng-template>
       <button mat-icon-button (click)="toggleSearch(true)">
@@ -12,17 +12,17 @@
       </button>
     </ng-template>
       @if(searchIconClicked){
-      <app-search-bar [mobileFirst]="orientation" (backEvent)="toggleSearch($event)"></app-search-bar>
+      <app-search-bar [mobileFirst]="true" (backEvent)="toggleSearch($event)"></app-search-bar>
       }
 <!-- *2 landscape search bar -->
   } @else {
     <!-- for desktop but mobile one should pop up and then search options
     take up full screen -->
-    <app-search-bar [mobileFirst]="orientation"></app-search-bar>
+    <app-search-bar [mobileFirst]="false"></app-search-bar>
     }
   <nav>
 <!-- *1 only for portrait, mobile first -->
-@if(orientation){
+@if(orientationService.orientation()){
   <ng-template> 
   <footer class="footer" >
   <mat-toolbar class="mobile-fade-overlay">
