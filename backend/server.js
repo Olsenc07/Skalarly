@@ -7,6 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 const portEnv = process.env.PORT;
 const db = process.env.mongodb;
 import express from 'express';
+import { sslRedirect } from 'heroku-ssl-redirect';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -38,6 +39,7 @@ mongoose.connect(db)
   console.error('MongoDB connection error:', error);
 })
 // App Configuration
+app.use(sslRedirect());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
