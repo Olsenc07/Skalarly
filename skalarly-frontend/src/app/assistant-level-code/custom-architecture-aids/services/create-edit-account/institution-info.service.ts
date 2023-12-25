@@ -1,5 +1,5 @@
-import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Injectable, Signal, signal } from '@angular/core';
+import { Observable, map, of, take, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { InstitutionDataInterface } from '../../interfaces/institution-interface';
 
@@ -9,79 +9,82 @@ import { InstitutionDataInterface } from '../../interfaces/institution-interface
 export class InstitutionInfoService {
   private apiUrl = 'http://universities.hipolabs.com/search'; // grabs all data once
   // cache
-  private countriesCache: { [key: string]: InstitutionDataInterface[] } = {};
-  countries$: WritableSignal<InstitutionDataInterface[]> = signal<
-    InstitutionDataInterface[]
-  >([]);
-  private selectedCountry: string = '';
-  // institution data
-  private institutions$: Observable<string[]> | null = null;
+  private apiSource: InstitutionDataInterface[] | null = null; 
+  private countriesState = signal<string[]>(['']);
+  private regionsState = signal<string[]>([]);
+  private institutionsState = signal<string[]>(['']);
 
   // defalt value canada or usa
-  country = signal('Canada');
-  getCountriesSignal(): Signal<InstitutionDataInterface[]> {
-    return this.countries$;
+  get countries(): Signal<string[]> {
+    return this.countriesState.asReadonly();
+  }
+  get regions(): Signal<string[]> {
+    return this.regionsState.asReadonly();
+  }
+  get institutions(): Signal<string[]> {
+    return this.institutionsState.asReadonly();
   }
   constructor(private http: HttpClient) {}
 
-  getCountries(): Observable<string[]> {
-    return this.http
-      .get<any[]>(this.apiUrl)
-      .pipe(map((data) => this.processCountries(data)));
+  getCountries(): void {
+    if (!this.apiSource) {
+      this.http.get<InstitutionDataInterface[]>(this.apiUrl).pipe(
+        tap(data => this.apiSource = data), // Cache the full data
+        map(data => this.processCountries(data)), 
+        take(1)
+      ).subscribe(countries => {
+        this.countriesState.set(countries);
+      });
+    } else {
+         // Set countries from the cached data
+         const countries: string[] = this.processCountries(this.apiSource);
+         this.countriesState.set(countries);
+    }
   }
   private processCountries(universitiesData: any[]): string[] {
     const countriesSet = new Set(universitiesData.map((u) => u.country));
     let countries = Array.from(countriesSet);
     countries.sort((a, b) => {
-      if (a === 'Canada' || a === 'USA') return -1;
-      if (b === 'Canada' || b === 'USA') return 1;
+      if (a === 'Canada' || a === 'United States') return -1;
+      if (b === 'Canada' || b === 'United States') return 1;
       return a.localeCompare(b);
     });
     return countries;
   }
-  getStateProvinces(country: string): Observable<string[]> {
-    return this.http.get<any[]>(this.apiUrl).pipe(
-      map((data) =>
-        data
-          .filter((u) => u.country === country)
-          .map((u) => u['state-province'])
-      ),
-      map((stateProvinces) => Array.from(new Set(stateProvinces)))
-    );
+  getStateProvinces(country: string): void {
+    if (this.apiSource) {
+      const stateProvinces = this.processStateProvinces(this.apiSource, country);
+      this.regionsState.set(stateProvinces);
+    } else {
+      this.http.get<InstitutionDataInterface[]>(this.apiUrl).pipe(
+        map(data => this.processStateProvinces(data, country)),
+        take(1)
+      ).subscribe(stateProvinces => {
+        this.regionsState.set(stateProvinces);
+      });
+    }
   }
-
-  getUniversitiesByCountry(country: string): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl, { params: { country } });
+  
+  private processStateProvinces(data: InstitutionDataInterface[], country: string): string[] {
+    return Array.from(new Set(
+      data.filter(u => u.country === country).map(u => u['state-province'])
+    ));
   }
-
-  getInstitutionDetails(country: string, name: string): Observable<any> {
-    return this.http
-      .get<any[]>(this.apiUrl, { params: { country, name } })
-      .pipe(
-        map((data) =>
-          data.find((item) => item.country === country && item.name === name)
-        )
-      );
-  }
+  
+  // getInstitutionDetails(country: string, name: string): {domains:string[], web_pages: string[]} {
+  //   return this.http
+  //     .get<InstitutionDataInterface[]>(this.apiUrl, { params: { country, name } })
+  //     .pipe(
+  //       map((data) =>
+  //         data.find((item) => item.country === country && item.name === name)
+  //       )
+  //     );
+  // }
   // need to add another drop down of state/province if not null
   // to clean up how many universities are loaded.. over 3000 in usa
   // also can use this info later to display data from uni/college in same state/province as skalar
   // Function to fetch state-provinces based on the selected country
-  // fetchStateProvinces(selectedCountry: string): Observable<string[]> {
-  //   return this.http
-  //     .get<InstitutionDataInterface[]>(
-  //       `http://localhost:4200/api/countries/state-provinces?country=${selectedCountry}` ||
-  //         `https://www.skalarly.com/api/countries/state-provinces?country=${selectedCountry}`
-  //     )
-  //     .pipe(
-  //       map((data) => {
-  //         // Filter the state-provinces that are not null
-  //         return data
-  //           .map((item) => item['state-province'])
-  //           .filter((stateProvince) => stateProvince !== null);
-  //       })
-  //     );
-  // }
+
 
   // // list of institutions from country--> state-province chosen
   // getInstituitonsData(
@@ -119,21 +122,5 @@ export class InstitutionInfoService {
   //       );
   //   }
   // }
-  // specific info of institute
-  // getInstitutionDetails(
-  //   country: string,
-  //   institutionName: string
-  // ): Observable<InstitutionDataInterface> {
-  //   return this.http
-  //     .get<InstitutionDataInterface>(
-  //       `http://localhost:4200/api/institutions/details?country=${country}&name=${institutionName}` ||
-  //         `https://www.skalarly.com/api/institutions/details?country=${country}&name=${institutionName}`
-  //     )
-  //     .pipe(
-  //       catchError((error: any) => {
-  //         console.error('Error fetching institution details:', error);
-  //         throw 'Failed to fetch institution details' + error;
-  //       })
-  //     );
-  // }
+
 }

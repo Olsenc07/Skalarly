@@ -9,16 +9,14 @@
              }
         <input matInput type="text" [formControl]="typedFilter" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
-          <!-- @for(list  of countriesSignal.value; let i = $index ; track list.name){
-            @if(list[labelFlexible]) {
+          @for(list  of List$; let i = $index ; track list){
             <mat-option (click)="newSelection(list)"  
-            [value]="list[labelFlexible]">
+            [value]="list">
                 <span 
-                [innerHTML]="list[labelFlexible] | titlecase | bold: typedFilter.value! ">
+                [innerHTML]="list | titlecase | bold: typedFilter.value! ">
                 </span>
             </mat-option>
-          }
-        } -->
+        }
         </mat-autocomplete>
          
         </mat-form-field>

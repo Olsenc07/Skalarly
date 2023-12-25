@@ -57,8 +57,9 @@
 </ng-template>
 }
 <!-- page refresh pull down, eventully use GSAP for a fun animation-->
-  <ng-container appPullToRefresh 
-   (holdDetected)="onHoldDetected($event.visible)" (deltaYChange)="onDeltaYChange($event.state)">
+<!-- appPullToRefresh  -->
+   <!-- (holdDetected)="onHoldDetected($event.visible)" (deltaYChange)="onDeltaYChange($event.state)" -->
+  <ng-container >
 @if(visible){
     <!-- The refresh icon. that animates    -->
     <div class="refresh-icon-container" [@refresh]="reloadState">

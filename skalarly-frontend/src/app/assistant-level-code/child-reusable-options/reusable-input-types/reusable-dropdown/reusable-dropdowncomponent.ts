@@ -1,12 +1,6 @@
 import {
   BehaviorSubject,
-  Observable,
   Subscription,
-  combineLatest,
-  debounceTime,
-  distinctUntilChanged,
-  map,
-  startWith
 } from 'rxjs';
 import {
   Component,
@@ -24,7 +18,6 @@ import {
 } from '@angular/material/autocomplete';
 import { BoldPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
 import { type InstitutionDataInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
-import { InstitutionInfoService } from '../../../custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { RemoveSpacesPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
 import { TitleCasePipe } from '@angular/common';
 import { InputImports } from '../input-imports';
@@ -32,8 +25,8 @@ import { InputImports } from '../input-imports';
 @Component({
   standalone: true,
   selector: 'app-reusable-dropdown',
-  templateUrl: './reusable-dropdown-signup.component.html',
-  styleUrls: ['./reusable-dropdown-signup.component.scss'],
+  templateUrl: './reusable-dropdown.component.html',
+  styleUrls: ['./reusable-dropdown.component.scss'],
   imports: [
     BoldPipe,
     MatAutocompleteModule,
@@ -45,13 +38,11 @@ import { InputImports } from '../input-imports';
 export class ReusableDropDownComponent implements OnInit {
   // used to display drop down filtered options
   typedFilter: FormControl<string | null> = new FormControl<string | null>('');
-  @Input() countryApi: boolean = false;
   @Input() label: string | null = null;
-  labelFlexible: 'country' | 'name';
   @Input() hint: string | null = null;
   @Input() icon?: string;
 
-  @Input() List$!: Observable<InstitutionDataInterface[]>;
+  @Input() List$!: string[];
   private listSub?: Subscription;
   // its own view
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
@@ -59,48 +50,34 @@ export class ReusableDropDownComponent implements OnInit {
   initialList$: BehaviorSubject<InstitutionDataInterface[]> =
     new BehaviorSubject<InstitutionDataInterface[]>([]);
   // Child to Parent
-  @Output() selectedChange: EventEmitter<InstitutionDataInterface> =
-    new EventEmitter<InstitutionDataInterface>();
+  @Output() selectedChange: EventEmitter<string> =
+    new EventEmitter<string>();
   @Output() difficultyFormControl: EventEmitter<string> =
     new EventEmitter<string>();
   constructor(
-    private el: ElementRef,
-    private institutionInfoService: InstitutionInfoService
-  ) {
-    if (this.label === 'Country of study') {
-      this.labelFlexible = 'country';
-    } else {
-      this.labelFlexible = 'name';
-    }
-  }
+    private el: ElementRef
+  ) {}
   ngOnInit(): void {
-    this.institutionInfoService.getCountries();
-
     // Filters list
     // startWith('') allows list to be displayed before typing
-    this.List$ = combineLatest([
-      this.typedFilter.valueChanges.pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        startWith('')
-      ),
-      this.initialList$
-    ]).pipe(
-      map(([typed, institute]) =>
-        institute.filter(
-          (category: InstitutionDataInterface) =>
-            category.country.toLowerCase().indexOf(typed!.toLowerCase()) !== -1
-        )
-      )
-    );
+    // this.List$ = combineLatest([
+    //   this.typedFilter.valueChanges.pipe(
+    //     debounceTime(500),
+    //     distinctUntilChanged(),
+    //     startWith('')
+    //   ),
+    //   this.initialList$
+    // ]).pipe(
+    //   map(([typed, institute]) =>
+    //     institute.filter(
+    //       (category: InstitutionDataInterface) =>
+    //         category.country.toLowerCase().indexOf(typed!.toLowerCase()) !== -1
+    //     )
+    //   )
+    // );
   }
-  // if (this.countryApi) {
-  get countriesSignal() {
-    return this.institutionInfoService.getCountriesSignal();
-  }
-  // }
   // Selection has been made
-  newSelection(entry: InstitutionDataInterface) {
+  newSelection(entry: string) {
     // If choice came from difficulty drop down
     this.selectedChange.emit(entry);
   }

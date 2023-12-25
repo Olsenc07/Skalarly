@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ErrorInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/error-interceptor';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { enableProdMode } from '@angular/core';
 import { environment } from './environments/environment';
 import { importProvidersFrom } from '@angular/core';
@@ -52,7 +52,7 @@ bootstrapApplication(AppComponent, {
       BrowserAnimationsModule,
       MatDialogModule,
       MatSnackBarModule
-    )
+    ), provideClientHydration()
   ]
 })
   .then((started) => {

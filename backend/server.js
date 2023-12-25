@@ -7,7 +7,6 @@ if (process.env.NODE_ENV !== 'production') {
 const portEnv = process.env.PORT;
 const db = process.env.mongodb;
 import express from 'express';
-import { sslRedirect } from 'heroku-ssl-redirect';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -32,16 +31,23 @@ mongoose.connect(db)
 .then(()  => {
   console.log('Connected to database!')})
 .catch((error) => {
-  console.error('mary', process.env.NODE_ENV);
-
   console.error('password', db);
-
   console.error('MongoDB connection error:', error);
 })
 // App Configuration
-app.use(sslRedirect());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
+function requireHTTPS(req, res, next) {
+  // The 'x-forwarded-proto' check is for Heroku
+  if (
+    req.get("x-forwarded-proto") !== "https"
+    &&
+  process.env.NODE_ENV !== "development"
+  ) {
+    return res.redirect("https://" + req.get("host") + req.url);
+  }
+  next();
+}
 
 // CORS
 app.use((req, res, next) => {
@@ -60,7 +66,7 @@ app.use("/api/skalars", skalarsRoute);
 // Serve Angular Application - this assumes 'ng build' outputs to 'dist/skalarly-frontend'
 const angularAppPath = join(__dirname, 'dist', 'skalarly-frontend');
 app.use(express.static(angularAppPath));
-app.get('*', (req, res) => {
+app.get('*',requireHTTPS, (req, res) => {
   res.sendFile(join(angularAppPath, 'index.html'));
 });
 

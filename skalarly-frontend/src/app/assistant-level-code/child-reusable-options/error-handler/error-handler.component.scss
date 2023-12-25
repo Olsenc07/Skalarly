@@ -8,7 +8,7 @@
   button{
     color: var(--pairingColor);
   }
-div[mat-card-title] {
+h1[mat-card-title] {
     @include responsive.responsiveFontSize('large');
     text-align: center;
     }
@@ -26,7 +26,6 @@ div[mat-card-subtitle] {
     }
   
     div[mat-dialog-content] {
-        padding: 15px;
         text-align: center;
         color: #333;
         font-size: 1.1rem;    

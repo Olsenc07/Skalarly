@@ -7,11 +7,9 @@
   <div class="stepper">
     <!-- change orientation to vertical for mobile -->
   <mat-stepper [linear]="false" #stepper>
-    <!-- only step when form is valid -->
-<mat-step [stepControl]="instituitionForm" disabled>
-  <ng-template matStepLabel>Choose your instituition</ng-template>
-  <ng-template matStepContent>
+<mat-step [stepControl]="instituitionForm" label="Choose your instituition">
   <form [formGroup]="instituitionForm" (ngSubmit)="createAccount()">
+  <ng-template matStepContent>
     <div class="input-list">
   <mat-card>
     <mat-card-header>
@@ -19,36 +17,35 @@
     </mat-card-header>
     <mat-divider></mat-divider>
       <mat-card-content>
-<app-reusable-dropdown [countryApi]="true" [label]="'Country'" [List$]="country$" icon="flag_circle"
+<app-reusable-dropdown [label]="'Country'" [List$]="institutionInfoService.countries()" icon="flag_circle"
 (selectedChange)="updateCountrySelection($event)">
 </app-reusable-dropdown>
 <!-- if province-state needs to be chosen -->
-@if(displayStateProvince) {
-<app-reusable-dropdown [label]="'State or Province'" [List$]="region$" icon="explore"
+@if(this.institutionInfoService.regions().length > 0) {
+<app-reusable-dropdown [label]="'State or Province'" [List$]="institutionInfoService.regions()" icon="explore"
 (selectedChange)="stateSelection($event)" >
 </app-reusable-dropdown>
 }
 <!-- Institution selection -->
-@if(institutionsLoaded){
-<app-reusable-dropdown [label]="'Where do you attend school?'" [List$]="institutions$" icon="things_to_do"
+<!-- @if(institutionsLoaded){
+<app-reusable-dropdown [label]="'Where do you attend school?'" [List$]="institutionInfoService.institutions()" icon="things_to_do"
 (selectedChange)="chosenInstituition($event)">
 </app-reusable-dropdown>
-}
+}  -->
 </mat-card-content>
 </mat-card>
 <div class="nav-wrapper">
   <button mat-button matStepperPrevious type="button" (click)="navigate()">Back</button>
-<button mat-button matStepperNext type="button">Next</button>
+  <button mat-button matStepperNext type="button">Next</button>
 </div>
 </div>
-</form>
 </ng-template>
+</form>
 </mat-step>
 <!-- 2 -->
-<mat-step [stepControl]="signUpForm">  
-  <ng-template matStepLabel>Account Info</ng-template>
-  <ng-template matStepContent>
+<mat-step [stepControl]="signUpForm" label="Account Info">  
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
+  <ng-template matStepContent>
   <div class="input-list">
     <mat-card>
       <mat-card-header>
@@ -80,19 +77,19 @@
 </mat-card>
     <!-- Password Requirements -->
 </div>
-</form>
 <div class="nav-wrapper">
   <button mat-button matStepperPrevious type="button">Back</button>
-  <button mat-button matStepperNext type="button" (click)="sendEmail()">Next</button>
+  <!-- allow next when validated -->
+  <button mat-button matStepperNext type="button">Next</button>
 </div>
 </ng-template>
+</form>
 </mat-step>
 <!-- Onto Validation 7 digits from email-->
 <!-- 3 -->
-<mat-step [stepControl]="personalForm" >
-  <ng-template matStepLabel>Profile Info</ng-template>
-  <ng-template matStepContent>
+<mat-step [stepControl]="personalForm" label="Profile Info">
   <form [formGroup]="personalForm" (ngSubmit)="createAccount()">
+  <ng-template matStepContent>
   <div class="input-list">
     <mat-card>
       <mat-card-header>
@@ -119,11 +116,9 @@
     </button>
   </div>
   </div>
-
     @if(imagePreview){
     <img [src]="imagePreview" class="image-preview">
     }
-
     <app-reusable-inputs [label]="'Full Name'"></app-reusable-inputs>
     <app-reusable-inputs [label]="'Bio'" [default]="false"></app-reusable-inputs>
     <!-- lloking to obtain have a drop down of types of degrees with autocomplete
@@ -147,18 +142,17 @@
  </mat-card-content>
  </mat-card>
   </div>
-  </form>
   <div class="nav-wrapper">
   <button mat-button matStepperPrevious type="button">Back</button>
   <button mat-button matStepperNext type="button">Next</button>
   </div>
   </ng-template>
+</form>
 </mat-step>
 <!-- last -->
-<mat-step [stepControl]="skalarInfoForm">
-  <ng-template matStepLabel>Academic Info</ng-template>
+<mat-step [stepControl]="skalarInfoForm" label="Academic Info">
+  <form [formGroup]="skalarInfoForm" (ngSubmit)="addSkalarInfo()">
   <ng-template matStepContent>
-    <form [formGroup]="skalarInfoForm" (ngSubmit)="addSkalarInfo()">
         <mat-card>
           <mat-card-header>
             <mat-card-title>Specialization:</mat-card-title>
@@ -180,12 +174,12 @@
       <!-- <input accoldates, certificates, publishings,... /> -->
       </mat-card-content>
       </mat-card>
-    </form>
     <div class="nav-wrapper">
     <button mat-button matStepperPrevious type="button">Back</button>
     <button mat-raised-button type="submit" [disabled]="skalarInfoForm.invalid">Create</button>
   </div>
   </ng-template>
+</form>
 </mat-step>
 </mat-stepper>
 </div>

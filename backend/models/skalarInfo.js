@@ -6,7 +6,6 @@ const userInfoSchema = mongoose.Schema({
     bio: { type: String },
     region: { type: String, default: null}, //state/province
     institution: { type: String},
-    domains: [{type: String}],
     webPages: [{type: String}],
     birthday: { type: String},
     major: [{ type: String}],
