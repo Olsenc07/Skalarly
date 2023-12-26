@@ -9,7 +9,7 @@
              }
         <input matInput type="text" [formControl]="typedFilter" [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete" >
-          @for(list  of List$; let i = $index ; track list){
+          @for(list  of (filteredList$ | async); let i = $index; track list){
             <mat-option (click)="newSelection(list)"  
             [value]="list">
                 <span 
@@ -18,7 +18,6 @@
             </mat-option>
         }
         </mat-autocomplete>
-         
         </mat-form-field>
         @if(hint !== null ){
           <mat-hint>{{ hint }}</mat-hint>

@@ -209,8 +209,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
  updateCountrySelection(country: string): void {
   if (country) {
-    this.institutionInfoService.getStateProvinces(country)
-  }
+    this.institutionInfoService.getStateProvinces(country);
+  } 
  }
   stateSelection(stateProvince: string): void {
     this.signUpForm.get('region')?.setValue(stateProvince);

@@ -17,12 +17,12 @@
     </mat-card-header>
     <mat-divider></mat-divider>
       <mat-card-content>
-<app-reusable-dropdown [label]="'Country'" [List$]="institutionInfoService.countries()" icon="flag_circle"
+<app-reusable-dropdown [label]="'Country'" [List]="institutionInfoService.countries()" icon="flag_circle"
 (selectedChange)="updateCountrySelection($event)">
 </app-reusable-dropdown>
 <!-- if province-state needs to be chosen -->
-@if(this.institutionInfoService.regions().length > 0) {
-<app-reusable-dropdown [label]="'State or Province'" [List$]="institutionInfoService.regions()" icon="explore"
+@if(this.institutionInfoService.regions().length) {
+<app-reusable-dropdown [label]="'Region of the country'" [List]="institutionInfoService.regions()" icon="explore"
 (selectedChange)="stateSelection($event)" >
 </app-reusable-dropdown>
 }

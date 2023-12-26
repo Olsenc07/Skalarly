@@ -29,39 +29,31 @@ export class InstitutionInfoService {
   getCountries(): void {
     if (!this.apiSource) {
       this.http.get<InstitutionDataInterface[]>(this.apiUrl).pipe(
-        tap(data => this.apiSource = data), // Cache the full data
-        map(data => this.processCountries(data)), 
+        map(data => data.filter(item => item.country === 'Canada' || item.country === 'United States')),
+        tap(data => this.apiSource = data), // Cache the filtered data
         take(1)
-      ).subscribe(countries => {
-        this.countriesState.set(countries);
+      ).subscribe(filteredData => {
+        const countryNames = Array.from(new Set(filteredData.map(item => item.country))); // Extract unique country names
+        this.countriesState.set(countryNames);
       });
     } else {
          // Set countries from the cached data
-         const countries: string[] = this.processCountries(this.apiSource);
-         this.countriesState.set(countries);
+         const countryNames = Array.from(new Set(this.apiSource.map(item => item.country)));
+    this.countriesState.set(countryNames);
     }
   }
-  private processCountries(universitiesData: any[]): string[] {
-    const countriesSet = new Set(universitiesData.map((u) => u.country));
-    let countries = Array.from(countriesSet);
-    countries.sort((a, b) => {
-      if (a === 'Canada' || a === 'United States') return -1;
-      if (b === 'Canada' || b === 'United States') return 1;
-      return a.localeCompare(b);
-    });
-    return countries;
-  }
   getStateProvinces(country: string): void {
-    if (this.apiSource) {
-      const stateProvinces = this.processStateProvinces(this.apiSource, country);
-      this.regionsState.set(stateProvinces);
-    } else {
+    if (!this.apiSource) {
       this.http.get<InstitutionDataInterface[]>(this.apiUrl).pipe(
         map(data => this.processStateProvinces(data, country)),
         take(1)
       ).subscribe(stateProvinces => {
+        console.log('talk to me', stateProvinces)
         this.regionsState.set(stateProvinces);
       });
+    } else {
+      const stateProvinces = this.processStateProvinces(this.apiSource, country);
+      this.regionsState.set(stateProvinces);
     }
   }
   
@@ -70,7 +62,6 @@ export class InstitutionInfoService {
       data.filter(u => u.country === country).map(u => u['state-province'])
     ));
   }
-  
   // getInstitutionDetails(country: string, name: string): {domains:string[], web_pages: string[]} {
   //   return this.http
   //     .get<InstitutionDataInterface[]>(this.apiUrl, { params: { country, name } })

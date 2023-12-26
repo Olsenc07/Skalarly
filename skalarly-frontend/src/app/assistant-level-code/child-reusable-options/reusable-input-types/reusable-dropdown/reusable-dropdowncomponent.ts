@@ -1,14 +1,21 @@
 import {
   BehaviorSubject,
-  Subscription,
+  Observable,
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  startWith,
 } from 'rxjs';
 import {
   Component,
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
+  OnChanges,
   Output,
+  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -16,9 +23,9 @@ import {
   MatAutocomplete,
   MatAutocompleteModule
 } from '@angular/material/autocomplete';
-import { BoldPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
-import { type InstitutionDataInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/institution-interface';
-import { RemoveSpacesPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
+import { AlphabeticalPipe } from '../../../custom-architecture-aids/pipes/alphabetical.pipe';
+import { BoldPipe } from '../../../custom-architecture-aids/pipes/bold.pipe';
+import { RemoveSpacesPipe } from '../../../custom-architecture-aids/pipes/white-space.pipe';
 import { TitleCasePipe } from '@angular/common';
 import { InputImports } from '../input-imports';
 
@@ -28,6 +35,7 @@ import { InputImports } from '../input-imports';
   templateUrl: './reusable-dropdown.component.html',
   styleUrls: ['./reusable-dropdown.component.scss'],
   imports: [
+    AlphabeticalPipe,
     BoldPipe,
     MatAutocompleteModule,
     InputImports,
@@ -35,20 +43,20 @@ import { InputImports } from '../input-imports';
     TitleCasePipe
   ]
 })
-export class ReusableDropDownComponent implements OnInit {
+export class ReusableDropDownComponent implements OnChanges {
   // used to display drop down filtered options
   typedFilter: FormControl<string | null> = new FormControl<string | null>('');
   @Input() label: string | null = null;
   @Input() hint: string | null = null;
   @Input() icon?: string;
-
-  @Input() List$!: string[];
-  private listSub?: Subscription;
+  @Input() List: string[] = [''];
+  filteredList$: Observable<string[]> = 
+  new Observable<string[]>; 
   // its own view
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
   // initial list
-  initialList$: BehaviorSubject<InstitutionDataInterface[]> =
-    new BehaviorSubject<InstitutionDataInterface[]>([]);
+  initialList$: BehaviorSubject<string[]> =
+    new BehaviorSubject<string[]>([]);
   // Child to Parent
   @Output() selectedChange: EventEmitter<string> =
     new EventEmitter<string>();
@@ -57,24 +65,29 @@ export class ReusableDropDownComponent implements OnInit {
   constructor(
     private el: ElementRef
   ) {}
-  ngOnInit(): void {
-    // Filters list
-    // startWith('') allows list to be displayed before typing
-    // this.List$ = combineLatest([
-    //   this.typedFilter.valueChanges.pipe(
-    //     debounceTime(500),
-    //     distinctUntilChanged(),
-    //     startWith('')
-    //   ),
-    //   this.initialList$
-    // ]).pipe(
-    //   map(([typed, institute]) =>
-    //     institute.filter(
-    //       (category: InstitutionDataInterface) =>
-    //         category.country.toLowerCase().indexOf(typed!.toLowerCase()) !== -1
-    //     )
-    //   )
-    // );
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['List']) {
+      this.setupFilteredList();
+    }
+  }
+
+  private setupFilteredList(): void {
+    const list$ = of(this.List);
+    this.filteredList$ = combineLatest([
+      this.typedFilter.valueChanges.pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        startWith('')
+      ),
+      list$
+    ]).pipe(
+      map(([typed, institute]) =>
+        institute
+          .filter((category: string) => category && category.toLowerCase().includes((typed || '').toLowerCase()))
+          .sort((a, b) => a.localeCompare(b))
+      )
+    );
   }
   // Selection has been made
   newSelection(entry: string) {
