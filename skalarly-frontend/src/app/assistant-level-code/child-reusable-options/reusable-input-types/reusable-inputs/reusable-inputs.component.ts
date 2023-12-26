@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Subject, debounceTime, filter, distinctUntilChanged, takeUntil } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InputImports } from '../input-imports';
 
@@ -9,7 +8,6 @@ import { InputImports } from '../input-imports';
   selector: 'app-reusable-inputs',
   standalone: true,
   imports: [
-    MatButtonModule,
     MatTooltipModule,
     InputImports
   ],

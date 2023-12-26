@@ -66,10 +66,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
   // second major stage
   userInteracted: boolean = false;
   visiblePassword: boolean = false;
-
-  displayStateProvince: boolean = false;    
+ 
   domain: string[] | undefined = undefined;
-
 
   // skalar info form
   infoForm: FormGroup = new FormGroup({
@@ -210,32 +208,28 @@ export class SignUpComponent implements OnInit, OnDestroy {
  updateCountrySelection(country: string): void {
   if (country) {
     this.institutionInfoService.getStateProvinces(country);
+    this.title = 'Which region of the country?';
   } 
  }
-  stateSelection(stateProvince: string): void {
-    this.signUpForm.get('region')?.setValue(stateProvince);
+  regionSelection(stateProvince: string): void {
+    if (stateProvince) {
+      this.institutionInfoService.getInstitutionDetails(stateProvince);
+      this.instituitionForm.get('region')?.setValue(stateProvince);
+      this.title = 'What is the institutions name?';
+    } else {
+      this.instituitionForm.get('region')?.reset()
+      this.title = 'Which region of the country?';
+    }
   }
-  regionSelection(countryChosen: string, region: string): void {
-    // // after
-    // this.institutions$ = this.institutionInfoService.getInstituitonsData(
-    //   countryChosen,
-    //   region
-    // );
-    // this.infoForm.get('region')!.setValue(region);
-  }
-  // assign institution form control
   // and then cache domain options and pass values to email validation
-  chosenInstituition(institution: InstitutionDataInterface): void {
-    // Fetch domains for email validation based on the selected institution
-    // this.institutionInfoService
-    //   .getInstitutionDetails(institution.country, institution.name)
-    //   .subscribe((institutionDetails: InstitutionDataInterface) => {
-    //     // handle the fetched data, extract web_pages, domains, name, etc.
-    //     this.domain = institutionDetails.domains;
-    //     this.infoForm.get('institution')!.setValue(institutionDetails.name);
-    //     this.infoForm.get('webPages')!.setValue(institutionDetails.web_pages);
-    //   });
-  }
+  chosenInstituition(institution: string): void {
+    if(institution){
+    this.instituitionForm.get('institution')?.setValue(institution);
+    } else {
+        this.instituitionForm.get('institution')?.reset();
+        this.title = 'What is the institutions name?';
+      }
+    }
 
   // toggle password visbility
   toggleVisibility(): void {

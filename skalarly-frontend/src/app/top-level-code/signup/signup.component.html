@@ -23,15 +23,14 @@
 <!-- if province-state needs to be chosen -->
 @if(this.institutionInfoService.regions().length) {
 <app-reusable-dropdown [label]="'Region of the country'" [List]="institutionInfoService.regions()" icon="explore"
-(selectedChange)="stateSelection($event)" >
+(selectedChange)="regionSelection($event)" >
 </app-reusable-dropdown>
 }
-<!-- Institution selection -->
-<!-- @if(institutionsLoaded){
-<app-reusable-dropdown [label]="'Where do you attend school?'" [List$]="institutionInfoService.institutions()" icon="things_to_do"
+@if(instituitionForm.get('region')?.value){
+<app-reusable-dropdown [label]="'Where do you attend school?'" [List]="institutionInfoService.institutions()" icon="things_to_do"
 (selectedChange)="chosenInstituition($event)">
 </app-reusable-dropdown>
-}  -->
+}  
 </mat-card-content>
 </mat-card>
 <div class="nav-wrapper">
