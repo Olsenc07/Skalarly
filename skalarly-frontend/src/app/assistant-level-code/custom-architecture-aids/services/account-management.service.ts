@@ -1,7 +1,5 @@
 import type {
-  AccountCredentials,
   InitialAccountInterface,
-  SkalarInfoInterface
 } from '../interfaces/skalars-info-interface';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, map, of, switchMap } from 'rxjs';
@@ -35,6 +33,7 @@ export class AccountManagementService {
     );
   }
   uniqueUserName(username: string): Observable<boolean> {
+    console.log('username',username)
     const queryParams: HttpParams = new HttpParams({ fromString: username });
     return this.http.get<boolean>(
       'http://localhost:4200/api/accountManagement/uniqueUserName' ||

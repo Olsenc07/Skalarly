@@ -17,8 +17,9 @@
     "dev:ssr": "ng run skalarly-fs:serve-ssr",
     "serve:ssr": "node dist/skalarly-fs/server/main.js",
     "build:ssr": "ng build && ng run skalarly-fs:server",
-    "prerender": "ng run skalarly-fs:prerender"
-  },
+    "prerender": "ng run skalarly-fs:prerender",
+    "start:dev":  "ng run dev:ssr && cd ../backend && nodemon server.js\""
+    },
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.0.8",
@@ -55,7 +56,6 @@
     "@types/node": "^18.18.0",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.11.0",
-    "angular-cli-ghpages": "^1.0.7",
     "cypress": "^13.6.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
