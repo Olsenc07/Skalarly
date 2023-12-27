@@ -101,6 +101,7 @@ $form-margins0: (
 div[column] {
   @include common.common;
   padding: 3% 1% 0% 1%;
+  height: 100vh;
 }
 
 

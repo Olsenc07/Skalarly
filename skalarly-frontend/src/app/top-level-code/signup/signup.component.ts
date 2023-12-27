@@ -136,14 +136,14 @@ export class SignUpComponent implements OnInit, OnDestroy {
       institution: new FormControl<string>('')
     });
     this.signUpForm = new FormGroup({
-      username: new FormControl<InitialAccountInterface['username'] | null>(
-        null,
+      username: new FormControl<InitialAccountInterface['username']>(
+        '',
         [
           Validators.required,
           emailUsernameValidator(this.accountManagementService, true)
         ]
       ),
-      email: new FormControl<InitialAccountInterface['email'] | null>(
+      email: new FormControl<InitialAccountInterface['email']>(
         '',
         Validators.compose([
           Validators.required,
@@ -155,8 +155,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
           )
         ])
       ),
-      password: new FormControl<InitialAccountInterface['password'] | null>(
-        null,
+      password: new FormControl<InitialAccountInterface['password']>(
+        '',
         {
           validators: [Validators.required],
           asyncValidators: [passwordValidator()]

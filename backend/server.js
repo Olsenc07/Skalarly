@@ -18,6 +18,7 @@ import mongoose from 'mongoose';
 import accountManagementRoute from './routes/account-management.js';
 import authorizeRoute from './routes/authorize.js';
 import skalarsRoute from './routes/skalars.js';
+
 // Constructing __dirname 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -27,11 +28,10 @@ const app = express();
 const port = portEnv || 4200;
 
 //  DataBase connection
-mongoose.connect(db)
+mongoose.connect(db) 
 .then(()  => {
   console.log('Connected to database!')})
 .catch((error) => {
-  console.error('password', db);
   console.error('MongoDB connection error:', error);
 })
 // App Configuration

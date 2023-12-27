@@ -1,9 +1,4 @@
 @defer { 
-
- <!-- pre load skeleton -->
-<app-skeleton-loader-signup></app-skeleton-loader-signup>
-
- }@loading { 
 <div class="signup-wrapper">
 <div>
     <button mat-icon-button (click)="navigate()" class="back">
@@ -12,8 +7,11 @@
   </div>
   <div class="stepper">
     <!-- change orientation to vertical for mobile -->
-  <mat-stepper [linear]="false" #stepper>
-<mat-step [stepControl]="instituitionForm" label="Choose your instituition">
+  <mat-stepper [linear]="true" #stepper>
+    <ng-template matStepperIcon="edit">
+      <mat-icon class="material-symbols-outlined">check</mat-icon>
+    </ng-template>
+<mat-step [stepControl]="instituitionForm" editable="true" label="Choose your instituition">
   <form [formGroup]="instituitionForm" (ngSubmit)="createAccount()">
 <ng-template matStepContent>
     <div class="input-list">
@@ -190,4 +188,7 @@
 </mat-stepper>
 </div>
 </div>
-}
+}@placeholder { 
+  <!-- pre load skeleton -->
+ <app-skeleton-loader-signup></app-skeleton-loader-signup>
+  }
