@@ -90,8 +90,12 @@ export class ReusableDropDownComponent implements OnChanges {
     );
   }
   // Selection has been made
-  newSelection(entry: string) {
-    // If choice came from difficulty drop down
+  newSelection(entry: string): void {
     this.selectedChange.emit(entry);
   }
+  resetFilter(): void {
+    this.typedFilter.reset();
+    this.selectedChange.emit('');
+  }
+  
 }

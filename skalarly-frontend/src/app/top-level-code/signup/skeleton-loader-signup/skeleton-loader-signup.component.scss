@@ -1,0 +1,31 @@
+.back{
+    left: 3%;
+    top: 3%;
+    position: absolute;
+}
+  .input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    ngx-skeleton-loader[appearance="line"] {
+      width: 400px; 
+      height: 200px;
+      
+      border-radius: 4px;
+    }
+  
+ 
+    div {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+  
+      ngx-skeleton-loader[appearance="circle"] {
+        width: 100px;
+        height: 50px;
+      }
+    }
+  }
+  

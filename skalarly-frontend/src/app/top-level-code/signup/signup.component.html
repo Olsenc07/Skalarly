@@ -1,3 +1,9 @@
+@defer { 
+
+ <!-- pre load skeleton -->
+<app-skeleton-loader-signup></app-skeleton-loader-signup>
+
+ }@loading { 
 <div class="signup-wrapper">
 <div>
     <button mat-icon-button (click)="navigate()" class="back">
@@ -9,7 +15,7 @@
   <mat-stepper [linear]="false" #stepper>
 <mat-step [stepControl]="instituitionForm" label="Choose your instituition">
   <form [formGroup]="instituitionForm" (ngSubmit)="createAccount()">
-  <ng-template matStepContent>
+<ng-template matStepContent>
     <div class="input-list">
   <mat-card>
     <mat-card-header>
@@ -21,16 +27,17 @@
 (selectedChange)="updateCountrySelection($event)">
 </app-reusable-dropdown>
 <!-- if province-state needs to be chosen -->
-@if(this.institutionInfoService.regions().length) {
+@if(instituitionForm.get('country')?.value) {
 <app-reusable-dropdown [label]="'Region of the country'" [List]="institutionInfoService.regions()" icon="explore"
 (selectedChange)="regionSelection($event)" >
 </app-reusable-dropdown>
-}
 @if(instituitionForm.get('region')?.value){
-<app-reusable-dropdown [label]="'Where do you attend school?'" [List]="institutionInfoService.institutions()" icon="things_to_do"
-(selectedChange)="chosenInstituition($event)">
-</app-reusable-dropdown>
-}  
+  <app-reusable-dropdown [label]="'Where do you attend school?'" [List]="institutionInfoService.institutions()" icon="things_to_do"
+  (selectedChange)="chosenInstituition($event)">
+  </app-reusable-dropdown>
+  }  
+}
+
 </mat-card-content>
 </mat-card>
 <div class="nav-wrapper">
@@ -183,3 +190,4 @@
 </mat-stepper>
 </div>
 </div>
+}

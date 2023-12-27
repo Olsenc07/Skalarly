@@ -36,13 +36,15 @@ import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/chi
 import { SignUpFormStateService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
 import { SignUpImports } from './signup-imports';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
-import { MatStepper } from '@angular/material/stepper';
+import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton-loader-signup.component';
+
 
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
   imports: [
+    SkeletonLoaderSignupComponent,
     ReusableDropDownComponent,
     ReusableInputsComponent,
     RemoveSpacesPipe,
@@ -128,6 +130,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     protected orientationService: OrientationService
   ) {
     this.instituitionForm = new FormGroup({
+      country: new FormControl<string>(''),
       region: new FormControl<string>(''),
       webpages: new FormControl<Array<string>>(['']),
       institution: new FormControl<string>('')
@@ -204,32 +207,30 @@ export class SignUpComponent implements OnInit, OnDestroy {
     const control = this.signUpForm.get(controlName);
     control?.setValue(value);
   }
-
- updateCountrySelection(country: string): void {
+// Common method for setting form value or resetting based on condition
+private updateFormValue(formControlName: string, value: string | null, newTitle: string): void {
+  if (value) {
+    this.instituitionForm.get(formControlName)?.setValue(value);
+  } else {
+    this.instituitionForm.get(formControlName)?.reset();
+  }
+  this.title = newTitle;
+}
+updateCountrySelection(country: string): void {
+  this.updateFormValue('country', country, country ? 'Which region of the country?' : 'Which country do you study in?');
   if (country) {
     this.institutionInfoService.getStateProvinces(country);
-    this.title = 'Which region of the country?';
-  } 
- }
-  regionSelection(stateProvince: string): void {
-    if (stateProvince) {
-      this.institutionInfoService.getInstitutionDetails(stateProvince);
-      this.instituitionForm.get('region')?.setValue(stateProvince);
-      this.title = 'What is the institutions name?';
-    } else {
-      this.instituitionForm.get('region')?.reset()
-      this.title = 'Which region of the country?';
-    }
   }
-  // and then cache domain options and pass values to email validation
-  chosenInstituition(institution: string): void {
-    if(institution){
-    this.instituitionForm.get('institution')?.setValue(institution);
-    } else {
-        this.instituitionForm.get('institution')?.reset();
-        this.title = 'What is the institutions name?';
-      }
-    }
+}
+regionSelection(stateProvince: string): void {
+  this.updateFormValue('region', stateProvince, stateProvince ? 'What is the schools name?' : 'Which region of the country?');
+  if (stateProvince) {
+    this.institutionInfoService.getInstitutionDetails(stateProvince);
+  }
+}
+chosenInstituition(institution: string): void {
+  this.updateFormValue('institution', institution, 'What is the schools name?');
+}
 
   // toggle password visbility
   toggleVisibility(): void {

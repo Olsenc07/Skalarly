@@ -1,3 +1,8 @@
 build:
   docker:
-    web: Dockerfile
+    web: Dockerfile # Specify the path to your Dockerfile for the web service
+    worker: backend/Dockerfile # If you have a separate Dockerfile for the backend
+
+run:
+  web: npm start # Replace this with the command to start your web service
+  worker: npm start # Replace this with the command to start your backend service, if different

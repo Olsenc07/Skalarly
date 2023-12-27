@@ -5,7 +5,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   standalone: true,
   selector: 'app-skeleton-loader-login',
   templateUrl: './skeleton-loader-login.component.html',
-  styleUrls: ['./skeleton-loader-login.component.scss'],
+  styleUrl: './skeleton-loader-login.component.scss',
   imports: [NgxSkeletonLoaderModule]
 })
 export class SkeletonLoaderLoginComponent {
