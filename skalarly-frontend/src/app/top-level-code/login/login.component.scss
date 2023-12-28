@@ -90,7 +90,7 @@ $form-margins0: (
     content: '\2728'; //*ode character for sparkle */
     position: absolute;
     top: 5%;
-    left: 75%;
+    left: 65%;
   }
   div[entire-page] {
     @include responsiveMargins;
@@ -107,10 +107,10 @@ div[column] {
 
 h2 {
   margin: 1% 0%;
-  color: #bdc3c7;
-  @include responsive.responsiveFontSize('larger'); 
+  @include responsive.responsiveFontSize('smaller'); 
 
 div[skalarly] {
+  font-weight: bolder;
     @include responsive.responsiveFontSize('larger'); 
     background-clip: text;
     -webkit-background-clip: text;

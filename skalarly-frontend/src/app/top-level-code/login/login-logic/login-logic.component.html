@@ -75,19 +75,17 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </div>
 </div>
 </span>
-<!-- Login Button -->
-<div loginButton>
-  <button mat-fab type="submit" 
-    [@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' "
-    [ngClass]="getIconConfig(progressState).animation" 
-    (keydown.enter)="enterClicked()">
-    <mat-icon [@iconFade]="progressState"
-    [ngClass]="getIconConfig(progressState).class" 
-    class="material-symbols-outlined">
-      {{ getIconConfig(progressState).icon }}
-    </mat-icon>
+<!-- Login Button [ngClass]="getIconConfig(progressState).class"  -->
+<div class="login-standard-wrapper">
+<div class="login-standard">
+<button mat-raised-button type="submit" class="login"
+(keydown.enter)="enterClicked()" [ngClass]="getIconConfig(progressState).class"
+[@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' ">
+ Login
 </button>
 </div>
+</div>
+
 </div>
 </div>
 </form>

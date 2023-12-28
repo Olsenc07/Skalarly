@@ -16,12 +16,7 @@ div[column] {
       justify-content: flex-end;
     }
   }
-div[loginButton]{
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    @include responsive.responsiveFontSize()
-  }
+
 div[forgot]{
     display: flex;
     justify-content: flex-end;
@@ -66,7 +61,6 @@ div[forgot]{
       &:first-of-type {
         mat-checkbox {
         margin-left: device.$input-margin; 
-
         }
       }
       &:last-of-type{
@@ -78,10 +72,42 @@ div[forgot]{
       width: 100%;
     }
   }
+  .login-standard-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    /* Additional styling for the wrapper, if necessary */
+  }
+  .login-standard{
+    background-image: linear-gradient(75deg, var(--pairingColor), var(--pairingColor2)); /* Gradient background */
+    width: 50%; /* Set the width of the button to 50% */
+
+  }
+  button.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    &[mat-raised-button]{
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+    }
+    &:hover, &:focus {
+      transform: scale(1.05); /* Scale up on hover/focus */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+      outline: none; /* Remove focus outline */
+    }
+  }
+  
+  
+  
+     
   .fingerprint-border-initial {
-    &::before {
-        @include animation.initial;
-        animation: initialGlow 1.5s ease-in-out;
+    background-image: linear-gradient(75deg, var(--pairingColor), var(--pairingColor2));
+    &:hover, &:focus {
+      transform: scale(1.05); 
     }
     .initial {
       color: var(--firstChoice);
@@ -93,10 +119,10 @@ div[forgot]{
       animation: rotateAndShimmer 1.5s linear forwards;
     }
     .loading {
-      color: var(--secondChoice);
+      background-color: var(--secondChoice);
     }
   }
-  .fingerprint-border-declined {
+.fingerprint-border-declined {
     @include animation.declined;
     animation: shake .5s linear;
     .declined {

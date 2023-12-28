@@ -15,19 +15,19 @@ $device-sizes-height: (
 );
 /* corresponding font sizes */
 $font-sizes: (
-  base: 1rem,
-  tablet: 1.1rem,
-  laptop: 1.2rem,
-  desktop: 1.3rem,
-  tv: 1.4rem
+  base: 1.3rem,
+  tablet: 1.4rem,
+  laptop: 1.5rem,
+  desktop: 1.6rem,
+  tv: 1.7rem
 );
 /* sub font sizes chart */
 $font-sub-sizes: (
-  base: .07rem,
-  tablet: .09rem,
-  laptop: .15rem,
-  desktop: .2rem,
-  tv: .3rem
+  base: .1rem,
+  tablet: .12rem,
+  laptop: .18rem,
+  desktop: .23rem,
+  tv: .33rem
 );
 /* scale line height by * font size */
 $line-heights: (

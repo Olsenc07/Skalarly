@@ -26,7 +26,7 @@
           @if $sizeVariant == 'smaller' {
             $final-font-size: $screen-font-size - $screen-font-sub-size;
           } @else if $sizeVariant == 'larger' {
-            $final-font-size: $screen-font-size + $screen-font-sub-size;
+            $final-font-size: $screen-font-size + $screen-font-sub-size + 0.9rem;
           }
           /* Apply styles */
           font-size: $final-font-size;

@@ -24,58 +24,59 @@ $all: 100%;
 }
 $color-pairs: (
   'mystic-turquoise': (
-    primary: rgba(40, 113, 130, 0.5), /* Faded Mystic Turquoise */
-    pairing: rgba(79, 109, 122, 0.5)  /* Faded Steel Blue */
+    primary: rgba(40, 113, 130, 1), /* Mystic Turquoise */
+    pairing: rgba(79, 109, 122, 1)  /* Steel Blue */
   ),
   'celestial-blue': (
-    primary: rgba(59, 90, 145, 0.5), /* Faded Celestial Blue */
-    pairing: rgba(90, 125, 154, 0.5)  /* Faded Atlantic Blue */
+    primary: rgba(59, 90, 145, 1), /* Celestial Blue */
+    pairing: rgba(90, 125, 154, 1)  /* Atlantic Blue */
   ),
   'sapphire-blue': (
-    primary: rgba(30, 67, 121, 0.5), /* Faded Sapphire Blue */
-    pairing: rgba(72, 107, 131, 0.5)  /* Faded Oceanic Blue */
+    primary: rgba(30, 67, 121, 1), /* Sapphire Blue */
+    pairing: rgba(72, 107, 131, 1)  /* Oceanic Blue */
   ),
   'shimmering-sky': (
-    primary: rgba(110, 164, 212, 0.5), /* Faded Shimmering Sky */
-    pairing: rgba(127, 183, 190, 0.5)  /* Faded Sky Reflection Blue */
+    primary: rgba(110, 164, 212, 1), /* Shimmering Sky */
+    pairing: rgba(127, 183, 190, 1)  /* Sky Reflection Blue */
   ),
   'nebula-navy': (
-    primary: rgba(0, 0, 128, 0.5), /* Faded Nebula Navy */
-    pairing: rgba(60, 105, 151, 0.5)  /* Faded Nautical Blue */
+    primary: rgba(0, 0, 128, 1), /* Nebula Navy */
+    pairing: rgba(60, 105, 151, 1)  /* Nautical Blue */
   ),
   'steel-blue': (
-    primary: rgba(79, 109, 122, 0.5), /* Faded Steel Blue */
-    pairing: rgba(119, 141, 169, 0.5)  /* Faded Dusty Blue */
+    primary: rgba(79, 109, 122, 1), /* Steel Blue */
+    pairing: rgba(119, 141, 169, 1)  /* Dusty Blue */
   ),
   'atlantic-blue': (
-    primary: rgba(90, 125, 154, 0.5), /* Faded Atlantic Blue */
-    pairing: rgba(148, 201, 169, 0.5)  /* Faded Teal Blue */
+    primary: rgba(90, 125, 154, 1), /* Atlantic Blue */
+    pairing: rgba(148, 201, 169, 1)  /* Teal Blue */
   ),
   'oceanic-blue': (
-    primary: rgba(72, 107, 131, 0.5), /* Faded Oceanic Blue */
-    pairing: rgba(0, 95, 115, 0.5)    /* Faded Deep Sea Blue */
+    primary: rgba(72, 107, 131, 1), /* Oceanic Blue */
+    pairing: rgba(0, 95, 115, 1)    /* Deep Sea Blue */
   ),
   'dusty-blue': (
-    primary: rgba(119, 141, 169, 0.5), /* Faded Dusty Blue */
-    pairing: rgba(110, 164, 212, 0.5)  /* Faded Darker Shimmering Sky */
+    primary: rgba(119, 141, 169, 1), /* Dusty Blue */
+    pairing: rgba(110, 164, 212, 1)  /* Darker Shimmering Sky */
   ),
   'nautical-blue': (
-    primary: rgba(60, 105, 151, 0.5), /* Faded Nautical Blue */
-    pairing: rgba(59, 90, 145, 0.5)   /* Faded Darker Celestial Blue */
+    primary: rgba(60, 105, 151, 1), /* Nautical Blue */
+    pairing: rgba(59, 90, 145, 1)   /* Darker Celestial Blue */
   ),
   'deep-sea-blue': (
-    primary: rgba(0, 95, 115, 0.5), /* Faded Deep Sea Blue */
-    pairing: rgba(40, 113, 130, 0.5) /* Faded Darker Mystic Turquoise */
+    primary: rgba(0, 95, 115, 1), /* Deep Sea Blue */
+    pairing: rgba(40, 113, 130, 1) /* Darker Mystic Turquoise */
   ),
   'teal-blue': (
-    primary: rgba(148, 201, 169, 0.5), /* Faded Teal Blue */
-    pairing: rgba(30, 67, 121, 0.5)   /* Faded Darker Sapphire Blue */
+    primary: rgba(148, 201, 169, 1), /* Teal Blue */
+    pairing: rgba(30, 67, 121, 1)   /* Darker Sapphire Blue */
   ),
   'sky-reflection-blue': (
-    primary: rgba(127, 183, 190, 0.5), /* Faded Sky Reflection Blue */
-    pairing: rgba(0, 0, 128, 0.5)      /* Faded Nebula Navy */
+    primary: rgba(127, 183, 190, 1), /* Sky Reflection Blue */
+    pairing: rgba(0, 0, 128, 1)      /* Nebula Navy */
   )
 );
+
 
 @function random-color-pair() {
   $keys: map-keys($color-pairs);

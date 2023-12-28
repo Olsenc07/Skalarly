@@ -31,15 +31,14 @@ import { AuthorizeService } from '../../../assistant-level-code/custom-architect
 import { CommonModule } from '@angular/common';
 import { GlowBorderDirective } from '../../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
 import { LetterByLetterComponent } from '../../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+
 import { Router } from '@angular/router';
 import { loginImports } from '../imports/login-imports';
 import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { reusableLogicAnimations } from './../imports/animation-logic-imports';
 interface IconConfig {
-  icon: string;
   class: string;
-  animation: string;
 }
 @Component({
   selector: 'app-login-logic',
@@ -48,6 +47,7 @@ interface IconConfig {
   imports: [
     loginImports,
     CommonModule,
+    MatButtonModule,
     GlowBorderDirective,
     LetterByLetterComponent,
     ReactiveFormsModule
@@ -191,6 +191,7 @@ export class LoginLogicComponent implements OnInit {
     this.stayLoggedIn = !this.stayLoggedIn;
   }
   login(): void {
+    console.log('hey n')
     this.progressState = 'loading';
     this.cdr.detectChanges(); // Detect changes immediately
 
@@ -201,8 +202,8 @@ export class LoginLogicComponent implements OnInit {
     setTimeout(() => {
       this.progressState = 'default';
       this.cdr.detectChanges(); // Detect changes when state resets to 'default'
-    }, 3000); // Wait 3 seconds before returning to default
-  }, 3000);
+    }, 2000); // Wait 3 seconds before returning to default
+  }, 2000);
    // 2 seconds to go to 'declined'
     // when success this.progressState = 'complete';
 
@@ -237,18 +238,18 @@ export class LoginLogicComponent implements OnInit {
     //     }
     //   });
   }
-  getIconConfig(progressState: string): IconConfig{
+getIconConfig(progressState: string): IconConfig{
     switch (progressState) {
       case 'default':
-        return { icon: 'fingerprint', class: 'initial', animation: 'fingerprint-border-initial' };
+        return {  class: 'fingerprint-border-initial  initial' };
       case 'loading':
-        return { icon: 'fingerprint', class: 'loading', animation: 'fingerprint-border' };
+        return { class: 'fingerprint-border loading' };
       case 'complete':
-        return { icon: 'approval_delegation', class: 'approved', animation: 'fingerprint-border-approved' };
+        return {  class: 'fingerprint-border-approved  approved' };
         case 'declined':
-        return { icon: 'block', class: 'declined', animation: 'fingerprint-border-declined' };
+        return {  class: 'fingerprint-border-declined declined'};
       default:
-        return { icon: 'fingerprint', class: '', animation: '' };
+        return { class: '' };
     }
   }
   

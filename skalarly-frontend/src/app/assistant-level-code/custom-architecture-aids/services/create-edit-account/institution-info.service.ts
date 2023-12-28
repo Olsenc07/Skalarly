@@ -7,7 +7,7 @@ import { InstitutionDataInterface } from '../../interfaces/institution-interface
   providedIn: 'root'
 })
 export class InstitutionInfoService {
-  private apiUrl = 'http://universities.hipolabs.com/search'; // grabs all data once
+  private apiUrl = 'https://www.skalarly.com/api'; // grabs all data once
   // cache
   private apiSource: InstitutionDataInterface[] | null = null; 
   private countriesState = signal<string[]>(['']);
@@ -27,39 +27,42 @@ export class InstitutionInfoService {
   constructor(private http: HttpClient) {}
 
   getCountries(): void {
-    if (!this.apiSource) {
-      this.http.get<InstitutionDataInterface[]>(this.apiUrl).pipe(
-        map(data => data.filter(item => item.country === 'Canada' || item.country === 'United States')),
-        tap(data => this.apiSource = data), // Cache the filtered data
-        take(1)
-      ).subscribe(filteredData => {
-        const countryNames = Array.from(new Set(filteredData.map(item => item.country))); // Extract unique country names
-        this.countriesState.set(countryNames);
-      });
-    } else {
-         // Set countries from the cached data
-         const countryNames = Array.from(new Set(this.apiSource.map(item => item.country)));
+    // Directly set the array of countries
+    const countryNames = ['Canada', 'United States'];
     this.countriesState.set(countryNames);
-    }
   }
+  // If canada use db, or else use api 
   getStateProvinces(country: string): void {
-    if (!this.apiSource) {
-      this.http.get<InstitutionDataInterface[]>(this.apiUrl).pipe(
-        map(data => this.processStateProvinces(data, country)),
+    if (country === 'Canada') {
+      // Fetch Canadian provinces from the database
+      this.http.get<string[]>(this.apiUrl + '/province').pipe(
         take(1)
-      ).subscribe(stateProvinces => {
-        this.regionsState.set(stateProvinces);
+      ).subscribe(provinceNames => {
+        this.regionsState.set(provinceNames);
       });
-    } else {
-      const stateProvinces = this.processStateProvinces(this.apiSource, country);
-      this.regionsState.set(stateProvinces);
+    } else if (country === 'United States') {
+      // Simulate an API call for US states with mock data
+      const mockUSStates: string[] = [
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas',
+        'California', 'Colorado', 'Connecticut', 'Delaware',
+        'Florida', 'Georgia', 'Hawaii', 'Idaho',
+        'Illinois', 'Indiana', 'Iowa', 'Kansas',
+        'Kentucky', 'Louisiana', 'Maine', 'Maryland',
+        'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi',
+        'Missouri', 'Montana', 'Nebraska', 'Nevada',
+        'New Hampshire', 'New Jersey', 'New Mexico', 'New York',
+        'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma',
+        'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina',
+        'South Dakota', 'Tennessee', 'Texas', 'Utah',
+        'Vermont', 'Virginia', 'Washington', 'West Virginia',
+        'Wisconsin', 'Wyoming'
+    ];
+    
+      this.regionsState.set(mockUSStates);
     }
   }
-  private processStateProvinces(data: InstitutionDataInterface[], country: string): string[] {
-    return Array.from(new Set(
-      data.filter(u => u.country === country).map(u => u['state-province'])
-    ));
-  }
+  
+// get list of specific schools
   getInstitutionDetails(region: string): void {
     if (!this.apiSource) {
       this.http.get<InstitutionDataInterface[]>(this.apiUrl)
