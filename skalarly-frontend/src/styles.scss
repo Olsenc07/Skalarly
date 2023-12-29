@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'app/assistant-level-code/universal-reusable-styles/common' as universal;
-
 @use 'app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
@@ -25,7 +24,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #2e7b9f00;
-  @media only screen and (min-width: 600px) {
+  @media only screen and (min-width: 768px) {
   background-color: #f0f0f0;
   }
   @include universal.common;

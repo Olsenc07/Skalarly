@@ -18,24 +18,18 @@ $form-margins0: (
   tv: 5%        
 );
 @mixin responsiveMargins {
-  /* Mobile First */
   --margin-form: map-get($form-margins, 'base');
   margin: 0% var(--margin-form);
   @each $screen, $min-width in device.$device-sizes {
-    @if $screen != 'base' {
       @include responsive.media-query($screen, $min-width){
         margin: map-get($form-margins0, $screen) map-get($form-margins, $screen);
-      }}}
+      }}
 }
-
-/* logo and top of login screen */
 .login-header {
-    text-align: center; 
     @include common.common;
+    text-align: center; 
     align-items: center;
-    padding-top: 3%;
-    margin: 0;
-    /* border neat */
+    padding: 3% 0;
     @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
     border-top: 3px solid transparent;
     border-left: 3px solid transparent;
@@ -47,48 +41,26 @@ $form-margins0: (
 }
   button[join] {
     @include responsive.responsiveFontSize();
-      margin: 1% 0%;
-      position: relative; /* Needed for absolute positioning of children */
+      position: relative; 
       overflow: hidden; 
-      background-image: linear-gradient(to right, #84aade,#e3e3e3d6);
+      background-color: #d0e5fc94;
+      box-shadow: 3px 3px #93b9e6;
       transition: background-image 1.5s ease; 
+      color: #1a3c40;
       &.welcome-text-south-paw {
         background-image: linear-gradient(to right, white, #d0e5fc94);
         font-weight: 700;
-        box-shadow: 3px 3px #93b9e6;
       }
-      color: white;
-      /* add ons */
       &[mat-raised-button]{
       @include animation.riseFloat;
       animation: float 4s ease-in-out;
       }
       align-items: center;
       text-align: center;
-      &:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.5), transparent);
-        opacity: 0;
-        transition: opacity 0.3s;
-      }
-      /* Hover state */
-      &:hover:before {
-        opacity: 1;
-      }
-      /* Active/Tap state */
-      &:active {
-        background-color: darken(#446cf0, 10%); 
-      }
   }
- 
-  /* Sparkle on hover */
+
   button[join]:hover:after {
-    content: '\2728'; //*ode character for sparkle */
+    content: '\2728'; 
     position: absolute;
     top: 5%;
     left: 65%;
@@ -98,14 +70,11 @@ $form-margins0: (
     @include common.common;
     position: relative;
   }
-/* *1 *2 */
 div[column] {
   @include common.common;
   padding: 3% 1% 0% 1%;
   height: 100vh;
 }
-
-
 h2 {
   margin: 1% 0%;
   @include responsive.responsiveFontSize('smaller'); 
@@ -117,7 +86,7 @@ div[skalarly] {
     -webkit-background-clip: text;
     color: transparent; 
     background-image: common.generateGradient();
-    background-size: 200% 200%; /* Extends the background to allow for the "flow" effect */
+    background-size: 200% 200%; 
     @include animation.gradientFlow;
     animation: gradient-flow 6s linear infinite; 
     }
