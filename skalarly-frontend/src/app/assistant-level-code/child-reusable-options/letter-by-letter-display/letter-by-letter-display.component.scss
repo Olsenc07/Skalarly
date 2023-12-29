@@ -50,7 +50,7 @@ $Bounce: (
   @mixin animationEnter($delay) {
     animation: glow-animation 0.25s $delay forwards;
     opacity: 0;
-    background: universial.generateGradient();
+    background: linear-gradient(45deg, var(--firstChoice), var(--secondChoice));
     transition: background 0.3s, color 0.3s;
     background-clip: text;
     white-space: nowrap;
