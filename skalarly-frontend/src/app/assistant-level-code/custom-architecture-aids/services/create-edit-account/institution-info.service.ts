@@ -7,12 +7,13 @@ import { InstitutionDataInterface } from '../../interfaces/institution-interface
   providedIn: 'root'
 })
 export class InstitutionInfoService {
-  private apiUrl = 'https://www.skalarly.com/api'; // grabs all data once
+  private apiUrl = 'https://www.skalarly.com/api' || 'http://localhost:4200/api'; 
   // cache
-  private apiSource: InstitutionDataInterface[] | null = null; 
+  private cache: { [key: string]: string[] } = {};
   private countriesState = signal<string[]>(['']);
   private regionsState = signal<string[]>([]);
-  private institutionsState = signal<string[]>([]);
+  private typesOfInstitution = signal<string[]>([]);
+  private institutionName = signal<string[]>([]);
 
   // defalt value canada or usa
   get countries(): Signal<string[]> {
@@ -21,8 +22,11 @@ export class InstitutionInfoService {
   get regions(): Signal<string[]> {
     return this.regionsState.asReadonly();
   }
+  get typesOfInstitutions(): Signal<string[]> {
+    return this.typesOfInstitution.asReadonly();
+  }
   get institutions(): Signal<string[]> {
-    return this.institutionsState.asReadonly();
+    return this.institutionName.asReadonly();
   }
   constructor(private http: HttpClient) {}
 
@@ -63,35 +67,43 @@ export class InstitutionInfoService {
   }
   
 // get list of specific schools
-  getInstitutionDetails(region: string): void {
-    if (!this.apiSource) {
-      this.http.get<InstitutionDataInterface[]>(this.apiUrl)
-        .pipe(
-          tap(data => this.apiSource = data), // Cache the full fetched data
-          take(1),
-          map(data => data
-            .filter(institution => institution['state-province'] === region)
-            .map(institution => institution.name)
-          )
-        ).subscribe(institutions => {
-          this.institutionsState.set(institutions);
-        });
-    } else {
-      // Filter the cached data based on the region
-      const institutions = this.apiSource
-        .filter(institution => institution['state-province'] === region)
-        .map(institution => institution.name);
-      this.institutionsState.set(institutions);
-    }
+getSchoolTypes(region: string): void {
+  const cacheKey = `${region}`;
+  if (this.cache[cacheKey]) {
+    this.typesOfInstitution.set(this.cache[cacheKey]);
+  } else {
+    this.http.get<string[]>(`${this.apiUrl}/schoolType?province=${region}`)
+      .pipe(take(1))
+      .subscribe({
+        next: (types) => {
+          this.cache[cacheKey] = types;
+          this.typesOfInstitution.set(types);
+        },
+        error: (error) => console.error('Error fetching school types:', error)
+      });
   }
-  
-  getInstitutionWebPages(institutionName: string): string[] {
-    if (!this.apiSource) {
-      return []; // Return empty if no data is cached
-    } else {
-    const institution = this.apiSource.find(inst => inst.name === institutionName);
-    return institution ? institution.web_pages : [];
-    }
+}
+
+getSchoolNames(region: string, schoolType: string): void {
+  const cacheKey = `${region}-${schoolType}`;
+  if (this.cache[cacheKey]) {
+    this.institutionName.set(this.cache[cacheKey]);
+  } else {
+    this.http.get<string[]>(`${this.apiUrl}/schoolName?province=${region}&schoolType=${schoolType}`)
+      .pipe(take(1))
+      .subscribe({
+        next: (schools) => {
+          this.cache[cacheKey] = schools;
+          this.institutionName.set(schools);
+        },
+        error: (error) => console.error('Error fetching school names:', error)
+      });
   }
+}
+getSchoolNamesEmails(institution: string): string[] {
+  if (!this.apiSource) return [];
+  const institutionData = this.apiSource.find(inst => inst.name === institution);
+  return institutionData ? institutionData.emailExtensions : [];
+}
   
 }

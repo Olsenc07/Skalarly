@@ -1,3 +1,4 @@
+# Build stage
 FROM node:20.10.0 as build-step
 
 WORKDIR /app
@@ -8,18 +9,22 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build:prod
+RUN npm run build:ssr
 
 # Serve stage
 FROM node:20.10.0
 
-# Install 'serve' to serve the app
-RUN npm install -g serve
-
 WORKDIR /app
 
-# Copy the build output from the previous stage
-COPY --from=build-step /app/dist/skalarly-frontend .
+# Copy the build output and node modules from the previous stage
+COPY --from=build-step /app/dist /app/dist
+COPY --from=build-step /app/node_modules /app/node_modules
 
 # Heroku sets port dynamically via PORT environment variable
-CMD serve -s . -l tcp://0.0.0.0:${PORT}
+ENV PORT=3000
+
+# Expose the port the app runs on
+EXPOSE $PORT
+
+# Start the server with SSR
+CMD ["node", "dist/skalarly-frontend/server/main.js"]  # Update this path based on your actual main server file

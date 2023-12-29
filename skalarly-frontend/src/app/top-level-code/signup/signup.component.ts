@@ -131,8 +131,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.instituitionForm = new FormGroup({
       country: new FormControl<string>(''),
       region: new FormControl<string>(''),
-      webpages: new FormControl<Array<string>>(['']),
-      institution: new FormControl<string>('')
+      type: new FormControl<string>(''),
+      institution: new FormControl<string>(''),
+      webpages: new FormControl<Array<string>>([''])
     });
     this.signUpForm = new FormGroup({
       username: new FormControl<InitialAccountInterface['username']>(
@@ -222,13 +223,24 @@ updateCountrySelection(country: string): void {
   }
 }
 regionSelection(stateProvince: string): void {
-  this.updateFormValue('region', stateProvince, stateProvince ? 'What is the schools name?' : 'Which region of the country?');
+  this.updateFormValue('region', stateProvince, stateProvince ? 'What type of school?' : 'Which region of the country?');
   if (stateProvince) {
-    this.institutionInfoService.getInstitutionDetails(stateProvince);
+    // Assuming you have a method to fetch the types of institutions
+    this.institutionInfoService.getSchoolTypes(stateProvince);
+  }
+}
+typeInstitution(type: string): void {
+  this.updateFormValue('type', type, 'What is the school’s name?');
+  if (type) {
+    // Assuming you have a method to fetch institutions based on type
+    this.institutionInfoService.getSchoolNames(this.instituitionForm.get('region')?.value, type);
   }
 }
 chosenInstituition(institution: string): void {
   this.updateFormValue('institution', institution, 'What is the schools name?');
+  if(institution){
+    this.domain = this.institutionInfoService.getSchoolNamesEmails(institution);
+  }
 }
 
   // toggle password visbility

@@ -8,6 +8,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReauthorizeComponent } from '../reauthorize/reauthorize.component';
 import { Router } from '@angular/router';
+import { InstitutionInfoService } from './create-edit-account/institution-info.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,7 @@ export class AccountManagementService {
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBar,
+    protected institutionInfoService: InstitutionInfoService,
     private router: Router
   ) {}
   //   make sure username and email aren't used yet

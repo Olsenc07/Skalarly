@@ -48,15 +48,3 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
-      # Configuration and Deployment to GitHub Pages
-      - name: Configuring Git User Info
-        run: |
-          git config --global user.name "Olsenc07"
-          git config --global user.email "skalolsen@gmail.com"
-
-      - name: Build Angular App
-        run: |
-            cd skalarly-frontend
-            npm install
-            npm run build:prod
-        
