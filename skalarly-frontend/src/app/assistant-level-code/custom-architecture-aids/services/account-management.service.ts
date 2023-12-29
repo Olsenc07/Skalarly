@@ -9,11 +9,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReauthorizeComponent } from '../reauthorize/reauthorize.component';
 import { Router } from '@angular/router';
 import { InstitutionInfoService } from './create-edit-account/institution-info.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountManagementService {
+  private apiUrl = environment.apiUrl;
   private newAccountEmail: string | null = null;
   username: string | undefined;
   constructor(
@@ -27,8 +29,7 @@ export class AccountManagementService {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
     return this.http.get<boolean>(
       // set up mock server to serve local host requests?
-      'http://localhost:4200/api/accountManagement/emailValidation' ||
-        'https://www.skalarly.com/api/account-management/emailValidation',
+      this.apiUrl + '/accountManagement/emailValidation', 
       {
         params: queryParams
       }
@@ -38,8 +39,7 @@ export class AccountManagementService {
     console.log('username',username)
     const queryParams: HttpParams = new HttpParams({ fromString: username });
     return this.http.get<boolean>(
-      'http://localhost:4200/api/accountManagement/uniqueUserName' ||
-        'https://www.skalarly.com/api/accountManagement/uniqueUserName',
+      this.apiUrl + '/accountManagement/uniqueUserName', 
       {
         params: queryParams
       }
@@ -52,8 +52,7 @@ export class AccountManagementService {
     });
     return this.http
       .post<InitialAccountInterface>(
-        'http://localhost:4200/api/accountManagement/createAccount' ||
-          'https://www.skalarly.com/api/accountManagement/createAccount',
+        this.apiUrl + '/accountManagement/createAccount', 
         queryParams
       )
       .pipe(
@@ -72,8 +71,7 @@ export class AccountManagementService {
     // matches a seven digit code sent to email
     const queryParams: HttpParams = new HttpParams({ fromString: code });
     return this.http.get<boolean>(
-      'http://localhost:4200/api/accountManagement/validateEmail' ||
-        'https://www.skalarly.com/api/accountManagement/validateEmail',
+      this.apiUrl + '/accountManagement/validateEmail', 
       {
         params: queryParams
       }
@@ -86,8 +84,7 @@ export class AccountManagementService {
     // i wamnt to pass the values in the form group as well as the username that was saved from create Account function
     return this.http
       .post<InitialAccountInterface>(
-        'http://localhost:4200/api/accountManagement/createAccount' ||
-          'https://www.skalarly.com/api/accountManagement/createAccount',
+        this.apiUrl + '/accountManagement/createAccount', 
         queryParams
       )
       .pipe(
@@ -112,8 +109,7 @@ export class AccountManagementService {
     <i class="fa-regular fa-circle-check"></i> 
     </span>`;
     const deleteUrl =
-      'http://localhost:4200/api/accountManagement/deleteUncompletedSignUp' ||
-      'https://www.skalarly.com/api/accountManagement/deleteUncompletedSignUp';
+      this.apiUrl + '/accountManagement/deleteUncompletedSignUp'
 
     if (typeof this.newAccountEmail === 'string') {
       // Assuming newAccount$ contains the necessary data for the request

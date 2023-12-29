@@ -5,11 +5,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReauthorizeComponent } from '../reauthorize/reauthorize.component';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizeService {
+  private apiUrl = environment.apiUrl;
   // these variables don't require reactivity/async data
   userId: string | null = null;
   isAuthenticated: boolean = false;
@@ -39,8 +41,7 @@ export class AuthorizeService {
   searchEmails(email: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
     return this.http.get<boolean>(
-      'http://localhost:4200/api/emailValidation' ||
-        'https://www.skalarly.com/api/account-management/emailValidation',
+      this.apiUrl + '/authorize/emailValidation',
       {
         params: queryParams
       }
@@ -56,8 +57,7 @@ export class AuthorizeService {
     console.log('stayLoggedIn', stayLoggedIn);
     this.http
       .post<{ token: string; expiresIn: number; userId: string }>(
-        'http://localhost:4200/api/user/login' ||
-          'https://www.skalarly.com/api/user/login',
+        this.apiUrl + '/authorize/login', 
         authData
       )
       .subscribe({
@@ -98,8 +98,7 @@ export class AuthorizeService {
     console.log('followed by userId', Id);
     const sub = this.http
       .post<{ token: string; expiresIn: number; userId: string }>(
-        'http://localhost:4200/api/user/stayLoggedIn' ||
-          'https://www.skalarly.com/api/user/stayLoggedIn',
+        this.apiUrl +'/authorize/stayLoggedIn',
         Id
       )
       .subscribe({

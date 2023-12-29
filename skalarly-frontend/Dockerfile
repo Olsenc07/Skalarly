@@ -27,4 +27,4 @@ ENV PORT=3000
 EXPOSE $PORT
 
 # Start the server with SSR
-CMD ["node", "dist/skalarly-frontend/server/main.js"]  # Update this path based on your actual main server file
+CMD ["node", "dist/skalarly-frontend/server.ts"] 

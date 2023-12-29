@@ -3,11 +3,13 @@ import { Observable, catchError, map, shareReplay } from 'rxjs';
 import { AuthorizeService } from './authorize.service';
 import { Injectable } from '@angular/core';
 import { SkalarInfoInterface } from '../interfaces/skalars-info-interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GlobalDataService {
+  private apiUrl = environment.apiUrl;
   private userId: string | null = null;
   private skalarInfo$: Observable<SkalarInfoInterface> | null = null;
   private isBlocked: boolean = false;
@@ -40,8 +42,7 @@ export class GlobalDataService {
       return this.http
         .get<SkalarInfoInterface>(
           // set up mock server to serve local host requests?
-          'http://localhost:4200/api/skalars/selfInfo' ||
-            'https://www.skalarly.com/api/skalars/selfInfo',
+          this.apiUrl + '/skalars/selfInfo',
           {
             params: queryParams
           }
@@ -65,8 +66,7 @@ export class GlobalDataService {
     const params: HttpParams = new HttpParams({ fromObject: queryParams });
     return this.http
       .get<SkalarInfoInterface | boolean | null>(
-        'http://localhost:4200/api/skalars/skalarsInfo' ||
-          'https://www.skalarly.com/api/skalars/skalarsInfo',
+        this.apiUrl + '/skalars/skalarsInfo',
         {
           params
         }

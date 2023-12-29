@@ -229,7 +229,7 @@ regionSelection(stateProvince: string): void {
     this.institutionInfoService.getSchoolTypes(stateProvince);
   }
 }
-typeInstitution(type: string): void {
+typeInstituition(type: string): void {
   this.updateFormValue('type', type, 'What is the school’s name?');
   if (type) {
     // Assuming you have a method to fetch institutions based on type

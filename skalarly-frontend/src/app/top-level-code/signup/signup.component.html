@@ -31,7 +31,7 @@
 </app-reusable-dropdown>
 @if(instituitionForm.get('region')?.value){
   <app-reusable-dropdown [label]="'What type of school?'" [List]="institutionInfoService.typesOfInstitutions()" icon="things_to_do"
-  (selectedChange)="chosenInstituition($event)">
+  (selectedChange)="typeInstituition($event)">
   </app-reusable-dropdown>
 @if(instituitionForm.get('type')?.value){
   <app-reusable-dropdown [label]="'Where do you attend school?'" [List]="institutionInfoService.institutions()" icon="things_to_do"

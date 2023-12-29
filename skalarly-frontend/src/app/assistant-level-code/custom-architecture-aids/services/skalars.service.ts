@@ -8,11 +8,13 @@ import { AuthorizeService } from './authorize.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { type SkalarInfoInterface } from '../interfaces/skalars-info-interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkalarsService {
+  private apiUrl = environment.apiUrl;
   userId: string | null;
 
   constructor(
@@ -37,8 +39,7 @@ export class SkalarsService {
     };
     const params: HttpParams = new HttpParams({ fromObject: queryParams });
     return this.http.get<SkalarInfoInterface[]>(
-      'http://localhost:4200/api/skalars/skalarsInfoSearch' ||
-        'https://www.skalarly.com/api/skalars/skalarsInfoSearch',
+      this.apiUrl + '/skalars/skalarsInfoSearch',
       {
         params
       }

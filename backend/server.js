@@ -18,6 +18,8 @@ import mongoose from 'mongoose';
 import accountManagementRoute from './routes/account-management.js';
 import authorizeRoute from './routes/authorize.js';
 import skalarsRoute from './routes/skalars.js';
+import canadianRoute from './routes/canadian-schools.js';
+
 
 // Constructing __dirname 
 const __filename = fileURLToPath(import.meta.url);
@@ -61,6 +63,7 @@ app.use((req, res, next) => {
 app.use("/api/authorize", authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
 app.use("/api/skalars", skalarsRoute);
+app.use("/api/canada", canadianRoute);
 
 // Production
 // Serve Angular Application - this assumes 'ng build' outputs to 'dist/skalarly-frontend'
