@@ -3,31 +3,43 @@
 div{
   @include universial.common(flex, row)
 }
-$Pulse: (rotate-start: 15deg, rotate-mid: -15deg, opacity-mid: 0.5);
-$Spin: (rotate-mid: 180deg, opacity-start: 0.5, rotate-end: 360deg);
-$Slide: (translateY-start: -100px, translateY-mid: 50px);
-$Bounce: (translateY-start: -30px, translateY-mid: 15px, opacity-mid: 0.5);
+$Pulse: (
+  translateY-start: 0px, translateY-mid: 0px, translateY-end: 0px,
+  rotate-start: 15deg, rotate-mid: -15deg, rotate-end: 0deg
+);
+$Spin: (
+  translateY-start: 0px, translateY-mid: 0px, translateY-end: 0px,
+  rotate-start: 0deg, rotate-mid: 180deg, rotate-end: 360deg
+);
+$Flip: (
+  translateY-start: 0px, translateY-mid: 0px, translateY-end: 0px,
+  rotate-start: 0deg, rotate-mid: 180deg, rotate-end: 360deg
+);
+$Bounce: (
+  translateY-start: -30px, translateY-mid: 15px, translateY-end: 0px,
+  rotate-start: 0deg, rotate-mid: 0deg, rotate-end: 0deg
+);
 
 @mixin animation($name, $animation-type) {
   @keyframes #{$name} {
     0% {
-      transform: translateY(map-get($animation-type, translateY-start, 0px)) 
-                 rotate(map-get($animation-type, rotate-start, 0deg));
-      opacity: map-get($animation-type, opacity-start, 1);
+      transform: translateY(map-get($animation-type, translateY-start)) 
+                 rotate(map-get($animation-type, rotate-start));
+      opacity: 0.6;
     }
     50% {
-      transform: translateY(map-get($animation-type, translateY-mid, 0px)) 
-                 rotate(map-get($animation-type, rotate-mid, 0deg));
-      opacity: map-get($animation-type, opacity-mid, 1);
+      transform: translateY(map-get($animation-type, translateY-mid)) 
+                 rotate(map-get($animation-type, rotate-mid));
+      opacity: 0.8;
+
     }
     100% {
-      transform: translateY(map-get($animation-type, translateY-end, 0px)) 
-                 rotate(map-get($animation-type, rotate-end, 0deg));
-      opacity: map-get($animation-type, opacity-end, 1);
+      transform: translateY(map-get($animation-type, translateY-end)) 
+                 rotate(map-get($animation-type, rotate-end));
+      opacity: 1;
+
     }
   }
-  display: inline-block;
-  color: var(--pairingColor);
   animation: #{$name} 1s ease-in-out forwards;
 }
 
@@ -49,7 +61,6 @@ $Bounce: (translateY-start: -30px, translateY-mid: 15px, opacity-mid: 0.5);
   .animations{
     @include animationEnter(0.5s);
   }
-     
   /* Apply the mixin to each class */
   .magical-letterpulse {
       @include animation('Pulse', $Pulse);
@@ -57,13 +68,12 @@ $Bounce: (translateY-start: -30px, translateY-mid: 15px, opacity-mid: 0.5);
   .magical-letterspin {
     @include animation('Spin', $Spin);
   }
-  .magical-letterslide {
-    @include animation('Slide', $Slide);
+  .magical-letterflip {
+    @include animation('Flip', $Flip);
   }
   .magical-letterbounce {
     @include animation('Bounce', $Bounce);
   }
-  
   /* font styles */
   .font-size-small {  @include responsive.responsiveFontSize('smaller'); }
   .font-size-default { @include responsive.responsiveFontSize(); }

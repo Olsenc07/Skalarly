@@ -24,7 +24,7 @@
           /* Calculate the final font size */
           $final-font-size: $screen-font-size;
           @if $sizeVariant == 'smaller' {
-            $final-font-size: $screen-font-size - $screen-font-sub-size;
+            $final-font-size: $screen-font-size - $screen-font-sub-size - 0.3rem;
           } @else if $sizeVariant == 'larger' {
             $final-font-size: $screen-font-size + $screen-font-sub-size + 0.9rem;
           }

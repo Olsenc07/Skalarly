@@ -3,9 +3,6 @@
     <div entire-page>
       <div class="login-header">
         <!-- logo full fades in on valid email -->
-        <img ngSrc="assets/images/Skalar_Hat_Icon.png" priority
-        width="74.5" height="55" sizes="15vw"
-        alt="Skalar Grad Wizard Hat Icon">
       <h2>    
         <div skalarly>
         Skalarly
@@ -35,7 +32,7 @@
       <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
       (@welcomeRise.done)="welcomeRiseDone()" >
     <app-letter-by-letter 
-     [customClass]="'large'"
+     [customClass]="'small'"
      [message]="welcome"
      [lastLetterAnimation]="true"
      [autoGenerate]="toggle" 

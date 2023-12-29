@@ -75,15 +75,12 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 </div>
 </div>
 </span>
-<!-- Login Button [ngClass]="getIconConfig(progressState).class"  -->
+<!-- Login Button -->
 <div class="login-standard-wrapper">
-<div class="login-standard">
 <button mat-raised-button type="submit" class="login"
-(keydown.enter)="enterClicked()" [ngClass]="getIconConfig(progressState).class"
-[@fingerprintActivation]="loginForm.valid ? 'activated' : 'normal' ">
+(keydown.enter)="enterClicked()" [ngClass]="getIconConfig(progressState).class">
  Login
 </button>
-</div>
 </div>
 
 </div>

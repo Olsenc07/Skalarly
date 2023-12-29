@@ -34,8 +34,8 @@ export class LetterByLetterComponent implements OnChanges {
   // seven animations
   classes: string[] = [
     'magical-letterpulse',
-    'magical-letterflip',
     'magical-letterspin',
+    'magical-letterflip',
     'magical-letterbounce'
   ];
   shuffledClasses: string[] = [];

@@ -241,13 +241,13 @@ export class LoginLogicComponent implements OnInit {
 getIconConfig(progressState: string): IconConfig{
     switch (progressState) {
       case 'default':
-        return {  class: 'fingerprint-border-initial  initial' };
+        return {  class: '' };
       case 'loading':
-        return { class: 'fingerprint-border loading' };
+        return { class: 'fingerprint-border-loading' };
       case 'complete':
-        return {  class: 'fingerprint-border-approved  approved' };
+        return {  class: 'fingerprint-border-approved' };
         case 'declined':
-        return {  class: 'fingerprint-border-declined declined'};
+        return {  class: 'fingerprint-border-declined'};
       default:
         return { class: '' };
     }
