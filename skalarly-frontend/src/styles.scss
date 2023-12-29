@@ -23,7 +23,7 @@ color: lightblue
 body {
   margin: 0;
   padding: 0;
-  background-color: white;
+  background-color: #f0f0f0;
   @include universal.common;
   @include universal.pageSize;
  }

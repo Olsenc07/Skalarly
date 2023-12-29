@@ -3,70 +3,27 @@
 div{
   @include universial.common(flex, row)
 }
+$Pulse: (rotate-start: 15deg, rotate-mid: -15deg, opacity-mid: 0.5);
+$Spin: (rotate-mid: 180deg, opacity-start: 0.5, rotate-end: 360deg);
+$Slide: (translateY-start: -100px, translateY-mid: 50px);
+$Bounce: (translateY-start: -30px, translateY-mid: 15px, opacity-mid: 0.5);
 
-$Appearance: (
-  scale-start: 0.8, rotate-start: -10deg, translateY-start: 0px, translateX-start: 0px, opacity-start: 0.5,
-  scale-mid: 1.1, rotate-mid: 10deg, translateY-mid: 0px, translateX-mid: 0px, opacity-mid: 1,
-  scale-end: 1, rotate-end: 0deg, translateY-end: 0px, translateX-end: 0px, opacity-end: 1
-);
-
-$Pulse: (
-  scale-start: 1, rotate-start: 15deg, translateY-start: 0px, translateX-start: 0px, opacity-start: 1,
-  scale-mid: 1.2, rotate-mid: -15deg, translateY-mid: 0px, translateX-mid: 0px, opacity-mid: 0.5,
-  scale-end: 1, rotate-end: 0deg, translateY-end: 0px, translateX-end: 0px, opacity-end: 1
-);
-
-$Fade: (
-  scale-start: 0.5, rotate-start: 0deg, translateY-start: 0px, translateX-start: 0px, opacity-start: 0,
-  scale-mid: 1.2, rotate-mid: 0deg, translateY-mid: 0px, translateX-mid: 0px, opacity-mid: 0.5,
-  scale-end: 1, rotate-end: 0deg, translateY-end: 0px, translateX-end: 0px, opacity-end: 1
-);
-
-$Flip: (
-  scale-start: 1, rotate-start: 0deg, translateY-start: 0px, translateX-start: 0px, opacity-start: 0,
-  scale-mid: 1, rotate-mid: 180deg, translateY-mid: 0px, translateX-mid: 0px, opacity-mid: 0.5,
-  scale-end: 1, rotate-end: 360deg, translateY-end: 0px, translateX-end: 0px, opacity-end: 1
-);
-
-$Spin: (
-  scale-start: 1, rotate-start: 0deg, translateY-start: 0px, translateX-start: 0px, opacity-start: 0.5,
-  scale-mid: 1, rotate-mid: 180deg, translateY-mid: 0px, translateX-mid: 0px, opacity-mid: 1,
-  scale-end: 1, rotate-end: 360deg, translateY-end: 0px, translateX-end: 0px, opacity-end: 1
-);
-
-$Slide: (
-  scale-start: 1, rotate-start: 0deg, translateY-start: -100px, translateX-start: 0px, opacity-start: 0.5,
-  scale-mid: 1, rotate-mid: 0deg, translateY-mid: 50px, translateX-mid: 0px, opacity-mid: 1,
-  scale-end: 1, rotate-end: 0deg, translateY-end: 0px, translateX-end: 0px, opacity-end: 1
-);
-
-$Bounce: (
-  scale-start: 1, rotate-start: 0deg, translateY-start: -30px, translateX-start: 0px, opacity-start: 1,
-  scale-mid: 1, rotate-mid: 0deg, translateY-mid: 15px, translateX-mid: 0px, opacity-mid: 0.5,
-  scale-end: 1, rotate-end: 0deg, translateY-end: 0px, translateX-end: 0px, opacity-end: 1
-);
 @mixin animation($name, $animation-type) {
   @keyframes #{$name} {
-    0% { 
-      transform: scale(map-get($animation-type, scale-start)) 
-                 rotate(map-get($animation-type, rotate-start))
-                 translateY(map-get($animation-type, translateY-start))
-                 translateX(map-get($animation-type, translateX-start));
-      opacity: map-get($animation-type, opacity-start); 
+    0% {
+      transform: translateY(map-get($animation-type, translateY-start, 0px)) 
+                 rotate(map-get($animation-type, rotate-start, 0deg));
+      opacity: map-get($animation-type, opacity-start, 1);
     }
-    50% { 
-      transform: scale(map-get($animation-type, scale-mid)) 
-                 rotate(map-get($animation-type, rotate-mid))
-                 translateY(map-get($animation-type, translateY-mid))
-                 translateX(map-get($animation-type, translateX-mid));
-      opacity: map-get($animation-type, opacity-mid); 
+    50% {
+      transform: translateY(map-get($animation-type, translateY-mid, 0px)) 
+                 rotate(map-get($animation-type, rotate-mid, 0deg));
+      opacity: map-get($animation-type, opacity-mid, 1);
     }
-    100% { 
-      transform: scale(map-get($animation-type, scale-end)) 
-                 rotate(map-get($animation-type, rotate-end))
-                 translateY(map-get($animation-type, translateY-end))
-                 translateX(map-get($animation-type, translateX-end));
-      opacity: map-get($animation-type, opacity-end); 
+    100% {
+      transform: translateY(map-get($animation-type, translateY-end, 0px)) 
+                 rotate(map-get($animation-type, rotate-end, 0deg));
+      opacity: map-get($animation-type, opacity-end, 1);
     }
   }
   display: inline-block;
@@ -92,23 +49,11 @@ $Bounce: (
   .animations{
     @include animationEnter(0.5s);
   }
-  .font-size-small {  @include responsive.responsiveFontSize('smaller'); }
-  .font-size-default { @include responsive.responsiveFontSize(); }
-  .font-size-large {  @include responsive.responsiveFontSize('larger'); }
      
   /* Apply the mixin to each class */
-  .magical-letter {
-      @include animation('Appearance', $Appearance);
-    }
   .magical-letterpulse {
       @include animation('Pulse', $Pulse);
     }
-  .magical-letterfade {
-    @include animation('Fade', $Fade);
-  }
-  .magical-letterflip {
-    @include animation('Flip', $Flip);
-  }
   .magical-letterspin {
     @include animation('Spin', $Spin);
   }
@@ -119,3 +64,7 @@ $Bounce: (
     @include animation('Bounce', $Bounce);
   }
   
+  /* font styles */
+  .font-size-small {  @include responsive.responsiveFontSize('smaller'); }
+  .font-size-default { @include responsive.responsiveFontSize(); }
+  .font-size-large {  @include responsive.responsiveFontSize('larger'); }

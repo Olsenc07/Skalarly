@@ -29,15 +29,12 @@ export class LetterByLetterComponent implements OnChanges {
   @Input() lastLetterAnimation: boolean = false;
   animatedText: Letter[] = [];
   private renderCount: number = 0;
-  private maxRenders: number = 7;
+  private maxRenders: number = 4;
 
   // seven animations
   classes: string[] = [
-    'magical-letter',
     'magical-letterpulse',
-    'magical-letterfade',
     'magical-letterflip',
-    'magical-letterslide',
     'magical-letterspin',
     'magical-letterbounce'
   ];
@@ -79,8 +76,8 @@ export class LetterByLetterComponent implements OnChanges {
   }
 
   letterAnimation(message: string): void {
-    const totalDuration: number = 1; // Total duration of the animation in seconds
-    const delayIncrement: number = totalDuration / message.length; // Delay increment for each letter
+    const totalDuration: number = 1; 
+    const delayIncrement: number = totalDuration / message.length; 
     const letters: {
       letter: string;
       delay: number;
@@ -99,11 +96,9 @@ export class LetterByLetterComponent implements OnChanges {
       };
     });
     this.animatedText = letters;
-    console.log('count', this.animatedText);
   }
 
   renderOn(): void {
-    console.log('count', this.renderCount);
     if (this.renderCount < this.maxRenders) {
       this.message = this.loginSpecificService.updatePhrase();
       this.letterAnimation(this.message);
