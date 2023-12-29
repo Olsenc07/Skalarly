@@ -1,17 +1,3 @@
-@mixin fadeAway{
-    @keyframes fadeOut {
-      0% {
-        opacity: 1;
-        white-space: nowrap;
-      }
-      25% {
-        opacity: 0.75;
-      }
-      100% {
-        opacity: 0;
-      }
-    }
-  }
 @mixin riseFloat{
   @keyframes float {
     0%, 100% {
@@ -22,7 +8,6 @@
     }
   }
 }
-
 
 @mixin gradientFlow {
 @keyframes gradient-flow {

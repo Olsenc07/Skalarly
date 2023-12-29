@@ -8,20 +8,6 @@ $all: 100%;
     width: $all;
     box-sizing: border-box;
 }
-@mixin approved { 
-  animation: glow 1.5s ease forwards;
-    @keyframes glow {
-      from {
-        color: 3CB371;
-        transform: scale(1);
-      }
-      to {
-        color: 3CB371;
-        text-shadow: 0 0 5px #3CB371, 0 0 10px #3CB371, 0 0 15px #3CB371;
-        transform: scale(1.7);
-      }
-    }
-}
 $color-pairs: (
   'oceanic-blue': (
     primary: rgba(72, 107, 131, 1), /* Oceanic Blue */

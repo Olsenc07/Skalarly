@@ -5,7 +5,6 @@
 div[column] {
     @include common.common;
     padding: 3% 1% 0% 1%;
-  
     &:first-of-type {
       mat-form-field {
         justify-content: flex-start;
@@ -51,13 +50,11 @@ div[forgot]{
   text-align: center;
        }
 .input-boxes{
-  // mobile
     display: flex;
     justify-content: center;
     border-bottom: 3px solid var(--firstChoice);
     padding: 0% 10% 5%;
     margin: 1%;
-    // desktop
     @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
     border-right: 3px solid transparent;
     border-bottom: 3px solid transparent;    
@@ -95,7 +92,6 @@ div[forgot]{
     &:hover {
       transform: scale(1.05);
     }
-
     &:before {
       content: '';
       position: absolute;
@@ -122,6 +118,7 @@ div[forgot]{
     @include animation.declined;
     animation: shake .5s linear;  
   }
-  .fingerprint-border-approved {
-    @include common.approved;
+  .fingerprint-border-approved { 
+    text-shadow: 0 0 5px #3CB371, 0 0 10px #3CB371, 0 0 15px #3CB371;
+    transform: scale(1.7);
   }
