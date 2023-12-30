@@ -29,4 +29,4 @@ ENV PORT=3000
 EXPOSE $PORT
 
 # Start the server with SSR
-CMD ["node", "dist/skalarly-frontend/server/main.js"] 
+CMD ["node", "dist/skalarly-frontend/main.js"] 

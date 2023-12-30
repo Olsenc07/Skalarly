@@ -17,6 +17,7 @@ import { ValidationAnimationDirective } from '../../assistant-level-code/custom-
 import { reusableAnimations } from './imports/animation-imports';
 import { Router } from '@angular/router';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
+
 @Component({
   standalone: true,
   selector: 'app-login-format',

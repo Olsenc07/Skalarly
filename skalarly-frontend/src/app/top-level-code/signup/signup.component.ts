@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -32,10 +32,20 @@ import { ReusableInputPasswordComponent } from '../../assistant-level-code/child
 import { ReusableInputsComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-inputs/reusable-inputs.component';
 import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-types/reusable-inputs-dynamic/reusable-inputs-dynamic.component';
 import { SignUpFormStateService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
-import { SignUpImports } from './signup-imports';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
 import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton-loader-signup.component';
 
+import {  ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule} from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatStepperModule } from '@angular/material/stepper';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   standalone: true,
@@ -49,8 +59,19 @@ import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton
     ReusableInputsDynamicComponent,
     ErrorPipe,
     MatDividerModule,
-    SignUpImports
-  ]
+    MatButtonModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatInputModule,
+    MatStepperModule,
+    MatSlideToggleModule,
+    MatSelectModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class SignUpComponent implements OnInit, OnDestroy {
