@@ -1,5 +1,3 @@
-// Only case to use ngModule!
-// want cleaner .ts files
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';

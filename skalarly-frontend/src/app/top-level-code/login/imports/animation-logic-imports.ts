@@ -1,16 +1,11 @@
 import { AnimationTriggerMetadata } from '@angular/animations';
-import { authenticatingGlow } from '../../../assistant-level-code/custom-architecture-aids/animations/authenticatingGlow-animation';
-import { fadeToggle } from '../../../assistant-level-code/custom-architecture-aids/animations/fadeToggle-animation';
 import { lock } from '../../../assistant-level-code/custom-architecture-aids/animations/lock-animation';
 import { rotate180 } from '../../../assistant-level-code/custom-architecture-aids/animations/rotate180-animation';
 import { spinChange } from '../../../assistant-level-code/custom-architecture-aids/animations/spin-change-animation';
-import { iconFade } from 'src/app/assistant-level-code/custom-architecture-aids/animations/iconFade-animation';
+
 
 export const reusableLogicAnimations: AnimationTriggerMetadata[] = [
-  authenticatingGlow,
   lock,
   rotate180,
   spinChange,
-  fadeToggle,
-  iconFade
 ];

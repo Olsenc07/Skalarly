@@ -1,14 +1,10 @@
- <!-- nav bar -->
  @defer { 
 @if (routerUrl !== ('/login' || '/sign-up' )){
 <app-nav-bar></app-nav-bar>
  }
-
-  <router-outlet content></router-outlet> <!-- Primary outlet for main content -->
+  <router-outlet></router-outlet> <!-- Primary outlet for main content -->
  <!-- Render as component based on path of routes -->
      <!-- <router-outlet ></router-outlet>  Secondary outlet for sidebars & later maybe modals/dialog -->
 } @loading{
-<h1 style="display: flex; justify-content: center;">
-  Skalarly
-  </h1>
+<h1 style="display: flex; justify-content: center;"></h1>
 }

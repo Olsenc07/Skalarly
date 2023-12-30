@@ -10,7 +10,6 @@ import { ErrorHandlerComponent } from '../../assistant-level-code/child-reusable
 import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { LoginLogicComponent } from './login-logic/login-logic.component';
 import { LoginSpecificService } from '../../assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service';
-import { NgOptimizedImage } from '@angular/common';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
 import { MatCardModule } from '@angular/material/card';
 import { loginSharedImports } from './imports/login-imports-shared';
@@ -30,7 +29,6 @@ import { OrientationService } from 'src/app/assistant-level-code/custom-architec
     LoginLogicComponent,
     ErrorHandlerComponent,
     MatCardModule,
-    NgOptimizedImage,
     SkeletonLoaderLoginComponent,
     ValidationAnimationDirective
   ],
