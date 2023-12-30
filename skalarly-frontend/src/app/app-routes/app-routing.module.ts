@@ -54,7 +54,6 @@ export const routes: Routes = [
         '../top-level-code/feed-folder/single-feed-page/single-feed-page.component'
       ).then((mod) => mod.SingleFeedPageComponent)
   },
-
   {
     path: 'profile',
     resolve: {
@@ -85,7 +84,6 @@ export const routes: Routes = [
         (mod) => mod.EditProfileComponent
       )
   },
-  // other skalar's profile
   {
     path: 'skalars/:id',
     canActivate: [() => inject(AuthGuard).canActivate()],

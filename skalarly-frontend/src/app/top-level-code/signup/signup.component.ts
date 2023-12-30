@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, effect, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -27,7 +27,6 @@ import { emailUsernameValidator } from '../../assistant-level-code/custom-archit
 import { InstitutionInfoService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
 
-import { RemoveSpacesPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/white-space.pipe';
 import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-dropdown/reusable-dropdowncomponent';
 import { ReusableInputPasswordComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-input-password/reusable-input-password.component';
 import { ReusableInputsComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-inputs/reusable-inputs.component';
@@ -46,7 +45,6 @@ import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton
     SkeletonLoaderSignupComponent,
     ReusableDropDownComponent,
     ReusableInputsComponent,
-    RemoveSpacesPipe,
     ReusableInputPasswordComponent,
     ReusableInputsDynamicComponent,
     ErrorPipe,

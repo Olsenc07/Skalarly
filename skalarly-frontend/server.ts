@@ -7,12 +7,12 @@ import { AppServerModule } from './src/main.server';
 
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/skalarly-frontend');
-  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
+  const distFolder: string = join(process.cwd(), 'dist/skalarly-frontend');
+  const indexHtml: string = existsSync(join(distFolder, 'index.original.html'))
     ? join(distFolder, 'index.original.html')
     : join(distFolder, 'index.html');
 
-  const commonEngine = new CommonEngine();
+  const commonEngine: CommonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
