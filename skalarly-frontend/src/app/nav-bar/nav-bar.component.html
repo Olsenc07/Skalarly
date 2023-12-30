@@ -1,0 +1,55 @@
+    <ng-template> <!-- hides content while loading-->
+    <mat-toolbar class="header">
+      <!-- logo -->
+    <!-- *1 search bar icon, mobile first  -->
+        @if(orientationService.orientation()){
+          <!-- search icon to display search -->
+          <ng-template>
+          <button mat-icon-button (click)="toggleSearch(true)">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </ng-template>
+          @if(searchIconClicked){
+          <app-search-bar [mobileFirst]="true" (backEvent)="toggleSearch($event)"></app-search-bar>
+          }
+    <!-- *2 landscape search bar -->
+      } @else {
+        <!-- for desktop but mobile one should pop up and then search options
+        take up full screen -->
+        <app-search-bar [mobileFirst]="false"></app-search-bar>
+        }
+      <nav>
+    <!-- *1 only for portrait, mobile first -->
+    @if(orientationService.orientation()){
+      <ng-template> 
+      <footer class="footer" >
+      <mat-toolbar class="mobile-fade-overlay">
+      <nav>
+    <span class="navigation">
+    <button mat-icon-button routerLink="/profile">
+      <mat-icon class="fa-solid fa-graduation-cap navigation-icon"
+      [ngClass]="
+      routerUrl === '/profile' ? 'navigation-icon-active' : 'navigation-icon'
+    "></mat-icon>
+    </button>
+    </span>
+      </nav>
+    </mat-toolbar>
+    </footer>
+    </ng-template>
+    } @else {
+      <!-- *2 only for landscape -->
+    <!-- profile -->
+      <div class="navigation">
+    <button mat-icon-button routerLink="/profile">
+      <mat-icon class="fa-solid fa-graduation-cap navigation-icon"
+      [ngClass]="
+      routerUrl === '/profile' ? 'navigation-icon-active' : 'navigation-icon'
+    "></mat-icon>
+    </button>
+      </div>
+    }
+    <!-- settings button -->
+    </nav>
+    </mat-toolbar>
+    </ng-template>

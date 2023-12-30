@@ -1,68 +1,13 @@
  <!-- nav bar -->
  @defer { 
 @if (routerUrl !== ('/login' || '/sign-up' )){
-<ng-template> <!-- hides content while loading-->
-<mat-toolbar class="header">
-  <!-- logo -->
-<!-- *1 search bar icon, mobile first  -->
-    @if(orientationService.orientation()){
-      <!-- search icon to display search -->
-      <ng-template>
-      <button mat-icon-button (click)="toggleSearch(true)">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-    </ng-template>
-      @if(searchIconClicked){
-      <app-search-bar [mobileFirst]="true" (backEvent)="toggleSearch($event)"></app-search-bar>
-      }
-<!-- *2 landscape search bar -->
-  } @else {
-    <!-- for desktop but mobile one should pop up and then search options
-    take up full screen -->
-    <app-search-bar [mobileFirst]="false"></app-search-bar>
-    }
-  <nav>
-<!-- *1 only for portrait, mobile first -->
-@if(orientationService.orientation()){
-  <ng-template> 
-  <footer class="footer" >
-  <mat-toolbar class="mobile-fade-overlay">
-  <nav>
-<span class="navigation">
-<button mat-icon-button routerLink="/profile">
-  <mat-icon class="fa-solid fa-graduation-cap navigation-icon"
-  [ngClass]="
-  routerUrl === '/profile' ? 'navigation-icon-active' : 'navigation-icon'
-"></mat-icon>
-</button>
-</span>
-  </nav>
-</mat-toolbar>
-</footer>
-</ng-template>
-} @else {
-  <!-- *2 only for landscape -->
-<!-- profile -->
-  <div class="navigation">
-<button mat-icon-button routerLink="/profile">
-  <mat-icon class="fa-solid fa-graduation-cap navigation-icon"
-  [ngClass]="
-  routerUrl === '/profile' ? 'navigation-icon-active' : 'navigation-icon'
-"></mat-icon>
-</button>
-  </div>
-}
-<!-- settings button -->
-</nav>
-</mat-toolbar>
-</ng-template>
-}
+<app-nav-bar></app-nav-bar>
 <!-- page refresh pull down, eventully use GSAP for a fun animation-->
 <!-- appPullToRefresh  -->
    <!-- (holdDetected)="onHoldDetected($event.visible)" (deltaYChange)="onDeltaYChange($event.state)" -->
-  <ng-container >
+  <!-- <ng-container >
 @if(visible){
-    <!-- The refresh icon. that animates    -->
+    <-- The refresh icon. that animates    --
     <div class="refresh-icon-container" [@refresh]="reloadState">
     <mat-icon [@dialog]  
     class="material-symbols-outlined refresh-icon-border" 
@@ -71,14 +16,14 @@
   </mat-icon>
 </div>
 }
-  </ng-container>
+  </ng-container> -->
+ }
+
   <router-outlet content></router-outlet> <!-- Primary outlet for main content -->
  <!-- Render as component based on path of routes -->
      <!-- <router-outlet ></router-outlet>  Secondary outlet for sidebars & later maybe modals/dialog -->
- } @placeholder{
-  <h1 style="display: flex; justify-content: center;">
-  <img ngSrc="assets/images/Skalar_Hat_Icon.svg" priority
-  width="74.5" height="55" sizes="15vw"
-  alt="Skalar Grad Wizard Hat Icon"> 
+} @placeholder{
+<h1 style="display: flex; justify-content: center;">
+  Skalarly
   </h1>
 }

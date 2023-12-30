@@ -7,19 +7,9 @@ import {
   TitleStrategy
 } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { NgOptimizedImage } from '@angular/common';
-import { NgClass } from '@angular/common';
 import { CustomTitleStrategy } from './assistant-level-code/custom-architecture-aids/services/router-strategies/title-strategy.service';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { PullToRefreshDirective } from './assistant-level-code/custom-architecture-aids/directives/pull-to-refresh.directive';
-import { SearchBarComponent } from './top-level-code/search-bar/search-bar.component';
-import { dialog } from './assistant-level-code/custom-architecture-aids/animations/dialog-animation';
-import { fadeToggle } from './assistant-level-code/custom-architecture-aids/animations/fadeToggle-animation';
-import { refresh } from './assistant-level-code/custom-architecture-aids/animations/refresh-animation';
 import { OrientationService } from './assistant-level-code/custom-architecture-aids/services/orientation.service';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 @Component({
   standalone: true,
@@ -27,35 +17,16 @@ import { OrientationService } from './assistant-level-code/custom-architecture-a
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   imports: [
-    NgClass,
-    NgOptimizedImage,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatToolbarModule,
     RouterModule,
-    PullToRefreshDirective,
-    SearchBarComponent
+    NavBarComponent
   ],
-  providers: [{ provide: TitleStrategy, useClass: CustomTitleStrategy }],
-  animations: [dialog, fadeToggle, refresh]
+  providers: [{ provide: TitleStrategy, useClass: CustomTitleStrategy }]
 })
 export class AppComponent implements OnDestroy {
   private routeSub$: Subject<void> = new Subject<void>();
-  visible: boolean = false;
-  reloadState: 'initial' | 'intermediate' | 'final' = 'initial';
   routerUrl: string | undefined;
-  // mobile first
-  orientation: WritableSignal<boolean> = signal(true);
-  searchIconClicked: boolean = false;
-  animationParams:
-    | {
-        transformStyle: string;
-        opacityStyle: number;
-        duration: string;
-      }
-    | undefined;
 
+  orientation: WritableSignal<boolean> = signal(true);
   constructor(private router: Router,
     protected orientationService: OrientationService) {
     // tracking skalars current page
@@ -72,40 +43,7 @@ export class AppComponent implements OnDestroy {
         this.routerUrl = event.url;
       });
   }
-  onHoldDetected(display: boolean): void {
-    this.visible = display; // Show icon when hold is detected
-  }
-  onDeltaYChange(reload: number): void {
-    if (reload == 1) {
-      this.reloadState = 'initial';
-    }
-    if (reload == 2) {
-      this.reloadState = 'intermediate';
-    }
-    if (reload === 3) {
-      this.reloadState = 'final';
-      // Special case for a 3-second hold, trigger a reload
-      setTimeout(() => location.reload(), 700);
-    }
-  }
-  getIcon(reloadState: string | null): string {
-    if (reloadState === null) {
-      return 'cycle';
-    }
-    switch (reloadState) {
-      case 'final':
-        return 'task_alt';
-      case 'intermediate':
-        return 'published_with_changes';
-      default:
-        return 'cycle';
-    }
-  }
 
-  // mobile functions
-  toggleSearch(toggle: boolean): void {
-    this.searchIconClicked = toggle;
-  }
   ngOnDestroy(): void {
     // Trigger the unsubscribe$ to complete the subscription
     this.routeSub$.next();
