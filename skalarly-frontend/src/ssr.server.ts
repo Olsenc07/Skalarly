@@ -7,7 +7,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import * as express from 'express';
 
 const server = express();
-const distFolder = join(process.cwd(), 'dist/skalarly-frontend');
+const distFolder = join(process.cwd(), 'dist', 'skalarly-frontend');
 const indexHtml = readFileSync(join(distFolder, 'index.html'), 'utf8').toString();
 
 const bootstrap = () => bootstrapApplication(AppComponent, {

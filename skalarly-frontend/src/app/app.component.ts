@@ -7,7 +7,8 @@ import {
   TitleStrategy
 } from '@angular/router';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { CustomTitleStrategy } from './assistant-level-code/custom-architecture-aids/services/router-strategies/title-strategy.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -26,7 +27,8 @@ import { OrientationService } from './assistant-level-code/custom-architecture-a
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   imports: [
-    CommonModule,
+    NgClass,
+    NgOptimizedImage,
     MatButtonModule,
     MatCheckboxModule,
     MatIconModule,

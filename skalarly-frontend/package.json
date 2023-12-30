@@ -6,6 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:stats": "ng build --configuration=production --stats-json",
+    "analyze": "webpack-bundle-analyzer dist/skalarly-fs/stats.json",
     "watch": "ng build --watch --configuration=development",
     "test": "ng test",
     "lint": "ng lint",
@@ -18,8 +20,8 @@
     "serve:ssr": "node dist/skalarly-fs/server.ts",
     "build:ssr": "ng build && ng run skalarly-fs:server",
     "prerender": "ng run skalarly-fs:prerender",
-    "start:dev":  "ng run dev:ssr && cd ../backend && nodemon server.js\""
-    },
+    "start:dev": "ng run dev:ssr && cd ../backend && nodemon server.js\""
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^17.0.8",
@@ -73,7 +75,8 @@
     "tough-cookie": "4.1.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
-    "webpack": "^5.89.0"
+    "webpack": "^5.89.0",
+    "webpack-bundle-analyzer": "^4.10.1"
   },
   "overrides": {
     "axios": "^1.6.2"

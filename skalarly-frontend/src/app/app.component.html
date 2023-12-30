@@ -1,4 +1,5 @@
  <!-- nav bar -->
+ @defer { 
 @if (routerUrl !== ('/login' || '/sign-up' )){
 <ng-template> <!-- hides content while loading-->
 <mat-toolbar class="header">
@@ -73,4 +74,11 @@
   </ng-container>
   <router-outlet content></router-outlet> <!-- Primary outlet for main content -->
  <!-- Render as component based on path of routes -->
-   <router-outlet ></router-outlet>  <!-- Secondary outlet for sidebars & later maybe modals/dialog -->
+     <!-- <router-outlet ></router-outlet>  Secondary outlet for sidebars & later maybe modals/dialog -->
+ } @placeholder{
+  <h1 style="display: flex; justify-content: center;">
+  <img ngSrc="assets/images/Skalar_Hat_Icon.svg" priority
+  width="74.5" height="55" sizes="15vw"
+  alt="Skalar Grad Wizard Hat Icon"> 
+  </h1>
+}

@@ -13,7 +13,7 @@ import { LoginSpecificService } from '../../assistant-level-code/custom-architec
 import { NgOptimizedImage } from '@angular/common';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
 import { MatCardModule } from '@angular/material/card';
-
+import { loginImports } from './imports/login-imports';
 import { ValidationAnimationDirective } from '../../assistant-level-code/custom-architecture-aids/directives/login-validation-animation.directive';
 import { reusableAnimations } from './imports/animation-imports';
 import { Router } from '@angular/router';
@@ -22,9 +22,10 @@ import { OrientationService } from 'src/app/assistant-level-code/custom-architec
   standalone: true,
   selector: 'app-login-format',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss', './login-responsive.component.scss'],
   animations: [...reusableAnimations],
   imports: [
+    loginImports,
     LetterByLetterComponent,
     LoginLogicComponent,
     ErrorHandlerComponent,

@@ -10,7 +10,7 @@ import bootstrap from './src/ssr.server';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/skalarly-frontend');
+  const distFolder = join(process.cwd(), 'dist', 'skalarly-frontend');
   const indexHtml = existsSync(join(distFolder, 'index.html'))
     ? join(distFolder, 'index.html')
     : join(distFolder, 'index.html');
