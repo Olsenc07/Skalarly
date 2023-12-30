@@ -1,19 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  Observable,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  switchMap
-} from 'rxjs';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
+import { Observable, debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { SkalarCardComponent } from '../skalar-card/skalar-card.component';
@@ -21,8 +9,8 @@ import { type SkalarInfoInterface } from '../../assistant-level-code/custom-arch
 import { SkalarsService } from '../../assistant-level-code/custom-architecture-aids/services/skalars.service';
 
 @Component({
-  standalone: true,
   selector: 'app-search-bar',
+  standalone: true,
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss'],
   imports: [
@@ -42,10 +30,7 @@ import { SkalarsService } from '../../assistant-level-code/custom-architecture-a
 })
 export class SearchBarComponent implements OnInit {
   skalars$: Observable<SkalarInfoInterface[]>;
-  searchSkalarForm: FormControl<string | null> = new FormControl<string | null>(
-    ''
-  );
-  // mobile first
+  searchSkalarForm: FormControl<string | null> = new FormControl<string | null>('');
   // Recieve data from parent for animation
   @Input({ required: true }) mobileFirst!: boolean;
   // Child to parent for animation

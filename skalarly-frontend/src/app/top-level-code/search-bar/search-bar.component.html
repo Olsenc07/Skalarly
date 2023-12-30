@@ -1,36 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Search Bar</title>
-</head>
-
-
-<!-- Could I use test 6-7 & ng-content for any of this? -->
-<body>
-    <!-- *1 *2  but mobile first -->
         <div [ngClass]="mobileFirst ? 'mobile-screen' : 'large-screen'" [@slideInOut]="showResults && mobileFirst">
-            <span class="input-row" *ngIf="mobileFirst; else largeScreen">
+            <span class="input-row">
+          @if(mobileFirst){
             <button mat-icon-button (click)="iconBackClicked()"> 
         <i class="fa-solid fa-angle-left"></i>
             </button>
         <input matInput type="search" [formControl]="searchSkalarForm" placeholder="Search Fellow Skalars">
-        </span>
-        <ng-template #largeScreen>
+      } @else {
         <input matInput type="search" [formControl]="searchSkalarForm" placeholder="Search Fellow Skalars">
-        </ng-template>
+      }
+        </span>
+     
     <!-- skalar found -->
     <!-- cache max first 12 accounts clicked on 
     can display these first on interaction with the input bar before typing -->
-    <ng-container *ngIf="skalars$ | async as skalars"> 
-  <ng-template *ngFor="let skalar of skalars" >
-<!-- animated when items are added to or removed from the skalars array  -->
+@if((skalars$ | async); as skalars;){
+  @for(skalar of skalars; let i = $index; track skalar){
     <span class="results">
         <app-skalar-card [skalarInfo]="skalar" [searchSkalar]="searchSkalarForm" [@slideInOut]> </app-skalar-card>
     </span>
-
-  </ng-template>
-</ng-container>
+  }
+}
 </div>
-</body>
-</html>
