@@ -1,14 +1,14 @@
 import 'zone.js';
+import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { provideRouter, withViewTransitions } from '@angular/router';
+import { importProvidersFrom } from '@angular/core';
 
 import { AppComponent } from './app/app.component';
 import { AuthInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/auth-interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ErrorInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/error-interceptor';
-import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
-import { importProvidersFrom } from '@angular/core';
 import { routes } from './app/app-routes/app-routing.module';
 
 bootstrapApplication(AppComponent, {
