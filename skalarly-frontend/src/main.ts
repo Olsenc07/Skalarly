@@ -1,4 +1,3 @@
-import 'zone.js';
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';

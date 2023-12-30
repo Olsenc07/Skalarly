@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["zone.js/dist/zone"],
+            "allowedCommonJsDependencies": [],
             "outputPath": "dist/skalarly-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -36,7 +36,7 @@
           "configurations": {
             "production": {
               "baseHref": "/",
-              "allowedCommonJsDependencies": ["zone.js"],
+              "allowedCommonJsDependencies": [],
               "budgets": [
                 {
                   "type": "initial",
