@@ -2,21 +2,6 @@
  @defer { 
 @if (routerUrl !== ('/login' || '/sign-up' )){
 <app-nav-bar></app-nav-bar>
-<!-- page refresh pull down, eventully use GSAP for a fun animation-->
-<!-- appPullToRefresh  -->
-   <!-- (holdDetected)="onHoldDetected($event.visible)" (deltaYChange)="onDeltaYChange($event.state)" -->
-  <!-- <ng-container >
-@if(visible){
-    <-- The refresh icon. that animates    --
-    <div class="refresh-icon-container" [@refresh]="reloadState">
-    <mat-icon [@dialog]  
-    class="material-symbols-outlined refresh-icon-border" 
-    [ngClass]="{'glow-effect': reloadState === 'final'}">
-    {{ getIcon(reloadState)}}
-  </mat-icon>
-</div>
-}
-  </ng-container> -->
  }
 
   <router-outlet content></router-outlet> <!-- Primary outlet for main content -->

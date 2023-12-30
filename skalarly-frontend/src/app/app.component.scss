@@ -1,19 +1,3 @@
-$device-sizes: (
- base: 576px, 
- tablet: 768px, 
- labtop: 1024px, 
- desktop: 1200px, 
- tv: 1440px 
-);
-
-$font-sizes-header: (
-  base: 3rem,
-  tablet: 3.125rem,
-  laptop: 3.25,
-  desktop: 3.375rem,
-  tv: 3.5rem
-);
-
 .mobile-fade-overlay {
     position: relative;
     &::before {
@@ -32,6 +16,3 @@ $font-sizes-header: (
   box-shadow: 0 0 10px 5px var(--pairingColor);
   transition: box-shadow 0.3s ease; 
 }
-
-
-  

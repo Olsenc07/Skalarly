@@ -2,7 +2,6 @@ import { Component, OnDestroy, WritableSignal, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
-import { NgClass } from '@angular/common';
 import { SearchBarComponent } from './../top-level-code/search-bar/search-bar.component';
 import {  NavigationEnd,  Router,
   Event as RouterEvent, RouterModule } from '@angular/router';
@@ -18,13 +17,13 @@ import { OrientationService } from '../assistant-level-code/custom-architecture-
     MatButtonModule,
      MatToolbarModule,
      MatIconModule,
-     NgClass, 
+ 
      RouterModule,
      SearchBarComponent],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnDestroy {
   private routeSub$: Subject<void> = new Subject<void>();
   visible: boolean = false;
   reloadState: 'initial' | 'intermediate' | 'final' = 'initial';
@@ -82,5 +81,10 @@ getIcon(reloadState: string | null): string {
 // mobile functions
 toggleSearch(toggle: boolean): void {
   this.searchIconClicked = toggle;
+}
+ngOnDestroy(): void {
+  // Trigger the unsubscribe$ to complete the subscription
+  this.routeSub$.next();
+  this.routeSub$.complete();
 }
 }
