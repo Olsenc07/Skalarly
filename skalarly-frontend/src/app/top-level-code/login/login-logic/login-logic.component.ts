@@ -1,54 +1,35 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit
-} from '@angular/core';
-import {
-  EmailInterface,
-  PasswordInterface
-} from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/login-interface';
-import {
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
-import {
-  Observable,
-  concat,
-  debounceTime,
-  distinctUntilChanged,
-  of,
-  startWith,
-  switchMap
-} from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Observable, concat, debounceTime, distinctUntilChanged, of } from 'rxjs';
+import {  map, startWith, switchMap } from 'rxjs/operators';
 import { AuthorizeService } from '../../../assistant-level-code/custom-architecture-aids/services/authorize.service';
 import { GlowBorderDirective } from '../../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
-import { AsyncPipe, NgClass} from '@angular/common';
+import { LetterByLetterComponent } from '../../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { Router } from '@angular/router';
-import { loginSharedImports } from '../imports/login-imports-shared';
 import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { reusableLogicAnimations } from './../imports/animation-logic-imports';
-import { LetterByLetterComponentShared } from 'src/app/assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-shared';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import type { EmailInterface, PasswordInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/login-interface';
 
 @Component({
   selector: 'app-login-logic',
   standalone: true,
+  templateUrl: './login-logic.component.html',
+  styleUrls: ['./login-logic.component.scss'],
   animations: [...reusableLogicAnimations],
   imports: [
-    loginSharedImports,
-    LetterByLetterComponentShared,
-    AsyncPipe,
-    NgClass,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    LetterByLetterComponent,
     GlowBorderDirective
   ],
-  templateUrl: './login-logic.component.html',
-  styleUrl: './login-logic.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class LoginLogicComponent implements OnInit {
   @Input() alwaysVertical?: boolean = false;
   // animated

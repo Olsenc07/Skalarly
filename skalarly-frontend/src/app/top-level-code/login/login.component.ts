@@ -1,35 +1,48 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  WritableSignal,
-  signal
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, WritableSignal, signal } from '@angular/core';
 import { ErrorHandlerComponent } from '../../assistant-level-code/child-reusable-options/error-handler/error-handler.component';
+import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { LoginLogicComponent } from './login-logic/login-logic.component';
-import { LoginSpecificService } from '../../assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
+
 import { MatCardModule } from '@angular/material/card';
-import { loginSharedImports } from './imports/login-imports-shared';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 import { ValidationAnimationDirective } from '../../assistant-level-code/custom-architecture-aids/directives/login-validation-animation.directive';
+import { ReactiveFormsModule } from '@angular/forms';
 import { reusableAnimations } from './imports/animation-imports';
 import { Router } from '@angular/router';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
-import { LetterByLetterComponentShared } from 'src/app/assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-shared';
+import { LoginSpecificService } from 'src/app/assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service';
 
 @Component({
-  standalone: true,
   selector: 'app-login-format',
+  standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss', './login-responsive.component.scss'],
   animations: [...reusableAnimations],
   imports: [
-    loginSharedImports,
-    LetterByLetterComponentShared,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTooltipModule,
+    LetterByLetterComponent,
     LoginLogicComponent,
     ErrorHandlerComponent,
-    MatCardModule,
     SkeletonLoaderLoginComponent,
     ValidationAnimationDirective
   ],
