@@ -19,19 +19,19 @@ import {
   concat,
   debounceTime,
   distinctUntilChanged,
-  map,
   of,
   startWith,
   switchMap
 } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthorizeService } from '../../../assistant-level-code/custom-architecture-aids/services/authorize.service';
 import { GlowBorderDirective } from '../../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
 import { AsyncPipe, NgClass} from '@angular/common';
-import { LetterByLetterComponent } from '../../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { Router } from '@angular/router';
 import { loginSharedImports } from '../imports/login-imports-shared';
 import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { reusableLogicAnimations } from './../imports/animation-logic-imports';
+import { LetterByLetterComponentShared } from 'src/app/assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-shared';
 
 @Component({
   selector: 'app-login-logic',
@@ -39,7 +39,7 @@ import { reusableLogicAnimations } from './../imports/animation-logic-imports';
   animations: [...reusableLogicAnimations],
   imports: [
     loginSharedImports,
-    LetterByLetterComponent,
+    LetterByLetterComponentShared,
     AsyncPipe,
     NgClass,
     GlowBorderDirective

@@ -7,7 +7,6 @@ import {
   signal
 } from '@angular/core';
 import { ErrorHandlerComponent } from '../../assistant-level-code/child-reusable-options/error-handler/error-handler.component';
-import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { LoginLogicComponent } from './login-logic/login-logic.component';
 import { LoginSpecificService } from '../../assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
@@ -17,6 +16,7 @@ import { ValidationAnimationDirective } from '../../assistant-level-code/custom-
 import { reusableAnimations } from './imports/animation-imports';
 import { Router } from '@angular/router';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
+import { LetterByLetterComponentShared } from 'src/app/assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-shared';
 
 @Component({
   standalone: true,
@@ -26,7 +26,7 @@ import { OrientationService } from 'src/app/assistant-level-code/custom-architec
   animations: [...reusableAnimations],
   imports: [
     loginSharedImports,
-    LetterByLetterComponent,
+    LetterByLetterComponentShared,
     LoginLogicComponent,
     ErrorHandlerComponent,
     MatCardModule,
