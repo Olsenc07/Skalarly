@@ -6,17 +6,17 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:stats": "ng build --configuration=production --stats-json",
+    "build:stats": "ng build --prod --stats-json",
     "analyze": "webpack-bundle-analyzer dist/skalarly-frontend/stats.json",
     "watch": "ng build --watch --configuration=development",
     "test": "ng test",
     "lint": "ng lint",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "build:prod": "ng build --configuration=production",
+    "build:prod": "ng build --prod",
     "start:prod": "node dist/skalarly-frontend/main.js",  
     "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run",
-    "build:ssr": "ng build --configuration=production && ng run angular-skalarly:server:production"
+    "build:ssr": "ng build --prod && ng run angular-skalarly:server:production"
   },
   "private": true,
   "dependencies": {
