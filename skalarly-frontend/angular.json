@@ -95,7 +95,7 @@
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/assets"
+              "src/assets/images"
             ],
             "styles": [
               "src/styles.scss"
