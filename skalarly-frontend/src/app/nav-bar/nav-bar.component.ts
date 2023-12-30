@@ -1,11 +1,8 @@
-import { Component, OnDestroy, WritableSignal, signal } from '@angular/core';
+import { Component, WritableSignal, signal, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { SearchBarComponent } from './../top-level-code/search-bar/search-bar.component';
-import {  NavigationEnd,  Router,
-  Event as RouterEvent, RouterModule } from '@angular/router';
-  import { Subject, filter, takeUntil } from 'rxjs';
 import { OrientationService } from '../assistant-level-code/custom-architecture-aids/services/orientation.service';
 // import { PullToRefreshDirective } from './../assistant-level-code/custom-architecture-aids/directives/pull-to-refresh.directive';
 // import { dialog } from './../assistant-level-code/custom-architecture-aids/animations/dialog-animation';
@@ -17,37 +14,21 @@ import { OrientationService } from '../assistant-level-code/custom-architecture-
     MatButtonModule,
      MatToolbarModule,
      MatIconModule,
- 
-     RouterModule,
      SearchBarComponent],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent implements OnDestroy {
-  private routeSub$: Subject<void> = new Subject<void>();
+export class NavBarComponent {
+  @Input() routeUrl: string | undefined;
   visible: boolean = false;
   reloadState: 'initial' | 'intermediate' | 'final' = 'initial';
   routerUrl: string | undefined;
   orientation: WritableSignal<boolean> = signal(true);
   searchIconClicked: boolean = false;
 
-  constructor(private router: Router,
+  constructor(
     protected orientationService: OrientationService
-    ) {
-    // tracking skalars current page
-    this.router.events
-      .pipe(
-        filter(
-          (event: RouterEvent): event is NavigationEnd =>
-            event instanceof NavigationEnd
-        ),
-        takeUntil(this.routeSub$)
-      )
-      // eslint-disable-next-line rxjs-angular/prefer-async-pipe
-      .subscribe((event: NavigationEnd) => {
-        this.routerUrl = event.url;
-      });
-}
+    ) {}
 onHoldDetected(display: boolean): void {
   this.visible = display; // Show icon when hold is detected
 }
@@ -81,10 +62,5 @@ getIcon(reloadState: string | null): string {
 // mobile functions
 toggleSearch(toggle: boolean): void {
   this.searchIconClicked = toggle;
-}
-ngOnDestroy(): void {
-  // Trigger the unsubscribe$ to complete the subscription
-  this.routeSub$.next();
-  this.routeSub$.complete();
 }
 }

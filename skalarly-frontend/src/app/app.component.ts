@@ -45,7 +45,6 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Trigger the unsubscribe$ to complete the subscription
     this.routeSub$.next();
     this.routeSub$.complete();
   }

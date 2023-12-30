@@ -6,7 +6,6 @@
           <!-- search icon to display search -->
           <ng-template>
           <button mat-icon-button (click)="toggleSearch(true)">
-            <i class="fa-solid fa-magnifying-glass"></i>
           </button>
         </ng-template>
           @if(searchIconClicked){
@@ -26,8 +25,8 @@
       <mat-toolbar class="mobile-fade-overlay">
       <nav>
     <span class="navigation">
-    <button mat-icon-button routerLink="/profile" routerLinkActive="active">
-      <mat-icon class="fa-solid fa-graduation-cap "></mat-icon>
+    <button mat-icon-button>
+      <mat-icon>Profile</mat-icon>
     </button>
     </span>
       </nav>
@@ -38,8 +37,8 @@
       <!-- *2 only for landscape -->
     <!-- profile -->
       <div class="navigation">
-    <button mat-icon-button routerLink="/profile" routerLinkActive="active"}>
-      <mat-icon class="fa-solid fa-graduation-cap"></mat-icon>
+    <button mat-icon-button >
+      <mat-icon>Profile</mat-icon>
     </button>
       </div>
     }
