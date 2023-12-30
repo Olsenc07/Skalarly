@@ -1,25 +1,11 @@
-import {
-  BehaviorSubject,
-  Observable,
-  combineLatest
-} from 'rxjs';
-import{
-  debounceTime,
-  distinctUntilChanged,
-  map
-} from 'rxjs/operators';
-import {
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges
-} from '@angular/core';
-
-import { BoldPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { AsyncPipe } from '@angular/common';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { BoldPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { AsyncPipe } from '@angular/common';
 import { type SkalarInfoInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
 
 @Component({

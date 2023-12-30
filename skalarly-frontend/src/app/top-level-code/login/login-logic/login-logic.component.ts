@@ -11,7 +11,11 @@ import { reusableLogicAnimations } from './../imports/animation-logic-imports';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AsyncPipe, NgClass } from '@angular/common';
 import type { EmailInterface, PasswordInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/login-interface';
 
 @Component({
@@ -21,10 +25,15 @@ import type { EmailInterface, PasswordInterface } from 'src/app/assistant-level-
   styleUrls: ['./login-logic.component.scss'],
   animations: [...reusableLogicAnimations],
   imports: [
+    AsyncPipe,
     ReactiveFormsModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatTooltipModule,
+    MatIconModule,
     MatInputModule,
+    MatCheckboxModule,
+    NgClass,
     LetterByLetterComponent,
     GlowBorderDirective
   ],
