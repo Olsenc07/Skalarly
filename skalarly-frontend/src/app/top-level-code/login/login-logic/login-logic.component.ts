@@ -191,7 +191,6 @@ export class LoginLogicComponent implements OnInit {
     this.stayLoggedIn = !this.stayLoggedIn;
   }
   login(): void {
-    console.log('hey n')
     this.progressState = 'loading';
     this.cdr.detectChanges(); // Detect changes immediately
 
@@ -243,7 +242,7 @@ getIconConfig(progressState: string): IconConfig{
       case 'default':
         return {  class: '' };
       case 'loading':
-        return { class: 'fingerprint-border-loading' };
+        return { class: '' };
       case 'complete':
         return {  class: 'fingerprint-border-approved' };
         case 'declined':

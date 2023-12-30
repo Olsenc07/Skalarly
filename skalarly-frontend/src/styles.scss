@@ -9,8 +9,8 @@ $color-pairs: (
     pairing: rgba(0, 95, 115, 1)    
   ),
   'atlantic-blue': (
-    primary: rgba(90, 125, 154, 1),
-    pairing: rgba(148, 201, 169, 1)  
+    pairing: rgba(0, 95, 115, 1),
+    primary: rgba(30, 67, 121, 1)
   ),
   'sapphire-blue': (
     primary: rgba(30, 67, 121, 1), 
@@ -29,7 +29,7 @@ $secondChoice: map-get($random-pair, pairing);
 :root {
   --firstChoice: #{$firstChoice};
   --secondChoice: #{$secondChoice};
-  --error: rgba(220, 20, 60, 0.5);
+  --error: var(--mdc-outlined-text-field-error-outline-color);
   --approved: hwb(51 0% 0%); 
   --pairingColor: #486b83; 
   --pairingColor2: #778da9; 

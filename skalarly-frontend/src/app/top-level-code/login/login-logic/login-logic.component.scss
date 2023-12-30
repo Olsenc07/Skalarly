@@ -20,10 +20,8 @@ div[forgot]{
     justify-content: flex-end;
     margin-bottom: 7%;
     button[forgot]{
-      align-items: center;
       background: none;
       border: none;
-      font-style: italic;
       cursor: pointer;
     }
   }
@@ -50,6 +48,7 @@ div[forgot]{
        }
 .input-boxes{
     display: flex;
+    width: 100%;
     justify-content: center;
     border-bottom: 3px solid var(--firstChoice);
     padding: 0% 10% 5%;
@@ -68,9 +67,6 @@ div[forgot]{
         button[forgot] {
         margin-right: 3%; 
       }
-    }
-    div {
-      width: 100%;
     }
   }
   .login-standard-wrapper {
@@ -99,25 +95,22 @@ div[forgot]{
       right: 100%;
       bottom: 0;
       background-image: linear-gradient(to left, #005f73, #0a9396);
-      color: ghostwhite;
       transition: right 0.5s ease-in-out;
       z-index: -1; 
     }
     &:hover:before {
       right: 0; 
     }
+
+  &.fingerprint-border-declined {
+      background-color: var(--error);
+      @include animation.declined;
+      animation: shake .5s linear;  
+    }
+    &.fingerprint-border-approved { 
+      text-shadow: 0 0 5px #3CB371, 0 0 10px #3CB371, 0 0 15px #3CB371;
+      transform: scale(1.7);
+    }
   }
+
 }
-  .fingerprint-border-loading {
-    @include animation.magic;
-    animation: rotateAndShimmer 1.5s linear forwards;
-  }
-.fingerprint-border-declined {
-    color: var(--error);
-    @include animation.declined;
-    animation: shake .5s linear;  
-  }
-  .fingerprint-border-approved { 
-    text-shadow: 0 0 5px #3CB371, 0 0 10px #3CB371, 0 0 15px #3CB371;
-    transform: scale(1.7);
-  }
