@@ -13,16 +13,12 @@ import type {
 import {
   Subject,
   combineLatest,
-  map,
-  takeUntil,
-  tap
+  takeUntil
 } from 'rxjs';
+import {tap, map } from 'rxjs/operators';
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
 import { ErrorPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/error.pipe';
-import { Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import {MatDividerModule} from '@angular/material/divider'
+
 import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
 import { InstitutionInfoService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
@@ -33,8 +29,12 @@ import { ReusableInputsComponent } from '../../assistant-level-code/child-reusab
 import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-types/reusable-inputs-dynamic/reusable-inputs-dynamic.component';
 import { SignUpFormStateService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
-import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton-loader-signup.component';
 
+import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton-loader-signup.component';
+import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import {MatDividerModule} from '@angular/material/divider'
 import {  ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';

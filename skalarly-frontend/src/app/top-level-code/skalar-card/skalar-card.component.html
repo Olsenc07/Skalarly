@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Skalar Quick Information</title>
-</head>
-
-<body>
-  <ng-container *ngFor="let skalar of (skalars$ | async) as skal; index as i; let first = first; trackBy: trackBySkalar">
-  <ng-container *ngIf="first">
+@for(skalar of (skalars$ | async); let i = $index; track skalar){
+@if(i == 0){
 <h2> Top Results: </h2>
-</ng-container>
+}
     <mat-card>
         <mat-card-header>
-        <img ngSrc="profilePic" fill priority>
         <mat-card-title [innerHTML]="skalarInfo.username | bold: searchSkalar.value!" >{{'@username'}}</mat-card-title>
         <mat-card-subtitle>{{'name'}}</mat-card-subtitle>
         </mat-card-header>
@@ -30,20 +21,23 @@
             <div class="grid-item">{{skalar.club}}</div>
           </div>
         </mat-card-content>
-        <button mat-icon-button *ngIf="iconState === 'rest'; else clicked" [@openOptionsAnimation] (click)="displayOptions(i)">
-          <i class="fa-solid fa-ellipsis-vertical"></i>
+        @if(iconState === 'rest'){
+        <button mat-icon-button  (click)="displayOptions(i)" [@openOptionsAnimation]>
+          
         </button>
-        <ng-template #clicked  (click)="closeOptions()" [@closeOptionsAnimation]>
-          <i class="fa-solid fa-ellipsis-vertical "></i>
-        </ng-template>
-        <ng-container *ngIf="toggledInfoOf === i" [@cardOptionsAnimation]="toggledInfoOf === i ? 'open' : 'closed'">
-        <mat-card-actions>
+       } @else if(iconState === 'clicked'){  
+        <button mat-icon-button (click)="closeOptions()" [@closeOptionsAnimation]>
+
+          </button>
+      }
+        @if(toggledInfoOf === i){
+        <mat-card-actions [@cardOptionsAnimation]="toggledInfoOf === i ? 'open' : 'closed'">
           <!-- Add your interaction buttons here -->
           <button mat-button (click)="blockSkalar(skalar.skalar!)">Block Skalar</button>
           <button mat-button (click)="sendMessage(skalar.skalar!)">Message</button>
           <button mat-button (click)="followSkalar(skalar.skalar!)">Follow</button>
         </mat-card-actions>
-      </ng-container>
+      }
+
     </mat-card>
-    </ng-container>
-</body>
+  }

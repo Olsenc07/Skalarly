@@ -1,30 +1,23 @@
 import {
   BehaviorSubject,
   Observable,
-  Subscription,
-  combineLatest,
+  combineLatest
+} from 'rxjs';
+import{
   debounceTime,
   distinctUntilChanged,
   map
-} from 'rxjs';
+} from 'rxjs/operators';
 import {
   Component,
   Input,
   OnChanges,
-  OnDestroy,
-  OnInit,
   SimpleChanges
 } from '@angular/core';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
+
 import { BoldPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
-import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
+import { AsyncPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { type SkalarInfoInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
@@ -34,38 +27,38 @@ import { type SkalarInfoInterface } from '../../assistant-level-code/custom-arch
   selector: 'app-skalar-card',
   templateUrl: './skalar-card.component.html',
   styleUrls: ['./skalar-card.component.scss'],
-  imports: [BoldPipe, CommonModule, MatButtonModule, MatCardModule],
-  animations: [
-    trigger('cardOptionsAnimation', [
-      state('open', style({ height: '*' })), // Options are open
-      state('closed', style({ height: '0' })), // Options are closed
-      transition('closed => open', animate('0.3s ease-in-out')),
-      transition('open => closed', animate('0.3s ease-in-out'))
-    ]),
-    trigger('openOptionsAnimation', [
-      state('rest', style({ transform: 'rotate(0deg)', color: 'black' })),
-      state(
-        'clicked',
-        style({ transform: 'rotate(180deg)', color: 'lightblue' })
-      ),
-      transition('rest <=> clicked', animate('500ms ease-in-out'))
-    ]),
-    trigger('closeOptionsAnimation', [
-      state('rest', style({ transform: 'rotate(0deg)', color: 'black' })),
-      state(
-        'clicked',
-        style({ transform: 'rotate(180deg)', color: 'lightblue' })
-      ),
-      transition('clicked <=> rest', animate('500ms ease-in-out'))
-    ])
-  ]
+  imports: [BoldPipe, MatButtonModule, MatCardModule, AsyncPipe],
+  // animations: [
+  //   trigger('cardOptionsAnimation', [
+  //     state('open', style({ height: '*' })), // Options are open
+  //     state('closed', style({ height: '0' })), // Options are closed
+  //     transition('closed => open', animate('0.3s ease-in-out')),
+  //     transition('open => closed', animate('0.3s ease-in-out'))
+  //   ]),
+  //   trigger('openOptionsAnimation', [
+  //     state('rest', style({ transform: 'rotate(0deg)', color: 'black' })),
+  //     state(
+  //       'clicked',
+  //       style({ transform: 'rotate(180deg)', color: 'lightblue' })
+  //     ),
+  //     transition('rest <=> clicked', animate('500ms ease-in-out'))
+  //   ]),
+  //   trigger('closeOptionsAnimation', [
+  //     state('rest', style({ transform: 'rotate(0deg)', color: 'black' })),
+  //     state(
+  //       'clicked',
+  //       style({ transform: 'rotate(180deg)', color: 'lightblue' })
+  //     ),
+  //     transition('clicked <=> rest', animate('500ms ease-in-out'))
+  //   ])
+  // ]
 })
-export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
+export class SkalarCardComponent implements OnChanges {
   // From search-bar
-  @Input() searchSkalar!: FormControl<string | null>;
+  @Input() searchSkalar: FormControl<string | null> = new FormControl<string>('');
   @Input() skalarInfo!: SkalarInfoInterface;
-  @Input() skalars$!: Observable<SkalarInfoInterface[]>;
-  private skalarSub?: Subscription;
+  @Input() skalars$: Observable<SkalarInfoInterface[]> = new  Observable<SkalarInfoInterface[]>;
+
   // Define an initial list as a BehaviorSubject
   initialList$: BehaviorSubject<SkalarInfoInterface[]> = new BehaviorSubject<
     SkalarInfoInterface[]
@@ -95,13 +88,6 @@ export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
         )
       );
     }
-  }
-  ngOnInit(): void {
-    this.skalarSub = this.skalars$.subscribe(
-      (skalars: SkalarInfoInterface[]) => {
-        this.initialList$.next(skalars);
-      }
-    );
   }
 
   displayOptions(i: number): void {
@@ -135,16 +121,5 @@ export class SkalarCardComponent implements OnInit, OnDestroy, OnChanges {
     // Implement the followSkalar logic here
     // have animation that changes from follow -> pending/followed
     console.log('follow skalar', id);
-  }
-
-  // efficent rendering
-  trackBySkalar(i: number, skalar: SkalarInfoInterface): string {
-    return skalar.username;
-  }
-  //clean up
-  ngOnDestroy(): void {
-    // if Subscription has been made
-    this.skalarSub?.unsubscribe();
-    this.initialList$.complete();
   }
 }

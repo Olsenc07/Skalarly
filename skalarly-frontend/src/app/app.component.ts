@@ -6,7 +6,8 @@ import {
   RouterModule,
   TitleStrategy
 } from '@angular/router';
-import { Subject, filter, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { CustomTitleStrategy } from './assistant-level-code/custom-architecture-aids/services/router-strategies/title-strategy.service';
 import { OrientationService } from './assistant-level-code/custom-architecture-aids/services/orientation.service';
 import { NavBarComponent } from './nav-bar/nav-bar.component';

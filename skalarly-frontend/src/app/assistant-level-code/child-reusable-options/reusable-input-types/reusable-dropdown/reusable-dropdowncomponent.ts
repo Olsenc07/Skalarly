@@ -25,7 +25,6 @@ import {
 } from '@angular/material/autocomplete';
 import { AlphabeticalPipe } from '../../../custom-architecture-aids/pipes/alphabetical.pipe';
 import { BoldPipe } from '../../../custom-architecture-aids/pipes/bold.pipe';
-import { RemoveSpacesPipe } from '../../../custom-architecture-aids/pipes/white-space.pipe';
 import { TitleCasePipe } from '@angular/common';
 import { InputImports } from '../input-imports';
 
@@ -39,7 +38,6 @@ import { InputImports } from '../input-imports';
     BoldPipe,
     MatAutocompleteModule,
     InputImports,
-    RemoveSpacesPipe,
     TitleCasePipe
   ]
 })
