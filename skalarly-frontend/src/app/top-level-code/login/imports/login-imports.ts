@@ -2,7 +2,6 @@
 // want cleaner .ts files
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { LetterByLetterComponent } from '../../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
@@ -15,12 +14,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  imports:[LetterByLetterComponent],
   exports: [
     MatButtonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    LetterByLetterComponent,
     MatCheckboxModule,
     MatChipsModule,
     MatDialogModule,

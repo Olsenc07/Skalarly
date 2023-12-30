@@ -5,7 +5,7 @@ import {
   OnChanges,
   SimpleChanges
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { LoginSpecificService } from '../../custom-architecture-aids/services/login-validation/login-specific.service';
 
 interface Letter {
@@ -19,7 +19,7 @@ interface Letter {
   selector: 'app-letter-by-letter',
   templateUrl: './letter-by-letter-display.component.html',
   styleUrl: './letter-by-letter-display.component.scss',
-  imports: [CommonModule]
+  imports: [NgClass]
 })
 export class LetterByLetterComponent implements OnChanges {
   @Input() message: string = '';
