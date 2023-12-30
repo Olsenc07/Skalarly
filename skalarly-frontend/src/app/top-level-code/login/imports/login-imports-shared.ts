@@ -14,6 +14,19 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
+  imports: [
+    MatButtonModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTooltipModule
+  ],
   exports: [
     MatButtonModule,
     HttpClientModule,
@@ -28,4 +41,4 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatTooltipModule
   ]
 })
-export class loginImports {}
+export class loginSharedImports {}
