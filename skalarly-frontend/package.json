@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build",
     "build:stats": "ng build --configuration=production --stats-json",
     "analyze": "webpack-bundle-analyzer dist/skalarly-fs/stats.json",
     "watch": "ng build --watch --configuration=development",
@@ -13,12 +13,12 @@
     "lint": "ng lint",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "build:prod": "ng build --prod",
+    "build:prod": "ng build",
     "build-and-deploy:prod": "run-s build:prod start:prod",
     "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run",
     "dev:ssr": "ng run skalarly-fs:serve-ssr",
     "serve:ssr": "node dist/skalarly-fs/server.ts",
-    "build:ssr": "ng build --prod && ng run skalarly-fs:server",
+    "build:ssr": "ng build && ng run skalarly-fs:serve-ssr:production",
     "prerender": "ng run skalarly-fs:prerender",
     "start:dev": "ng run dev:ssr && cd ../backend && nodemon server.js"
   },

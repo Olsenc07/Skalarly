@@ -116,7 +116,7 @@
           "builder": "@angular-devkit/build-angular:server",
           "options": {
             "outputPath": "dist/skalarly-frontend",
-            "main": "server.ts",
+            "main": "skalarly-frontend/server.ts",
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss"
           },
@@ -152,7 +152,7 @@
               "serverTarget": "angular-skalarly:server:production"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "prdouction"
         },
         "prerender": {
           "builder": "@angular-devkit/build-angular:prerender",
