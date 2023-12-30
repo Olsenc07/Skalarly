@@ -1,5 +1,4 @@
 @use 'login-logic-animations.component' as animation;
-@use '../../../assistant-level-code/universal-reusable-styles/break-points' as device;
 @use '../../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @use '../../../assistant-level-code/universal-reusable-styles/common' as common;
 div[column] {
@@ -34,7 +33,7 @@ div[forgot]{
   .normal-style{
   @include common.common(flex, column);
   align-items: baseline;
-  @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
+  @media only screen and (min-width: 600px) {
    @include common.common(flex, row);
   }}
   .error-style{
@@ -55,19 +54,19 @@ div[forgot]{
     border-bottom: 3px solid var(--firstChoice);
     padding: 0% 10% 5%;
     margin: 1%;
-    @media only screen and (min-width: map-get(device.$device-sizes, 'tablet')) {
+    @media only screen and (min-width: 600px) {
     border-right: 3px solid transparent;
     border-bottom: 3px solid transparent;    
     border-image: linear-gradient(135deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
     }
       &:first-of-type {
         mat-checkbox {
-        margin-left: device.$input-margin; 
+        margin-left: 3%; 
         }
       }
       &:last-of-type{
         button[forgot] {
-        margin-right: device.$input-margin; 
+        margin-right: 3%; 
       }
     }
     div {

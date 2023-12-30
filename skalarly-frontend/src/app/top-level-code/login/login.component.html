@@ -1,16 +1,14 @@
 @defer { 
   @if(orientationService.orientation()){
     <div entire-page>
-      <h2>    
         <div skalarly>
         Skalarly
-        </div> 
-      </h2>
+        </div>
       <app-login-logic>
       </app-login-logic>
 <!-- welcome and join animation -->
 <div class="welcome-container">
-  <h2>Don't have an account?</h2>
+  <h3>Don't have an account?</h3>
   @if (!nextAnimations) {
     <button mat-raised-button
     (click)="navigate()" join>
@@ -44,19 +42,21 @@
           <mat-card-content>
             <div class="login-header">
               <!-- logo full fades in on valid email -->
-              <img ngSrc="assets/images/Skalar_Hat_Icon.png" priority
+              <img ngSrc="assets/images/Skalar_Hat_Icon.svg" priority
               width="74.5" height="55" sizes="15vw"
               alt="Skalar Grad Wizard Hat Icon">
-              <h2>    
-                <div skalarly>
+              <div skalarly>   
                 Skalarly
-               </div>Enhance Your Academic Experience
-              </h2>
+              </div>
+                <div phrase>
+                 Enhance Your Academic Experience
+               </div>
             </div>
 <app-login-logic>
 </app-login-logic>
 <!-- welcome and join animation -->
 <div class="welcome-container">
+  <h3>Don't have an account?</h3>
 @if (!nextAnimations) {
   <button mat-raised-button
   (click)="navigate()" join>
@@ -66,7 +66,7 @@
   <button mat-stroked-button
   (click)="navigate()" [class.welcome-text-south-paw]="nextAnimations"
    [@bubble]="nextAnimations ? 'animate' : 'noAnimate'" join>
-  <app-letter-by-letter [customClass]="'small'"
+  <app-letter-by-letter [customClass]="'default'"
   [lastLetterAnimation]="true"
   [message]="join" [autoGenerate]="false" 
   [welcomeSouthPaw]="true"></app-letter-by-letter>

@@ -6,11 +6,11 @@ $device-sizes: (
  tv: 1200px 
 );
 $device-sizes-height: (
-    small: 320px, 
-    medium: 480px, 
-    large: 640px, 
-    extra-large: 800px, 
-    tv: 1080px 
+  small: 320px, 
+  medium: 480px, 
+  large: 640px, 
+  extra-large: 800px, 
+  tv: 1080px 
 );
 $font-sizes: (
   base: 1.3rem,
@@ -40,4 +40,3 @@ $chip-sizes: (
    desktop: 45%,
    tv: 55%
 );
-$input-margin: 3%; 

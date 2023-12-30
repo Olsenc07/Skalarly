@@ -31,10 +31,8 @@ $form-margins0: (
   @include common.common;
   text-align: center; 
   align-items: center;
-  padding: 3% 0;
-  padding-bottom: 1%;
+  padding: 3% 0% 1% 0%;
   margin: 1%;
-  overflow: hidden; 
   border-top: 3px solid transparent;
   border-left: 3px solid transparent;
   border-image: linear-gradient(308deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
@@ -47,16 +45,14 @@ $form-margins0: (
       box-shadow: 3px 3px #93b9e6;
       transition: background-image 1.5s ease; 
       color: #1a3c40;
+      margin-bottom: 1.5%;
       &.welcome-text-south-paw {
         background-image: linear-gradient(to right, white, #d0e5fc94);
-        font-weight: 700;
       }
       &[mat-raised-button]{
       @include animation.riseFloat;
       animation: float 4s ease-in-out;
       }
-      align-items: center;
-      text-align: center;
   }
 
   button[join]:hover:after {
@@ -75,26 +71,23 @@ div[column] {
   padding: 3% 1% 0% 1%;
   height: 100vh;
 }
-h2 {
+div[phrase]{
   display: flex;
-  margin: 1% 0%;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
   @include responsive.responsiveFontSize('smaller'); 
-
+}
 div[skalarly] {
-  font-weight: bolder;
-    @include responsive.responsiveFontSize('larger'); 
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent; 
-    background-image: linear-gradient(45deg, var(--firstChoice), var(--secondChoice));
-    background-size: 200% 200%; 
-    @include animation.gradientFlow;
-    animation: gradient-flow 6s linear infinite; 
+  display: flex;
+  font-weight: bold;
+  justify-content: center;
+  @include responsive.responsiveFontSize('larger'); 
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent; 
+  background-image: linear-gradient(45deg, var(--firstChoice), var(--secondChoice));
+  background-size: 200% 200%; 
+  @include animation.gradientFlow;
+  animation: gradient-flow 6s linear infinite; 
     }
-  }
   .welcome-container {
         @include common.common;
         align-items: center; 
