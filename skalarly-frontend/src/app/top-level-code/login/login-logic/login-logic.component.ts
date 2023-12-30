@@ -2,10 +2,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
-  OnInit,
-  ViewChild
+  OnInit
 } from '@angular/core';
 import {
   EmailInterface,
@@ -14,7 +12,6 @@ import {
 import {
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
   Validators
 } from '@angular/forms';
 import {
@@ -28,29 +25,23 @@ import {
   switchMap
 } from 'rxjs';
 import { AuthorizeService } from '../../../assistant-level-code/custom-architecture-aids/services/authorize.service';
-import { CommonModule } from '@angular/common';
 import { GlowBorderDirective } from '../../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
-import { LetterByLetterComponent } from '../../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { AsyncPipe, NgClass} from '@angular/common';
 
 import { Router } from '@angular/router';
 import { loginImports } from '../imports/login-imports';
 import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { reusableLogicAnimations } from './../imports/animation-logic-imports';
-interface IconConfig {
-  class: string;
-}
+
 @Component({
   selector: 'app-login-logic',
   standalone: true,
   animations: [...reusableLogicAnimations],
   imports: [
     loginImports,
-    CommonModule,
-    MatButtonModule,
-    GlowBorderDirective,
-    LetterByLetterComponent,
-    ReactiveFormsModule
+    AsyncPipe,
+    NgClass,
+    GlowBorderDirective
   ],
   templateUrl: './login-logic.component.html',
   styleUrl: './login-logic.component.scss',
@@ -69,13 +60,10 @@ export class LoginLogicComponent implements OnInit {
   // password
   password$: Observable<PasswordInterface> =
     new Observable<PasswordInterface>();
-  @ViewChild('skalarlyPassword', { static: false })
-  skalarlyPassword: ElementRef = new ElementRef(null);
+
   visiblePassword: boolean = false;
-  // login
   stayLoggedIn: boolean = false;
-  @ViewChild('loginButton', { static: false }) loginButton: MatButton | null =
-    null;
+ 
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
     private readonly router: Router,
@@ -237,18 +225,18 @@ export class LoginLogicComponent implements OnInit {
     //     }
     //   });
   }
-getIconConfig(progressState: string): IconConfig{
+getIconConfig(progressState: string): string{
     switch (progressState) {
       case 'default':
-        return {  class: '' };
+        return '' ;
       case 'loading':
-        return { class: '' };
+        return  '' ;
       case 'complete':
-        return {  class: 'fingerprint-border-approved' };
+        return 'fingerprint-border-approved' ;
         case 'declined':
-        return {  class: 'fingerprint-border-declined'};
+        return 'fingerprint-border-declined';
       default:
-        return { class: '' };
+        return  '';
     }
   }
   

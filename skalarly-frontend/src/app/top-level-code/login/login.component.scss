@@ -26,8 +26,6 @@ $form-margins0: (
       }}
 }
 .login-header {
-  display: flex;
-  justify-content: center;
   @include common.common;
   text-align: center; 
   align-items: center;
@@ -99,3 +97,7 @@ div[skalarly] {
             }}}
     }
 
+    app-letter-by-letter{
+      display: flex;
+      flex-direction: row;
+    }

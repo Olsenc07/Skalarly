@@ -7,11 +7,9 @@ import {
   signal
 } from '@angular/core';
 import { ErrorHandlerComponent } from '../../assistant-level-code/child-reusable-options/error-handler/error-handler.component';
-import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
+// lazy load child component
 import { LoginLogicComponent } from './login-logic/login-logic.component';
 import { LoginSpecificService } from '../../assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgOptimizedImage } from '@angular/common';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
 import {MatCardModule} from '@angular/material/card';
@@ -20,6 +18,7 @@ import { ValidationAnimationDirective } from '../../assistant-level-code/custom-
 import { reusableAnimations } from './imports/animation-imports';
 import { Router } from '@angular/router';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
+import { loginImports } from './imports/login-imports';
 
 @Component({
   standalone: true,
@@ -28,12 +27,10 @@ import { OrientationService } from 'src/app/assistant-level-code/custom-architec
   styleUrl: './login.component.scss',
   animations: [...reusableAnimations],
   imports: [
-    LetterByLetterComponent,
+    loginImports,
     LoginLogicComponent,
     ErrorHandlerComponent,
-    MatButtonModule,
     MatCardModule,
-    MatTooltipModule,
     NgOptimizedImage,
     SkeletonLoaderLoginComponent,
     ValidationAnimationDirective

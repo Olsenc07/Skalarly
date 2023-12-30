@@ -78,7 +78,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <!-- Login Button -->
 <div class="login-standard-wrapper">
 <button mat-raised-button type="submit" class="login"
-(keydown.enter)="enterClicked()" [ngClass]="getIconConfig(progressState).class">
+(keydown.enter)="enterClicked()" [ngClass]="getIconConfig(progressState)">
 @switch (progressState ) {
   @case ('default') {
    Login

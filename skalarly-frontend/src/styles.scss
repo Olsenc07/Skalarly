@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@use 'app/assistant-level-code/universal-reusable-styles/common' as universal;
-@use 'app/assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
+@use 'app/assistant-level-code/universal-reusable-styles/common' as common;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 $color-pairs: (
@@ -39,8 +38,6 @@ $secondChoice: map-get($random-pair, pairing);
 :root{
 --skalarly-font: 'Cormorant Garamond', serif;
 }
-$toolbar-shadow-color: rgba(0, 0, 0, 0.25);
-$toolbar-background-color: #282828;
 *,
 *::before,
 *::after {
@@ -48,8 +45,6 @@ $toolbar-background-color: #282828;
   font-family: var(--skalarly-font); 
 }
 b {
-/* for matching search results to an api call list */
-/* displays light blue for `<b>${match}</b>` bold.pipe implementation */
 color: lightblue
 }
 body {
@@ -59,8 +54,8 @@ body {
   @media only screen and (min-width: 768px) {
   background-color: #f0f0f0;
   }
-  @include universal.common;
-  @include universal.pageSize;
+  @include common.common;
+  @include common.pageSize;
  }
  button{
   /* google standard for mobile buttons */
@@ -69,36 +64,17 @@ body {
 .condition-met{
     color: #228B22;
 }
-mat-hint{
-    color: grey;
-}
 mat-toolbar{
-    box-shadow: 0px 2px 5px 0px $toolbar-shadow-color;
-    background-color: $toolbar-background-color;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
+    background-color: #282828;
 }
 .glow-animation {
-  animation: glow 2.5s ease-in-out infinite;
   overflow: hidden;
-  @keyframes glow {
-    0%, 100% {
-      box-shadow: 0 3px 3px var(--mdc-outlined-text-field-outline-color);
-    }
-    50% {
-      box-shadow: 0 5px 5px var(--mdc-outlined-text-field-outline-color);
-    }
-  }
+  box-shadow: 0 3px 3px var(--mdc-outlined-text-field-outline-color);
 }
-  .error-animation {
-    animation: error-glow 2.5s ease-in-out infinite;
+.error-animation {
     overflow: hidden;
-    @keyframes error-glow {
-      0%, 100% {
-        box-shadow: 0 3px 3px var(--mdc-outlined-text-field-error-outline-color);
-      }
-      50% {
-        box-shadow: 0 5px 5px var(--mdc-outlined-text-field-error-outline-color);
-      }
-    }
+    box-shadow: 0 3px 3px var(--mdc-outlined-text-field-error-outline-color);
   }
   
 .material-symbols-outlined {
@@ -110,13 +86,8 @@ mat-toolbar{
 }
 router-outlet[content] {
   box-sizing: border-box;
-  flex: 1; /* allow the content area to expand and fill available space */
+  flex: 1; 
 @media (orientation: portrait) {
-  padding-bottom: 4em; /* adjust this value to match the footer's height in app scss */
+  padding-bottom: 4em;
 }
 }
-app-letter-by-letter{
-  display: flex;
-  flex-direction: row;
-}
-  

@@ -1,10 +1,9 @@
-$all: 100%;
 @mixin common($flex: flex, $portrait: column){
     display: $flex;
     justify-content: center;
     flex-direction: $portrait;
 }
 @mixin pageSize{
-    width: $all;
+    width: 100%;
     box-sizing: border-box;
 }
