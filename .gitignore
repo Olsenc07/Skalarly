@@ -1,5 +1,5 @@
 node_modules
-.env
+*.env
 .DS_Store
 dist/
 *.log
@@ -8,3 +8,4 @@ coverage/
 tmp/
 canada_advanced_schools.json
 canada_basic_schools.json
+README.md

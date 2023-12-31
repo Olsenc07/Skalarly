@@ -21,22 +21,22 @@
     </mat-card-header>
     <mat-divider></mat-divider>
       <mat-card-content>
-<app-reusable-dropdown [label]="'Country'" [List]="institutionInfoService.countries()" icon="flag_circle"
+<app-reusable-inputs [label]="'Country'" [List]="institutionInfoService.countries()" icon="flag_circle"
 (selectedChange)="updateCountrySelection($event)">
-</app-reusable-dropdown>
+</app-reusable-inputs >
 <!-- if province-state needs to be chosen -->
 @if(instituitionForm.get('country')?.value) {
-<app-reusable-dropdown [label]="'Region of the country'" [List]="institutionInfoService.regions()" icon="explore"
+<app-reusable-inputs  [label]="'Region of the country'" [List]="institutionInfoService.regions()" icon="explore"
 (selectedChange)="regionSelection($event)" >
-</app-reusable-dropdown>
+</app-reusable-inputs >
 @if(instituitionForm.get('region')?.value){
-  <app-reusable-dropdown [label]="'What type of school?'" [List]="institutionInfoService.typesOfInstitutions()" icon="things_to_do"
+  <app-reusable-inputs [label]="'What type of school?'" [List]="institutionInfoService.typesOfInstitutions()" icon="things_to_do"
   (selectedChange)="typeInstituition($event)">
-  </app-reusable-dropdown>
+  </app-reusable-inputs >
 @if(instituitionForm.get('type')?.value){
-  <app-reusable-dropdown [label]="'Where do you attend school?'" [List]="institutionInfoService.institutions()" icon="things_to_do"
+  <app-reusable-inputs [label]="'Where do you attend school?'" [List]="institutionInfoService.institutions()" icon="things_to_do"
   (selectedChange)="chosenInstituition($event)">
-  </app-reusable-dropdown>
+  </app-reusable-inputs >
   }  
 }
 }
@@ -73,9 +73,9 @@
 ></app-reusable-inputs>
   }
   @if(signUpForm.get('email')?.valid){ 
-  <app-reusable-input-password class="input-list-inputs" [control]="passwordControl" label="Password" placeholder="Password" 
+  <app-reusable-inputs class="input-list-inputs" [controlType]="'password'" label="Password" placeholder="Password" 
   icon="lock"
-  (controlValueChanged)="handleValueChange('password', $event)"></app-reusable-input-password>
+  (valueChange)="onValueChange($event)"></app-reusable-inputs>
    } 
   <div class="center">
   <button mat-raised-button type="submit" [disabled]="signUpForm.invalid" initial>
@@ -144,8 +144,8 @@
     <div class="input-list">
     <mat-divider></mat-divider>
     <h3>Connect other networks</h3>
-    <app-inputs-dynamic [inputsArray]="getArray('links')" placeholder="Social Link" 
-    [controlType]="'url'"></app-inputs-dynamic>
+    <app-reusable-inputs [inputsArray]="getArray('links')" label="Social Link" [dynamic]="true"
+    [controlType]="'url'"></app-reusable-inputs>
   </div>
   </div>
  </mat-card-content>
@@ -169,16 +169,16 @@
           <mat-divider></mat-divider>
           <mat-card-content>
             <div class="two-by-two input-list-first">
-      <app-inputs-dynamic [inputsArray]="getArray('major')" placeholder="Major" icon="school"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('minor')" placeholder="Minor" icon="book"></app-inputs-dynamic>
+      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('major')" label="Major" icon="school"></app-reusable-inputs>
+      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('minor')" label="Minor" icon="book"></app-reusable-inputs>
     </div>
     <div class="two-by-two">
-      <app-inputs-dynamic [inputsArray]="getArray('sport')" placeholder="Sport" icon="sports"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('club')" placeholder="Club" icon="group"></app-inputs-dynamic>
+      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('sport')" label="Sport" icon="sports"></app-reusable-inputs>
+      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('club')" label="Club" icon="group"></app-reusable-inputs>
       </div>
       <div class="two-by-two">
-      <app-inputs-dynamic [inputsArray]="getArray('coursesCompleted')" placeholder="Completed Course" icon="verified"></app-inputs-dynamic>
-      <app-inputs-dynamic [inputsArray]="getArray('coursesPursing')" placeholder="Pursuing Course" icon="add_task"></app-inputs-dynamic>
+      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('coursesCompleted')" label="Completed Course" icon="verified"></app-reusable-inputs>
+      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('coursesPursing')" label="Pursuing Course" icon="add_task"></app-reusable-inputs>
       </div>
       <!-- <input accoldates, certificates, publishings,... /> -->
       </mat-card-content>

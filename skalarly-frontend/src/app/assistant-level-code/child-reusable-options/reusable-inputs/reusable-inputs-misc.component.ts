@@ -1,0 +1,23 @@
+export const SocialMediaOptions = [
+    { name: '', placeholder: '', icon: '' },
+    { name: 'LinkedIn', placeholder: 'LinkedIn URL', icon: 'linkedin' },
+    { name: 'Twitter', placeholder: 'Twitter URL', icon: 'twitter' },
+    { name: 'Instagram', placeholder: 'Instagram URL', icon: 'instagram' },
+    { name: 'Facebook', placeholder: 'Facebook URL', icon: 'facebook' },
+    { name: 'YouTube', placeholder: 'YouTube URL', icon: 'youtube' },
+    { name: 'Pinterest', placeholder: 'Pinterest URL', icon: 'pinterest' },
+    { name: 'Snapchat', placeholder: 'Snapchat URL', icon: 'snapchat' },
+    { name: 'TikTok', placeholder: 'TikTok URL', icon: 'tiktok' },
+    { name: 'Reddit', placeholder: 'Reddit URL', icon: 'reddit' },
+    { name: 'Tumblr', placeholder: 'Tumblr URL', icon: 'tumblr' },
+    { name: 'Flickr', placeholder: 'Flickr URL', icon: 'flickr' },
+    { name: 'Spotify', placeholder: 'Spotify URL', icon: 'spotify' },
+    { name: 'GitHub', placeholder: 'GitHub URL', icon: 'github' },
+    { name: 'Vimeo', placeholder: 'Vimeo URL', icon: 'vimeo' },
+    { name: 'Dribbble', placeholder: 'Dribbble URL', icon: 'dribbble' },
+    { name: 'Behance', placeholder: 'Behance URL', icon: 'behance' },
+    { name: 'Medium', placeholder: 'Medium URL', icon: 'medium' },
+    { name: 'SoundCloud', placeholder: 'SoundCloud URL', icon: 'soundcloud' },
+    { name: 'Goodreads', placeholder: 'Goodreads URL', icon: 'goodreads' },
+    { name: 'Skype', placeholder: 'Skype URL', icon: 'skype' }
+];

@@ -9,15 +9,10 @@
         <input matInput type="search" [formControl]="searchSkalarForm" placeholder="Search Fellow Skalars">
       }
         </span>
-     
-    <!-- skalar found -->
-    <!-- cache max first 12 accounts clicked on 
-    can display these first on interaction with the input bar before typing -->
-@if((skalars$ | async); as skalars;){
-  @for(skalar of skalars; let i = $index; track skalar){
+     <!-- found -->
+  @for(skalar of (skalars$ | async); let i = $index; track skalar){
     <span class="results">
         <app-skalar-card [skalarInfo]="skalar" [searchSkalar]="searchSkalarForm" [@slideInOut]> </app-skalar-card>
     </span>
   }
-}
 </div>

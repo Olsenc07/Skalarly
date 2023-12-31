@@ -13,20 +13,17 @@ import type {
 import {
   Subject,
   combineLatest,
-  takeUntil
+  takeUntil,
+  tap, map 
 } from 'rxjs';
-import {tap, map } from 'rxjs/operators';
+
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
 import { ErrorPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/error.pipe';
 
 import { emailUsernameValidator } from '../../assistant-level-code/custom-architecture-aids/validators/email-username.validator';
 import { InstitutionInfoService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/institution-info.service';
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
-
-import { ReusableDropDownComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-dropdown/reusable-dropdowncomponent';
-import { ReusableInputPasswordComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-input-password/reusable-input-password.component';
-import { ReusableInputsComponent } from '../../assistant-level-code/child-reusable-options/reusable-input-types/reusable-inputs/reusable-inputs.component';
-import { ReusableInputsDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-input-types/reusable-inputs-dynamic/reusable-inputs-dynamic.component';
+import { ReusableInputsComponent } from '../../assistant-level-code/child-reusable-options/reusable-inputs/reusable-inputs.component';
 import { SignUpFormStateService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
 
@@ -53,10 +50,7 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrls: ['./signup.component.scss'],
   imports: [
     SkeletonLoaderSignupComponent,
-    ReusableDropDownComponent,
     ReusableInputsComponent,
-    ReusableInputPasswordComponent,
-    ReusableInputsDynamicComponent,
     ErrorPipe,
     MatDividerModule,
     MatButtonModule,
