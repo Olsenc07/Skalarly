@@ -4,7 +4,6 @@ import { Observable, concat, debounceTime, distinctUntilChanged, of } from 'rxjs
 import {  map, startWith, switchMap } from 'rxjs/operators';
 import { AuthorizeService } from '../../../assistant-level-code/custom-architecture-aids/services/authorize.service';
 import { GlowBorderDirective } from '../../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
-import { LetterByLetterComponent } from '../../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { Router } from '@angular/router';
 import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { reusableLogicAnimations } from './../imports/animation-logic-imports';
@@ -34,16 +33,12 @@ import type { EmailInterface, PasswordInterface } from 'src/app/assistant-level-
     MatInputModule,
     MatCheckboxModule,
     NgClass,
-    LetterByLetterComponent,
     GlowBorderDirective
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginLogicComponent implements OnInit {
   @Input() alwaysVertical?: boolean = false;
-  // animated
-  stayLogIn: string = 'Stay logged In';
-  forgot: string = 'Forgot Password?';
   isGlowing: boolean = false;
   progressState: 'default' | 'loading' | 'declined' | 'complete' = 'default';
   // email

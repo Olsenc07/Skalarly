@@ -31,12 +31,7 @@
   <div class="login-options">
     <!-- Keep skalar logged in -->
     <mat-checkbox [checked]="stayLoggedIn" color="primary" (change)="stayIn()" >
-     <app-letter-by-letter [customClass]="'small'"
-     [message]="stayLogIn"
-     [autoGenerate]="false"
-     [lastLetterAnimation]="false"
-     [welcomeSouthPaw]="false">
-     </app-letter-by-letter>
+      Stay logged In
     </mat-checkbox>
     </div>
     </div>
@@ -68,9 +63,7 @@ matTooltip="{{ visiblePassword ? 'Hide Password' : 'Show Password' }}" >
 <!-- forgot password -->
 <div forgot>
 <button type="button" (click)="navigate()" forgot>
-  <app-letter-by-letter
-  [customClass]="'small'" [message]="forgot"
-  [lastLetterAnimation]="false" [autoGenerate]="false" [welcomeSouthPaw]="false"></app-letter-by-letter>
+  Forgot Password?
 </button>
 </div>
 </div>
