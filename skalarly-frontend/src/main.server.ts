@@ -16,7 +16,7 @@ class AppServerModule {}
 
 const app = express();
 const PORT = process.env['PORT'] || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist/browser');
+const DIST_FOLDER = join(process.cwd(), 'dist/skalarly-frontend');
 const templatePath = join(DIST_FOLDER, 'index.html');
 
 app.set('view engine', 'html');
