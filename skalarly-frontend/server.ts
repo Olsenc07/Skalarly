@@ -1,57 +1,43 @@
-import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr';
 import * as express from 'express';
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
-import { AppServerModule } from './src/main.server';
+import { CommonEngine } from '@angular/ssr';
+import { APP_BASE_HREF } from '@angular/common';
+import { Request, Response } from 'express';
+import { AppServerModule } from './../skalarly-frontend/src/app/app.server.module'; // Adjust the path as needed
 
-export function app(): express.Express {
-  const server = express();
-  const distFolder: string = join(process.cwd(), 'dist/skalarly-frontend');
-  const indexHtml: string = existsSync(join(distFolder, 'index.original.html'))
-    ? join(distFolder, 'index.original.html')
-    : join(distFolder, 'index.html');
+const app = express();
+const PORT = process.env['PORT'] || 4000;
 
-  const commonEngine: CommonEngine = new CommonEngine();
+export async function renderAngularUniversal(req: Request, res: Response) {
+  const commonEngine = new CommonEngine();
+  const options = {
+    req,
+    documentFilePath: '',
+    publicPath: 'dist/browser',
+    providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+  };
 
-  server.set('view engine', 'html');
-  server.set('views', distFolder);
-
-  server.get('*.*', express.static(distFolder, {
-    maxAge: '1y'
-  }));
-
-  server.get('*', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
-
-    commonEngine
-      .render({
-        bootstrap: AppServerModule,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: distFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-      })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
-  });
-
-  return server;
+  try {
+    const html = await commonEngine.render({
+      bootstrap: AppServerModule,
+      documentFilePath: options.documentFilePath,
+      url: req.url,
+      publicPath: 'dist/browser', 
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+    });
+    res.send(html);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 }
 
-function run(): void {
-  const port = process.env['PORT'] || 4000;
+// Set the view engine and directory for views
+app.set('view engine', 'html');
+app.set('views', 'dist/browser'); 
 
-  // Start up the Node server
-  const server = app();
-  server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
-}
+app.use(express.static('dist/browser'));
+app.get('*', renderAngularUniversal);
 
-declare const __non_webpack_require__: NodeRequire;
-const mainModule = __non_webpack_require__.main;
-const moduleFilename = mainModule && mainModule.filename || '';
-if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
-  run();
-}
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Node Express server listening on http://localhost:${PORT}`);
+});

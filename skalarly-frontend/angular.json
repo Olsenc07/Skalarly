@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-skalarly": {
+    "skalarly-fs": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -41,7 +41,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "900kb"
+                  "maximumError": "800kb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-skalarly:build:production"
+              "buildTarget": "skalarly-fs:build:production"
             },
             "development": {
-              "buildTarget": "angular-skalarly:build:development"
+              "buildTarget": "skalarly-fs:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angular-skalarly:build"
+            "buildTarget": "skalarly-fs:build"
           }
         },
         "test": {
@@ -144,12 +144,12 @@
           "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "angular-skalarly:build:development",
-              "serverTarget": "angular-skalarly:server:development"
+              "browserTarget": "skalarly-fs:build:development",
+              "serverTarget": "skalarly-fs:server:development"
             },
             "production": {
-              "browserTarget": "angular-skalarly:build:production",
-              "serverTarget": "angular-skalarly:server:production"
+              "browserTarget": "skalarly-fs:build:production",
+              "serverTarget": "skalarly-fs:server:production"
             }
           },
           "defaultConfiguration": "production"

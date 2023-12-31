@@ -1,4 +1,4 @@
-import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser';
+import { bootstrapApplication, provideClientHydration, withHttpTransferCacheOptions } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
@@ -29,7 +29,9 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       HttpClientModule,
       BrowserAnimationsModule
-    ), provideClientHydration()
+    ),    provideClientHydration(withHttpTransferCacheOptions({
+      includePostRequests: true
+    }))
   ]
 })
   .then((started) => {

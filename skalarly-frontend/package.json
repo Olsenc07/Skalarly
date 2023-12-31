@@ -16,7 +16,8 @@
     "build:prod": "ng build --configuration=production",
     "start:prod": "node dist/skalarly-frontend/main.js",  
     "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run",
-    "build:ssr": "ng build --configuration=production && ng run angular-skalarly:server:production"
+    "build:ssr": "ng build --configuration=production && ng run skalarly-fs:server:production",
+    "test:ssr": "node dist/skalarly-frontend/main.js"
   },
   "private": true,
   "dependencies": {
