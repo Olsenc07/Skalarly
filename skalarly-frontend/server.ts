@@ -2,42 +2,39 @@ import * as express from 'express';
 import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
 import { Request, Response } from 'express';
-import { AppServerModule } from './../skalarly-frontend/src/app/app.server.module';
+import { join } from 'path';
+import { AppComponent } from './src/app/app.component';
 
 const app = express();
 const PORT = process.env['PORT'] || 4000;
+const DIST_FOLDER = join(process.cwd(), 'dist/browser');
 
-export async function renderAngularUniversal(req: Request, res: Response) {
-  const commonEngine = new CommonEngine();
-  const options = {
-    req,
-    documentFilePath: '',
-    publicPath: 'dist/browser',
-    providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
-  };
+app.set('view engine', 'html');
+app.set('views', DIST_FOLDER);
+app.use(express.static(DIST_FOLDER));
 
+app.get('*', async (req: Request, res: Response) => {
   try {
-    const html = await commonEngine.render({
-      bootstrap: AppServerModule,
-      documentFilePath: options.documentFilePath,
+    const commonEngine = new CommonEngine();
+    const options = {
+      documentFilePath: join(DIST_FOLDER, 'index.html'),
       url: req.url,
-      publicPath: 'dist/browser', 
-      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
+      publicPath: DIST_FOLDER,
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }]
+    };
+
+    const html = await commonEngine.render({
+      bootstrap: AppComponent,
+      ...options
     });
+
     res.send(html);
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    res.status(500).send('Server error');
   }
-}
+});
 
-// Set the view engine and directory for views
-app.set('view engine', 'html');
-app.set('views', 'dist/browser'); 
-
-app.use(express.static('dist/browser'));
-app.get('*', renderAngularUniversal);
-
-// Start the server
 app.listen(PORT, () => {
   console.log(`Node Express server listening on http://localhost:${PORT}`);
 });
