@@ -16,7 +16,7 @@ import {
   takeUntil,
   tap, map 
 } from 'rxjs';
-
+import { ReusableInputDynamicComponent } from '../../assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-dynamic/reusable-input-dynamic.component';
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
 import { ErrorPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/error.pipe';
 
@@ -31,8 +31,8 @@ import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {MatDividerModule} from '@angular/material/divider'
-import {  ReactiveFormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider'
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule} from '@angular/material/icon';
@@ -51,6 +51,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     SkeletonLoaderSignupComponent,
     ReusableInputsComponent,
+    ReusableInputDynamicComponent,
     ErrorPipe,
     MatDividerModule,
     MatButtonModule,

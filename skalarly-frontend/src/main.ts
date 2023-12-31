@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { provideRouter, withViewTransitions } from '@angular/router';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom} from '@angular/core';
 
 import { AppComponent } from './app/app.component';
 import { AuthInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/auth-interceptor';
@@ -25,7 +25,8 @@ bootstrapApplication(AppComponent, {
     provideRouter(
       routes,
       withViewTransitions()
-    ), provideAnimationsAsync(),
+    ), 
+    provideAnimationsAsync(),
     importProvidersFrom(
       HttpClientModule,
       BrowserAnimationsModule

@@ -1,32 +1,25 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { Subject, debounceTime, filter, distinctUntilChanged, takeUntil, Observable, of } from 'rxjs';
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { Subject, debounceTime, filter, distinctUntilChanged, takeUntil, Observable} from 'rxjs';
+import { FormControl,  ReactiveFormsModule } from '@angular/forms';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PassWordInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/password-interface';
-import {MatAutocomplete, MatAutocompleteModule} from '@angular/material/autocomplete';
-import { CommonModule } from '@angular/common';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-
-import { ReactiveFormsModule } from '@angular/forms';
-import { SocialMediaOptions } from './reusable-inputs-misc.component';
-import { combineLatest, } from 'rxjs';
-import {  map, startWith } from 'rxjs/operators';
 import { BoldPipe } from '../../custom-architecture-aids/pipes/bold.pipe';
 import { AlphabeticalPipe } from '../../custom-architecture-aids/pipes/alphabetical.pipe';
-type FormControlOrGroup = FormControl<string | null> | FormGroup;
-interface media {
-  name: string; placeholder: string; icon: string; 
-}
+import { TitleCasePipe, AsyncPipe } from '@angular/common';
+
 @Component({
   selector: 'app-reusable-inputs',
   standalone: true,
   imports: [
     AlphabeticalPipe,
+    AsyncPipe,
     BoldPipe,
-    CommonModule,
+    TitleCasePipe,
     MatButtonModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
@@ -38,13 +31,12 @@ interface media {
   templateUrl: './reusable-inputs.component.html',
   styleUrl: './reusable-inputs.component.scss'
 })
-export class ReusableInputsComponent implements OnChanges, OnDestroy {
-  input: FormControl<string | null> = new FormControl<string | null>('');
+export class ReusableInputsComponent implements OnDestroy {
   typedFilter: FormControl<string | null> = new FormControl<string | null>('');
-  @Input() inputsArray: FormArray<FormControlOrGroup> = new FormArray<FormControlOrGroup>([]); 
+  input: FormControl<string | null> = new FormControl<string | null>('');
   @Input() default: boolean = true;
-  @Input() dynamic: boolean = false;
-  @Input() controlType: 'text' | 'password' | 'url' = 'text';
+  @Input() List: string[] = [''];
+  @Input() controlType: 'text' | 'password' = 'text';
   visiblePassword: boolean = false;
   @Input() title?: string;
   @Input() label?: string;
@@ -53,17 +45,16 @@ export class ReusableInputsComponent implements OnChanges, OnDestroy {
   @Input() placeholder!: string;
   @Input() icon?: string;
   @Input() isValid: boolean = false;
-  @Input() List: string[] = [''];
-  filteredList$: Observable<string[]> = 
-  new Observable<string[]>; 
+
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
-  newGroup: FormGroup | undefined;
-  selectedOption: media| undefined;
-  socialMediaOptions: media[] = []
+
   @Output() selectedChange: EventEmitter<string> =
   new EventEmitter<string>();
   @Output() valueChange: EventEmitter<string> = new EventEmitter<string>(); 
+  
   private unsubscribe$: Subject<void> = new Subject<void>();
+  filteredList$: Observable<string[]> = 
+  new Observable<string[]>; 
 
   constructor() {
     this.input.valueChanges.pipe(
@@ -75,90 +66,17 @@ export class ReusableInputsComponent implements OnChanges, OnDestroy {
       this.valueChange.emit(value);
     });
   }
-ngOnChanges(changes: SimpleChanges): void {
-  if (changes['List']) {
-    this.setupFilteredList();
-  }
-    if (this.dynamic) {
-      this.socialMediaOptions = SocialMediaOptions;
-      this.selectedOption = SocialMediaOptions.find(
-        option => option.name === this.selectedSocialMedia?.value
-      );
-      if (this.selectedOption) {
-        this.newGroup = new FormGroup({
-          control: new FormControl<string | null>(null),
-          socialMedia: new FormControl(this.selectedOption)
-        });
-      }
-    }
-  }
-  private setupFilteredList(): void {
-    const list$ = of(this.List);
-    this.filteredList$ = combineLatest([
-      this.typedFilter.valueChanges.pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        startWith('')
-      ),
-      list$
-    ]).pipe(
-      map(([typed, institute]) =>
-        institute
-          .filter((category: string) => category && category.toLowerCase().includes((typed || '').toLowerCase()))
-          .sort((a, b) => a.localeCompare(b))
-      )
-    );
-  }
+
   newSelection(entry: string): void {
     this.selectedChange.emit(entry);
   }
-  controlOrGroupText: FormControl<string | null> = new FormControl<string | null>('');
 
-  private initializeInputArray(): void {
-    if (this.controlType === 'text') {
-      this.inputsArray.push(new FormControl<string>(''));
-    } else if (this.controlType === 'url') {
-      if (this.newGroup) {
-        this.inputsArray.push(this.newGroup);
-      }
-    }
-  }
-
-  selectedSocialMedia = new FormControl('');
-
-  addInput(): void {
-    if (this.controlType === 'text') {
-      this.inputsArray.push(new FormControl<string>(''));
-    } else if (this.controlType === 'url') {
-      if (this.selectedOption && this.newGroup) {
-        this.inputsArray.push(this.newGroup);
-      }
-    }
-  }
-
-  removeInput(index: number): void {
-    this.inputsArray.removeAt(index);
-  }
 // password conforming
 toggleVisibility(): void {
   this.visiblePassword = !this.visiblePassword;
   this.controlType = this.visiblePassword ? 'text' : 'password';
 }
-isFormControl(controlOrGroup: FormControlOrGroup): controlOrGroup is FormControl<string | null> {
-  console.log('hey 1', controlOrGroup);
-  return controlOrGroup instanceof FormControl;
-}
 
-isFormGroup(controlOrGroup: FormControlOrGroup): controlOrGroup is FormGroup {
-  console.log('hey 2', controlOrGroup);
-
-  return controlOrGroup instanceof FormGroup;
-}
-getFormControl(control: AbstractControl): FormControl {
-  console.log('hey 3', control);
-
-  return control as FormControl;
-}
 private calculatePasswordRequirements(password: string): PassWordInterface {
   return {
     length: password.length >= 8,

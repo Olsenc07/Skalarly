@@ -21,7 +21,7 @@
     </mat-card-header>
     <mat-divider></mat-divider>
       <mat-card-content>
-<app-reusable-inputs [label]="'Country'" [List]="institutionInfoService.countries()" icon="flag_circle"
+<app-reusable-inputs [label]="'Country'" class="input-list-inputs input-list-first" [List]="institutionInfoService.countries()" icon="flag_circle"
 (selectedChange)="updateCountrySelection($event)">
 </app-reusable-inputs >
 <!-- if province-state needs to be chosen -->
@@ -36,7 +36,7 @@
 @if(instituitionForm.get('type')?.value){
   <app-reusable-inputs [label]="'Where do you attend school?'" [List]="institutionInfoService.institutions()" icon="things_to_do"
   (selectedChange)="chosenInstituition($event)">
-  </app-reusable-inputs >
+  </app-reusable-inputs>
   }  
 }
 }
@@ -144,8 +144,8 @@
     <div class="input-list">
     <mat-divider></mat-divider>
     <h3>Connect other networks</h3>
-    <app-reusable-inputs [inputsArray]="getArray('links')" label="Social Link" [dynamic]="true"
-    [controlType]="'url'"></app-reusable-inputs>
+    <app-reusable-input-dynamic [inputsArray]="getArray('links')" label="Social Link" 
+    [controlType]="'url'" icon="share"></app-reusable-input-dynamic>
   </div>
   </div>
  </mat-card-content>
@@ -169,16 +169,16 @@
           <mat-divider></mat-divider>
           <mat-card-content>
             <div class="two-by-two input-list-first">
-      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('major')" label="Major" icon="school"></app-reusable-inputs>
-      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('minor')" label="Minor" icon="book"></app-reusable-inputs>
+      <app-reusable-input-dynamic [controlType]="'text'" [inputsArray]="getArray('major')" label="Major" icon="school"></app-reusable-input-dynamic>
+      <app-reusable-input-dynamic [controlType]="'text'" [inputsArray]="getArray('minor')" label="Minor" icon="book"></app-reusable-input-dynamic>
     </div>
     <div class="two-by-two">
-      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('sport')" label="Sport" icon="sports"></app-reusable-inputs>
-      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('club')" label="Club" icon="group"></app-reusable-inputs>
+      <app-reusable-input-dynamic [controlType]="'text'" [inputsArray]="getArray('sport')" label="Sport" icon="sports"></app-reusable-input-dynamic>
+      <app-reusable-input-dynamic [controlType]="'text'" [inputsArray]="getArray('club')" label="Club" icon="group"></app-reusable-input-dynamic>
       </div>
       <div class="two-by-two">
-      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('coursesCompleted')" label="Completed Course" icon="verified"></app-reusable-inputs>
-      <app-reusable-inputs [dynamic]="true" [inputsArray]="getArray('coursesPursing')" label="Pursuing Course" icon="add_task"></app-reusable-inputs>
+      <app-reusable-input-dynamic [controlType]="'text'" [inputsArray]="getArray('coursesCompleted')" label="Completed Course" icon="verified"></app-reusable-input-dynamic>
+      <app-reusable-input-dynamic  [controlType]="'text'" [inputsArray]="getArray('coursesPursing')" label="Pursuing Course" icon="add_task"></app-reusable-input-dynamic>
       </div>
       <!-- <input accoldates, certificates, publishings,... /> -->
       </mat-card-content>

@@ -14,7 +14,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "build:prod": "ng build --configuration=production",
-    "start:prod": "node dist/server/main.js",  
+    "start:prod": "node dist/server/main.js",
     "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run",
     "build:ssr": "ng build --configuration=production && ng run skalarly-fs:server:production",
     "test:ssr": "node dist/server/main.js"
@@ -36,7 +36,8 @@
     "ngx-skeleton-loader": "^8.1.0",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "zone.js": "^0.14.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.8",
