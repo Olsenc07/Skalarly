@@ -3,7 +3,7 @@ import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
 import { Request, Response } from 'express';
 import { join } from 'path';
-import { AppComponent } from './src/app/app.component';
+import { AppComponent } from 'src/app/app.component'; 
 
 const app = express();
 const PORT = process.env['PORT'] || 4000;
@@ -24,7 +24,7 @@ app.get('*', async (req: Request, res: Response) => {
     };
 
     const html = await commonEngine.render({
-      bootstrap: AppComponent,
+      bootstrap: AppComponent, 
       ...options
     });
 

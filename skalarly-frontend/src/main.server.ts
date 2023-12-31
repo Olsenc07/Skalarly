@@ -10,28 +10,25 @@ import { APP_BASE_HREF } from '@angular/common';
   imports: [
     ServerModule
   ],
-  bootstrap: [AppComponent], // Bootstrap standalone component
+  bootstrap: [AppComponent]
 })
 class AppServerModule {}
 
 const app = express();
 const PORT = process.env['PORT'] || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist/skalarly-frontend');
-const templatePath = join(DIST_FOLDER, 'index.html');
+const DIST_FOLDER = join(process.cwd(), 'dist/browser');
 
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);
 
-app.get('*.*', express.static(DIST_FOLDER, {
-  maxAge: '1y'
-}));
+app.use(express.static(DIST_FOLDER));
 
 app.get('*', (req, res, next) => {
   const commonEngine = new CommonEngine();
   commonEngine.render({
     bootstrap: AppServerModule,
     url: req.url,
-    documentFilePath: templatePath, // Use the path, not the content
+    documentFilePath: join(DIST_FOLDER, 'index.html'),
     providers: [
       { provide: APP_BASE_HREF, useValue: req.baseUrl }
     ]

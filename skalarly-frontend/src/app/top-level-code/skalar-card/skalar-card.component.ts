@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, debounceTime, distinctUntilChanged, map  } from 'rxjs';
 import { BoldPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';

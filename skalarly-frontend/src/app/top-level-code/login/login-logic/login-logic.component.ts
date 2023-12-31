@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Observable, concat, debounceTime, distinctUntilChanged, of } from 'rxjs';
-import {  map, startWith, switchMap } from 'rxjs/operators';
+import { Observable, concat, debounceTime, distinctUntilChanged, of, map, startWith, switchMap } from 'rxjs';
 import { AuthorizeService } from '../../../assistant-level-code/custom-architecture-aids/services/authorize.service';
 import { GlowBorderDirective } from '../../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
 import { Router } from '@angular/router';
