@@ -2,7 +2,7 @@ import * as express from 'express';
 import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
 import { Request, Response } from 'express';
-import { AppServerModule } from './../skalarly-frontend/src/app/app.server.module'; // Adjust the path as needed
+import { AppServerModule } from './../skalarly-frontend/src/app/app.server.module';
 
 const app = express();
 const PORT = process.env['PORT'] || 4000;
