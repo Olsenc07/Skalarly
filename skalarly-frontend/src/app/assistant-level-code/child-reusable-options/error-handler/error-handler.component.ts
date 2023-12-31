@@ -3,15 +3,15 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ErrorHandlerParentComponent } from '../error-handler-parent/error-handler-parent.component';
 import { LoginLogicComponent } from 'src/app/top-level-code/login/login-logic/login-logic.component';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDividerModule } from '@angular/material/divider';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
+
 @Component({
   standalone: true,
   selector: 'app-error-handler',
   templateUrl: './error-handler.component.html',
   styleUrl: './error-handler.component.scss',
-  imports: [MatButtonModule, MatDividerModule, LoginLogicComponent, NgIf]
+  imports: [MatButtonModule, LoginLogicComponent, NgIf]
 })
 export class ErrorHandlerComponent {
   constructor(
