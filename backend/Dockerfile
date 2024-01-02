@@ -1,28 +1,27 @@
 FROM node:20.10.0 as build
 
+# Set working directory
 WORKDIR /usr/src/app
 
 COPY package.json package-lock.json* ./
 
-#Build Angular App
+# install dependencies
 RUN npm install
 
+# Copy rest of app code
 COPY . .
-
-# Install serve or a similar package for serving static files
-RUN npm run build
 
 FROM node:20.10.0
 
 WORKDIR /usr/src/app
 
-RUN npm install -g serve
+RUN npm install
 
-COPY --from=build /usr/src/app/dist/skalarly-frontend /usr/src/app/dist
+COPY . .
 
 EXPOSE 4200
 
 ENV NODE_ENV production
 
-# Start the server
-CMD ["serve", "-s", "dist", "-p", "4200"]
+# Start the app
+CMD ["node", "server.js"]
