@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { Subject, debounceTime, filter, distinctUntilChanged, takeUntil, Observable} from 'rxjs';
 import { FormControl,  ReactiveFormsModule } from '@angular/forms';
+import { TitleCasePipe, AsyncPipe } from '@angular/common';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PassWordInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/password-interface';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
 import { BoldPipe } from '../../custom-architecture-aids/pipes/bold.pipe';
 import { AlphabeticalPipe } from '../../custom-architecture-aids/pipes/alphabetical.pipe';
-import { TitleCasePipe, AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-reusable-inputs',
@@ -61,7 +61,7 @@ export class ReusableInputsComponent implements OnDestroy {
       debounceTime(300),
       filter((value): value is string => value !== null && value.trim() !== ''), // Type guard to ensure value is string
       distinctUntilChanged(),
-      takeUntil(this.unsubscribe$) // Take until this.unsubscribe$ emits
+      takeUntil(this.unsubscribe$) 
     ).subscribe(value => {
       this.valueChange.emit(value);
     });

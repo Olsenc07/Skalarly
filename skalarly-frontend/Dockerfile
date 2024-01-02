@@ -17,7 +17,7 @@ FROM node:20.10.0
 WORKDIR /app
 
 # Copy the build output
-COPY --from=build-step /app/dist/skalarly-frontend /app/dist/skalarly-frontend
+COPY --from=build-step /app/dist /app/dist
 
 # Copy production node_modules necessary for SSR
 COPY --from=build-step /app/node_modules /app/node_modules
@@ -29,4 +29,4 @@ ENV PORT=3000
 EXPOSE $PORT
 
 # Start the server with SSR
-CMD ["node", "dist/skalarly-frontend/main.js"] 
+CMD ["node", "dist/server/main.js"]
