@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json* ./
 
 #Build Angular App
-RUN npm run install
+RUN npm install
 
 COPY . .
 
