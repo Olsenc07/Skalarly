@@ -1,7 +1,7 @@
 FROM node:20.10.0 as build
 
 # Set working directory
-WORKDIR /skalarly-frontend/src/app
+WORKDIR /usr/src/app
 
 COPY package.json package-lock.json* ./
 
@@ -13,11 +13,12 @@ COPY . .
 
 FROM node:20.10.0
 
-WORKDIR /skalarly-frontend/src/app
+WORKDIR /usr/src/app
 
 RUN npm install
 
-COPY . .
+# Copy the built app and node_modules from the previous stage
+COPY --from=build /usr/src/app .
 
 EXPOSE 3000
 
