@@ -15,8 +15,6 @@ FROM node:20.10.0
 
 WORKDIR /usr/src/app
 
-RUN npm install
-
 # Copy the built app and node_modules from the previous stage
 COPY --from=build /usr/src/app .
 
