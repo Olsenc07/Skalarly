@@ -4,19 +4,20 @@ WORKDIR /usr/src/app
 
 COPY package.json package-lock.json* ./
 
-RUN npm install
+#Build Angular App
+RUN npm run install
 
 COPY . .
 
-# Serve the app using a lightweight Node.js server 
+# Install serve or a similar package for serving static files
+RUN npm run build
+
 FROM node:20.10.0
 
 WORKDIR /usr/src/app
 
-# Install serve or a similar package for serving static files
 RUN npm install -g serve
 
-# Copy build artifacts from the previous stage
 COPY --from=build /usr/src/app/dist/skalarly-frontend /usr/src/app/dist
 
 EXPOSE 4200
