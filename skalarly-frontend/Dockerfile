@@ -23,7 +23,7 @@ COPY --from=build-step /app/dist /app/dist
 COPY --from=build-step /app/node_modules /app/node_modules
 
 # Heroku sets port dynamically via PORT environment variable
-ENV PORT=3000
+ENV PORT=4200
 
 # Expose the port the app runs on
 EXPOSE $PORT

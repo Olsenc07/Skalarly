@@ -1,7 +1,7 @@
 FROM node:20.10.0 as build
 
 # Set working directory
-WORKDIR /usr/src/app
+WORKDIR /skalarly-frontend/src/app
 
 COPY package.json package-lock.json* ./
 
@@ -19,7 +19,7 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 4200
+EXPOSE 3000
 
 ENV NODE_ENV production
 
