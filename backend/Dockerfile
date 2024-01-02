@@ -13,7 +13,7 @@ COPY . .
 
 FROM node:20.10.0
 
-WORKDIR /usr/src/app
+WORKDIR /skalarly-frontend/src/app
 
 RUN npm install
 
