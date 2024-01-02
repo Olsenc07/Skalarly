@@ -8,9 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
-
-# Serve the app using a lightweight Node.js server (like serve)
+# Serve the app using a lightweight Node.js server 
 FROM node:20.10.0
 
 WORKDIR /usr/src/app
