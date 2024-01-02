@@ -7,6 +7,14 @@ if (process.env.NODE_ENV !== 'production') {
 const portEnv = process.env.PORT;
 const db = process.env.mongodb;
 import express from 'express';
+import rateLimit from 'express-rate-limit';
+// Define rate limit rule
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: 'Too many requests from this IP, please try again after 15 minutes'
+});
+
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -62,8 +70,8 @@ app.use((req, res, next) => {
 // API routes
 app.use("/api/authorize", authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
-app.use("/api/skalars", skalarsRoute);
-app.use("/api/canada", canadianRoute);
+app.use("/api/skalars", apiLimiter, skalarsRoute);
+app.use("/api/canada",apiLimiter, canadianRoute);
 
 // Production
 // Serve Angular Application - this assumes 'ng build' outputs to 'dist/skalarly-frontend'
