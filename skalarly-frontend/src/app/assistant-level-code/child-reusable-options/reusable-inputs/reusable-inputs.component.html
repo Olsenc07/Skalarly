@@ -15,14 +15,12 @@
 @if(default){
   @switch(controlType){
   @case("text"){
-    <input type="text" matInput [placeholder]="placeholder" [formControl]="input">
+    <input type="text" matInput [matAutocomplete]="auto"
+     [placeholder]="placeholder" [formControl]="input">
     <mat-autocomplete #auto="matAutocomplete" >
-      @for(list  of (filteredList$ | async); let i = $index; track list){
-        <mat-option (click)="newSelection(list)"  
-        [value]="list">
-            <span 
-            [innerHTML]="list | titlecase | bold: typedFilter.value! ">
-            </span>
+      @for(list of institutionInfoService.symbol(); let i = $index; track list){
+        <mat-option [value]="list">
+            {{list}}
         </mat-option>
     }
     </mat-autocomplete>

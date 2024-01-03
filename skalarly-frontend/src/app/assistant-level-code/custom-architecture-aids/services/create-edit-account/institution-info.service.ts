@@ -1,4 +1,4 @@
-import { Injectable, Signal, signal } from '@angular/core';
+import { Injectable, Signal, WritableSignal, computed, signal } from '@angular/core';
 import { ReplaySubject, take } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import type { BasicProvinceInterface, ProvinceSchoolTypes, basicinfo } from '../../interfaces/basic-province-interface';
@@ -13,31 +13,67 @@ export class InstitutionInfoService {
   private apiSource: basicinfo | null = null;
   private cacheSchoolData: Map<string, ReplaySubject<ProvinceSchoolTypes>> = new Map();
   private cacheSchoolNames: Map<string, ReplaySubject<string[]>> = new Map();
-  private countriesState = signal<string[]>(['']);
-  private regionsState = signal<string[]>([]);
-  private typesOfInstitution = signal<string[]>([]);
-  private institutionName = signal<string[]>([]);
+  private countriesState = signal<string[]>(['Canada', 'United States']);
+  private regionsState = signal<string[]>(['']);
+  private typesOfInstitution = signal<string[]>(['']);
+  private institutionName = signal<string[]>(['']);
+  private currentType = signal<string>('countriesState');
 
-  // defalt value canada or usa
-  get countries(): Signal<string[]> {
-    return this.countriesState.asReadonly();
+  private choices = signal({
+    countriesState: this.countriesState,
+    regionsState: this.regionsState,
+    institutionName: this.institutionName,
+    typesOfInstitution: this.typesOfInstitution,
+  });
+
+  // Define a computed property
+  symbol = computed<string[]>(() => {
+    const selectedType = this.currentType(); // Access the current type
+    const choice = this.choices(); // Access the combined signal values
+
+    switch (selectedType) {
+      case 'countriesState':
+        return choice.countriesState();
+      case 'regionsState':
+        return choice.regionsState();
+      case 'institutionName':
+        return choice.institutionName();
+      case 'typesOfInstitution':
+        return choice.typesOfInstitution();
+      default:
+        return [];
+    }
+
+  });
+
+  setCurrentType(type: string) {
+    console.log('primarily', type);
+    this.currentType.set(type);
   }
-  get regions(): Signal<string[]> {
-    return this.regionsState.asReadonly();
-  }
-  get typesOfInstitutions(): Signal<string[]> {
-    return this.typesOfInstitution.asReadonly();
-  }
-  get institutions(): Signal<string[]> {
-    return this.institutionName.asReadonly();
-  }
+
   constructor(private http: HttpClient) {}
+
+  getSignalData(type: string): Signal<string[]> {
+    switch (type) {
+      case 'countries':
+        return this.countriesState.asReadonly();
+      case 'regions':
+        return this.regionsState.asReadonly();
+      case 'typesOfInstitutions':
+        return this.typesOfInstitution.asReadonly();
+      case 'institutions':
+        return this.institutionName.asReadonly();
+      default:
+        throw new Error(`Unknown type: ${type}`);
+    }
+  }
 
   getCountries(): void {
     // Directly set the array of countries
     const countryNames = ['Canada', 'United States'];
     this.countriesState.set(countryNames);
   }
+  
   // If canada use db, or else use api 
   getStateProvinces(country: string): void {
     if (country === 'Canada') {
@@ -52,6 +88,7 @@ export class InstitutionInfoService {
             }, []);
             
             this.regionsState.set(provinceNames);
+            this.currentType.set('regionsState');
           },
           error: (error) => console.error('Error fetching provinces:', error)
         });
@@ -73,6 +110,7 @@ export class InstitutionInfoService {
         'Wisconsin', 'Wyoming'
     ];
       this.regionsState.set(mockUSStates);
+      this.currentType.set('regionsState');
     }
   }
   
@@ -86,12 +124,14 @@ export class InstitutionInfoService {
           next: (schoolData) => {
             this.cacheSchoolData.get(cacheKey)?.next(schoolData);
             this.typesOfInstitution.set(this.extractSchoolTypes());
+            this.currentType.set('typesOfInstitution');
           },
           error: (error) => console.error('Error fetching school data:', error)
         });
     } else {
       this.cacheSchoolData.get(cacheKey)?.subscribe(schoolData => {
         this.typesOfInstitution.set(this.extractSchoolTypes());
+        this.currentType.set('typesOfInstitution');
       });
     }
   }
@@ -111,12 +151,14 @@ export class InstitutionInfoService {
             const schoolNames = this.extractSchoolNames(schoolData, schoolType);
             this.cacheSchoolNames.get(cacheKey)?.next(schoolNames);
             this.institutionName.set(schoolNames);
+            this.currentType.set('institutionName');
           },
           error: (error) => console.error('Error fetching school data:', error)
         });
     } else {
       this.cacheSchoolNames.get(cacheKey)?.subscribe(schoolNames => {
         this.institutionName.set(schoolNames);
+        this.currentType.set('institutionName');
       });
     }
   }
@@ -151,7 +193,5 @@ export class InstitutionInfoService {
     return []; 
   }
   
-  
-
   
 }

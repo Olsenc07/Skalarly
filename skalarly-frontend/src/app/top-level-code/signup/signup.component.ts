@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import {
   FormArray,
   FormControl,
+  ReactiveFormsModule,
   FormGroup,
   ValidationErrors,
   Validators
@@ -32,7 +33,6 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider'
-import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule} from '@angular/material/icon';
@@ -47,7 +47,7 @@ import { HttpClientModule } from '@angular/common/http';
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+  styleUrl: './signup.component.scss',
   imports: [
     SkeletonLoaderSignupComponent,
     ReusableInputsComponent,
@@ -81,9 +81,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   // second major stage
   userInteracted: boolean = false;
   visiblePassword: boolean = false;
- 
   domain: string[] | undefined = undefined;
-
   // skalar info form
   infoForm: FormGroup = new FormGroup({
     club: new FormControl<SkalarInfoInterface['club']>(null, [
@@ -201,7 +199,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.titleService.setTitle('Signup - Skalarly');
     // intitial call
-    this.institutionInfoService.getCountries();
     combineLatest([
       this.signUpForm.get('username')!.valueChanges,
       this.signUpForm.get('email')!.valueChanges,
@@ -217,7 +214,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       // eslint-disable-next-line rxjs-angular/prefer-async-pipe
       .subscribe();
   }
-  handleValueChange(controlName: string, value: string): void {
+handleValueChange(controlName: string, value: string): void {
     const control = this.signUpForm.get(controlName);
     control?.setValue(value);
   }

@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { PassWordInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/password-interface';
 import { BoldPipe } from '../../custom-architecture-aids/pipes/bold.pipe';
 import { AlphabeticalPipe } from '../../custom-architecture-aids/pipes/alphabetical.pipe';
+import { InstitutionInfoService } from '../../custom-architecture-aids/services/create-edit-account/institution-info.service';
 
 @Component({
   selector: 'app-reusable-inputs',
@@ -34,10 +35,10 @@ import { AlphabeticalPipe } from '../../custom-architecture-aids/pipes/alphabeti
 export class ReusableInputsComponent implements OnDestroy {
   typedFilter: FormControl<string | null> = new FormControl<string | null>('');
   input: FormControl<string | null> = new FormControl<string | null>('');
-  @Input() default: boolean = true;
-  @Input() List: string[] = [''];
-  @Input() controlType: 'text' | 'password' = 'text';
   visiblePassword: boolean = false;
+  listItems: string[] = [];
+  @Input() default: boolean = true;  
+  @Input() controlType: 'text' | 'password' = 'text';
   @Input() title?: string;
   @Input() label?: string;
   @Input() hint?: string;
@@ -56,7 +57,10 @@ export class ReusableInputsComponent implements OnDestroy {
   filteredList$: Observable<string[]> = 
   new Observable<string[]>; 
 
-  constructor() {
+  constructor(
+    protected institutionInfoService: InstitutionInfoService
+  ) {
+    console.log('heyyy', this.institutionInfoService.symbol());
     this.input.valueChanges.pipe(
       debounceTime(300),
       filter((value): value is string => value !== null && value.trim() !== ''), // Type guard to ensure value is string
@@ -65,11 +69,13 @@ export class ReusableInputsComponent implements OnDestroy {
     ).subscribe(value => {
       this.valueChange.emit(value);
     });
-  }
+  };
 
-  newSelection(entry: string): void {
-    this.selectedChange.emit(entry);
-  }
+  // doesntt get called .. no clcikc, direct to formcontrol
+  // newSelection(entry: string): void {
+  //   console.log('seleccted', entry);
+  //   this.selectedChange.emit(entry);
+  // }
 
 // password conforming
 toggleVisibility(): void {

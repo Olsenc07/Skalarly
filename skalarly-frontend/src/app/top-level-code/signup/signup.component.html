@@ -21,26 +21,26 @@
     </mat-card-header>
     <mat-divider></mat-divider>
       <mat-card-content>
-<app-reusable-inputs [label]="'Country'" class="input-list-inputs input-list-first" [List]="institutionInfoService.countries()" icon="flag_circle"
+<app-reusable-inputs [label]="'Country'" class="input-list-inputs input-list-first"
+ icon="flag_circle"
 (selectedChange)="updateCountrySelection($event)">
 </app-reusable-inputs >
 <!-- if province-state needs to be chosen -->
 @if(instituitionForm.get('country')?.value) {
-<app-reusable-inputs  [label]="'Region of the country'" [List]="institutionInfoService.regions()" icon="explore"
+<app-reusable-inputs [label]="'Region of the country'" icon="explore"
 (selectedChange)="regionSelection($event)" >
 </app-reusable-inputs >
 @if(instituitionForm.get('region')?.value){
-  <app-reusable-inputs [label]="'What type of school?'" [List]="institutionInfoService.typesOfInstitutions()" icon="things_to_do"
+  <app-reusable-inputs [label]="'What type of school?'" icon="things_to_do"
   (selectedChange)="typeInstituition($event)">
   </app-reusable-inputs >
 @if(instituitionForm.get('type')?.value){
-  <app-reusable-inputs [label]="'Where do you attend school?'" [List]="institutionInfoService.institutions()" icon="things_to_do"
+  <app-reusable-inputs [label]="'Where do you attend school?'" icon="things_to_do"
   (selectedChange)="chosenInstituition($event)">
   </app-reusable-inputs>
   }  
 }
 }
-
 </mat-card-content>
 </mat-card>
 <div class="nav-wrapper">
