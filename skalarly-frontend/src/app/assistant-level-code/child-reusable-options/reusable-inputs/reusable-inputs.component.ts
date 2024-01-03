@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { Subject, debounceTime, filter, distinctUntilChanged, takeUntil, Observable} from 'rxjs';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Subject, debounceTime, distinctUntilChanged, Observable, map, startWith, combineLatest} from 'rxjs';
 import { FormControl,  ReactiveFormsModule } from '@angular/forms';
 import { TitleCasePipe, AsyncPipe } from '@angular/common';
 import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -10,14 +10,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PassWordInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/password-interface';
 import { BoldPipe } from '../../custom-architecture-aids/pipes/bold.pipe';
-import { AlphabeticalPipe } from '../../custom-architecture-aids/pipes/alphabetical.pipe';
-import { InstitutionInfoService } from '../../custom-architecture-aids/services/create-edit-account/institution-info.service';
 
 @Component({
   selector: 'app-reusable-inputs',
   standalone: true,
   imports: [
-    AlphabeticalPipe,
     AsyncPipe,
     BoldPipe,
     TitleCasePipe,
@@ -32,7 +29,7 @@ import { InstitutionInfoService } from '../../custom-architecture-aids/services/
   templateUrl: './reusable-inputs.component.html',
   styleUrl: './reusable-inputs.component.scss'
 })
-export class ReusableInputsComponent implements OnDestroy {
+export class ReusableInputsComponent implements OnInit, OnDestroy {
   typedFilter: FormControl<string | null> = new FormControl<string | null>('');
   input: FormControl<string | null> = new FormControl<string | null>('');
   visiblePassword: boolean = false;
@@ -46,43 +43,42 @@ export class ReusableInputsComponent implements OnDestroy {
   @Input() placeholder!: string;
   @Input() icon?: string;
   @Input() isValid: boolean = false;
+  @Input() initialList$: Observable<string[]> = new Observable<string[]>;
 
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
-
+  auto: MatAutocomplete | undefined; 
   @Output() selectedChange: EventEmitter<string> =
   new EventEmitter<string>();
-  @Output() valueChange: EventEmitter<string> = new EventEmitter<string>(); 
+@Output() valueChange: EventEmitter<string> = new EventEmitter<string>(); 
   
   private unsubscribe$: Subject<void> = new Subject<void>();
-  filteredList$: Observable<string[]> = 
-  new Observable<string[]>; 
+  filteredList$: Observable<string[]> = new Observable<string[]>;
 
-  constructor(
-    protected institutionInfoService: InstitutionInfoService
-  ) {
-    console.log('heyyy', this.institutionInfoService.symbol());
-    this.input.valueChanges.pipe(
-      debounceTime(300),
-      filter((value): value is string => value !== null && value.trim() !== ''), // Type guard to ensure value is string
+  ngOnInit(): void {
+    this.filteredList$ = combineLatest([
+      this.input.valueChanges.pipe(
+      debounceTime(500),
       distinctUntilChanged(),
-      takeUntil(this.unsubscribe$) 
-    ).subscribe(value => {
-      this.valueChange.emit(value);
-    });
-  };
-
-  // doesntt get called .. no clcikc, direct to formcontrol
-  // newSelection(entry: string): void {
-  //   console.log('seleccted', entry);
-  //   this.selectedChange.emit(entry);
-  // }
-
+      startWith('')),
+      this.initialList$
+      ]).pipe(
+        map(([typed, list]) => {
+          if (!list) {
+            return [];
+          }
+          if (!typed) {
+            return list.map(item => item.toLowerCase());
+          }
+          return list
+            .filter(item => item.toLowerCase().includes(typed.toLowerCase()))
+        })
+      );
+  }
 // password conforming
 toggleVisibility(): void {
   this.visiblePassword = !this.visiblePassword;
   this.controlType = this.visiblePassword ? 'text' : 'password';
 }
-
 private calculatePasswordRequirements(password: string): PassWordInterface {
   return {
     length: password.length >= 8,
@@ -105,6 +101,11 @@ passwordRequirements: {
   },
   { key: 'uppercase', text: 'At least one uppercase letter (A-Z)' }
 ];
+
+emitSelectedChange(selectedValue: string): void {
+  this.selectedChange.emit(selectedValue);
+}
+
 resetFilter(): void {
   this.typedFilter.reset();
   this.selectedChange.emit('');

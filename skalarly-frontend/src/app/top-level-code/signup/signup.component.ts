@@ -15,7 +15,7 @@ import {
   Subject,
   combineLatest,
   takeUntil,
-  tap, map 
+  tap, map, Observable, of 
 } from 'rxjs';
 import { ReusableInputDynamicComponent } from '../../assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-dynamic/reusable-input-dynamic.component';
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
@@ -70,6 +70,7 @@ import { HttpClientModule } from '@angular/common/http';
 })
 
 export class SignUpComponent implements OnInit, OnDestroy {
+  initialList$: Observable<string[]> = new Observable<string[]>;
   title: string = 'Which country do you study in?';
   selectedFile: File | undefined;
   imagePreview: string | ArrayBuffer | null = '';
@@ -133,8 +134,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   constructor(
     private accountManagementService: AccountManagementService,
-    private formStateService: SignUpFormStateService,
     protected institutionInfoService: InstitutionInfoService,
+    private formStateService: SignUpFormStateService,
     private readonly router: Router,
     private snackBar: MatSnackBar,
     private titleService: Title,
@@ -198,6 +199,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.titleService.setTitle('Signup - Skalarly');
+    this.initialList$ = of(this.institutionInfoService.symbol());
     // intitial call
     combineLatest([
       this.signUpForm.get('username')!.valueChanges,
@@ -230,7 +232,9 @@ private updateFormValue(formControlName: string, value: string | null, newTitle:
 updateCountrySelection(country: string): void {
   this.updateFormValue('country', country, country ? 'Which region of the country?' : 'Which country do you study in?');
   if (country) {
+    console.log('country', country);
     this.institutionInfoService.getStateProvinces(country);
+    this.initialList$ = of(this.institutionInfoService.symbol());
   }
 }
 regionSelection(stateProvince: string): void {
@@ -238,13 +242,14 @@ regionSelection(stateProvince: string): void {
   if (stateProvince) {
     // Assuming you have a method to fetch the types of institutions
     this.institutionInfoService.getSchoolTypes(stateProvince);
+    // this.initialList$ = of(this.institutionInfoService.symbol());
   }
 }
 typeInstituition(type: string): void {
   this.updateFormValue('type', type, 'What is the school’s name?');
   if (type) {
-    // Assuming you have a method to fetch institutions based on type
     this.institutionInfoService.getSchoolNames(this.instituitionForm.get('region')?.value, type);
+    // this.initialList$ = of(this.institutionInfoService.symbol());
   }
 }
 chosenInstituition(institution: string): void {

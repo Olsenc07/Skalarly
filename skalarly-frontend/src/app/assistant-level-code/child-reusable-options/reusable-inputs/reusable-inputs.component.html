@@ -17,10 +17,11 @@
   @case("text"){
     <input type="text" matInput [matAutocomplete]="auto"
      [placeholder]="placeholder" [formControl]="input">
-    <mat-autocomplete #auto="matAutocomplete" >
-      @for(list of institutionInfoService.symbol(); let i = $index; track list){
-        <mat-option [value]="list">
-            {{list}}
+    <mat-autocomplete #auto="matAutocomplete">
+      @for(options of (filteredList$ | async); let i = $index; track options){
+        <mat-option [value]="options" (click)="emitSelectedChange(options)">
+          <span [innerHTML]="options | titlecase | bold: input.value!">
+          </span>
         </mat-option>
     }
     </mat-autocomplete>

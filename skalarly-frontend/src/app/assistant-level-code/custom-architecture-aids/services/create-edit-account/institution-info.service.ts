@@ -28,8 +28,8 @@ export class InstitutionInfoService {
 
   // Define a computed property
   symbol = computed<string[]>(() => {
-    const selectedType = this.currentType(); // Access the current type
-    const choice = this.choices(); // Access the combined signal values
+    const selectedType = this.currentType(); 
+    const choice = this.choices(); 
 
     switch (selectedType) {
       case 'countriesState':
@@ -76,6 +76,7 @@ export class InstitutionInfoService {
   
   // If canada use db, or else use api 
   getStateProvinces(country: string): void {
+    console.log('api', this.apiUrl);
     if (country === 'Canada') {
       this.http.get<BasicProvinceInterface[]>(`${this.apiUrl}/province`)
         .pipe(take(1))
@@ -139,7 +140,6 @@ export class InstitutionInfoService {
     return ['University', 'College', 'Technical Institute', 'Theological School'];
   }
   
-  
   getSchoolNames(region: string, schoolType: string): void {
     const cacheKey = `${region}-${schoolType}`;
     if (!this.cacheSchoolNames.has(cacheKey)) {
@@ -162,7 +162,6 @@ export class InstitutionInfoService {
       });
     }
   }
-  
   
   private extractSchoolNames(schoolData: ProvinceSchoolTypes, schoolType: string): string[] {
     let names: string[] = [];
