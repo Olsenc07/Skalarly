@@ -343,7 +343,6 @@ onCameraClick() {
 
   // final submit
   addSkalarInfo(): void {
-    // to test
     this.router.navigate(['/home']);
 
   //   this.accountManagementService

@@ -3,7 +3,8 @@
 @use '../../../assistant-level-code/universal-reusable-styles/common' as common;
 div[column] {
     @include common.common;
-    padding: 3% 1% 0% 1%;
+    padding: 3% 2% 0% 2%;
+    width: 100%;
     &:first-of-type {
       mat-form-field {
         justify-content: flex-start;
@@ -14,11 +15,10 @@ div[column] {
       justify-content: flex-end;
     }
   }
-
 div[forgot]{
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 7%;
+    margin-bottom: 0% 3% 4%;
     button[forgot]{
       background: none;
       border: none;
@@ -47,31 +47,25 @@ div[forgot]{
   text-align: center;
        }
 .input-boxes{
-    display: flex;
-    width: 100%;
-    justify-content: center;
+  @media only screen and (min-width: 601px) {
     border-bottom: 3px solid var(--firstChoice);
-    padding: 0% 10% 5%;
+    border-right: 3px solid var(--secondChoice);
+  }
+    @media only screen and (max-width: 600px) {
+    width: 100%;
     margin: 1%;
-    @media only screen and (min-width: 600px) {
-    border-right: 3px solid transparent;
-    border-bottom: 3px solid transparent;    
-    border-image: linear-gradient(135deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
+    border-bottom: 3px solid var(--firstChoice);    
     }
       &:first-of-type {
         mat-checkbox {
         margin-left: 3%; 
         }
       }
-      &:last-of-type{
-        button[forgot] {
-        margin-right: 3%; 
-      }
     }
-  }
   .login-standard-wrapper {
     display: flex;
     width: 100%;
+    padding-bottom: 5%;
     justify-content: center; 
     button.login {
     @include responsive.responsiveFontSize();
@@ -112,5 +106,4 @@ div[forgot]{
       transform: scale(1.7);
     }
   }
-
 }

@@ -22,4 +22,7 @@ export class ErrorHandlerComponent {
     public data: { message: string },
     private readonly router: Router
   ) {}
+  navigate(): void {
+    this.router.navigate(['/sign-up']);
+  }
 }

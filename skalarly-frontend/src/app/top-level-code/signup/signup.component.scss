@@ -12,13 +12,10 @@
   margin-top: 3%;
 }
 .back{
-  box-shadow: 0 0 3px 3px var(--secondChoice);
-  left: 3%;
-  top: 3%;
-  background-color: whitesmoke;
+  box-shadow: 0 0 2px 2px var(--secondChoice);
+  margin: 5% 0% 0% 5%;
   color: black;
   z-index: 2;
-  position: absolute;
 }
 .center{
   display: flex;
@@ -27,10 +24,6 @@
 .image-individual{
   display: flex;
   align-items: center;
-}
-.signup-wrapper{
-  background-color: ghostwhite;
-  padding-top: 2%;
 }
 .stepper{
   display: flex;
@@ -42,6 +35,13 @@
   align-items: center;
   justify-content: space-between;
 }
+@media only screen and (max-width: 767px) {
+  .mat-stepper-header-container {
+    .mat-step-header {
+      display: none; 
+  }
+  }
+}
 mat-card{
   display: flex;
   margin-bottom: 3%;
@@ -49,39 +49,36 @@ mat-card{
 mat-stepper {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  height: 100vh;
-  background-color: ghostwhite;
-  mat-step {
-    border-radius: 5px;
-    margin-bottom: 10px;
-    font-family: var(--skalarly-font);
-  
-  }
-  .mat-vertical-stepper-content {
-    border-left: 2px solid var--(pairingColor2);
-    padding-left: 20px;
-  }
-
-  .mat-stepper-vertical-line {
-    border-left-color: var(--firstChoice);
-  }
+  font-family: var(--skalarly-font);
+  @media only screen and (min-width: 768px) {
+    mat-step {
+      margin-bottom: 0; 
+    }
+    .mat-vertical-stepper-content {
+      border-left: none; 
+      padding-left: 0;
+    }
+    .mat-stepper-vertical-line {
+      display: none; 
+    }
+  }}
 .image-selection{
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-  button[matStepperNext]{
-      color: #fff;
+  button{
+  &[matStepperNext]{
+      background-color: var(--firstChoice);
+      color: white;
       @include responsive.responsiveFontSize();
-      background-image: linear-gradient(to left, var(--firstChoice), var(--secondChoice));
     }
-    button[matStepperPrevious] {
-      color: #fff;
+    &[matStepperPrevious] {
+      background-color: var(--secondChoice);
+      color: white;
       @include responsive.responsiveFontSize();
-      background-image: linear-gradient(to right, var(--firstChoice), var(--secondChoice));
     }
+  }
   
  
   form {
@@ -106,6 +103,4 @@ mat-stepper {
     display: flex;
     justify-content: space-between;
   }
-}
-
   

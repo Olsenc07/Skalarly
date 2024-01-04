@@ -67,13 +67,20 @@ export class ReusableInputsComponent implements OnInit, OnDestroy {
             return [];
           }
           if (!typed) {
-            return list.map(item => item.toLowerCase());
+            return list.map(item => this.capitalizeFirstLetterEachWord(item.toLowerCase()));
           }
           return list
             .filter(item => item.toLowerCase().includes(typed.toLowerCase()))
+            .map(item => this.capitalizeFirstLetterEachWord(item.toLowerCase()));
         })
       );
-  }
+}
+capitalizeFirstLetterEachWord(str: string): string {
+  return str
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+}
 // password conforming
 toggleVisibility(): void {
   this.visiblePassword = !this.visiblePassword;

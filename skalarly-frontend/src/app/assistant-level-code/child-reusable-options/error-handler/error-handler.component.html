@@ -1,16 +1,15 @@
     <div class="error-screen">
-        <h1 mat-card-title>Hello Fellow Skalar</h1>
-        <div mat-card-subtitle>We have a message for you</div>
-    <div >
-    <div mat-dialog-content>
-    <div class="error-message">{{ data.message }}</div>
-    </div>
+        <h5 mat-card-title>Hello Fellow Skalar</h5>
+    <div>
+    <!-- <div mat-dialog-content class="error-message">
+    {{ data.message }}
+    </div> -->
         <app-login-logic [alwaysVertical]="true">
         </app-login-logic>
         <footer>
-        Don't have an account?
+        <div> No account? </div>  
         <button mat-button 
-        routerLink="/sign-up">Join Skalarly</button>
+        (click)="navigate()">Join Skalarly</button>
     </footer>
     </div>
 </div>

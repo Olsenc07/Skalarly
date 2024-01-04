@@ -1,12 +1,12 @@
 @defer { 
-<div class="signup-wrapper">
-<div>
-    <button mat-icon-button (click)="navigate()" class="back">
-    <mat-icon class="material-symbols-outlined">arrow_back</mat-icon>
-    </button>
-  </div>
   <div class="stepper">
-    <!-- change orientation to vertical for mobile -->
+    @if(  orientation: WritableSignal<boolean> = signal(true);){
+    <div>
+      <button mat-icon-button (click)="navigate()" class="back">
+      <mat-icon class="material-symbols-outlined">arrow_back</mat-icon>
+      </button>
+    </div>
+  }
   <mat-stepper [linear]="false" #stepper>
     <ng-template matStepperIcon="edit">
       <mat-icon class="material-symbols-outlined">check</mat-icon>
@@ -194,7 +194,6 @@ icon="explore" [initialList$]="initialList$"
 </form>
 </mat-step>
 </mat-stepper>
-</div>
 </div>
 }@placeholder { 
   <!-- pre load skeleton -->

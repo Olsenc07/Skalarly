@@ -7,9 +7,8 @@
   align-items: center;
   padding: 3% 0% 1% 0%;
   margin: 1%;
-  border-top: 3px solid transparent;
-  border-left: 3px solid transparent;
-  border-image: linear-gradient(308deg, var(--firstChoice), var(--secondChoice)) 1 stretch;
+  border-top: 3px solid  var(--firstChoice);
+  border-left: 3px solid var(--secondChoice);
 }
 
   button[join]:hover:after {
