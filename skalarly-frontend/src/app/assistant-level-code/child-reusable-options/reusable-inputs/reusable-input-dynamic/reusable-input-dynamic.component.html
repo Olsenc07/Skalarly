@@ -47,17 +47,16 @@
     @if(isFormGroup(controlOrGroup)){
      @if(controlOrGroup.get('control'); as abstractControl){
     <!-- Drop Down Social Media Options -->
-    <mat-form-field appearance="outline">
+    <mat-menu #menu="matMenu">
       <mat-label>Social Links</mat-label>
-    <mat-select [formControl]="selectedSocialMedia">
       @for (option of socialMediaOptions; let i = $index; track selectedSocialMedia){
-      <mat-option [value]="option.name">
+        <button mat-menu-item>
         {{ option.name }}
-      </mat-option>
+        </button>
     }
-    </mat-select>
-    </mat-form-field>
-    @if(selectedSocialMedia.value){
+</mat-menu>
+    <!-- @if(selectedSocialMedia.value){ -->
+      <!-- OPEN UP ON CLIKC  -->
       <mat-form-field appearance="outline">
         <mat-label>{{ controlOrGroup.get('socialMedia')?.value?.name }}</mat-label>
         <input matInput [formControl]="getFormControl(abstractControl)" type="url"
@@ -66,7 +65,7 @@
           {{ controlOrGroup.get('socialMedia')?.value?.icon }}
         </mat-icon>
       </mat-form-field>
-    }
+    <!-- } -->
     }}}}
     <!-- both cases -->
     <button mat-icon-button (click)="addInput()"> 

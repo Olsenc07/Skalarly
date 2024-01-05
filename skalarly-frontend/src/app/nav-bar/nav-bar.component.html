@@ -2,7 +2,7 @@
     <mat-toolbar class="header">
       <!-- logo -->
     <!-- *1 search bar icon, mobile first  -->
-        @if(orientationService.orientation()){
+        @if(this.orientationService.screen()){
           <!-- search icon to display search -->
           <ng-template>
           <button mat-icon-button (click)="toggleSearch(true)">
@@ -18,8 +18,7 @@
         <app-search-bar [mobileFirst]="false"></app-search-bar>
         }
       <nav>
-    <!-- *1 only for portrait, mobile first -->
-    @if(orientationService.orientation()){
+    @if(this.orientationService.screen()){
       <ng-template> 
       <footer class="footer" >
       <mat-toolbar class="mobile-fade-overlay">
@@ -34,16 +33,15 @@
     </footer>
     </ng-template>
     } @else {
-      <!-- *2 only for landscape -->
     <!-- profile -->
       <div class="navigation">
     <button mat-icon-button >
       <mat-icon>Profile</mat-icon>
     </button>
       </div>
-    }
     <!-- settings button -->
-    </nav>
+  }
+</nav>
     </mat-toolbar>
     <!-- page refresh pull down, eventully use GSAP for a fun animation-->
 <!-- appPullToRefresh  -->

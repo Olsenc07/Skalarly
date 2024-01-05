@@ -1,6 +1,5 @@
 @use '../../assistant-level-code/universal-reusable-styles/common' as common;
 
-
 .login-header {
   @include common.common;
   text-align: center; 
@@ -24,6 +23,6 @@ div[column] {
   height: 100vh;
 }
 app-letter-by-letter{
-      display: flex;
-      flex-direction: row;
-    }
+    display: flex;
+    flex-direction: row;
+}

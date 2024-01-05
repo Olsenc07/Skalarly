@@ -1,17 +1,19 @@
 @defer { 
   <div class="stepper">
-    @if(  orientation: WritableSignal<boolean> = signal(true);){
+    @if(this.orientationService.screen()){
     <div>
       <button mat-icon-button (click)="navigate()" class="back">
       <mat-icon class="material-symbols-outlined">arrow_back</mat-icon>
       </button>
     </div>
+    <mat-divider></mat-divider>
   }
   <mat-stepper [linear]="false" #stepper>
     <ng-template matStepperIcon="edit">
       <mat-icon class="material-symbols-outlined">check</mat-icon>
     </ng-template>
-<mat-step [stepControl]="instituitionForm" editable="true" label="Choose your instituition">
+<mat-step [stepControl]="instituitionForm" [label]="this.orientationService.screen() ? 
+'' : 'Choose your instituition'">
   <form [formGroup]="instituitionForm" (ngSubmit)="createAccount()">
 <ng-template matStepContent>
     <div class="input-list">
@@ -44,24 +46,26 @@ icon="explore" [initialList$]="initialList$"
   }  
 }
 }
-</mat-card-content>
-</mat-card>
 <div class="nav-wrapper">
   <button mat-button matStepperPrevious type="button" (click)="navigate()">Back</button>
   <button mat-button matStepperNext type="button">Next</button>
 </div>
+</mat-card-content>
+</mat-card>
+
 </div>
 </ng-template>
 </form>
 </mat-step>
 <!-- 2 -->
-<mat-step [stepControl]="signUpForm" label="Account Info">  
+<mat-step [stepControl]="signUpForm" [label]="this.orientationService.screen() ? 
+'': 'Account Info' ">  
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
   <ng-template matStepContent>
   <div class="input-list">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Credentials:</mat-card-title>
+        <mat-card-title>Validation Time</mat-card-title>
       </mat-card-header>
       <mat-divider></mat-divider>
         <mat-card-content>
@@ -85,27 +89,28 @@ icon="explore" [initialList$]="initialList$"
     Validate
   </button>
 </div>
-</mat-card-content>
-</mat-card>
-    <!-- Password Requirements -->
-</div>
 <div class="nav-wrapper">
   <button mat-button matStepperPrevious type="button">Back</button>
   <!-- allow next when validated -->
   <button mat-button matStepperNext type="button">Next</button>
+</div>
+</mat-card-content>
+</mat-card>
+    <!-- Password Requirements -->
 </div>
 </ng-template>
 </form>
 </mat-step>
 <!-- Onto Validation 7 digits from email-->
 <!-- 3 -->
-<mat-step [stepControl]="personalForm" label="Profile Info">
+<mat-step [stepControl]="personalForm" [label]="this.orientationService.screen() ? 
+'' : 'Profile Info'">
   <form [formGroup]="personalForm" (ngSubmit)="createAccount()">
   <ng-template matStepContent>
   <div class="input-list">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>Personalize:</mat-card-title>
+        <mat-card-title>Tell us about yourself</mat-card-title>
       </mat-card-header>
       <mat-divider></mat-divider>
         <mat-card-content>
@@ -144,30 +149,34 @@ icon="explore" [initialList$]="initialList$"
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <mat-slide-toggle color="primary"> Private Account</mat-slide-toggle>
-    <div class="input-list">
     <mat-divider></mat-divider>
-    <h3>Connect other networks</h3>
+    <div class="input-list-networks">
+    <div>Connect other networks</div>
+      <div >
     <app-reusable-input-dynamic [inputsArray]="getArray('links')" label="Social Link" 
     [controlType]="'url'" icon="share"></app-reusable-input-dynamic>
   </div>
   </div>
- </mat-card-content>
- </mat-card>
   </div>
   <div class="nav-wrapper">
-  <button mat-button matStepperPrevious type="button">Back</button>
-  <button mat-button matStepperNext type="button">Next</button>
+    <button mat-button matStepperPrevious type="button">Back</button>
+    <button mat-button matStepperNext type="button">Next</button>
+    </div>
+ </mat-card-content>
+ </mat-card>
   </div>
   </ng-template>
 </form>
 </mat-step>
 <!-- last -->
-<mat-step [stepControl]="skalarInfoForm" label="Academic Info">
+<mat-step [stepControl]="skalarInfoForm" [label]="this.orientationService.screen() ? 
+'' : 'Academic Info' ">
   <form [formGroup]="skalarInfoForm" (ngSubmit)="addSkalarInfo()">
   <ng-template matStepContent>
+    <div class="input-list">
         <mat-card>
           <mat-card-header>
-            <mat-card-title>Specialization:</mat-card-title>
+            <mat-card-title>Primary Focuses</mat-card-title>
           </mat-card-header>
           <mat-divider></mat-divider>
           <mat-card-content>
@@ -183,19 +192,18 @@ icon="explore" [initialList$]="initialList$"
       <app-reusable-input-dynamic [controlType]="'text'" [inputsArray]="getArray('coursesCompleted')" label="Completed Course" icon="verified"></app-reusable-input-dynamic>
       <app-reusable-input-dynamic  [controlType]="'text'" [inputsArray]="getArray('coursesPursing')" label="Pursuing Course" icon="add_task"></app-reusable-input-dynamic>
       </div>
-      <!-- <input accoldates, certificates, publishings,... /> -->
+      <div class="nav-wrapper">
+        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-raised-button matStepperNext type="submit"  [disabled]="skalarInfoForm.invalid">Create</button>
+      </div>
       </mat-card-content>
       </mat-card>
-    <div class="nav-wrapper">
-    <button mat-button matStepperPrevious type="button">Back</button>
-    <button mat-raised-button type="submit" [disabled]="skalarInfoForm.invalid">Create</button>
-  </div>
+    </div>
   </ng-template>
 </form>
 </mat-step>
 </mat-stepper>
 </div>
 }@placeholder { 
-  <!-- pre load skeleton -->
  <app-skeleton-loader-signup></app-skeleton-loader-signup>
   }

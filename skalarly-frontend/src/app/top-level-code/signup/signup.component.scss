@@ -5,6 +5,11 @@
   @include common.common;
   align-items: center;
 }
+.input-list-networks{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 .input-list-inputs{
   @include common.common;
 }
@@ -13,7 +18,7 @@
 }
 .back{
   box-shadow: 0 0 2px 2px var(--secondChoice);
-  margin: 5% 0% 0% 5%;
+  margin: 5% 0% 3% 5%;
   color: black;
   z-index: 2;
 }
@@ -28,40 +33,36 @@
 .stepper{
   display: flex;
   flex-direction: column;
+  @media only screen and (min-width: 767px){
+    padding: 5% 15% 15%;
+    }
 }
 .two-by-two{
+  @media only screen and (min-width: 767px){
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
   align-items: center;
-  justify-content: space-between;
-}
-@media only screen and (max-width: 767px) {
-  .mat-stepper-header-container {
-    .mat-step-header {
-      display: none; 
-  }
   }
 }
+
 mat-card{
   display: flex;
   margin-bottom: 3%;
+  @media only screen and (max-width: 767px){
+    background-color: #d3d3d31f;
+  }
+  mat-card-title.mat-mdc-card-title {
+    @include responsive.responsiveFontSize('smaller');
+    font-weight: bold;
+    text-align: center;
+}
 }
 mat-stepper {
   display: flex;
   flex-direction: column;
-  font-family: var(--skalarly-font);
-  @media only screen and (min-width: 768px) {
-    mat-step {
-      margin-bottom: 0; 
-    }
-    .mat-vertical-stepper-content {
-      border-left: none; 
-      padding-left: 0;
-    }
-    .mat-stepper-vertical-line {
-      display: none; 
-    }
-  }}
+
+}
 .image-selection{
   display: flex;
   justify-content: space-between;
@@ -72,6 +73,26 @@ mat-stepper {
       background-color: var(--firstChoice);
       color: white;
       @include responsive.responsiveFontSize();
+      &[type="submit"]{
+        transition: transform 0.5s ease-in-out;
+    &:hover {
+      transform: scale(1.05);
+    }
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0; 
+      right: 100%;
+      bottom: 0;
+      background-image: linear-gradient(to left, #005f73, #0a9396);
+      transition: right 0.5s ease-in-out;
+      z-index: -1; 
+    }
+    &:hover:before {
+      right: 0; 
+    }
+      }
     }
     &[matStepperPrevious] {
       background-color: var(--secondChoice);
@@ -79,8 +100,6 @@ mat-stepper {
       @include responsive.responsiveFontSize();
     }
   }
-  
- 
   form {
     width: 100%;
     display: flex;
@@ -102,5 +121,6 @@ mat-stepper {
   .nav-wrapper{
     display: flex;
     justify-content: space-between;
+    margin-top: 6%;
   }
   

@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 import {  AsyncPipe } from '@angular/common';
-
+import {MatMenuModule} from '@angular/material/menu';
 type FormControlOrGroup = FormControl<string | null> | FormGroup;
 interface media {
   name: string; placeholder: string; icon: string; 
@@ -17,7 +17,7 @@ interface media {
   selector: 'app-reusable-input-dynamic',
   standalone: true,
   imports: [AsyncPipe, MatInputModule, MatIconModule, 
-    MatAutocompleteModule, MatFormFieldModule, MatButtonModule, ReactiveFormsModule],
+    MatAutocompleteModule, MatFormFieldModule, MatMenuModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './reusable-input-dynamic.component.html',
   styleUrl: '../../reusable-inputs/reusable-inputs.component.scss'
 })
