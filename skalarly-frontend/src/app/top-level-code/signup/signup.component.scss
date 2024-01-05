@@ -10,7 +10,8 @@
   align-items: center;
 }
 .input-list-networks{
-@include stack 
+@include stack;
+width: 100%;
 }
 .input-list-inputs{
   @include common.common;
@@ -55,6 +56,8 @@ button[profilePic]{
 mat-card{
   display: flex;
   margin-bottom: 3%;
+  border: 2px groove #e0e0e0;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   @media only screen and (max-width: 767px){
     background-color: #d3d3d31f;
   }
