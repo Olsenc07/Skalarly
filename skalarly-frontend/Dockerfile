@@ -17,7 +17,7 @@ FROM node:20.10.0
 WORKDIR /app
 
 # Copy the build output
-COPY --from=build-step /app/dist /app/dist
+COPY --from=build-step /app/dist/server /app/dist/server
 
 # Copy production node_modules necessary for SSR
 COPY --from=build-step /app/node_modules /app/node_modules
