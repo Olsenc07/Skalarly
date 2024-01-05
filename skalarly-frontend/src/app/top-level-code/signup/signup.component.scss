@@ -1,14 +1,16 @@
 @use '../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @use '../../assistant-level-code/universal-reusable-styles/common' as common;
 
+@mixin stack{
+  display: flex;
+  flex-direction: column;
+}
 .input-list .input-individual{
   @include common.common;
   align-items: center;
 }
 .input-list-networks{
-  display: flex;
-  flex-direction: column;
- 
+@include stack 
 }
 .input-list-inputs{
   @include common.common;
@@ -31,14 +33,12 @@ button[profilePic]{
  
 }
 .image-individual{
-  display: flex;
-  flex-direction: column;
+  @include stack;
   text-align: center;
   align-items: center;
 }
 .stepper{
-  display: flex;
-  flex-direction: column;
+  @include stack;
   @media only screen and (min-width: 767px){
     padding: 5% 15% 0% 15%;
     }
@@ -65,9 +65,7 @@ mat-card{
 }
 }
 mat-stepper {
-  display: flex;
-  flex-direction: column;
-
+  @include stack;
 }
 .image-selection{
   display: flex;
@@ -108,21 +106,7 @@ mat-stepper {
   }
   form {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    button[mat-raised-button] {
-      background-color: #007BFF;
-      color: #fff;
-      &:hover {
-        background-color: darken(#007BFF, 10%);
-      }
-      &:disabled {
-        background-color: #bbb;
-        color: #666;
-      }
-    }
+    @include stack;
   }
   .nav-wrapper{
     display: flex;

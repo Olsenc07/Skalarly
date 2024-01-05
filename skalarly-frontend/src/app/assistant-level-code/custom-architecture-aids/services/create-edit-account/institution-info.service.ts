@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class InstitutionInfoService {
-  private apiUrl = environment.apiUrl;
+  private apiUrl: string = environment.apiUrl;
   // cache
   private apiSource: basicinfo | null = null;
   private cacheSchoolData: Map<string, ReplaySubject<ProvinceSchoolTypes>> = new Map();
@@ -78,10 +78,13 @@ export class InstitutionInfoService {
   getStateProvinces(country: string): void {
     console.log('api', this.apiUrl);
     if (country === 'Canada') {
-      this.http.get<BasicProvinceInterface[]>(`${this.apiUrl}/province`)
+      this.http.get<BasicProvinceInterface[]>(`${this.apiUrl}/canada/province`)
         .pipe(take(1))
         .subscribe({
           next: (provincesData) => {
+            console.log('one step');
+            console.log('two step', provincesData);
+
             // Extract province names using map and reduce
             const provinceNames = provincesData.reduce<string[]>((acc, curr) => {
               const names = curr.provinces.map(p => p.province);

@@ -47,14 +47,10 @@ div[forgot]{
   text-align: center;
        }
 .input-boxes{
-  @media only screen and (min-width: 601px) {
-    border-bottom: 3px solid var(--firstChoice);
-    border-right: 3px solid var(--secondChoice);
-  }
-    @media only screen and (max-width: 600px) {
     width: 100%;
-    margin: 1%;
-    border-bottom: 3px solid var(--firstChoice);    
+    border-bottom: 3px solid var(--firstChoice);
+    @media only screen and (min-width: 601px) {
+    border-right: 3px solid var(--secondChoice);
     }
       &:first-of-type {
         mat-checkbox {
