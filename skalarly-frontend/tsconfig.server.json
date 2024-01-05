@@ -3,9 +3,9 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "outDir": "./out-tsc/server",
-    "types": [
-      "node"
-    ]
+    "target": "ES2022",
+    "module": "CommonJS",
+    "types": ["node"]
   },
   "files": [
     "server.ts"

@@ -127,7 +127,7 @@ icon="explore" [initialList$]="initialList$"
             <button mat-menu-item>
             <div class="image-individual">
     <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
-Upload Profile Photo  
+Upload Photo
     <button mat-icon-button (click)="fileInput.click()">
       <mat-icon class="material-symbols-outlined">
       attach_file
@@ -137,7 +137,7 @@ Upload Profile Photo
 </button>
 <button mat-menu-item>
 <div class="image-individual">
-    Take Profile Photo
+    Take Photo
     <button mat-icon-button (click)="onCameraClick()">
       <mat-icon class="material-symbols-outlined">
       add_a_photo
