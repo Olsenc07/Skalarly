@@ -16,7 +16,8 @@
     "build:prod": "ng build --configuration=production",
     "start:prod": "node dist/server/main.js",
     "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run",
-    "build:ssr": "ng build --configuration=production && ng run skalarly-fs:server:production",
+    "build:ssr": "ng build --configuration=production && ng run skalarly-fs:server:production --stats-json",
+    "analyze:ssr": "webpack-bundle-analyzer dist/server/stats.json",
     "test:ssr": "node dist/server/main.js"
   },
   "private": true,

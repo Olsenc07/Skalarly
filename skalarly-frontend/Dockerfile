@@ -3,7 +3,7 @@ FROM node:20.10.0 as build-step
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json .
 
 RUN npm install
 
