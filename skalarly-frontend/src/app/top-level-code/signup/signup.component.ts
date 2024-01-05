@@ -200,7 +200,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     return null;
   }
   ngOnInit(): void {
-    this.titleService.setTitle('Signup - Skalarly');
+    this.titleService.setTitle('Skalarly - Signup');
     this.initialList$ = of(this.institutionInfoService.symbol());
     // intitial call
     combineLatest([
