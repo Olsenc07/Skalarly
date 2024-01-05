@@ -8,7 +8,7 @@
 .input-list-networks{
   display: flex;
   flex-direction: column;
-  width: 100%;
+ 
 }
 .input-list-inputs{
   @include common.common;
@@ -26,15 +26,21 @@
   display: flex;
   justify-content: center;
 }
+button[profilePic]{
+  display: flex;
+ 
+}
 .image-individual{
   display: flex;
+  flex-direction: column;
+  text-align: center;
   align-items: center;
 }
 .stepper{
   display: flex;
   flex-direction: column;
   @media only screen and (min-width: 767px){
-    padding: 5% 15% 15%;
+    padding: 5% 15% 0% 15%;
     }
 }
 .two-by-two{

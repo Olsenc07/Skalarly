@@ -114,16 +114,28 @@ icon="explore" [initialList$]="initialList$"
       </mat-card-header>
       <mat-divider></mat-divider>
         <mat-card-content>
+          <div >
+          <button mat-button [matMenuTriggerFor]="menu" profilePic>
+          Add A Profile Picture
+            <mat-icon class="material-symbols-outlined" >account_circle</mat-icon>
+          </button>
+        </div>
+
+          <mat-menu #menu="matMenu">
           <div class="image-selection">
+            <!-- Profile Pic -->
+            <button mat-menu-item>
             <div class="image-individual">
     <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
-    Upload Profile Photo
+Upload Profile Photo  
     <button mat-icon-button (click)="fileInput.click()">
       <mat-icon class="material-symbols-outlined">
       attach_file
     </mat-icon>
-  </button>
+</button>
 </div>
+</button>
+<button mat-menu-item>
 <div class="image-individual">
     Take Profile Photo
     <button mat-icon-button (click)="onCameraClick()">
@@ -132,7 +144,9 @@ icon="explore" [initialList$]="initialList$"
     </mat-icon>
     </button>
   </div>
+  </button>
   </div>
+</mat-menu>
     @if(imagePreview){
     <img [src]="imagePreview" class="image-preview">
     }
@@ -152,7 +166,7 @@ icon="explore" [initialList$]="initialList$"
     <mat-divider></mat-divider>
     <div class="input-list-networks">
     <div>Connect other networks</div>
-      <div >
+    <div>
     <app-reusable-input-dynamic [inputsArray]="getArray('links')" label="Social Link" 
     [controlType]="'url'" icon="share"></app-reusable-input-dynamic>
   </div>
