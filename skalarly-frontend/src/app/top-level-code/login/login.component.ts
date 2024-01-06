@@ -1,4 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, WritableSignal, signal } from '@angular/core';
+
+import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy, Inject, signal, PLATFORM_ID, WritableSignal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { LoginLogicComponent } from './login-logic/login-logic.component';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
@@ -51,26 +53,35 @@ export class LoginComponent implements OnInit, AfterViewInit {
   constructor(
     private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
     protected orientationService: OrientationService,
-    private readonly router: Router
+    private readonly router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
     // randomize phrases
     this.loginSpecificService.randomizePairs();
+    // if (isPlatformBrowser(this.platformId)) {
+    //   // Browser-only code
+    // }
   }
-
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.skalarlyState = 'rise';
-    }, 7000);
+    if (isPlatformBrowser(this.platformId)) {
+      setTimeout(() => {
+        this.skalarlyState = 'rise';
+      }, 7000);
+    }
   }
   navigate(): void {
     this.router.navigate(['/sign-up']);
   }
   // reusbale function
   welcomeRiseDone(): void {
-    this.nextAnimations = true;
-    this.welcome = this.loginSpecificService.updatePhrase();
-    this.toggle = true;
+    if (isPlatformBrowser(this.platformId)) {
+      this.nextAnimations = true;
+      this.welcome = this.loginSpecificService.updatePhrase();
+      this.toggle = true;
+    }
   }
 }
+
+
