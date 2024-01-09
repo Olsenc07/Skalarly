@@ -18,16 +18,26 @@ div[column] {
 div[forgot]{
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 0% 3% 4%;
+    margin-bottom: 4%;
     button[forgot]{
+      @include responsive.responsiveFontSize('smaller');
       background: none;
       border: none;
       cursor: pointer;
     }
   }
-.mat-mdc-checkbox{ 
+  div[phrase]{
     display: flex;
-  }  
+    justify-content: center;
+    @include responsive.responsiveFontSize('smaller');
+  }
+
+  mat-checkbox {
+    div{
+    display: flex;
+    @include responsive.responsiveFontSize('smaller');
+    }
+  }
   .normal-style{
   @include common.common(flex, column);
   align-items: baseline;
@@ -51,12 +61,10 @@ div[forgot]{
     border-bottom: 3px solid var(--firstChoice);
 }
 @media only screen and (min-width: 601px) {
-  body :not(mat-dialog-container) .input-boxes {
+  .input-boxes {
     border-right: 3px solid var(--secondChoice);
   }
 }
-
-
   .input-boxes:first-of-type {
       mat-checkbox {
       margin-left: 3%; 

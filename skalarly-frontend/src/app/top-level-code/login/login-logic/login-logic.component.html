@@ -1,4 +1,7 @@
     <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div phrase>
+        Enhance Your Academic Experience
+      </div>
   <div class="input-boxes">
     <div>
 <span [ngClass]="{ 'normal-style': !alwaysVertical, 'error-style': alwaysVertical}">
@@ -31,7 +34,9 @@
   <div class="login-options">
     <!-- Keep skalar logged in -->
     <mat-checkbox [checked]="stayLoggedIn" color="primary" (change)="stayIn()" >
+      <div>
       Stay logged In
+    </div>
     </mat-checkbox>
     </div>
     </div>

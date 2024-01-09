@@ -23,9 +23,9 @@
       
           $final-font-size: $screen-font-size;
           @if $sizeVariant == 'smaller' {
-            $final-font-size: $screen-font-size - $screen-font-sub-size - 0.2rem;
+            $final-font-size: $screen-font-size - $screen-font-sub-size - .4rem;
           } @else if $sizeVariant == 'larger' {
-            $final-font-size: $screen-font-size + $screen-font-sub-size + 0.9rem;
+            $final-font-size: $screen-font-size + $screen-font-sub-size + 1.1rem;
           }
           /* Apply styles */
           font-size: $final-font-size;
