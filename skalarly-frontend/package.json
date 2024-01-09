@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --source-map",
-    "build": "ng build",
+    "build": "ng lint && ng build",
     "build:stats": "ng build --configuration=production --stats-json --source-map",
     "analyze": "webpack-bundle-analyzer dist/skalarly-frontend/stats.json",
     "watch": "ng build --watch --configuration=development --source-map",
@@ -13,7 +13,8 @@
     "lint": "ng lint",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "build:prod": "ng build --configuration=production",
+    "build:dev": "ng lint && ng build --configuration=development --stats-json",
+    "build:prod": "ng lint && ng build --configuration=production",
     "start:prod": "node dist/server/main.js",
     "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run",
     "build:ssr": "ng build --configuration=production && ng run skalarly-fs:server:production --stats-json",
