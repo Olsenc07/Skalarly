@@ -3,11 +3,11 @@ import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
 import { Request, Response } from 'express';
 import { join } from 'path';
-import { AppComponent } from 'src/app/app.component'; 
+import { AppServerModule } from '../skalarly-frontend/src/main.server';
 
 const app = express();
 const PORT = process.env['PORT'] || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist/server/');
+const DIST_FOLDER = join(process.cwd(), 'dist/skalarly-frontend/');
 
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);
@@ -24,7 +24,7 @@ app.get('*', async (req: Request, res: Response) => {
     };
 
     const html = await commonEngine.render({
-      bootstrap: AppComponent, 
+      bootstrap: AppServerModule, 
       ...options
     });
 

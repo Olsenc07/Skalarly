@@ -113,7 +113,7 @@ div[forgot]{
       animation: shake .5s linear;  
     }
     &.fingerprint-border-approved { 
-      text-shadow: 0 0 5px #3CB371, 0 0 10px #3CB371, 0 0 15px #3CB371;
+      text-shadow: 0 0 5px var(--approved);
       transform: scale(1.7);
     }
   }
