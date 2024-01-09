@@ -38,6 +38,8 @@ import type { EmailInterface, PasswordInterface } from 'src/app/assistant-level-
 })
 export class LoginLogicComponent implements OnInit {
   @Input() alwaysVertical?: boolean = false;
+  @Input() hideBorder?: boolean = false;
+
   isGlowing: boolean = false;
   progressState: 'default' | 'loading' | 'declined' | 'complete' = 'default';
   // email

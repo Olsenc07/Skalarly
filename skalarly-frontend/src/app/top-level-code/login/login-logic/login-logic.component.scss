@@ -65,6 +65,9 @@ div[forgot]{
     border-right: 3px solid var(--secondChoice);
   }
 }
+.hide-border{
+  border-right: none;
+}
   .input-boxes:first-of-type {
       mat-checkbox {
       margin-left: 3%; 
