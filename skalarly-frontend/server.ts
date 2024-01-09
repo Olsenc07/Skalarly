@@ -7,7 +7,7 @@ import { AppComponent } from 'src/app/app.component';
 
 const app = express();
 const PORT = process.env['PORT'] || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist/skalarly-frontend/');
+const DIST_FOLDER = join(process.cwd(), 'dist/server/');
 
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);

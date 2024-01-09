@@ -85,5 +85,3 @@ app.get('*',requireHTTPS, (req, res) => {
 app.listen(port, () => {
   console.log(`Listening to requests on ${port}`);
 })
-
-export default app
