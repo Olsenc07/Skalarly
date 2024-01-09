@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -31,7 +31,6 @@ import { OrientationService } from 'src/app/assistant-level-code/custom-architec
 import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton-loader-signup.component';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider'
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -44,6 +43,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { HttpClientModule } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
+
 
 @Component({
   standalone: true,
@@ -139,7 +140,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     protected institutionInfoService: InstitutionInfoService,
     private formStateService: SignUpFormStateService,
     private readonly router: Router,
-    private snackBar: MatSnackBar,
+    @Inject(PLATFORM_ID) private platformId: Object,
     private titleService: Title,
     protected orientationService: OrientationService
   ) {
@@ -316,7 +317,7 @@ validateValue(value: string): boolean {
 }
 // Inside your Angular component
 onFileSelected(event: Event) {
-  console.log('file selected');
+  if (isPlatformBrowser(this.platformId)) {
   const inputElement = event.target as HTMLInputElement;
   if (inputElement && inputElement.files && inputElement.files.length > 0) {
     const file = inputElement.files[0];
@@ -327,7 +328,9 @@ onFileSelected(event: Event) {
     reader.readAsDataURL(file);
   }
 }
+}
 onCameraClick() {
+  if (isPlatformBrowser(this.platformId)) {
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     console.error('Media Devices API or getUserMedia is not supported in this browser.');
     return;
@@ -341,6 +344,7 @@ onCameraClick() {
     .catch(err => {
       console.error('Error accessing the camera:', err);
     });
+  }
 }
 
   // final submit
@@ -385,9 +389,8 @@ onCameraClick() {
   }
   // if skalar trys to close entire browser before cpmpleting,delete saved content
   ngOnDestroy(): void {
-    this.values$.next(); // Emit a value to signal unsubscription
+    this.values$.next(); 
     this.values$.complete();
-    // if not alreayd unsubbed
     this.accountSub$.next();
     this.accountSub$.complete();
   }

@@ -30,7 +30,8 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       HttpClientModule,
       BrowserAnimationsModule
-    ),    provideClientHydration(withHttpTransferCacheOptions({
+    ),    
+    provideClientHydration(withHttpTransferCacheOptions({
       includePostRequests: true
     }))
   ]

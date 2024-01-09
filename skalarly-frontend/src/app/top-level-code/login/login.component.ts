@@ -83,5 +83,3 @@ export class LoginComponent implements OnInit, AfterViewInit {
     }
   }
 }
-
-
