@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable, of, shareReplay } from 'rxjs';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReauthorizeComponent } from '../reauthorize/reauthorize.component';
@@ -28,7 +29,8 @@ export class AuthorizeService {
     private http: HttpClient,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
   //  recieved credentials
   getUserId(): string | null {
@@ -159,12 +161,11 @@ export class AuthorizeService {
     expirationDate: Date,
     userId: string
   ): void {
-    // Could lso use http-only cookies or sesion storage for sensitive info
-    // should hash or encrpyt when sorting and retrieving
+    if (isPlatformBrowser(this.platformId)) {
     localStorage.setItem('token', token);
     localStorage.setItem('expiration', expirationDate.toISOString());
     localStorage.setItem('userId', userId);
-  }
+  }}
   public getAuthData(): any {
     const token = localStorage.getItem('token');
     this.tokenSubject$.next(token);
@@ -172,13 +173,15 @@ export class AuthorizeService {
   }
   // access removal
   private clearAuthData(): void {
+    if (isPlatformBrowser(this.platformId)) {
     localStorage.removeItem('token');
     localStorage.removeItem('expiration');
     localStorage.removeItem('userId');
-  }
+  }}
 
   // clean up
   logout(): void {
+    if (isPlatformBrowser(this.platformId)) {
     this.currentRoute = document.URL;
     console.log('current url', this.currentRoute);
     if (
@@ -194,5 +197,6 @@ export class AuthorizeService {
 
     // clear local storage
     this.clearAuthData();
+  }
   }
 }

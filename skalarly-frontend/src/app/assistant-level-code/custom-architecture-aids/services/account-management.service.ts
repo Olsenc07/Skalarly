@@ -6,7 +6,6 @@ import { Observable, map, of, switchMap } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ReauthorizeComponent } from '../reauthorize/reauthorize.component';
 import { Router } from '@angular/router';
 import { InstitutionInfoService } from './create-edit-account/institution-info.service';
 import { environment } from 'src/environments/environment';

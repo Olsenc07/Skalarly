@@ -1,4 +1,5 @@
-import { Injectable, NgZone, Signal, computed, signal } from '@angular/core';
+import { Inject, Injectable, NgZone, PLATFORM_ID,  computed, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,14 @@ export class OrientationService {
   
 screen = computed<boolean>(() => this.orientationState());
 
-  constructor(private ngZone: NgZone) {
-    console.log('changed')
+  constructor(private ngZone: NgZone, 
+    @Inject(PLATFORM_ID) private platformId: Object) {
+    if (isPlatformBrowser(this.platformId)) {
     window.addEventListener('resize', () => {
       this.ngZone.run(() => {
         this.orientationState.set(window.matchMedia('(orientation: portrait)').matches);
       });
     });
+  }
   }
 }
