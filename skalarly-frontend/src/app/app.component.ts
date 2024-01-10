@@ -1,4 +1,4 @@
-import { Component, OnDestroy, WritableSignal, signal, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, OnDestroy, WritableSignal, signal, PLATFORM_ID, Inject, afterRender, AfterRenderPhase } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import {
   NavigationEnd,
@@ -33,6 +33,7 @@ export class AppComponent implements OnDestroy {
     @Inject(PLATFORM_ID) private platformId: Object) {
       // SSR
       if (isPlatformBrowser(this.platformId)) {
+        afterRender(() => {
     // tracking skalars current page
     this.router.events
       .pipe(
@@ -46,6 +47,7 @@ export class AppComponent implements OnDestroy {
       .subscribe((event: NavigationEnd) => {
         this.routerUrl = event.url;
       });
+    }, { phase: AfterRenderPhase.Read })
   }}
 
   ngOnDestroy(): void {

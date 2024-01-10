@@ -1,5 +1,5 @@
 
-import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy, Inject, signal, PLATFORM_ID, WritableSignal } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Inject, signal, PLATFORM_ID, WritableSignal, afterNextRender, AfterRenderPhase } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { LoginLogicComponent } from './login-logic/login-logic.component';
@@ -40,7 +40,7 @@ import { LoginSpecificService } from 'src/app/assistant-level-code/custom-archit
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit {
    // mobile first
   orientation: WritableSignal<boolean> = signal(true);
   // animation based
@@ -55,22 +55,21 @@ export class LoginComponent implements OnInit, AfterViewInit {
     protected orientationService: OrientationService,
     private readonly router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) {
+    afterNextRender(() => {
+      if (isPlatformBrowser(this.platformId)) {
+        setTimeout(() => {
+          this.skalarlyState = 'rise';
+        }, 7000);
+      }
+    }, { phase: AfterRenderPhase.Read })
+  }
 
   ngOnInit(): void {
     // randomize phrases
     this.loginSpecificService.randomizePairs();
-    // if (isPlatformBrowser(this.platformId)) {
-    //   // Browser-only code
-    // }
   }
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => {
-        this.skalarlyState = 'rise';
-      }, 7000);
-    }
-  }
+
   navigate(): void {
     this.router.navigate(['/sign-up']);
   }
