@@ -4,7 +4,7 @@ import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
 import { Request, Response } from 'express';
 import { join } from 'path';
-import { AppServerModule } from '../skalarly-frontend/src/main.server';
+import { AppServerPromise } from '../skalarly-frontend/src/main.server';
 
 const app = express();
 const PORT = process.env['PORT'] || 4000;
@@ -25,7 +25,7 @@ app.get('*', async (req: Request, res: Response) => {
     };
 
     const html = await commonEngine.render({
-      bootstrap: AppServerModule, 
+      bootstrap: AppServerPromise, 
       ...options
     });
 

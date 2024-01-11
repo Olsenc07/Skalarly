@@ -1,5 +1,5 @@
-import { Component, HostListener, type OnInit } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { Component, HostListener, Inject, PLATFORM_ID, type OnInit } from '@angular/core';
+import { NgFor, NgIf, isPlatformBrowser } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { type PostInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/post-interface';
@@ -14,6 +14,7 @@ import { type PostInterface } from 'src/app/assistant-level-code/custom-architec
 export class SpecificFeedPageComponent implements OnInit {
   posts: PostInterface[] | undefined;
 
+  constructor( @Inject(PLATFORM_ID) private platformId: Object){}
   ngOnInit(): void {
     // fetch posts
     console.log('posts');
@@ -22,6 +23,7 @@ export class SpecificFeedPageComponent implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     // Add logic to show/hide the scroll button based on scroll position
+    if (isPlatformBrowser(this.platformId)) {
     const scrollToTopElement: HTMLElement | null =
       document.getElementById('scrollToTop');
     if (scrollToTopElement) {
@@ -33,10 +35,13 @@ export class SpecificFeedPageComponent implements OnInit {
       }
     }
   }
+  }
 
   // scroll to top
   scrollToTop(): void {
+    if (isPlatformBrowser(this.platformId)) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   // efficent rendering

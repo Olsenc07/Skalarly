@@ -5,7 +5,7 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class OrientationService {
-  private orientationState = signal<boolean>(window.matchMedia('(orientation: portrait)').matches);
+  private orientationState = signal<boolean>(false);
   
 screen = computed<boolean>(() => this.orientationState());
 
@@ -14,7 +14,7 @@ screen = computed<boolean>(() => this.orientationState());
     if (isPlatformBrowser(this.platformId)) {
     window.addEventListener('resize', () => {
       this.ngZone.run(() => {
-        this.orientationState.set(window.matchMedia('(orientation: portrait)').matches);
+        this.orientationState.set(false);
       });
     });
   }

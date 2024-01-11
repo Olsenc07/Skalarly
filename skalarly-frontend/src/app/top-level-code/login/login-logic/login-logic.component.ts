@@ -3,17 +3,18 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { Observable, concat, debounceTime, distinctUntilChanged, of, map, startWith, switchMap } from 'rxjs';
 import { AuthorizeService } from '../../../assistant-level-code/custom-architecture-aids/services/authorize.service';
 import { GlowBorderDirective } from '../../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
-import { Router } from '@angular/router';
 import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { reusableLogicAnimations } from './../imports/animation-logic-imports';
 
+import { AsyncPipe, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { Router } from '@angular/router';
+
 import type { EmailInterface, PasswordInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/login-interface';
 
 @Component({

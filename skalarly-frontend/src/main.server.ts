@@ -1,14 +1,12 @@
-import { ServerModule } from '@angular/platform-server';
+import { ApplicationRef, NgModule } from '@angular/core';
 import { AppComponent }from './app/app.component';
+import { ServerModule } from '@angular/platform-server';
 import { bootstrapApplication } from '@angular/platform-browser';
 
-export class AppServerModule {}
-bootstrapApplication(AppComponent, {
-  providers: [
-    ServerModule
-  ]}).then((started) => {
-  console.log('SSR start up is working', started);
-})
-.catch((err) => {
-  console.error('error has occurred on SSR start up', err);
-});
+export function AppServerPromise(): Promise<ApplicationRef> {
+  return bootstrapApplication(AppComponent, {
+    providers: [
+      ServerModule,
+    ]
+  });
+}
