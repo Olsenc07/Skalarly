@@ -54,7 +54,7 @@ button[profilePic]{
 }
 
   div[title] {
-    @include responsive.responsiveFontSize('smaller');
+    @include responsive.responsiveFontSize();
     font-weight: bold;
     text-align: center;
 }
