@@ -5,7 +5,6 @@ import { LetterByLetterComponent } from '../../assistant-level-code/child-reusab
 import { LoginLogicComponent } from './login-logic/login-logic.component';
 import { SkeletonLoaderLoginComponent } from './skeleton-loader-login/skeleton-loader-login.component';
 
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,7 +26,6 @@ import { LoginSpecificService } from 'src/app/assistant-level-code/custom-archit
   animations: [...reusableAnimations],
   imports: [
     ReactiveFormsModule,
-    MatCardModule,
     MatButtonModule,
     MatChipsModule,
     MatFormFieldModule,

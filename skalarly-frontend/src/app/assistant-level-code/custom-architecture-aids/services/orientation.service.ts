@@ -5,7 +5,7 @@ import { isPlatformBrowser } from '@angular/common';
   providedIn: 'root'
 })
 export class OrientationService {
-  private orientationState = signal<boolean>(false);
+  private orientationState = signal<boolean>(true);
   
 screen = computed<boolean>(() => this.orientationState());
 
@@ -14,7 +14,11 @@ screen = computed<boolean>(() => this.orientationState());
     if (isPlatformBrowser(this.platformId)) {
     window.addEventListener('resize', () => {
       this.ngZone.run(() => {
+        const orientationType = window.screen.orientation.type;
+        if(orientationType.includes('landscape')){
+          console.log('my turn')
         this.orientationState.set(false);
+        }
       });
     });
   }

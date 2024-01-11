@@ -17,12 +17,11 @@
   <form [formGroup]="instituitionForm" (ngSubmit)="createAccount()">
 <ng-template matStepContent>
     <div class="input-list">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{title}}</mat-card-title>
-    </mat-card-header>
+      <div title>
+        {{title}}
+      </div>
     <mat-divider></mat-divider>
-      <mat-card-content>
+
 <app-reusable-inputs [label]="'Country'" class="input-list-inputs input-list-first"
  icon="flag_circle" [initialList$]="initialList$"
 (selectedChange)="updateCountrySelection($event)">
@@ -50,8 +49,6 @@ icon="explore" [initialList$]="initialList$"
   <button mat-button matStepperPrevious type="button" (click)="navigate()">Back</button>
   <button mat-button matStepperNext type="button">Next</button>
 </div>
-</mat-card-content>
-</mat-card>
 
 </div>
 </ng-template>
@@ -63,12 +60,7 @@ icon="explore" [initialList$]="initialList$"
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
   <ng-template matStepContent>
   <div class="input-list">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Validation Time</mat-card-title>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-        <mat-card-content>
+    <div title>Validation Time </div>
   <app-reusable-inputs class="input-list-inputs input-list-first" [isValid]="isValid"  (valueChange)="onValueChange($event)"
     label="Username" placeholder="Username" icon="account_circle"
   [error]="getError('username') | errorPipe"
@@ -94,8 +86,6 @@ icon="explore" [initialList$]="initialList$"
   <!-- allow next when validated -->
   <button mat-button matStepperNext type="button">Next</button>
 </div>
-</mat-card-content>
-</mat-card>
     <!-- Password Requirements -->
 </div>
 </ng-template>
@@ -108,12 +98,9 @@ icon="explore" [initialList$]="initialList$"
   <form [formGroup]="personalForm" (ngSubmit)="createAccount()">
   <ng-template matStepContent>
   <div class="input-list">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Tell us about yourself</mat-card-title>
-      </mat-card-header>
+    <div title>Tell us about yourself </div>
+    <mat-divider></mat-divider>
       <mat-divider></mat-divider>
-        <mat-card-content>
           <div >
           <button mat-button [matMenuTriggerFor]="menu" profilePic>
           Add A Profile Picture
@@ -175,10 +162,8 @@ Upload Photo
   <div class="nav-wrapper">
     <button mat-button matStepperPrevious type="button">Back</button>
     <button mat-button matStepperNext type="button">Next</button>
-    </div>
- </mat-card-content>
- </mat-card>
   </div>
+</div>
   </ng-template>
 </form>
 </mat-step>
@@ -188,12 +173,9 @@ Upload Photo
   <form [formGroup]="skalarInfoForm" (ngSubmit)="addSkalarInfo()">
   <ng-template matStepContent>
     <div class="input-list">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>Primary Focuses</mat-card-title>
-          </mat-card-header>
+      <div title>Primary Focuses </div>
+
           <mat-divider></mat-divider>
-          <mat-card-content>
             <div class="two-by-two input-list-first">
       <app-reusable-input-dynamic [controlType]="'text'" [inputsArray]="getArray('major')" label="Major" icon="school"></app-reusable-input-dynamic>
       <app-reusable-input-dynamic [controlType]="'text'" [inputsArray]="getArray('minor')" label="Minor" icon="book"></app-reusable-input-dynamic>
@@ -210,8 +192,6 @@ Upload Photo
         <button mat-button matStepperPrevious type="button">Back</button>
         <button mat-raised-button matStepperNext type="submit"  [disabled]="skalarInfoForm.invalid">Create</button>
       </div>
-      </mat-card-content>
-      </mat-card>
     </div>
   </ng-template>
 </form>

@@ -32,7 +32,6 @@ import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatDividerModule } from '@angular/material/divider'
-import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu'
@@ -57,7 +56,6 @@ import { isPlatformBrowser } from '@angular/common';
     ErrorPipe,
     MatDividerModule,
     MatButtonModule,
-    MatCardModule,
     MatDatepickerModule,
     MatIconModule,
     MatInputModule,
