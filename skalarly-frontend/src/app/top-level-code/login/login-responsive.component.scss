@@ -2,6 +2,10 @@
 @use '../../assistant-level-code/universal-reusable-styles/break-points' as device;
 @use 'login-animations.component' as animation;
 
+@mixin center {
+  display: flex;
+  justify-content: center;
+}
 $form-margins: (
   base: 3%,     
   tablet: 5%,  
@@ -26,8 +30,10 @@ $form-margins0: (
 }
 div[entire-page] {
     @include responsiveMargins;
-    display: flex;
-    justify-content: center;
+    @media only screen and (min-width: 768px){
+    background-color: white;
+    }
+   @include center;
     flex-direction: column;
     position: relative;
   }
@@ -36,9 +42,8 @@ div[phrase]{
     @include responsive.responsiveFontSize('smaller'); 
   }
   div[skalarly] {
-    display: flex;
+    @include center;
     font-weight: bold;
-    justify-content: center;
     @include responsive.responsiveFontSize('larger'); 
     background-clip: text;
     -webkit-background-clip: text;
@@ -50,14 +55,15 @@ div[phrase]{
       }
 
   .welcome-container {
-    display: flex;
-    justify-content: center;
+    @include center;
     flex-direction: column;
     align-items: center; 
     margin-top: 3%;
     @each $screen, $min-width in device.$device-sizes {
       @if $screen != 'base' {
         @include responsive.media-query($screen, $min-width){
+          border-right: 3px solid var(--secondChoice);
+          border-bottom: 3px solid var(--secondChoice);
           margin-top: 0%;
         }}}
 }

@@ -50,6 +50,7 @@ color: rgba(48, 48, 203, 0.757);
 body {
   margin: 0;
   padding: 0;
+  background-color: #f6f6f675;
   @include common.common;
   @include common.pageSize;
  }
