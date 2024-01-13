@@ -35,7 +35,7 @@ const __dirname = dirname(__filename);
 
 // App Variables
 const app = express();
-const port = portEnv || 4200;
+const port = portEnv;
 
 //  DataBase connection
 mongoose.connect(db) 

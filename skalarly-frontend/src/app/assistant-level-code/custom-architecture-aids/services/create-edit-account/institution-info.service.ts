@@ -9,7 +9,6 @@ import { environment } from 'src/environments/environment';
 })
 export class InstitutionInfoService {
   private apiUrl: string = environment.apiUrl;
-  // cache
   private apiSource: basicinfo | null = null;
   private cacheSchoolData: Map<string, ReplaySubject<ProvinceSchoolTypes>> = new Map();
   private cacheSchoolNames: Map<string, ReplaySubject<string[]>> = new Map();
@@ -47,7 +46,6 @@ export class InstitutionInfoService {
   });
 
   setCurrentType(type: string) {
-    console.log('primarily', type);
     this.currentType.set(type);
   }
 
@@ -69,7 +67,6 @@ export class InstitutionInfoService {
   }
 
   getCountries(): void {
-    // Directly set the array of countries
     const countryNames = ['Canada', 'United States'];
     this.countriesState.set(countryNames);
   }
@@ -82,10 +79,6 @@ export class InstitutionInfoService {
         .pipe(take(1))
         .subscribe({
           next: (provincesData) => {
-            console.log('one step');
-            console.log('two step', provincesData);
-
-            // Extract province names using map and reduce
             const provinceNames = provincesData.reduce<string[]>((acc, curr) => {
               const names = curr.provinces.map(p => p.province);
               return acc.concat(names);
@@ -126,6 +119,7 @@ export class InstitutionInfoService {
         .pipe(take(1))
         .subscribe({
           next: (schoolData) => {
+
             this.cacheSchoolData.get(cacheKey)?.next(schoolData);
             this.typesOfInstitution.set(this.extractSchoolTypes());
             this.currentType.set('typesOfInstitution');

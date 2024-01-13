@@ -7,28 +7,28 @@ import { APP_BASE_HREF } from '@angular/common';
 import { Request, Response } from 'express';
 import { join } from 'path';
 import { AppServerPromise } from 'src/main.server';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 app.use(compression());
-const PORT = process.env['PORT'] || 4000;
+const PORT = process.env['PORT'];
 const DIST_FOLDER = join(process.cwd(), 'dist/skalarly-frontend/');
 
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);
 app.use(express.static(DIST_FOLDER));
-function requireHTTPS(req: any, res: any, next: any) {
-  // The 'x-forwarded-proto' check is for Heroku
-  if (
-    req.get('x-forwarded-proto') !== 'https'
-    &&
-  process.env['NODE_ENV'] !== "development"
-  ) {
-    return res.redirect("https://" + req.get("host") + req.url);
-  }
-  next();
-}
-app.use(requireHTTPS);
 
+
+const API_BASE_URL = process.env['BACKEND_API_URL'];
+
+const apiProxyOptions = {
+  target: API_BASE_URL,
+  changeOrigin: true,
+  pathRewrite: { '^/api': '' },
+  followRedirects: true,
+};
+
+app.use('/api', createProxyMiddleware(apiProxyOptions));
 app.get('*', async (req: Request, res: Response) => {
   try {
     const commonEngine = new CommonEngine();

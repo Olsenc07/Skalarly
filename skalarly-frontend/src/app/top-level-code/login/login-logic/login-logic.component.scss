@@ -29,6 +29,7 @@ div[forgot]{
   div[phrase]{
     display: flex;
     justify-content: center;
+    color: grey;
     @include responsive.responsiveFontSize('smaller');
   }
 
