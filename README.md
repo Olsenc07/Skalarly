@@ -1,25 +1,19 @@
-I'm excited to unveil the latest evolution of Skalarly: the SkalarlyDeploy repository, now re-engineered with Angular 17's advanced features. This iteration represents a substantial upgrade, showcasing the capabilities and high standards of Angular's latest version. My ongoing efforts are channeled into meticulously transitioning and enhancing the codebase from the old repository to this modernized platform.
+Live on Heroku: skalarly.com
 
-🌟 What Sets This Repository Apart?
+Here is the latest version of Skalarly: the SkalarlyDeploy repository, now re-engineered with Angular 17's advanced features. This updated project, showcases the capabilities and high standards of Angular's latest version. My ongoing efforts are focused on continuously displaying my learning in modern Web Development
 
-Advanced Features: My development approach is anchored in several key strategies to deliver an exceptional user experience:
+Highlights: Progressive Web App using M.E.A.N Stack
 
-Standalone Components: Enhancing flexibility and maintainability.
+Standalone Components - Enhancing flexibility and maintainability.
 Lazy Loading: Optimizing performance and speed.
-Mobile-First Approach: Prioritizing responsiveness and accessibility.
-Server-Side Rendering (SSR): Boosting performance and SEO.
-Code Quality Assurance: Employing strict eslint plugins, I ensure that every line of code meets the highest standards of cleanliness and efficiency.
+Mobile-First Approach - Prioritizing responsiveness and accessibility.
+Server-Side Rendering (SSR) - Enhancing performance and SEO.
+Security - Making sure to properly handle and store sensitive information. Attention to common web vulnerabilities.
+Data Storage/Access - Utilizing the NoSQL database MongoDB to handle diverse data types and allow easy and secure queries.
+CI/CD - Utilizing containerized applications "Docker-Kubernetes", and testing frameworks "Cypress-Jasmine" that are deployed by Heroku.
+Code Quality Assurance - Employing strict eslint plugins, ensuring that every line of code meets the standards of cleanliness and efficiency.
+Web Accessibility - Following international standards for web accessibility.
 
-🚀 Current Deployment and Upcoming Enhancements
+Future Integrations: 
 
-Live on Heroku: Skalarly is already live and waiting for you at https://www.skalarly.com/ Experience the features and the dynamic nature of the application right now.
-
-Comprehensive Tech Stack Integration:
-
-Already Integrated: Docker, Cypress, Jasmine, MongoDB, and Heroku form the backbone of the current deployment, each contributing to a robust and efficient application.
-Future Integrations: Look forward to the integration of Docker-Kubernetes, Google Cloud Platform (GCP), Jenkins, NgRx, and Ionic to further enhance the application's versatility and power.
-🛠️ Ongoing Development and Commitment
-
-As the sole developer behind Skalarly, I am deeply committed to continuous improvement and innovation. I welcome your feedback and suggestions as we journey together in advancing Skalarly and setting new benchmarks in web application development.
-
-Stay tuned for more updates, and thank you for your continued support!
+Integration of Google Cloud Platform (GCP), TensorFlow.js, Jenkins, and Ionic to further enhance the application's versatility and skillset.
