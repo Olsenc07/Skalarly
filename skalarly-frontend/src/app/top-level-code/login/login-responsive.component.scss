@@ -31,7 +31,7 @@ $form-margins0: (
 div[entire-page] {
     @include responsiveMargins;
     @media only screen and (min-width: 768px){
-    background-color: var(--background);
+    background-color: var(--basicText);
     border-radius: 25px;
     }
    @include center;

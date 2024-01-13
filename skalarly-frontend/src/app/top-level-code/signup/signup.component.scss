@@ -22,7 +22,6 @@ width: 100%;
 .back{
   box-shadow: 0 0 2px 2px var(--secondChoice);
   margin: 5% 0% 3% 5%;
-  color: black;
   z-index: 2;
 }
 .center{
@@ -31,7 +30,6 @@ width: 100%;
 }
 button[profilePic]{
   display: flex;
- 
 }
 .image-individual{
   @include stack;
@@ -59,13 +57,16 @@ div[title] {
     text-align: center;
 }
 div[header]{
-  background-color: white;
+  background-color: var(--basicText);
 }
 
 mat-stepper {
   @include stack;
+   background-color: var(--basicText);
+   border-radius: 25px;
   @media only screen and (max-width: 768px){
-  background-color: #fafafa;
+  border-radius: 0px;
+  background-color: unset;
   }
 }
 .image-selection{
@@ -75,8 +76,8 @@ mat-stepper {
 }
   button{
   &[matStepperNext]{
-      background-color: var(--firstChoice);
-      color: white;
+      background-color: var(--secondChoice);
+      color: var(--basicText);
       @include responsive.responsiveFontSize();
       &[type="submit"]{
         transition: transform 0.5s ease-in-out;
@@ -90,7 +91,7 @@ mat-stepper {
       left: 0; 
       right: 100%;
       bottom: 0;
-      background-image: linear-gradient(to left, #005f73, #0a9396);
+      background-image: linear-gradient(to left, var(--approved), var(--firstChoice));
       transition: right 0.5s ease-in-out;
       z-index: -1; 
     }
@@ -101,7 +102,7 @@ mat-stepper {
     }
     &[matStepperPrevious] {
       background-color: var(--secondChoice);
-      color: white;
+      color: var(--basicText);
       @include responsive.responsiveFontSize();
     }
   }

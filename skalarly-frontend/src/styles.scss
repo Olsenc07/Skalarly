@@ -47,7 +47,7 @@ color: var(--bolder);
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--basicText);
+  background-color: var(--background);
   @include common.common;
   @include common.pageSize;
  }

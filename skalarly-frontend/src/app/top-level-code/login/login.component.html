@@ -18,7 +18,7 @@
     <button mat-stroked-button
     (click)="navigate()" [class.welcome-text-south-paw]="nextAnimations"
      [@bubble]="nextAnimations ? 'animate' : 'noAnimate'" join>
-    <app-letter-by-letter [customClass]="'small'"
+    <app-letter-by-letter [customClass]="'default'"
     [lastLetterAnimation]="true"
     [message]="join" [autoGenerate]="false" 
     [welcomeSouthPaw]="true"></app-letter-by-letter>
