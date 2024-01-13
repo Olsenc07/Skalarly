@@ -1,3 +1,10 @@
+.initial-load{
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50vh;
+}
 .mobile-fade-overlay {
     position: relative;
     &::before {

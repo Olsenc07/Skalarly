@@ -2,11 +2,15 @@
 @if (routerUrl !== ('/login' || '/sign-up' )){
 <app-nav-bar ></app-nav-bar>
  }
-  <router-outlet></router-outlet> <!-- Primary outlet for main content -->
+  <router-outlet></router-outlet> 
  <!-- Render as component based on path of routes -->
      <!-- <router-outlet ></router-outlet>  Secondary outlet for sidebars & later maybe modals/dialog -->
 } @loading{
-<h1 style="display: flex; justify-content: center;">
-Skalarly
-</h1>
+<div  class="initial-load">   
+<img src="assets/images/Skalar_Hat_Icon.svg" 
+    width="82" height="60.5" sizes="15vw" alt="Skalarly Grad Wizard Hat Icon">
+    <h1>
+    Skalarly
+    </h1>
+</div>
 }

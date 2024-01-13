@@ -64,10 +64,20 @@ mat-stepper {
   @include stack;
    background-color: var(--basicText);
    border-radius: 25px;
+   border: solid;
   @media only screen and (max-width: 768px){
   border-radius: 0px;
   background-color: unset;
+  border: unset;
   }
+   .mat-horizontal-stepper-header:first-of-type{
+    border-top-left-radius: 25px;
+  }
+  .mat-horizontal-stepper-header:last-of-type{
+    border-top-right-radius: 25px;
+
+  }
+
 }
 .image-selection{
   display: flex;
