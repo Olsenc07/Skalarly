@@ -50,7 +50,7 @@ app.use(bodyParser.urlencoded({ extended: false}));
 function requireHTTPS(req, res, next) {
   // The 'x-forwarded-proto' check is for Heroku
   if (
-    req.get("x-forwarded-proto") !== "https"
+    req.get('x-forwarded-proto') !== 'https'
     &&
   process.env.NODE_ENV !== "development"
   ) {
@@ -74,7 +74,6 @@ app.use("/api/skalars", apiLimiter, skalarsRoute);
 app.use("/api/canada",apiLimiter, canadianRoute);
 
 // Production
-// Serve Angular Application - this assumes 'ng build' outputs to 'dist/skalarly-frontend'
 const angularAppPath = join(__dirname, 'dist', 'skalarly-frontend');
 app.use(express.static(angularAppPath));
 app.get('*',requireHTTPS, (req, res) => {

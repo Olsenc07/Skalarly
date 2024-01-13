@@ -16,6 +16,18 @@ const DIST_FOLDER = join(process.cwd(), 'dist/skalarly-frontend/');
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);
 app.use(express.static(DIST_FOLDER));
+function requireHTTPS(req: any, res: any, next: any) {
+  // The 'x-forwarded-proto' check is for Heroku
+  if (
+    req.get('x-forwarded-proto') !== 'https'
+    &&
+  process.env['NODE_ENV'] !== "development"
+  ) {
+    return res.redirect("https://" + req.get("host") + req.url);
+  }
+  next();
+}
+app.use(requireHTTPS);
 
 app.get('*', async (req: Request, res: Response) => {
   try {
