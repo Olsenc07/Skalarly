@@ -1,43 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
 @use 'app/assistant-level-code/universal-reusable-styles/common' as common;
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
-$color-pairs: (
-  'oceanic-blue': (
-    primary: rgba(72, 107, 131, 1), 
-    pairing: rgba(0, 95, 115, 1)    
-  ),
-  'atlantic-blue': (
-    pairing: rgba(0, 95, 115, 1),
-    primary: rgba(30, 67, 121, 1)
-  ),
-  'sapphire-blue': (
-    primary: rgba(30, 67, 121, 1), 
-    pairing: rgba(72, 107, 131, 1)  
-  )
-);
-@function random-color-pair() {
-  $keys: map-keys($color-pairs);
-  $random-key: nth($keys, random(length($keys)));
-  $color-pair: map-get($color-pairs, $random-key);
-  @return $color-pair;
-}
-$random-pair: random-color-pair();
-$firstChoice: map-get($random-pair, primary);
-$secondChoice: map-get($random-pair, pairing);
+// $color-pairs: (
+//   'oceanic-blue': (
+//     primary: rgba(3, 4, 94, 1), 
+//     pairing: rgba(0, 123, 255, 1)    
+//   ),
+//   // 'atlantic-blue': (
+//   //   pairing: rgba(0, 123, 255, 1),
+//   //   primary: rgba(23, 162, 255, 1)
+//   // )
+// );
+// @function random-color-pair() {
+//   $keys: map-keys($color-pairs);
+//   $random-key: nth($keys, random(length($keys)));
+//   $color-pair: map-get($color-pairs, $random-key);
+//   @return $color-pair;
+// }
+// $random-pair: random-color-pair();
+// $firstChoice: map-get($random-pair, primary);
+// $secondChoice: map-get($random-pair, pairing);
 :root {
-  --firstChoice: #{$firstChoice};
-  --secondChoice: #{$secondChoice};
-  --error: var(--mdc-outlined-text-field-error-outline-color);
-  --approved: #3CB371(51 0% 0%); 
-  --pairingColor: #486b83; 
-  --pairingColor2: #778da9; 
+  --skalarly-font: 'Cormorant Garamond', serif;
+  // --firstChoice: #{$firstChoice};
+  // --secondChoice: #{$secondChoice};
+  --firstChoice: #009ffd;
+  --secondChoice:  #27496d;
+  --background:#f0f4f8;
+  --bolder: #3030cb;
+  --error: #e63946;
+  --basicText: #ffffff;
+  --approved: #2a9d8f; 
+  --pairingColor: #007bff; 
+  --pairingColor2: #343a40; 
 }
 
-/* universal font */
-:root{
---skalarly-font: 'Cormorant Garamond', serif;
-}
 *,
 *::before,
 *::after {
@@ -45,12 +42,12 @@ $secondChoice: map-get($random-pair, pairing);
   font-family: var(--skalarly-font); 
 }
 b {
-color: rgba(48, 48, 203, 0.757);
+color: var(--bolder);
 }
 body {
   margin: 0;
   padding: 0;
-  background-color: #f6f6f675;
+  background-color: var(--basicText);
   @include common.common;
   @include common.pageSize;
  }
@@ -63,7 +60,7 @@ body {
 }
 mat-toolbar{
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
-    background-color: #282828;
+    background-color: #27496d;
 }
 
 .glow-animation {

@@ -31,7 +31,8 @@ $form-margins0: (
 div[entire-page] {
     @include responsiveMargins;
     @media only screen and (min-width: 768px){
-    background-color: white;
+    background-color: var(--background);
+    border-radius: 25px;
     }
    @include center;
     flex-direction: column;
@@ -48,10 +49,10 @@ div[phrase]{
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent; 
-    background-image: linear-gradient(45deg, var(--firstChoice), var(--secondChoice));
+    background-image: linear-gradient(45deg, var(--bolder), var(--firstChoice), var(--bolder));
     background-size: 200% 200%; 
     @include animation.gradientFlow;
-    animation: gradient-flow 6s linear infinite; 
+    animation: gradient-flow 7s linear infinite; 
       }
 
   .welcome-container {
@@ -64,6 +65,8 @@ div[phrase]{
         @include responsive.media-query($screen, $min-width){
           border-right: 3px solid var(--secondChoice);
           border-bottom: 3px solid var(--secondChoice);
+          border-bottom-right-radius: 25px;
+          border-bottom-left-radius: 25px;
           margin-top: 0%;
         }}}
 }
@@ -71,13 +74,11 @@ button[join] {
     @include responsive.responsiveFontSize();
       position: relative; 
       overflow: hidden; 
-      background-color: #d0e5fc94;
-      box-shadow: 3px 3px #93b9e6;
+      box-shadow: 3px 3px #007bff;
       transition: background-image 1.5s ease; 
-      color: #1a3c40;
       margin-bottom: 1.5%;
       &.welcome-text-south-paw {
-        background-image: linear-gradient(to right, white, #d0e5fc94);
+        background-color: var(--basicText);
       }
       &[mat-raised-button]{
       @include animation.riseFloat;
