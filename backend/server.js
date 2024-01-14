@@ -42,7 +42,8 @@ mongoose.connect(db)
 .then(()  => {
   console.log('Connected to database!')})
 .catch((error) => {
-  console.error('MongoDB connection error:', error);
+
+  console.error('MongoDB connection error:', db, error);
 })
 // App Configuration
 app.use(bodyParser.json());

@@ -18,7 +18,6 @@ app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);
 app.use(express.static(DIST_FOLDER));
 
-
 const API_BASE_URL = process.env['BACKEND_API_URL'];
 
 const apiProxyOptions = {
