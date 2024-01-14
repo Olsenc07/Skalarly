@@ -1,14 +1,11 @@
 // SERVER NODE.JS Using ES6 module
 import dotenv from 'dotenv';
-import { HttpProxyAgent } from 'http-proxy-agent';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 const portEnv = process.env.PORT;
 const db = process.env.MONGODB_URI;
-const fixieUrl = process.env.FIXIE_URL;
-const proxyAgent = new HttpProxyAgent(fixieUrl);
 
 import express from 'express';
 import rateLimit from 'express-rate-limit';
@@ -72,7 +69,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, PUT, OPTIONS");
     next();
  });
-
+ 
 // API routes
 app.use("/api/authorize", authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
