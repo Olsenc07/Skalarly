@@ -1,6 +1,6 @@
 // SERVER NODE.JS Using ES6 module
 import dotenv from 'dotenv';
-import HttpProxyAgent from 'http-proxy-agent';
+import { HttpProxyAgent } from 'http-proxy-agent';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
