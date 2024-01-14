@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 const portEnv = process.env.PORT;
 const db = process.env.MONGODB_URI;
-const fixieUrl = url.parse(process.env.FIXIE_URL);
+const fixieUrl = process.env.FIXIE_URL;
 const proxyAgent = new HttpProxyAgent(fixieUrl);
 
 import express from 'express';
