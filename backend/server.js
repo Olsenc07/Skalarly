@@ -37,12 +37,14 @@ const app = express();
 const port = portEnv;
 
 //  DataBase connection
-mongoose.connect(db) 
+mongoose.connect(db, { 
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+}) 
 .then(()  => {
   console.log('Connected to database!')})
 .catch((error) => {
-
-  console.error('MongoDB connection error:', db, error);
+  console.error('MongoDB connection error:', error);
 })
 // App Configuration
 app.use(bodyParser.json());
