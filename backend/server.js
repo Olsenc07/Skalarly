@@ -1,11 +1,10 @@
 // SERVER NODE.JS Using ES6 module
-// dev
 import dotenv from 'dotenv';
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 const portEnv = process.env.PORT;
-const db = process.env.mongodb;
+const db = process.env.MONGODB_URI;
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 // Define rate limit rule
