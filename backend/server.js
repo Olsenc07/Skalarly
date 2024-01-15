@@ -1,12 +1,11 @@
 // SERVER NODE.JS Using ES6 module
 import dotenv from 'dotenv';
-
+import { HttpProxyAgent } from 'http-proxy-agent';
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 const portEnv = process.env.PORT;
 const db = process.env.MONGODB_URI;
-
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 // Define rate limit rule
