@@ -39,9 +39,7 @@ const app = express();
 const port = portEnv;
 
 //  DataBase connection
-mongoose.connect(db, { 
-  agent: proxyAgent
-}) 
+mongoose.connect(db) 
 .then(()  => {
   console.log('Connected to database!')})
 .catch((error) => {
@@ -69,7 +67,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, PUT, OPTIONS");
     next();
  });
- 
+
 // API routes
 app.use("/api/authorize", authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
