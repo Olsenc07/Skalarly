@@ -1,20 +1,18 @@
 import 'zone.js';
 import * as express from 'express';
 import * as compression from 'compression';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+
 import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
 import { Request, Response } from 'express';
+import { join } from 'path';
 import { AppServerPromise } from 'src/main.server';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 const app = express();
 app.use(compression());
 const PORT = process.env['PORT'];
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const DIST_FOLDER = join(__dirname, 'dist', 'skalarly-frontend/');
+const DIST_FOLDER = join(process.cwd(), 'dist/skalarly-frontend/');
 
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);

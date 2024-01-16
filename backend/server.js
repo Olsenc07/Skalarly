@@ -73,7 +73,7 @@ app.use("/api/skalars", apiLimiter, skalarsRoute);
 app.use("/api/canada",apiLimiter, canadianRoute);
 
 // Production
-const angularAppPath = join(__dirname, 'dist', 'skalarly-frontend');
+const angularAppPath = join(__dirname, 'dist', 'skalarly-frontend', 'skalarly-frontend');
 app.use(express.static(angularAppPath));
 app.get('*',requireHTTPS, (req, res) => {
   res.sendFile(join(angularAppPath, 'index.html'));
