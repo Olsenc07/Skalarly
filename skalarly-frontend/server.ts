@@ -23,7 +23,7 @@ const API_BASE_URL = process.env['BACKEND_API_URL'];
 const apiProxyOptions = {
   target: API_BASE_URL,
   changeOrigin: true,
-  pathRewrite: { '^/api': '' },
+  pathRewrite: { '': '^/api' },
   followRedirects: true,
 };
 

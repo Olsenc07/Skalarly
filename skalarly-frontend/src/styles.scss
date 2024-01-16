@@ -51,9 +51,9 @@ body {
   @include common.common;
   @include common.pageSize;
  }
- button{
-  /* google standard for mobile buttons */
+ button[mat-button],button[mat-raised-button]{
   min-height: 48px; 
+  border-radius: 8px;
  }
 .condition-met{
     color: var(--approved);
@@ -78,5 +78,6 @@ mat-toolbar{
     'wght' 300, 
     'GRAD' 0, 
     'opsz' 24; 
+  
 }
 
