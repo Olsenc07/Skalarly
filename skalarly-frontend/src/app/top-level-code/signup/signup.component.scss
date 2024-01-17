@@ -38,9 +38,7 @@ button[profilePic]{
 }
 .stepper{
   @include stack;
-  @media only screen and (min-width: 767px){
-    padding: 5% 15% 0% 15%;
-    }
+  height: max-content;
 }
 .two-by-two{
   @media only screen and (min-width: 767px){
@@ -62,10 +60,6 @@ div[header]{
 
 mat-stepper {
   @include stack;
-   background-color: var(--basicText);
-   border-radius: 8px;
-   border: 1px solid #e0e0e0;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   @media only screen and (max-width: 768px){
   border-radius: 0px;
   background-color: unset;
@@ -87,8 +81,7 @@ mat-stepper {
 }
   button{
   &[matStepperNext]{
-      background-color: var(--secondChoice);
-      color: var(--basicText);
+      color: var(--secondChoice);
       @include responsive.responsiveFontSize();
       &[type="submit"]{
         transition: transform 0.5s ease-in-out;
@@ -102,6 +95,7 @@ mat-stepper {
       left: 0; 
       right: 100%;
       bottom: 0;
+      border-radius: 8px;
       background-image: linear-gradient(to left, var(--approved), var(--firstChoice));
       transition: right 0.5s ease-in-out;
       z-index: -1; 
@@ -112,8 +106,7 @@ mat-stepper {
       }
     }
     &[matStepperPrevious] {
-      background-color: var(--secondChoice);
-      color: var(--basicText);
+      color: var(--secondChoice);
       @include responsive.responsiveFontSize();
     }
   }
@@ -123,7 +116,7 @@ mat-stepper {
   }
   .nav-wrapper{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     margin-top: 6%;
   }
   

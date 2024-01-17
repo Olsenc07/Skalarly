@@ -51,7 +51,7 @@ body {
   @include common.common;
   @include common.pageSize;
  }
- button[mat-button],button[mat-raised-button]{
+ button[mat-button],button[mat-raised-button], button[mat-stroked-button]{
   min-height: 48px; 
   border-radius: 8px;
  }
