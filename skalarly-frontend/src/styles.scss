@@ -26,7 +26,7 @@
   // --secondChoice: #{$secondChoice};
   --firstChoice: #009ffd;
   --secondChoice:  #27496d;
-  --background: #f5f7f8;;
+  --background: #fcfcfc;;
   --bolder: #3030cb;
   --error: #e63946;
   --basicText: #ffffff;
@@ -47,7 +47,7 @@ color: var(--bolder);
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--background);
+  background-color: var(--basicText);
   @include common.common;
   @include common.pageSize;
  }
