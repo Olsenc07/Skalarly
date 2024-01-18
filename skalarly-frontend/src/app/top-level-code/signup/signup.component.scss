@@ -19,11 +19,6 @@ width: 100%;
 .input-list-first{
   margin-top: 3%;
 }
-.back{
-  box-shadow: 0 0 2px 2px var(--secondChoice);
-  margin: 5% 0% 3% 5%;
-  z-index: 2;
-}
 .center{
   display: flex;
   justify-content: center;
@@ -54,10 +49,6 @@ div[title] {
     font-weight: bold;
     text-align: center;
 }
-div[header]{
-  background-color: var(--basicText);
-}
-
 mat-stepper {
   @include stack;
   @media only screen and (max-width: 768px){
@@ -72,7 +63,6 @@ mat-stepper {
     border-top-right-radius: 25px;
 
   }
-
 }
 .image-selection{
   display: flex;

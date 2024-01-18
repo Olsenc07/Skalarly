@@ -23,10 +23,28 @@
   box-shadow: 0 0 10px 5px var(--pairingColor);
   transition: box-shadow 0.3s ease; 
 }
-router-outlet[content] {
-  box-sizing: border-box;
-  flex: 1; 
-@media (orientation: portrait) {
-  padding-bottom: 4em;
-}
-}
+// .desktop{
+//   display: flex;
+//   flex-direction: column;
+// router-outlet[content] {
+//   order: 2;
+//   box-sizing: border-box;
+//   flex: 1; 
+// }
+// app-nav-bar{
+//   order: 1;
+// }
+// }
+// .mobile{
+//   display: flex;
+//   flex-direction: column;
+//   router-outlet[content] {
+//     order: 1;
+//     box-sizing: border-box;
+//     flex: 1; 
+//     padding-bottom: 4em;
+//   }
+//   app-nav-bar{
+//     order: 2;
+//   }
+//   }

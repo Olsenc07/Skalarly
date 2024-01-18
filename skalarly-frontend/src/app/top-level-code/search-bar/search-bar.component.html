@@ -6,7 +6,12 @@
             </button>
         <input matInput type="search" [formControl]="searchSkalarForm" placeholder="Search Fellow Skalars">
       } @else {
+        <form>
+        <mat-form-field>
         <input matInput type="search" [formControl]="searchSkalarForm" placeholder="Search Fellow Skalars">
+      </mat-form-field>
+
+    </form>
       }
         </span>
      <!-- found -->

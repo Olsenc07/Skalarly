@@ -71,7 +71,6 @@
     <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
     (@welcomeRise.done)="welcomeRiseDone()" >
   <app-letter-by-letter 
-   [customClass]="'small'"
    [message]="welcome"
    [lastLetterAnimation]="true"
    [autoGenerate]="toggle" 

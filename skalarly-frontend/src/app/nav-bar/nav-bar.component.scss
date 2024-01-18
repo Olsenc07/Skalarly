@@ -1,21 +1,23 @@
 @use './../assistant-level-code/universal-reusable-styles/common' as common;
 @use "sass:math";
 
-@mixin toolbar{
-    display: flex;
-    position: sticky;
-    z-index: 2;
-    height: 4em;
-} 
-.navigation{
+.nav-bar{
     @include common.common;
-    @include common.pageSize
+    @include common.pageSize;
+    align-items: center;
 }
 
 .active{
     color: #b8dde9;
 }
+.toolbar{
+    display: flex;
+    position: sticky;
+    z-index: 2;
+    height: 4em;
+    background: var(--background);
 
+    }
 // .refresh-icon-container, .refresh-icon-border {
 //     align-items: center;
 //     justify-content: center;
@@ -34,11 +36,3 @@
 //     box-shadow: 0 0 5px 5px var(--secondChoice);
 //     transition: all 0.3s ease;
 //   }
-.header{
-    @include toolbar;
-    top: 0;
-    }
-.footer{
-    @include toolbar;
-    bottom: 0;
-    }

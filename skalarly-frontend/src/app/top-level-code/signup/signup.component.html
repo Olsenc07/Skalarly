@@ -1,13 +1,5 @@
 @defer { 
   <div class="stepper">
-    @if(this.orientationService.screen()){
-    <div header>
-      <button mat-icon-button (click)="navigate()" class="back">
-      <mat-icon class="material-symbols-outlined">arrow_back</mat-icon>
-      </button>
-    </div>
-    <mat-divider></mat-divider>
-  }
   <mat-stepper [linear]="false" #stepper>
     <ng-template matStepperIcon="edit">
       <mat-icon class="material-symbols-outlined">check</mat-icon>

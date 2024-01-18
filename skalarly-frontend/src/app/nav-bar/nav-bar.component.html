@@ -1,48 +1,23 @@
-    <ng-template> <!-- hides content while loading-->
-    <mat-toolbar class="header">
+  <mat-toolbar class="toolbar">
+    <nav>
       <!-- logo -->
     <!-- *1 search bar icon, mobile first  -->
-        @if(this.orientationService.screen()){
           <!-- search icon to display search -->
-          <ng-template>
+          @if(currentUrl !== '/sign-up'){
           <button mat-icon-button (click)="toggleSearch(true)">
+          <mat-icon class="material-symbols-outlined">search</mat-icon>
           </button>
-        </ng-template>
           @if(searchIconClicked){
           <app-search-bar [mobileFirst]="true" (backEvent)="toggleSearch($event)"></app-search-bar>
-          }
-    <!-- *2 landscape search bar -->
-      } @else {
-        <!-- for desktop but mobile one should pop up and then search options
-        take up full screen -->
-        <app-search-bar [mobileFirst]="false"></app-search-bar>
-        }
-      <nav>
-    @if(this.orientationService.screen()){
-      <ng-template> 
-      <footer class="footer" >
-      <mat-toolbar class="mobile-fade-overlay">
-      <nav>
-    <span class="navigation">
-    <button mat-icon-button>
-      <mat-icon>Profile</mat-icon>
-    </button>
-    </span>
-      </nav>
-    </mat-toolbar>
-    </footer>
-    </ng-template>
-    } @else {
-    <!-- profile -->
-      <div class="navigation">
-    <button mat-icon-button >
-      <mat-icon>Profile</mat-icon>
+          }}
+      <div class="nav-bar">
+    <button mat-icon-button aria-label="Skalarly logo, main page button navigation" (click)="navigate()">
+      <img src="assets/images/Skalar_Hat_Icon.svg" alt="Skalarly Grad Wizard Hat Icon">
     </button>
       </div>
-    <!-- settings button -->
-  }
 </nav>
-    </mat-toolbar>
+</mat-toolbar>
+
     <!-- page refresh pull down, eventully use GSAP for a fun animation-->
 <!-- appPullToRefresh  -->
    <!-- (holdDetected)="onHoldDetected($event.visible)" (deltaYChange)="onDeltaYChange($event.state)" -->
@@ -58,4 +33,3 @@
 </div>
 }
   </ng-container> -->
-    </ng-template>

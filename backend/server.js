@@ -25,6 +25,7 @@ import mongoose from 'mongoose';
 import accountManagementRoute from './routes/account-management.js';
 import authorizeRoute from './routes/authorize.js';
 import skalarsRoute from './routes/skalars.js';
+
 import canadianRoute from './routes/canadian-schools.js';
 
 

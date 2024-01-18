@@ -4,6 +4,7 @@ import { Observable, debounceTime, distinctUntilChanged, filter, switchMap } fro
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 import { SkalarCardComponent } from '../skalar-card/skalar-card.component';
 import { type SkalarInfoInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
 import { SkalarsService } from '../../assistant-level-code/custom-architecture-aids/services/skalars.service';
@@ -17,7 +18,8 @@ import { SkalarsService } from '../../assistant-level-code/custom-architecture-a
     CommonModule,
     MatButtonModule,
     ReactiveFormsModule,
-    SkalarCardComponent
+    SkalarCardComponent,
+    MatInputModule
   ],
   animations: [
     trigger('slideInOut', [

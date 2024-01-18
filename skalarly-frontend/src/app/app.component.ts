@@ -1,5 +1,5 @@
 import { Component, OnDestroy, WritableSignal, signal, PLATFORM_ID, Inject, afterRender, AfterRenderPhase } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgClass } from '@angular/common';
 import {
   NavigationEnd,
   Router,
@@ -19,7 +19,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
   styleUrl: './app.component.scss',
   imports: [
     RouterModule,
-    NavBarComponent
+    NavBarComponent,
+    NgClass
   ],
   providers: [{ provide: TitleStrategy, useClass: CustomTitleStrategy }]
 })
