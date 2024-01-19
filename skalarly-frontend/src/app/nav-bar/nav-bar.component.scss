@@ -1,23 +1,56 @@
 @use './../assistant-level-code/universal-reusable-styles/common' as common;
+@use './../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @use "sass:math";
 
+app-nav-icons[rightLine]{
+    border-right: 2px solid #000; 
+    height: 100%;
+}
 .nav-bar{
-    @include common.common;
+    @include common.common(flex, space-between, row);
     @include common.pageSize;
     align-items: center;
 }
-
+.nav-bar-grouping{
+    @include common.common(flex, space-between, row);
+    align-items: center;
+}
 .active{
     color: #b8dde9;
+}
+button[mat-menu-item]{
+    color: var(--secondChoice);
+}
+button[mat-icon-button], button[mat-button]{
+    @include responsive.responsiveFontSize();
 }
 .toolbar{
     display: flex;
     position: sticky;
     z-index: 2;
     height: 4em;
+    flex-shrink: 0;
     background: var(--background);
-
     }
+div[title]{
+    padding-left: 3%;
+}
+.logo-button{
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 10px;
+}
+.skalarly{
+    width: auto;
+    height: 100%;
+    max-height: 1em;
+}
+.settings{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 // .refresh-icon-container, .refresh-icon-border {
 //     align-items: center;
 //     justify-content: center;

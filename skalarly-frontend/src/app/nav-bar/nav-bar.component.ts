@@ -2,9 +2,12 @@ import { Component, WritableSignal, signal, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { SearchBarComponent } from './../top-level-code/search-bar/search-bar.component';
 import { OrientationService } from '../assistant-level-code/custom-architecture-aids/services/orientation.service';
 import { Router } from '@angular/router';
+import {MatDividerModule} from '@angular/material/divider';
+import { NavIconsComponent } from './nav-icons/nav-icons.component';
 // import { PullToRefreshDirective } from './../assistant-level-code/custom-architecture-aids/directives/pull-to-refresh.directive';
 // import { dialog } from './../assistant-level-code/custom-architecture-aids/animations/dialog-animation';
 // import { refresh } from './../assistant-level-code/custom-architecture-aids/animations/refresh-animation';
@@ -13,8 +16,11 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [ 
     MatButtonModule,
+    MatDividerModule,
      MatToolbarModule,
+     MatMenuModule,
      MatIconModule,
+     NavIconsComponent,
      SearchBarComponent],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
@@ -26,7 +32,7 @@ export class NavBarComponent {
   orientation: WritableSignal<boolean> = signal(true);
   searchIconClicked: boolean = false;
 
-  constructor(private router: Router,
+  constructor(private router: Router, 
     protected orientationService: OrientationService
     ) {}
 onHoldDetected(display: boolean): void {

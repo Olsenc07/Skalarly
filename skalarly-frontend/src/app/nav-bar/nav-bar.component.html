@@ -1,8 +1,4 @@
   <mat-toolbar class="toolbar">
-    <nav>
-      <!-- logo -->
-    <!-- *1 search bar icon, mobile first  -->
-          <!-- search icon to display search -->
           @if(currentUrl !== '/sign-up'){
           <button mat-icon-button (click)="toggleSearch(true)">
           <mat-icon class="material-symbols-outlined">search</mat-icon>
@@ -10,12 +6,25 @@
           @if(searchIconClicked){
           <app-search-bar [mobileFirst]="true" (backEvent)="toggleSearch($event)"></app-search-bar>
           }}
+
       <div class="nav-bar">
-    <button mat-icon-button aria-label="Skalarly logo, main page button navigation" (click)="navigate()">
-      <img src="assets/images/Skalar_Hat_Icon.svg" alt="Skalarly Grad Wizard Hat Icon">
+    <button mat-button class="logo-button" aria-label="Skalarly logo, main page button navigation" (click)="navigate()">
+      <img src="assets/images/Skalar_Hat_Icon.svg" alt="Skalarly Grad Wizard Hat Icon" class="skalarly">
+      Skalarly
     </button>
+    <div class="nav-bar-grouping">
+    @if(!this.orientationService.screen()){
+    <app-nav-icons [currentUrl] rightLine>
+    </app-nav-icons>
+  }
+<button mat-icon-button aria-label="Settings button"
+[matMenuTriggerFor]="account" class="material-symbols-outlined settings">settings</button>
+<mat-menu #account="matMenu">
+  <div title>Manage</div>
+  <button  mat-menu-item>Help</button>
+</mat-menu>
+</div>
       </div>
-</nav>
 </mat-toolbar>
 
     <!-- page refresh pull down, eventully use GSAP for a fun animation-->

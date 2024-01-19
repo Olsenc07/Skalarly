@@ -1,0 +1,11 @@
+@use '../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
+nav{
+    display: flex;
+    justify-content: space-evenly;
+}
+button{
+    display: flex;
+    @include responsive.responsiveFontSize();
+    align-items: center;
+    justify-content: center;
+}

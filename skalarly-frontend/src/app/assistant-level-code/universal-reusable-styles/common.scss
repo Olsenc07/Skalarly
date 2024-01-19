@@ -1,9 +1,10 @@
-@mixin common($flex: flex, $portrait: column){
+@mixin common($flex: flex, $content: center, $portrait: column){
     display: $flex;
-    justify-content: center;
+    justify-content: $content;
     flex-direction: $portrait;
 }
 @mixin pageSize{
     width: 100%;
+    height: 100vh;
     box-sizing: border-box;
 }

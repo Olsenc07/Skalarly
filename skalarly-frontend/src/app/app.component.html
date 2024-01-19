@@ -1,11 +1,22 @@
 @defer { 
-<div [ngClass]="this.orientationService.screen() ? 'mobile' : 'desktop' ">
+<div class="content-container">
+    <div>
 @if (routerUrl !== ('/login' || '/' )){
-<app-nav-bar [currentUrl]="routerUrl" ></app-nav-bar>
+<app-nav-bar [currentUrl]="routerUrl"></app-nav-bar>
+
  }
   <router-outlet></router-outlet> 
+</div>
+  @if(this.orientationService.screen() && routerUrl !== ('/login' || '/' )){
+    <footer>
+      <app-nav-icons [currentUrl]="routerUrl">
+      </app-nav-icons>
+    </footer>
+    }
+
  <!-- Render as component based on path of routes -->
      <!-- <router-outlet ></router-outlet>  Secondary outlet for sidebars & later maybe modals/dialog -->
+   
 </div>
 } 
 @loading {

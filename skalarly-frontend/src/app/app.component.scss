@@ -1,7 +1,17 @@
+@use './assistant-level-code/universal-reusable-styles/common' as common;
+.content-container{
+  @include common.common(flex, space-between, column);
+  @include common.pageSize;
+}
+router-outet{
+  flex-grow: 1; 
+  overflow-y: auto;
+}
+footer{
+  background-color: var(--background);
+}
 .initial-load{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  @include  common.common;
   align-items: center;
   height: 50vh;
 }
@@ -18,7 +28,6 @@
       z-index: -1;
     }
   }
-
 .glow-effect {
   box-shadow: 0 0 10px 5px var(--pairingColor);
   transition: box-shadow 0.3s ease; 

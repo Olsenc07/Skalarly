@@ -38,8 +38,8 @@ icon="explore" [initialList$]="initialList$"
 }
 }
 <div class="nav-wrapper">
-  <button mat-button matStepperPrevious type="button" (click)="navigate()">Back</button>
-  <button mat-button matStepperNext type="button">Next</button>
+  <button mat-button matStepperPrevious  (click)="navigate()">Back</button>
+  <button mat-button matStepperNext >Next</button>
 </div> 
 
 </div>
@@ -182,7 +182,7 @@ Upload Photo
       </div>
       <div class="nav-wrapper">
         <button mat-button matStepperPrevious type="button">Back</button>
-        <button mat-raised-button matStepperNext type="submit" [disabled]="skalarInfoForm.valid">Create</button>
+        <button mat-raised-button matStepperNext submit [disabled]="skalarInfoForm.valid">Create</button>
       </div> 
     </div>
   </ng-template>

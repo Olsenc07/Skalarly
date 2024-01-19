@@ -50,6 +50,13 @@ body {
   background-color: var(--basicText);
   @include common.common;
   @include common.pageSize;
+  height: 100vh;
+ }
+ app-root {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; 
+  width: 100%;
  }
  button[mat-button],button[mat-raised-button], button[mat-stroked-button]{
   min-height: 48px; 

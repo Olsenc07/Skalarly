@@ -73,7 +73,7 @@ mat-stepper {
   &[matStepperNext]{
       color: var(--secondChoice);
       @include responsive.responsiveFontSize();
-      &[type="submit"]{
+      &[submit]{
         transition: transform 0.5s ease-in-out;
     &:hover {
       transform: scale(1.05);

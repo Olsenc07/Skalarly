@@ -11,6 +11,8 @@ import { Subject, filter, takeUntil } from 'rxjs';
 import { CustomTitleStrategy } from './assistant-level-code/custom-architecture-aids/services/router-strategies/title-strategy.service';
 import { OrientationService } from './assistant-level-code/custom-architecture-aids/services/orientation.service';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { NavIconsComponent } from './nav-bar/nav-icons/nav-icons.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   standalone: true,
@@ -19,8 +21,10 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
   styleUrl: './app.component.scss',
   imports: [
     RouterModule,
+    MatToolbarModule,
     NavBarComponent,
-    NgClass
+    NgClass,
+    NavIconsComponent,
   ],
   providers: [{ provide: TitleStrategy, useClass: CustomTitleStrategy }]
 })
@@ -35,6 +39,7 @@ export class AppComponent implements OnDestroy {
       // SSR
       if (isPlatformBrowser(this.platformId)) {
         afterRender(() => {
+        this.routerUrl = this.router.url;
     // tracking skalars current page
     this.router.events
       .pipe(

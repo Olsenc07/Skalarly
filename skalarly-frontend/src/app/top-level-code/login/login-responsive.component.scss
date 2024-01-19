@@ -15,17 +15,17 @@ $form-margins: (
 );
 $form-margins0: (
   base: 0%,     
-  tablet: 1%,  
-  laptop: 2%,   
-  desktop: 3%,  
-  tv: 5%        
+  tablet: 0%,  
+  laptop: 0%,   
+  desktop: 1%,  
+  tv: 0%        
 );
 @mixin responsiveMargins {
   --margin-form: map-get($form-margins, 'base');
   margin: 0% var(--margin-form);
   @each $screen, $min-width in device.$device-sizes {
       @include responsive.media-query($screen, $min-width){
-        margin: map-get($form-margins0, $screen) map-get($form-margins, $screen);
+        margin: map-get($form-margins0, $screen) map-get($form-margins, $screen) 0%;
       }}
 }
 div[entire-page] {

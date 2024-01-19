@@ -1,0 +1,7 @@
+<nav>
+  @for (icon of navIcon; let i = $index; track icon){
+<button mat-icon-button class="material-symbols-outlined"> 
+    {{ currentUrl === icon.url ? icon.activeIcon : icon.defaultIcon }}
+</button>
+  }
+</nav>
