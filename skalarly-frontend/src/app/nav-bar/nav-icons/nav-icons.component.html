@@ -1,12 +1,15 @@
 <nav>
   @for (icon of navIcon; let i = $index; track icon){
+    @if (this.orientationService.screen()){
+    <button mat-icon-button aria-label="Navigation icon button"> 
+        <mat-icon class="material-symbols-outlined">{{ currentUrl === icon.url ? icon.activeIcon : icon.defaultIcon }}</mat-icon>
+       </button>
+    }@else{
 <button mat-fab aria-label="Navigation icon button"> 
  <mat-icon class="material-symbols-outlined">{{ currentUrl === icon.url ? icon.activeIcon : icon.defaultIcon }}</mat-icon>
-    @if (!this.orientationService.screen()){
         <div text>
     {{icon.description}}
 </div>
-    }
 </button>
-  }
+    }}
 </nav>
