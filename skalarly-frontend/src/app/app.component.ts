@@ -32,7 +32,6 @@ export class AppComponent implements OnDestroy {
   private routeSub$: Subject<void> = new Subject<void>();
   routerUrl: string | undefined;
 
-  orientation: WritableSignal<boolean> = signal(true);
   constructor(private router: Router,
     protected orientationService: OrientationService,
     @Inject(PLATFORM_ID) private platformId: Object) {
