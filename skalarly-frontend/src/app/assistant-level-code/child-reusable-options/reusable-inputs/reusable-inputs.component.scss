@@ -1,11 +1,20 @@
-
 .form-wrapper{
     display: flex;
     justify-content: center;
     flex-direction: column;
+    width: 100%;
+
 }
 .input-add-wrapper{
     display: flex;
     justify-content: center;
     flex-direction: row;
-    }    
+
+    }   
+div[additions]{
+    display: flex;
+    flex-direction: column;
+} 
+button[clear]{
+    color: var(--error);
+}

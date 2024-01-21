@@ -43,16 +43,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatStepperModule } from '@angular/material/stepper';
 import { HttpClientModule } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
+import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
 
 
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
-  imports: [
-    SkeletonLoaderSignupComponent,
-    ReusableInputsComponent,
-    ReusableInputDynamicComponent,
+  imports: [  
     ErrorPipe,
     MatDividerModule,
     MatButtonModule,
@@ -65,14 +63,30 @@ import { isPlatformBrowser } from '@angular/common';
     MatSelectModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    HttpClientModule
+    ReusableInputsComponent,
+    ReusableInputDynamicComponent,
+    SkeletonLoaderSignupComponent,
+
+    SignupTitlesComponent,
+    HttpClientModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class SignUpComponent implements OnInit, OnDestroy {
   initialList$: Observable<string[]> = new Observable<string[]>;
-  title: string = 'Which country do you study in?';
+  title: string = 'Where is your institution located?';
+  intro: string = "Let's find where you study.";
+
+  title2: string = 'You must provide an email that is recognized by the selected school.';
+  intro2: string = "Validation time.";
+
+  title3: string = 'This will be displayed on your profile.';
+  intro3: string = "Basic information.";
+
+  title4: string = 'Used to help connect you with others.';
+  intro4: string = "Main focuses";
+
   selectedFile: File | undefined;
   imagePreview: string | ArrayBuffer | null = '';
   instituitionForm: FormGroup;

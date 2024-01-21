@@ -1,56 +1,55 @@
 @use '../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
-@use '../../assistant-level-code/universal-reusable-styles/common' as common;
-
-@mixin stack{
-  display: flex;
-  flex-direction: column;
+@mixin stack-justify($flex: flex, $direction: column, $content: center){
+  display: $flex;
+  flex-direction: $direction;
+  justify-content: $content;
 }
-.input-list .input-individual{
-  @include common.common;
+.input-individual, .input-list-inputs{
+  @include stack-justify;
   align-items: center;
 }
+
+.input-list{
+display: flex;
+flex-direction: column;
+}
 .input-list-networks{
-@include stack;
+@include stack-justify;
 width: 100%;
 }
-.input-list-inputs{
-  @include common.common;
-}
-.input-list-first{
-  margin-top: 3%;
+app-signup-titles{
+  display: flex;
+  width: 100%;
+  flex-direction: column
 }
 .center{
-  display: flex;
-  justify-content: center;
+  @include stack-justify(flex, unset, center);
 }
 button[profilePic]{
   display: flex;
 }
 .image-individual{
-  @include stack;
+  @include stack-justify;
   text-align: center;
   align-items: center;
 }
 .stepper{
-  @include stack;
+  @include stack-justify;
   height: max-content;
 }
 .two-by-two{
+  margin-top: 1%;
   @media only screen and (min-width: 767px){
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  @include stack-justify(flex, row, space-around);
   align-items: center;
   }
 }
-
-div[title] {
-    @include responsive.responsiveFontSize();
-    font-weight: bold;
-    text-align: center;
+.input-list-first{
+  margin-top: 1%;
 }
+
 mat-stepper {
-  @include stack;
+  @include stack-justify;
   @media only screen and (max-width: 768px){
   border-radius: 0px;
   background-color: unset;
@@ -65,8 +64,7 @@ mat-stepper {
   }
 }
 .image-selection{
-  display: flex;
-  justify-content: space-between;
+  @include stack-justify(flex, unset, space-between);
   align-items: center;
 }
   button{
@@ -102,11 +100,13 @@ mat-stepper {
   }
   form {
     width: 100%;
-    @include stack;
+    @include stack-justify;
   }
   .nav-wrapper{
-    display: flex;
-    justify-content: space-around;
+    @include stack-justify(flex, row, space-around);
     margin-top: 6%;
+    z-index: 3;
+    width: 100%;
+    position: sticky;
   }
   
