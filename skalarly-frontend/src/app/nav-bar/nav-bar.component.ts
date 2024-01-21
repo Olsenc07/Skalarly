@@ -27,9 +27,9 @@ import { NavIconsComponent } from './nav-icons/nav-icons.component';
 })
 export class NavBarComponent {
   @Input() currentUrl: string | undefined;
+  rotationAngle: number = 0;
   visible: boolean = false;
   reloadState: 'initial' | 'intermediate' | 'final' = 'initial';
-  orientation: WritableSignal<boolean> = signal(true);
   searchIconClicked: boolean = false;
 
   constructor(private router: Router, 
@@ -68,6 +68,9 @@ getIcon(reloadState: string | null): string {
 // mobile functions
 toggleSearch(toggle: boolean): void {
   this.searchIconClicked = toggle;
+}
+rotateIcon(): void {
+  this.rotationAngle += 60;
 }
 navigate(): void {
   // if(this.currentUrl !== '/signup'){

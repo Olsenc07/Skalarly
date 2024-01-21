@@ -18,7 +18,7 @@
     <app-nav-icons [currentUrl] rightLine>
     </app-nav-icons>
   }
-<button mat-icon-button aria-label="Settings button"
+<button mat-icon-button aria-label="Settings button" (click)="rotateIcon()" [style.transform]="'rotate(' + rotationAngle + 'deg)'"
 [matMenuTriggerFor]="account" class="material-symbols-outlined settings">settings</button>
 <mat-menu #account="matMenu">
   <div title>Manage</div>

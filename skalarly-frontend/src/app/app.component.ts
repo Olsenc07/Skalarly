@@ -39,6 +39,8 @@ export class AppComponent implements OnDestroy {
       if (isPlatformBrowser(this.platformId)) {
         afterRender(() => {
         this.routerUrl = this.router.url;
+    console.log('hey u first', this.routerUrl);
+
     // tracking skalars current page
     this.router.events
       .pipe(

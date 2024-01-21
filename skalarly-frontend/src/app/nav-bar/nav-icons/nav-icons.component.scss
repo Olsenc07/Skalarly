@@ -1,16 +1,23 @@
 nav {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     width: 100%;
+    @media screen and (min-width: 767px) {
+        justify-content: flex-end; 
+    }
 }
-button {
+button[mat-icon-button], button[mat-fab] {
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     background-color: transparent;
     color: black;
     margin-right: 1%;
-    overflow: hidden; 
+    box-shadow: none;
+    &.mat-fab {
+        box-shadow: none;
+    }
 }
 div[text]{
 font-size: .7rem;
