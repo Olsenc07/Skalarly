@@ -2,7 +2,9 @@ import { AuthorizeService } from 'src/app/assistant-level-code/custom-architectu
 import { GlobalDataService } from 'src/app/assistant-level-code/custom-architecture-aids/services/global-data.service';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import {  ActivatedRouteSnapshot, RouterStateSnapshot, Router, CanActivateFn } from '@angular/router';
+import { ErrorHandlerComponent } from 'src/app/assistant-level-code/child-reusable-options/error-handler/error-handler.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +12,18 @@ import { Router } from '@angular/router';
 export class AuthGuard {
   constructor(
     private authService: AuthorizeService,
+    private dialog: MatDialog,
     private globalService: GlobalDataService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {}
-  canActivate(): boolean {
+   canActivate: CanActivateFn = 
+  (next: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const isAuth: boolean = this.authService.getIsAuth();
-    let hasNavigated: boolean = false;
     if (!isAuth) {
+      this.authService.redirectUrl = state.url;
+      const dialogRef = this.dialog.open(ErrorHandlerComponent)
+      dialogRef.afterClosed().subscribe(() => {
       const snackBarRef = this.snackBar.open(
         "Skalarly requries an account to access it's content.",
         "Create an account to see what you'r missing.",
@@ -25,22 +31,7 @@ export class AuthGuard {
           duration: 3500
         }
       );
-      snackBarRef.onAction().subscribe(() => {
-        this.router.navigate(['/sign-up']);
-        hasNavigated = true;
-      });
-      snackBarRef.afterDismissed().subscribe(() => {
-        if (!hasNavigated) {
-          const currentURL = window.location.href;
-          if (
-            currentURL !== 'https://www.skalarly.com/login' &&
-            currentURL !== 'http://localhost:4200/login'
-          ) {
-            this.router.navigate(['/login']);
-          }
-        }
-      });
-    }
+    })
     const blocked: boolean = this.globalService.getBlockedValue();
     if (blocked) {
       this.snackBar.open('This Skalar has blocked you', '', {
@@ -50,5 +41,8 @@ export class AuthGuard {
     } else {
       return isAuth;
     }
+  } else {
+    return true;
   }
-}
+}}
+

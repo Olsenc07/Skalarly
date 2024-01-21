@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AuthorizeService {
+  redirectUrl: string = '';
   private apiUrl = environment.apiUrl;
   // these variables don't require reactivity/async data
   userId: string | null = null;
@@ -74,11 +75,13 @@ export class AuthorizeService {
               new Date().getTime() + response.expiresIn
             );
             this.saveAuthData(response.token, expirationDate, response.userId);
-            // last step, or could add an animation instead!
-            this.router.navigate(['/search']);
+
+            const redirectUrl = this.redirectUrl ? this.redirectUrl : '/home';
+            this.router.navigate([redirectUrl]);
             this.snackBar.open('Welcome Fellow Skalar🎓', '', {
               duration: 3000
             });
+            this.redirectUrl = '';
             return true;
           } else {
             // failed login

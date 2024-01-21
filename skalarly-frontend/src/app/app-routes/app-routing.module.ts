@@ -9,6 +9,14 @@ import { inject } from '@angular/core';
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
+    path: 'connections',
+    canActivate: [() => inject(AuthGuard).canActivate],
+    loadComponent: () =>
+      import('../top-level-code/connections/connections.component').then(
+        (mod) => mod.ConnectionsComponent
+      )
+  },
+  {
     path: 'login',
     loadComponent: () =>
       import('../top-level-code/login/login.component').then(
@@ -32,7 +40,7 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    canActivate: [() => inject(AuthGuard).canActivate()],
+    canActivate: [() => inject(AuthGuard).canActivate],
     loadComponent: () =>
       import('../top-level-code/home/home.component').then(
         (mod) => mod.HomeComponent
@@ -40,7 +48,7 @@ export const routes: Routes = [
   },
   {
     path: 'specific-feed',
-    canActivate: [() => inject(AuthGuard).canActivate()],
+    canActivate: [() => inject(AuthGuard).canActivate],
     loadComponent: () =>
       import(
         '../top-level-code/feed-folder/specific-feed-page/specific-feed-page.component'
@@ -48,18 +56,42 @@ export const routes: Routes = [
   },
   {
     path: 'single-feed',
-    canDeactivate: [() => inject(AuthGuard).canActivate()],
+    canDeactivate: [() => inject(AuthGuard).canActivate],
     loadComponent: () =>
       import(
         '../top-level-code/feed-folder/single-feed-page/single-feed-page.component'
       ).then((mod) => mod.SingleFeedPageComponent)
   },
   {
+    path: 'institutions',
+    canActivate: [() => inject(AuthGuard).canActivate],
+    loadComponent: () =>
+      import('../top-level-code/institutions/institutions.component').then(
+        (mod) => mod.InstitutionsComponent
+      )
+  },
+  {
+    path: 'messages',
+    canActivate: [() => inject(AuthGuard).canActivate],
+    loadComponent: () =>
+      import('../top-level-code/messages/messages.component').then(
+        (mod) => mod.MessagesComponent
+      )
+  },
+  {
+    path: 'notifications',
+    canActivate: [() => inject(AuthGuard).canActivate],
+    loadComponent: () =>
+      import('../top-level-code/notifications/notifications.component').then(
+        (mod) => mod.NotificationsComponent
+      )
+  },
+  {
     path: 'profile',
     resolve: {
       userData: UserProfileResolver
     },
-    canActivate: [() => inject(AuthGuard).canActivate()],
+    canActivate: [() => inject(AuthGuard).canActivate],
     loadComponent: () =>
       import('../top-level-code/profiles/profile/profile.component').then(
         (mod) => mod.ProfileComponent
@@ -86,7 +118,7 @@ export const routes: Routes = [
   },
   {
     path: 'skalars/:id',
-    canActivate: [() => inject(AuthGuard).canActivate()],
+    canActivate: [() => inject(AuthGuard).canActivate],
     loadComponent: () =>
       import(
         '../top-level-code/profiles/others-profile/others-profile.component'
