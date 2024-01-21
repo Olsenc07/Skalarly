@@ -20,7 +20,8 @@
   }
   
 div[column] {
-  @include common.common;
+  display: flex;
+  flex-direction: column;
   padding: 3% 1% 0% 1%;
   height: 100vh;
 }

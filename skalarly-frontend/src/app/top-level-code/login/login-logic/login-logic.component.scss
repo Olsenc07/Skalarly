@@ -5,19 +5,13 @@ div[column] {
     @include common.common;
     padding: 3% 2% 0% 2%;
     width: 100%;
-    &:first-of-type {
-      mat-form-field {
-        justify-content: flex-start;
-      }
-    }
-    &:not(:first-of-type) 
-      mat-form-field{
-      justify-content: flex-end;
-    }
+    mat-form-field {
+    &:first-of-type { justify-content: flex-start; }
+    &:not(:first-of-type) { justify-content: flex-end; }
   }
+}
 div[forgot]{
-    display: flex;
-    justify-content: flex-end;
+   @include common.common(flex, flex-end);
     margin-bottom: 4%;
     button[forgot]{
       @include responsive.responsiveFontSize('smaller');
@@ -27,8 +21,7 @@ div[forgot]{
     }
   }
   div[phrase]{
-    display: flex;
-    justify-content: center;
+    @include common.common;
     color: grey;
     @include responsive.responsiveFontSize('smaller');
   }
@@ -39,33 +32,21 @@ div[forgot]{
     @include responsive.responsiveFontSize('smaller');
     }
   }
-  .normal-style{
-  @include common.common(flex, column);
-  align-items: baseline;
-  @media only screen and (min-width: 600px) {
-   @include common.common(flex, row);
-  }}
-  .error-style{
-    @include common.common(flex, column);
+  .normal-style, .error-style {
+    @include common.common(flex, center, column);
     align-items: baseline;
-  }
-  span[matPrefix] { 
-    margin-left: 15%;
-  }
+    @media only screen and (min-width: 600px) {
+        @include common.common(flex, center, row);
+    }
+}
+  span[matPrefix] { margin-left: 15%; }
 .login-options {
-  display: flex;
-  align-items: center;
+  @include common.common;
   text-align: center;
        }
        
-.hide-border{
-  border-right: none;
-}
-  .input-boxes:first-of-type {
-      mat-checkbox {
-      margin-left: 3%; 
-      }
-  }
+.hide-border{ border-right: none; }
+  .input-boxes:first-of-type { mat-checkbox { margin-left: 3%; } }
   .login-standard-wrapper {
     display: flex;
     width: 100%;

@@ -1,4 +1,4 @@
-@use '../../../assistant-level-code/universal-reusable-styles/common' as universal;
+@use '../../../assistant-level-code/universal-reusable-styles/common' as common;
 
 @mixin pseudo-mat-form-field {
   background: rgb(239,241,246) no-repeat;
@@ -15,14 +15,14 @@ div{
   flex-direction: column;
 }
 .input-boxes-skeleton{
-    @include universal.common(flex, column);
+    @include common.common(flex, column);
     margin: 0% 2%;
      @media only screen and (min-width: 600px) {
-     @include universal.common(flex, row);
+     @include common.common(flex, row);
     }
   }
     .skeleton-wrap {
-      @include universal.common;
+      @include common.common;
       width: 100%;
     }
     .input-skeleton[one]{ 
