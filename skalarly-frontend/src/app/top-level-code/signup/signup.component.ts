@@ -100,22 +100,17 @@ export class SignUpComponent implements OnInit, OnDestroy {
   domain: string[] | undefined = undefined;
   // skalar info form
   infoForm: FormGroup = new FormGroup({
-    club: new FormControl<SkalarInfoInterface['club']>(null, [
-      Validators.required
-    ]),
+    club: new FormControl<SkalarInfoInterface['club']>([]),
     domains: new FormControl<SkalarInfoInterface['domains']>(
       [''],
       [Validators.required]
     ),
-    sport: new FormControl<SkalarInfoInterface['sport']>(null, [
-      Validators.required
-    ]),
-    major: new FormControl<SkalarInfoInterface['major']>(null, [
-      Validators.required
-    ]),
-    minor: new FormControl<SkalarInfoInterface['minor']>(null, [
-      Validators.required
-    ]),
+    sport: new FormControl<SkalarInfoInterface['sport']>([]),
+    major: new FormControl<SkalarInfoInterface['major']>([]),
+    minor: new FormControl<SkalarInfoInterface['minor']>([]),
+    completedCourses: new FormControl<SkalarInfoInterface['completedCourses']>([]),
+    pursuingCourses: new FormControl<SkalarInfoInterface['pursuingCourses']>([]),
+
     name: new FormControl<SkalarInfoInterface['name']>('', [
       Validators.required
     ]),
@@ -125,27 +120,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
     institution: new FormControl<SkalarInfoInterface['institution']>('', [
       Validators.required
     ]),
-    webPages: new FormControl<SkalarInfoInterface['webPages']>(
-      [''],
-      [Validators.required]
-    )
+    webPages: new FormControl<SkalarInfoInterface['webPages'][]>([])
   });
-
-    // final major stage
-    skalarInfoForm: FormGroup = new FormGroup({
-      major: new FormArray([]),
-      minor: new FormArray([]),
-      sport: new FormArray([]),
-      club: new FormArray([]),
-      coursesCompleted: new FormArray([]),
-      coursesPursing: new FormArray([]),
-      links: new FormArray([])
-    });
-
-  // Helper method to get the FormArray
-  getArray(name: string): FormArray {
-    return this.skalarInfoForm.get(name) as FormArray;
-  }
 
   constructor(
     private accountManagementService: AccountManagementService,
@@ -273,6 +249,32 @@ chosenInstituition(institution: string): void {
     this.domain = this.institutionInfoService.getSchoolNamesEmails(institution);
   }
 }
+ updateUrl(socialLinks: {
+  name: string; 
+  url: string; 
+}[]){
+    console.log('webpage', socialLinks);
+    this.infoForm.get('webPages')?.setValue(socialLinks);
+  }
+  updateMajor(major: string[]){
+    console.log('major', major);
+    this.infoForm.get('major')?.setValue(major);
+  }
+  updateMinor(minor: string[]){
+    this.infoForm.get('minor')?.setValue(minor);
+  }
+  updateSport(sport: string[]){
+    this.infoForm.get('sport')?.setValue(sport);
+  }
+  updateClub(club: string[]){
+    this.infoForm.get('club')?.setValue(club);
+  }
+  updateComp(completedCourses: string[]){
+    this.infoForm.get('completedCourses')?.setValue(completedCourses);
+  }
+  updatePur(pursuingCourses: string[]){
+    this.infoForm.get('pursuingCourses')?.setValue(pursuingCourses);
+  }
 
   // toggle password visbility
   toggleVisibility(): void {

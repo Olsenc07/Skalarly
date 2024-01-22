@@ -9,15 +9,18 @@ export interface AccountCredentials {
 export interface SkalarInfoInterface {
   readonly id?: string;
   readonly username: string;
-  club: string[] | null;
+  club: string[];
   domains: string[];
-  sport: string[] | null;
-  major: string[] | null;
-  minor: string[] | null;
+  sport: string[];
+  major: string[];
+  minor: string[];
+  completedCourses: string[];
+  pursuingCourses: string[];
+
   name: string;
   region: string;
   institution: string;
-  webPages: string[];
+  webPages: [{name: string, url: string}];
   readonly skalar?: string;
 }
 export interface InitialAccountInterface {

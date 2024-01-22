@@ -1,10 +1,5 @@
     <div class="input-add-wrapper">
-      @if(controlType == 'text'){
-        <button mat-icon-button (click)="addInput()"> 
-          <mat-icon class="material-symbols-outlined">
-            add_circle
-          </mat-icon>
-          </button>
+      <!-- @if(controlType == 'text'){
         <mat-form-field appearance="outline">
             @if(label){
                 <mat-label>
@@ -14,71 +9,59 @@
           @if(icon){
             <mat-icon matPrefix class="material-symbols-outlined">{{icon}}</mat-icon>
              }
-          <input matInput type="text" [formControl]="controlOrGroupText"/>
+             @for (input of inputsStrings; let i = $index; track input) {
+              <!--   (removed)="remove(i)"
+                [editable]="true"
+                (edited)="edit(input, $event, i)" --
+              <mat-chip-row
+                [aria-description]="'click to edit ' + input">
+                {{input}}
+                <button matChipRemove [attr.aria-label]="'remove ' + input">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            }
+          <input matInput type="text"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)"
+          [formControl]="inputsStrings"/>
         </mat-form-field>
-      }
-    <!-- url -->
-    @if(controlType == 'url'){
-      <button mat-icon-button (click)="addInput()"> 
-        <mat-icon class="material-symbols-outlined">
-          add_circle
-        </mat-icon>
-        </button>
-            <mat-form-field appearance="outline">
-                @if(label){
-                    <mat-label>
-                      {{ label }}
-                    </mat-label>
-                  }
-              @if(icon){
-                <mat-icon matPrefix class="material-symbols-outlined">{{icon}}</mat-icon>
-                 }
-              <input matInput type="text" [formControl]="controlOrGroupText"/>
-            </mat-form-field>
-      @for (controlOrGroup of inputsArray.controls; let i = $index; track controlOrGroup){
-  }}
+      } -->
+      <!-- @if(controlType == 'url'){
+        <mat-form-field appearance="outline">
+          @if(label){
+              <mat-label>
+                {{ label }}
+              </mat-label>
+            }
+        @if(icon){
+          <mat-icon matPrefix class="material-symbols-outlined">{{icon}}</mat-icon>
+           }
+           @for (input of inputs; let i = $index; track input) {
+            <mat-chip-row
+              (removed)="removeUrl(i)"
+              [editable]="true"
+              (edited)="editLinks(input, $event, i)"
+              [aria-description]="'click to edit ' + input">
+              {{input}}
+              <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+        <input matInput type="text"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="true"
+        (matChipInputTokenEnd)="add($event)"
+        [formControl]="inputsLinks"/>
+        <!-- (optionSelected)="selected($event)" --
+        <mat-autocomplete #auto="matAutocomplete" >
+          @for (link of filteredList$ | async; track link) {
+            <mat-icon>{{link.url}}</mat-icon>
+            <mat-option [value]="link">{{link.name}}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+      } -->
     </div>
   
-    @for (controlOrGroup of inputsArray.controls; let i = $index; track controlOrGroup){
-      <div additions>
-      @if(isFormControl(controlOrGroup)){
-        <div>
-        @if (inputsArray.length > 0) {
-          <button  mat-icon-button (click)="removeInput(i)" clear>
-        <mat-icon class="material-symbols-outlined">cancel</mat-icon>
-          </button>
-      }
-        <mat-form-field appearance="outline">
-          <mat-label>
-            {{ placeholder }}
-          </mat-label>
-          @if(icon){
-            <mat-icon matPrefix class="material-symbols-outlined">{{icon}}</mat-icon>
-             }
-          <input matInput type="text" [formControl]="controlOrGroup"/>
-        </mat-form-field>
-      </div>
-    }@else if(isFormGroup(controlOrGroup)){
-      @if(controlOrGroup.get('control'); as abstractControl){
-     <!-- Drop Down Social Media Options -->
-     <mat-menu #menu="matMenu">
-       <mat-label>Social Links</mat-label>
-       @for (option of socialMediaOptions; let i = $index; track selectedSocialMedia){
-         <button mat-menu-item>
-         {{ option.name }}
-         </button>
-     }
- </mat-menu>
-     <!-- @if(selectedSocialMedia.value){ -->
-       <!-- OPEN UP ON CLIKC  -->
-       <mat-form-field appearance="outline">
-         <mat-label>{{ controlOrGroup.get('socialMedia')?.value?.name }}</mat-label>
-         <input matInput [formControl]="getFormControl(abstractControl)" type="url"
-         name="{{controlOrGroup.get('socialMedia')?.value?.placeholder}}" placeholder="https://example.com" />
-         <mat-icon matPrefix class="material-symbols-outlined">
-           {{ controlOrGroup.get('socialMedia')?.value?.icon }}
-         </mat-icon>
-       </mat-form-field>
-     <!-- } -->
-     }}
-    </div>}
