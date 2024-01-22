@@ -1,5 +1,6 @@
 @defer { 
-<div class="content-container">
+<div [ngClass]="routerUrl == ('/login' || '/' )
+ ? '' : 'content-container' ">
     <div>
 @if (routerUrl !== ('/login' || '/' )){
 <app-nav-bar [currentUrl]="routerUrl"></app-nav-bar>

@@ -76,15 +76,15 @@ import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
 export class SignUpComponent implements OnInit, OnDestroy {
   initialList$: Observable<string[]> = new Observable<string[]>;
   title: string = 'Where is your institution located?';
-  intro: string = "Let's find where you study.";
+  intro: string = "Let's find where you study";
 
-  title2: string = 'You must provide an email that is recognized by the selected school.';
-  intro2: string = "Validation time.";
+  title2: string = 'You must provide an email that is recognized by the selected school';
+  intro2: string = "Validation time";
 
-  title3: string = 'This will be displayed on your profile.';
-  intro3: string = "Basic information.";
+  title3: string = 'This will be displayed on your profile';
+  intro3: string = "Basic information";
 
-  title4: string = 'Used to help connect you with others.';
+  title4: string = 'Used to help connect you with others';
   intro4: string = "Main focuses";
 
   selectedFile: File | undefined;

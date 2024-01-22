@@ -53,8 +53,7 @@ body {
   height: 100vh;
  }
  app-root {
-  display: flex;
-  flex-direction: column;
+  @include common.common;
   flex-grow: 1; 
   width: 100%;
  }

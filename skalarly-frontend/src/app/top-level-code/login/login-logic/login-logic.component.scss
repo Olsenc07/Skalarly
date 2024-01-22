@@ -11,8 +11,9 @@ div[column] {
   }
 }
 div[forgot]{
-   @include common.common(flex, flex-end);
     margin-bottom: 4%;
+    display: flex;
+    justify-content: flex-end;
     button[forgot]{
       @include responsive.responsiveFontSize('smaller');
       background: none;
@@ -24,11 +25,13 @@ div[forgot]{
     @include common.common;
     color: grey;
     @include responsive.responsiveFontSize('smaller');
+    align-items: center;
   }
 
   mat-checkbox {
-    div{
     display: flex;
+    justify-content: flex-start;
+    div{
     @include responsive.responsiveFontSize('smaller');
     }
   }

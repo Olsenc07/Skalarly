@@ -3,7 +3,7 @@
   @include common.common(flex, space-between, column);
   @include common.pageSize;
 }
-router-outet{
+router-outlet{
   flex-grow: 1; 
   overflow-y: auto;
 }

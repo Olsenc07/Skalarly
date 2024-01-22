@@ -18,7 +18,10 @@
     top: 5%;
     left: 65%;
   }
-  
+p{
+  @include common.common(flex, center, unset);
+  font-size: smaller;
+}
 div[column] {
   display: flex;
   flex-direction: column;
