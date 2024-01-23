@@ -12,6 +12,7 @@ app-nav-icons[rightLine]{
     @include common.pageSize(100%, unset);
     align-items: center;
 }
+
 .nav-bar-grouping{
     @include common.common(flex, flex-end, row);
     align-items: center;
@@ -47,6 +48,9 @@ button[mat-button]{
     }
 div[title]{
     padding-left: 3%;
+}
+div[expanded]{
+    @include common.common(flex, space-between, row);
 }
 .logo-button{
     display: inline-flex; 

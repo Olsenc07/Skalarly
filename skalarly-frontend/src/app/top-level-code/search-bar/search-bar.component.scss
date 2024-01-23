@@ -1,7 +1,16 @@
-//  *1 *2
 .input-row {
     display: flex;
     flex-direction: row;
+}
+.chip-like-input {
+  font-size: inherit;
+  border-radius: 27px;
+}
+div[expanded]{
+  display: flex;
+  align-items: center;
+  border-radius: 27px;
+  box-shadow: 0 2px var(--firstChoice);
 }
 /* Angular Animation */
 @keyframes slideIn {

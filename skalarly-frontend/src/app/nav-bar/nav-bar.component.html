@@ -14,9 +14,11 @@
         <app-search-bar (backEvent)="toggleSearch($event)"></app-search-bar>
         }
       } @else {
+        <div expanded>
         <app-search-bar-expanded></app-search-bar-expanded>
     <app-nav-icons rightLine>
     </app-nav-icons>
+  </div>
   }
 <button mat-icon-button aria-label="Settings button" (click)="rotateIcon()" [style.transform]="'rotate(' + rotationAngle + 'deg)'"
 [matMenuTriggerFor]="account" class="material-symbols-outlined settings">settings</button>
