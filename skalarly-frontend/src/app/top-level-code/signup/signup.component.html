@@ -139,11 +139,9 @@ Upload Photo
     <mat-divider></mat-divider>
     <div class="input-list-networks">
     <div>Connect other networks</div>
-    <div>
-    <app-reusable-input-dynamic label="Social Link" (inputChangeUrl)="updateUrl($event)"
-    [controlType]="'url'" icon="share"></app-reusable-input-dynamic>
-  </div>
-  </div>
+    <app-reusable-input-autocomplete label="Social Link" (inputChangeObject)="updateUrl($event)"
+     icon="share"></app-reusable-input-autocomplete>
+    </div>
   </div>
   <div class="nav-wrapper">
     <button mat-button matStepperPrevious type="button">Back</button>
@@ -161,19 +159,19 @@ Upload Photo
     <div class="input-list">
     <app-signup-titles [intro]="intro4" [title]="title4"></app-signup-titles>
             <div class="two-by-two input-list-first">
-      <app-reusable-input-dynamic [controlType]="'text'" (inputChange)="updateMajor($event)" label="Major" icon="school"></app-reusable-input-dynamic>
-      <app-reusable-input-dynamic [controlType]="'text'" (inputChange)="updateMinor($event)" label="Minor" icon="book"></app-reusable-input-dynamic>
+      <app-reusable-input-dynamic  (inputChange)="updateMajor($event)" label="Major" icon="school"></app-reusable-input-dynamic>
+      <app-reusable-input-dynamic (inputChange)="updateMinor($event)" label="Minor" icon="book"></app-reusable-input-dynamic>
     </div>
     <mat-divider></mat-divider>
     <div class="two-by-two">
-      <app-reusable-input-dynamic [controlType]="'text'" (inputChange)="updateSport($event)" label="Sport" icon="sports"></app-reusable-input-dynamic>
-      <app-reusable-input-dynamic [controlType]="'text'" (inputChange)="updateClub($event)" label="Club" icon="group"></app-reusable-input-dynamic>
+      <app-reusable-input-dynamic (inputChange)="updateSport($event)" label="Sport" icon="sports"></app-reusable-input-dynamic>
+      <app-reusable-input-dynamic  (inputChange)="updateClub($event)" label="Club" icon="group"></app-reusable-input-dynamic>
       </div>
       <mat-divider></mat-divider>
 
       <div class="two-by-two">
-      <app-reusable-input-dynamic [controlType]="'text'" (inputChange)="updateComp($event)" label="Completed Course" icon="verified"></app-reusable-input-dynamic>
-      <app-reusable-input-dynamic  [controlType]="'text'" (inputChange)="updatePur($event)"  label="Pursuing Course" icon="add_task"></app-reusable-input-dynamic>
+      <app-reusable-input-dynamic (inputChange)="updateComp($event)" label="Completed Course" icon="verified"></app-reusable-input-dynamic>
+      <app-reusable-input-dynamic  (inputChange)="updatePur($event)"  label="Pursuing Course" icon="add_task"></app-reusable-input-dynamic>
       </div>
   
       <div class="nav-wrapper">

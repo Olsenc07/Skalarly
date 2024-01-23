@@ -1,6 +1,6 @@
-        <div [ngClass]="mobileFirst ? 'mobile-screen' : 'large-screen'" [@slideInOut]="showResults && mobileFirst">
+        <div [ngClass]="this.orientationService.screen() ? 'mobile-screen' : 'large-screen'" [@slideInOut]="showResults && this.orientationService.screen()">
             <span class="input-row">
-          @if(mobileFirst){
+          @if(this.orientationService.screen()){
             <button mat-icon-button (click)="iconBackClicked()"> 
         <i class="fa-solid fa-angle-left"></i>
             </button>
@@ -10,7 +10,6 @@
         <mat-form-field>
         <input matInput type="search" [formControl]="searchSkalarForm" placeholder="Search Fellow Skalars">
       </mat-form-field>
-
     </form>
       }
         </span>

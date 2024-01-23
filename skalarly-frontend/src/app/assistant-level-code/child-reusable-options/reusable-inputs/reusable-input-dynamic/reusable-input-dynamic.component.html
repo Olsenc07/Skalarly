@@ -1,67 +1,30 @@
     <div class="input-add-wrapper">
-      <!-- @if(controlType == 'text'){
         <mat-form-field appearance="outline">
             @if(label){
                 <mat-label>
                   {{ label }}
                 </mat-label>
               }
-          @if(icon){
-            <mat-icon matPrefix class="material-symbols-outlined">{{icon}}</mat-icon>
-             }
-             @for (input of inputsStrings; let i = $index; track input) {
-              <!--   (removed)="remove(i)"
-                [editable]="true"
-                (edited)="edit(input, $event, i)" --
-              <mat-chip-row
-                [aria-description]="'click to edit ' + input">
+              @if(icon){
+                <mat-icon matPrefix class="material-symbols-outlined">{{icon}}</mat-icon>
+                 }
+              <mat-chip-grid #chipGrid aria-label="Multiple inputs">
+             @for (input of inputsStrings.value; let i = $index; track input) {
+              <mat-chip-row 
+              [editable]="true"
+              (edited)="edit(input, $event, i)">
                 {{input}}
-                <button matChipRemove [attr.aria-label]="'remove ' + input">
-                  <mat-icon>cancel</mat-icon>
-                </button>
+                <button matSuffix mat-icon-button class="material-symbols-outlined" 
+                (click)="remove(i)" [attr.aria-label]="'remove ' + input">
+                   <mat-icon>cancel</mat-icon>
+                 </button>
               </mat-chip-row>
             }
-          <input matInput type="text"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          </mat-chip-grid>
+          <input [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputFor]="chipGrid" 
           (matChipInputTokenEnd)="add($event)"
           [formControl]="inputsStrings"/>
         </mat-form-field>
-      } -->
-      <!-- @if(controlType == 'url'){
-        <mat-form-field appearance="outline">
-          @if(label){
-              <mat-label>
-                {{ label }}
-              </mat-label>
-            }
-        @if(icon){
-          <mat-icon matPrefix class="material-symbols-outlined">{{icon}}</mat-icon>
-           }
-           @for (input of inputs; let i = $index; track input) {
-            <mat-chip-row
-              (removed)="removeUrl(i)"
-              [editable]="true"
-              (edited)="editLinks(input, $event, i)"
-              [aria-description]="'click to edit ' + input">
-              {{input}}
-              <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip-row>
-          }
-        <input matInput type="text"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="true"
-        (matChipInputTokenEnd)="add($event)"
-        [formControl]="inputsLinks"/>
-        <!-- (optionSelected)="selected($event)" --
-        <mat-autocomplete #auto="matAutocomplete" >
-          @for (link of filteredList$ | async; track link) {
-            <mat-icon>{{link.url}}</mat-icon>
-            <mat-option [value]="link">{{link.name}}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
-      } -->
     </div>
   

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
@@ -19,9 +19,7 @@ interface NavItem {
   styleUrl: './nav-icons.component.scss'
 })
 export class NavIconsComponent {
-  @Input() currentUrl: string | undefined;
-  constructor( protected orientationService: OrientationService){
-  }
+  constructor( protected orientationService: OrientationService){}
   navIcon: NavItem[] = [
     { url: '/institutions', activeIcon: 'stadium', defaultIcon: 'things_to_do', description: 'Schools' },
     { url: '/connections', activeIcon: 'hub', defaultIcon: 'share', description: 'Network' },

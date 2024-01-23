@@ -1,15 +1,27 @@
-import { Inject, Injectable, NgZone, PLATFORM_ID,  computed, signal } from '@angular/core';
+import { Inject, Injectable, OnDestroy, NgZone, PLATFORM_ID, afterRender, AfterRenderPhase,
+    computed, signal } from '@angular/core';
+import {
+  NavigationEnd,
+  Router,
+  Event as RouterEvent
+} from '@angular/router';
+import { Subject, filter, takeUntil } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrientationService {
-  private orientationState = signal<boolean>(true);
-  
-screen = computed<boolean>(() => this.orientationState());
+export class OrientationService implements OnDestroy {
+  private routeSub$: Subject<void> = new Subject<void>();
 
-  constructor(private ngZone: NgZone, 
+  private orientationState = signal<boolean>(true);
+  screen = computed<boolean>(() => this.orientationState());
+
+  private urlState = signal<string>('/');
+  url = computed<string>(() => this.urlState());
+
+
+  constructor(private ngZone: NgZone, private router: Router, 
     @Inject(PLATFORM_ID) private platformId: Object) {
     if (isPlatformBrowser(this.platformId)) {
       this.setOrientationState(); 
@@ -31,8 +43,26 @@ screen = computed<boolean>(() => this.orientationState());
         }
       });
     });
+  // SSR check changing url
+    afterRender(() => {
+    this.urlState.set(this.router.url);
+this.router.events
+  .pipe(
+    filter(
+      (event: RouterEvent): event is NavigationEnd =>
+        event instanceof NavigationEnd
+    ),
+    takeUntil(this.routeSub$)
+  )
+  // eslint-disable-next-line rxjs-angular/prefer-async-pipe
+  .subscribe((event: NavigationEnd) => {
+    this.urlState.set(event.url);
+  });
+}, { phase: AfterRenderPhase.Read })
+
   }
   }
+    // SSR
   private setOrientationState(): void {
     const orientationType = window.screen.orientation.type;
     switch (orientationType) {
@@ -50,4 +80,8 @@ screen = computed<boolean>(() => this.orientationState());
     }
   }
 
-}
+  ngOnDestroy(): void {
+    this.routeSub$.next();
+    this.routeSub$.complete();
+  }
+    }

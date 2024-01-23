@@ -44,6 +44,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { HttpClientModule } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
+import { ReusableInputAutocompleteComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-autocomplete/reusable-input-autocomplete.component';
 
 
 @Component({
@@ -65,8 +66,8 @@ import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
     ReactiveFormsModule,
     ReusableInputsComponent,
     ReusableInputDynamicComponent,
+    ReusableInputAutocompleteComponent,
     SkeletonLoaderSignupComponent,
-
     SignupTitlesComponent,
     HttpClientModule,
   ],

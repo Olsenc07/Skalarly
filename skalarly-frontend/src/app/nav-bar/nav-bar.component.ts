@@ -1,4 +1,4 @@
-import { Component, WritableSignal, signal, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,6 +8,7 @@ import { OrientationService } from '../assistant-level-code/custom-architecture-
 import { Router } from '@angular/router';
 import {MatDividerModule} from '@angular/material/divider';
 import { NavIconsComponent } from './nav-icons/nav-icons.component';
+import { SearchBarExpandedComponent } from '../top-level-code/search-bar/search-bar-expanded/search-bar-expanded.component';
 // import { PullToRefreshDirective } from './../assistant-level-code/custom-architecture-aids/directives/pull-to-refresh.directive';
 // import { dialog } from './../assistant-level-code/custom-architecture-aids/animations/dialog-animation';
 // import { refresh } from './../assistant-level-code/custom-architecture-aids/animations/refresh-animation';
@@ -21,12 +22,12 @@ import { NavIconsComponent } from './nav-icons/nav-icons.component';
      MatMenuModule,
      MatIconModule,
      NavIconsComponent,
-     SearchBarComponent],
+     SearchBarComponent,
+     SearchBarExpandedComponent],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.scss'
 })
 export class NavBarComponent {
-  @Input() currentUrl: string | undefined;
   rotationAngle: number = 0;
   visible: boolean = false;
   reloadState: 'initial' | 'intermediate' | 'final' = 'initial';
@@ -36,7 +37,7 @@ export class NavBarComponent {
     protected orientationService: OrientationService
     ) {}
 onHoldDetected(display: boolean): void {
-  this.visible = display; // Show icon when hold is detected
+  this.visible = display; 
 }
 onDeltaYChange(reload: number): void {
   if (reload == 1) {

@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { SkalarCardComponent } from '../skalar-card/skalar-card.component';
 import { type SkalarInfoInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
 import { SkalarsService } from '../../assistant-level-code/custom-architecture-aids/services/skalars.service';
+import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -33,14 +34,13 @@ import { SkalarsService } from '../../assistant-level-code/custom-architecture-a
 export class SearchBarComponent implements OnInit {
   skalars$: Observable<SkalarInfoInterface[]>;
   searchSkalarForm: FormControl<string | null> = new FormControl<string | null>('');
-  // Recieve data from parent for animation
-  @Input({ required: true }) mobileFirst!: boolean;
   // Child to parent for animation
   @Output() backEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   showResults: 'in' | 'out' = 'out';
 
   // eslint-disable-next-line no-unused-vars
-  constructor(private skalarsService: SkalarsService) {
+  constructor(private skalarsService: SkalarsService,
+    protected orientationService: OrientationService) {
     this.skalars$ = this.searchSkalarForm.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
