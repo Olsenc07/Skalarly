@@ -40,7 +40,6 @@ export class ReusableInputsComponent implements OnInit, OnDestroy {
   @Input() label?: string;
   @Input() hint?: string;
   @Input() error: string | null = null;
-  @Input() placeholder!: string;
   @Input() icon?: string;
   @Input() isValid: boolean = false;
   @Input() initialList$: Observable<string[]> = new Observable<string[]>;

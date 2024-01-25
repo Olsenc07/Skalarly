@@ -123,7 +123,7 @@ Upload Photo
     @if(imagePreview){
     <img [src]="imagePreview" class="image-preview">
     }
-    <app-reusable-inputs [label]="'Full Name'"></app-reusable-inputs>
+    <app-reusable-inputs [label]="'Full Name'" ></app-reusable-inputs>
     <app-reusable-inputs [label]="'Bio'" [default]="false"></app-reusable-inputs>
     <!-- lloking to obtain have a drop down of types of degrees with autocomplete
        <app-reusable-inputs [label]=""></app-reusable-inputs> -->
@@ -135,7 +135,9 @@ Upload Photo
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+    <!-- <div toggle>
     <mat-slide-toggle color="primary"> Private Account</mat-slide-toggle>
+    </div> -->
     <mat-divider></mat-divider>
     <div class="input-list-networks">
     <div>Connect other networks</div>

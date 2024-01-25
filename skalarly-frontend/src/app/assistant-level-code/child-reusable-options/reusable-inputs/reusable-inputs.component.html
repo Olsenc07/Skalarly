@@ -15,8 +15,7 @@
 @if(default){
   @switch(controlType){
   @case("text"){
-    <input type="text" matInput [matAutocomplete]="auto"
-     [placeholder]="placeholder" [formControl]="input">
+    <input type="text" matInput [matAutocomplete]="auto" [formControl]="input">
     <mat-autocomplete #auto="matAutocomplete">
       @for(options of (filteredList$ | async); let i = $index; track options){
         <mat-option [value]="options" (click)="emitSelectedChange(options)">
@@ -27,7 +26,7 @@
     </mat-autocomplete>
   }
     @case("password"){
-      <input type="password" matInput [placeholder]="placeholder" [formControl]="input">
+      <input type="password" matInput [formControl]="input">
       <button matSuffix mat-icon-button type="button"
       (click)="$event.stopPropagation(); toggleVisibility()" 
       [@rotate180]="visiblePassword"

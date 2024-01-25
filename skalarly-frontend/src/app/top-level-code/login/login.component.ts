@@ -10,8 +10,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-
-import { ValidationAnimationDirective } from '../../assistant-level-code/custom-architecture-aids/directives/login-validation-animation.directive';
 import { ReactiveFormsModule } from '@angular/forms';
 import { reusableAnimations } from './imports/animation-imports';
 import { Router } from '@angular/router';
@@ -33,8 +31,7 @@ import { LoginSpecificService } from 'src/app/assistant-level-code/custom-archit
     MatInputModule,
     LetterByLetterComponent,
     LoginLogicComponent,
-    SkeletonLoaderLoginComponent,
-    ValidationAnimationDirective
+    SkeletonLoaderLoginComponent
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })

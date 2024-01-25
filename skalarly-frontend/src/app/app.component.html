@@ -3,10 +3,12 @@
  ? '' : 'content-container' ">
     <div>
 @if (this.orientationService.url() !== ('/login' || '/' )){
-<app-nav-bar></app-nav-bar>
+<app-nav-bar scrollToggle (toggleHeader)="onToggleHeader($event)"></app-nav-bar>
 
  }
+ <div main-content [@fadeMargin]="marginState"t>
   <router-outlet></router-outlet> 
+</div>
 </div>
   @if(this.orientationService.screen() && (this.orientationService.url() !== ('/login' || '/' ))){
     <footer>
@@ -17,10 +19,9 @@
 
  <!-- Render as component based on path of routes -->
      <!-- <router-outlet ></router-outlet>  Secondary outlet for sidebars & later maybe modals/dialog -->
-   
 </div>
 } 
-@loading {
+@loading (minimum 300ms) {
 <div  class="initial-load">   
 <img src="assets/images/Skalar_Hat_Icon.svg" 
     width="82" height="60.5" sizes="15vw" alt="Skalarly Grad Wizard Hat Icon">
