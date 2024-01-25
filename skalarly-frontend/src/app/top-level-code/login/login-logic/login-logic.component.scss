@@ -35,12 +35,15 @@ div[forgot]{
     @include responsive.responsiveFontSize('smaller');
     }
   }
-  .normal-style, .error-style {
+  .normal-style{
     @include common.common(flex, center, column);
     align-items: baseline;
     @media only screen and (min-width: 600px) {
         @include common.common(flex, center, row);
     }
+}
+.error-style {
+  @include common.common(flex, center, column);
 }
   span[matPrefix] { margin-left: 15%; }
 .login-options {
