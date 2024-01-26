@@ -74,6 +74,7 @@ mat-stepper {
       &[submit]{
         transition: transform 0.5s ease-in-out;
     &:hover {
+      color: white;
       transform: scale(1.05);
     }
     &:before {
@@ -90,6 +91,7 @@ mat-stepper {
     }
     &:hover:before {
       right: 0; 
+
     }
       }
     }

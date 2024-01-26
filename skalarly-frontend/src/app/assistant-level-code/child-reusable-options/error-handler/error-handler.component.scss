@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 7%;
 div[mat-card-title] {
   font-weight: bold;
     @include responsive.responsiveFontSize('large');
