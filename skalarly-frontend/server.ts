@@ -30,6 +30,7 @@ const apiProxyOptions = {
 app.use('/api', createProxyMiddleware(apiProxyOptions));
 app.get('*', async (req: Request, res: Response) => {
   try {
+    console.log('here we go', apiProxyOptions)
     const commonEngine = new CommonEngine();
     const options = {
       documentFilePath: join(DIST_FOLDER, 'index.html'),

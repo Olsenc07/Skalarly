@@ -9,8 +9,11 @@
     "npm": "10.2.3"
   },
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js",
+    "start": "npm run start:backend && npm run start:frontend",
+    "start:frontend": "cd skalarly-frontend && ng serve",
+    "start:backend": "node backend/server.js",
+    "dev": "start npm run dev:backend && start npm run start:frontend",
+    "dev:backend": "nodemon backend/server.js",
     "test": "echo \"No tests specified\"",
     "heroku-postbuild": "npm install && npm install -g @angular/cli && cd skalarly-frontend && npm install && npm run build:prod"
   },
@@ -25,8 +28,8 @@
   },
   "homepage": "https://github.com/Olsenc07/skalarly-fs#readme",
   "dependencies": {
-    "@angular-devkit/build-angular": "17.0.7",
-    "@angular/cli": "^17.0.7",
+    "@angular-devkit/build-angular": "17.1.1",
+    "@angular/cli": "^17.1.1",
     "bcrypt": "^5.1.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
