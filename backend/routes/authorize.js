@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 // Models Used
 import Login from '../models/login.js';
-import SkalarInfo from '../models/skalarinfo.js';
+import SkalarInfo from '../models/skalarInfo.js';
 // Middleware
 import verifyEmail from '../middleware/verify-email.js';
 

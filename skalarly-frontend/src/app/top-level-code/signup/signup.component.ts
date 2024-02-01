@@ -15,7 +15,7 @@ import {
   Subject,
   combineLatest,
   takeUntil,
-  tap, map, Observable, of 
+  tap, map
 } from 'rxjs';
 import { ReusableInputDynamicComponent } from '../../assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-dynamic/reusable-input-dynamic.component';
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
@@ -76,18 +76,18 @@ import { ReusableInputAutocompleteComponent } from 'src/app/assistant-level-code
 
 export class SignUpComponent implements OnInit, OnDestroy {
   title: string = 'Where is your institution located?';
-  intro: string = "Let's find where you study.";
+  intro: string = "Let's find where you study";
 
   title2: string = 'This cannot be changed later.';
-  intro2: string = "Choose a unique username.";
+  intro2: string = "Choose a unique username";
 
   title3: string = 'Provide an email that is recognized by your school.';
   intro3: string = "Validation time";
 
-  title4: string = 'This will be displayed on your profile';
+  title4: string = 'This will be displayed on your profile.';
   intro4: string = "Basic information";
 
-  title5: string = 'Used to help connect you with others';
+  title5: string = 'This is used to help connect you with others.';
   intro5: string = "Main focuses";
 
   selectedFile: File | undefined;
@@ -214,38 +214,33 @@ handleValueChange(controlName: string, value: string): void {
     control?.setValue(value);
   }
 // Common method for setting form value or resetting based on condition
-private updateFormValue(formControlName: string, value: string | null, newTitle: string): void {
+private updateFormValue(formControlName: string, value: string | null): void {
   if (value) {
     this.instituitionForm.get(formControlName)?.setValue(value);
   } else {
     this.instituitionForm.get(formControlName)?.reset();
   }
-  this.title = newTitle;
 }
 updateCountrySelection(country: string): void {
-  this.updateFormValue('country', country, country ? `Which region of ${country}?` : 'Which country do you study in?');
+  this.updateFormValue('country', country);
   if (country) {
     console.log('1', country);
     this.institutionInfoService.getStateProvinces(country);
   }
 }
 regionSelection(stateProvince: string): void {
-  this.updateFormValue('region', stateProvince, stateProvince ? 'What type of school?' : 'Which region of the country?');
-  if (stateProvince) {
-    // Assuming you have a method to fetch the types of institutions
-    this.institutionInfoService.getSchoolTypes(stateProvince);
-    // this.initialList$ = of(this.institutionInfoService.symbol());
-  }
+  this.updateFormValue('region', stateProvince);
+    this.institutionInfoService.getSchoolTypes();
 }
 typeInstituition(type: string): void {
-  this.updateFormValue('type', type, 'What is the school’s name?');
-  if (type) {
-    this.institutionInfoService.getSchoolNames(this.instituitionForm.get('region')?.value, type);
-    // this.initialList$ = of(this.institutionInfoService.symbol());
+  this.updateFormValue('type', type);
+  if(type){
+    this.institutionInfoService.getSpecificSchool(this.instituitionForm.get('region')!.value, type)
   }
+
 }
 chosenInstituition(institution: string): void {
-  this.updateFormValue('institution', institution, 'What is the schools name?');
+  this.updateFormValue('institution', institution);
   if(institution){
     this.domain = this.institutionInfoService.getSchoolNamesEmails(institution);
   }

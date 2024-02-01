@@ -26,7 +26,7 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
   (selectedChange)="typeInstituition($event)">
   </app-reusable-inputs >
 @if(instituitionForm.get('type')?.value){
-  <app-reusable-inputs [label]="'Where do you attend school?'" 
+  <app-reusable-inputs [label]="'Official name of school?'" 
   icon="things_to_do" [initialList]="this.institutionInfoService.instName()"
   (selectedChange)="chosenInstituition($event)">
   </app-reusable-inputs>
