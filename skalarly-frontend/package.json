@@ -4,7 +4,12 @@
   "description": "Front-end for Skalarly application",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
+    "dev:ssr": "ng run skalarly-fs:serve-ssr:development",
+    "serve-ssr": "ng run skalarly-fs:serve-ssr:development",
+    "build:ssr": "ng build --configuration=production && ng run skalarly-fs:server:production",
+    "analyze:ssr": "webpack-bundle-analyzer dist/server/stats.json",
+    "test:ssr": "node dist/server/main.js",
     "build": "ng lint && ng build",
     "build:stats": "ng build --configuration=production --stats-json",
     "analyze": "webpack-bundle-analyzer dist/skalarly-frontend/stats.json",
@@ -16,10 +21,7 @@
     "build:dev": "ng lint && ng build --configuration=development --stats-json",
     "build:prod": "ng lint && ng build --configuration=production",
     "start:prod": "node dist/server/main.js",
-    "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run",
-    "build:ssr": "ng build --configuration=production && ng run skalarly-fs:server:production --stats-json",
-    "analyze:ssr": "webpack-bundle-analyzer dist/server/stats.json",
-    "test:ssr": "node dist/server/main.js"
+    "e2e": "start-server-and-test build-and-deploy:prod http://localhost:4200 cypress:run"
   },
   "private": true,
   "dependencies": {
@@ -38,6 +40,7 @@
     "@babel/core": "^7.23.7",
     "@babel/preset-env": "^7.23.8",
     "@types/compression": "^1.7.5",
+    "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "http-proxy-middleware": "^2.0.6",
     "ngx-skeleton-loader": "^8.1.0",

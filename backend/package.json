@@ -30,7 +30,7 @@
         "helmet": "^5.1.0",
         "jsonwebtoken": "^9.0.2",
         "mongodb": "^6.3.0",
-        "mongoose": "^8.0.3",
+        "mongoose": "8.1.1",
         "web-push": "^3.6.6"
     },
     "devDependencies": {

@@ -22,7 +22,7 @@ const basicInfoSchema = new mongoose.Schema({
 });
 
 const provinceSchema = new mongoose.Schema({
-    province: { type: String, required: true },
+    province: {type: String},
     schoolTypes: {
       universities: [basicInfoSchema],
       colleges: [basicInfoSchema],
@@ -31,8 +31,10 @@ const provinceSchema = new mongoose.Schema({
     }
   });
   
-  const basicProvincesSchema = new mongoose.Schema({
-    provinces: [provinceSchema]
+  const countrySchema = new mongoose.Schema({
+    countryName: { type: String},
+    regions: [provinceSchema]
   });
+
   
-  export default mongoose.model('BasicProvince', basicProvincesSchema);
+  export default mongoose.model('Signup', countrySchema, 'signup');

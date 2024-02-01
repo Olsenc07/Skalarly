@@ -9,7 +9,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { AuthorizeService } from '../services/authorize.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
+import { environment } from 'src/environments/environment';
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
   // eslint-disable-next-line no-unused-vars
@@ -17,26 +17,26 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): 
+  Observable<HttpEvent<any>> {
     return this.authService.token$.pipe(
       switchMap((token: string | null) => {
-        const authToken: string | null = token;
-        // Use setHeaders to set the authorization header
-        const authRequest = req.clone({
+        console.log('environment', environment.production);
+        const authReq = token ? req.clone({
           setHeaders: {
-            Authorization: `Bearer ${authToken}`
+            Authorization: `Bearer ${token}`
           }
-        });
+      }): req;
+      console.log('authReq', authReq);
 
-        return next.handle(authRequest).pipe(
-          catchError((error: HttpErrorResponse) => {
-            // Handle the error here, you can log it or perform any other action
-            console.error('HTTP error occurred in auth-interceptor', error);
-            // Rethrow the error to propagate it to the caller
-            throw error;
-          })
-        );
+      return next.handle(authReq).pipe(
+      catchError((error: HttpErrorResponse) => {
+        // Handle the error here, you can log it or perform any other action
+        console.error('HTTP error occurred in auth-interceptor', error);
+        // Rethrow the error to propagate it to the caller
+        throw error
       })
     );
-  }
+  }))
+}
 }

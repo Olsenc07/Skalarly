@@ -12,6 +12,11 @@
 .input-list{
 display: flex;
 flex-direction: column;
+@media only screen and (min-width: 767px){
+border: 1px solid;
+padding: 2%;
+border-radius: 8px;
+}
 }
 .input-list-networks{
 @include stack-justify(flex, column, flex-start);
@@ -71,10 +76,13 @@ mat-stepper {
   &[matStepperNext]{
       color: var(--secondChoice);
       @include responsive.responsiveFontSize();
+      &[mat-raised-button]{
+        background-color: var(--secondChoice);
+        color: white;
+      }
       &[submit]{
         transition: transform 0.5s ease-in-out;
     &:hover {
-      color: white;
       transform: scale(1.05);
     }
     &:before {

@@ -16,7 +16,7 @@
   @switch(controlType){
   @case("text"){
     <input type="text" matInput [matAutocomplete]="auto" [formControl]="input">
-    <mat-autocomplete #auto="matAutocomplete">
+    <mat-autocomplete #auto="matAutocomplete" >
       @for(options of (filteredList$ | async); let i = $index; track options){
         <mat-option [value]="options" (click)="emitSelectedChange(options)">
           <span [innerHTML]="options | titlecase | bold: input.value!">
@@ -54,7 +54,7 @@
       <mat-error >{{ error }}</mat-error>
     }
     @if(input.value){
-    <button matSuffix mat-icon-button (click)="input.reset()">
+    <button matSuffix mat-icon-button (click)="reset()">
       <mat-icon  class="material-symbols-outlined">cancel</mat-icon>
     </button>
   }

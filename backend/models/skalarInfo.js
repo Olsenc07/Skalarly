@@ -25,6 +25,4 @@ const userInfoSchema = mongoose.Schema({
     skalar: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
  });
   
- const SkalarInfo = mongoose.model('SkalarInfo', userInfoSchema);
-
-export { SkalarInfo };
+ export default mongoose.model('SkalarInfo', userInfoSchema);

@@ -1,17 +1,23 @@
 // SERVER NODE.JS Using ES6 module
 import dotenv from 'dotenv';
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   dotenv.config();
 }
-const portEnv = process.env.PORT;
-const db = process.env.MONGODB_URI;
+const portEnv = process.env.PORT_BACK;
+const db_auth = process.env.MONGODB_AUTH;
+const db_content = process.env.MONGODB_CONTENT;
+
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 // Define rate limit rule
 const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again after 15 minutes'
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 7, // limit each IP to 7 requests per windowMs
+  handler: function (req, res, next) {
+    const error = new Error('Too many attempts, please try again after 5 minutes');
+    error.status = 429; // Too Many Requests
+    next(error);
+  }
 });
 
 import bodyParser from 'body-parser';
@@ -35,30 +41,60 @@ const __dirname = dirname(__filename);
 
 // App Variables
 const app = express();
-const port = portEnv;
 
-//  DataBase connection
-mongoose.connect(db) 
-.then(()  => {
-  console.log('Connected to database!')})
-.catch((error) => {
-  console.log('hey now connection', portEnv, db);
-  console.error('MongoDB connection error:', error);
-})
+const mongooseAuth = mongoose.createConnection();
+const mongooseContent = mongoose.createConnection();
+
+//  Responsive DataBase connection
+const connectAuthDB = async () => {
+  if (mongooseAuth.readyState === 0) {
+  try {
+      await mongoose.connect(db_auth);
+      console.log('Connected to Auth database!');
+  } catch (error) {
+      console.error('MongoDB Auth connection error:', error);
+  }
+}
+};
+
+// Connection to Content Database
+const connectContentDB = async () => {
+  try {
+      await mongoose.connect(db_content);
+      console.log('Connected to Content database!');
+  } catch (error) {
+      console.error('MongoDB Content connection error:', error);
+  }
+};
+
+// Middleware to switch databases
+const switchDatabase = async (req, res, next) => {
+  try {
+  if (req.path.startsWith('/')  || req.path.startsWith('/sign-up') || req.path.startsWith('/login')) {
+     await connectAuthDB();
+  } else {
+     await connectContentDB();
+     if (mongooseAuth.readyState === 1) { 
+      try {
+        await mongooseAuth.close();
+        console.log('Disconnected from Auth database!');
+      } catch (closeError) {
+        console.error('Error closing Auth DB connection:', closeError);
+      }
+    }
+  }
+  next();
+} catch (error) {
+  console.error('Error in switchDatabase:', error);
+  next(error); 
+}
+};
+
+app.use(switchDatabase);
+
 // App Configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
-function requireHTTPS(req, res, next) {
-  // The 'x-forwarded-proto' check is for Heroku
-  if (
-    req.get('x-forwarded-proto') !== 'https'
-    &&
-  process.env.NODE_ENV !== "development"
-  ) {
-    return res.redirect("https://" + req.get("host") + req.url);
-  }
-  next();
-}
 
 // CORS
 app.use((req, res, next) => {
@@ -69,19 +105,28 @@ app.use((req, res, next) => {
  });
 
 // API routes
-app.use("/api/authorize", authorizeRoute);
+app.use("/api/authorize",apiLimiter, authorizeRoute);
 app.use("/api/accountManagement", accountManagementRoute);
-app.use("/api/skalars", apiLimiter, skalarsRoute);
-app.use("/api/canada",apiLimiter, canadianRoute);
-
-// Production
-const angularAppPath = join(__dirname, 'dist', 'skalarly-frontend', 'skalarly-frontend');
-app.use(express.static(angularAppPath));
-app.get('*',requireHTTPS, (req, res) => {
-  res.sendFile(join(angularAppPath, 'index.html'));
+app.use("/api/skalars", skalarsRoute);
+app.use("/api/canada", canadianRoute);
+app.use((error, req, res, next) => {
+  // Default to 500 server error
+  const status = error.status || 500;
+  res.status(status).json({
+    message: error.message
+  });
 });
+const angularAppPath = 
+   join(__dirname, 'dist', 'skalarly-frontend', 'skalarly-frontend')
+  // : join('/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src');
+
+  app.use(express.static(angularAppPath));
+
+  app.get('*', (req, res) => {
+    res.sendFile(join(angularAppPath, 'index.html'));
+  });
 
 // Server Activation
-app.listen(port, () => {
-  console.log(`Listening to requests on ${port}`);
+app.listen(portEnv, () => {
+  console.log(`Listening to requests on ${portEnv}`);
 })

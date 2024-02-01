@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { Subject, debounceTime, distinctUntilChanged, Observable, map, startWith, combineLatest} from 'rxjs';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy,  Output, ViewChild } from '@angular/core';
+import { Subject, debounceTime, distinctUntilChanged, Observable, map, startWith, combineLatest, of} from 'rxjs';
 import { FormControl,  ReactiveFormsModule } from '@angular/forms';
 import { TitleCasePipe, AsyncPipe } from '@angular/common';
 import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -29,8 +29,7 @@ import { BoldPipe } from '../../custom-architecture-aids/pipes/bold.pipe';
   templateUrl: './reusable-inputs.component.html',
   styleUrl: './reusable-inputs.component.scss'
 })
-export class ReusableInputsComponent implements OnInit, OnDestroy {
-  typedFilter: FormControl<string | null> = new FormControl<string | null>('');
+export class ReusableInputsComponent implements OnChanges, OnDestroy {
   input: FormControl<string | null> = new FormControl<string | null>('');
   visiblePassword: boolean = false;
   listItems: string[] = [];
@@ -42,7 +41,7 @@ export class ReusableInputsComponent implements OnInit, OnDestroy {
   @Input() error: string | null = null;
   @Input() icon?: string;
   @Input() isValid: boolean = false;
-  @Input() initialList$: Observable<string[]> = new Observable<string[]>;
+  @Input() initialList: string[] = [''];
 
   @ViewChild('auto') matAutocomplete!: MatAutocomplete;
   auto: MatAutocomplete | undefined; 
@@ -53,22 +52,21 @@ export class ReusableInputsComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void> = new Subject<void>();
   filteredList$: Observable<string[]> = new Observable<string[]>;
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    console.log('list', this.initialList)
     this.filteredList$ = combineLatest([
       this.input.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
       startWith('')),
-      this.initialList$
+      of(this.initialList)
       ]).pipe(
         map(([typed, list]) => {
-          if (!list) {
-            return [];
-          }
+          const filteredList = list.filter(item => item != null);
           if (!typed) {
-            return list.map(item => this.capitalizeFirstLetterEachWord(item.toLowerCase()));
+            return filteredList.map(item => this.capitalizeFirstLetterEachWord(item.toLowerCase()));
           }
-          return list
+          return filteredList
             .filter(item => item.toLowerCase().includes(typed.toLowerCase()))
             .map(item => this.capitalizeFirstLetterEachWord(item.toLowerCase()));
         })
@@ -79,6 +77,14 @@ capitalizeFirstLetterEachWord(str: string): string {
     .split(' ')
     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
+}
+onAutocompleteOpened(): void {
+  console.log('open')
+  document.body.style.overflow = 'hidden'; // Disable body scrolling to hide header
+}
+
+onAutocompleteClosed(): void {
+  document.body.style.overflow = ''; // Re-enable body scrolling
 }
 // password conforming
 toggleVisibility(): void {
@@ -112,8 +118,8 @@ emitSelectedChange(selectedValue: string): void {
   this.selectedChange.emit(selectedValue);
 }
 
-resetFilter(): void {
-  this.typedFilter.reset();
+reset(): void {
+  this.input.reset()
   this.selectedChange.emit('');
 }
 ngOnDestroy() {

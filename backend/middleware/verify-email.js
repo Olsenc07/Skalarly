@@ -1,4 +1,4 @@
-import  Skalar  from '../models/skalar.js';
+import  Skalar  from '../models/login.js';
 async function verifyEmail(req, res, next) {
     try {
         const checkEmail = req.body.email; // Or req.query.email, depending on how you're sending the email

@@ -9,6 +9,7 @@ div[title] {
     @include stack-justify(flex, unset, center);
     margin-top: 1%;
     font-weight: bold;
+    text-align: center
   }
   ul[intro]{
     @include responsive.responsiveFontSize('smaller');

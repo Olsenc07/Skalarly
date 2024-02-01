@@ -75,18 +75,20 @@ import { ReusableInputAutocompleteComponent } from 'src/app/assistant-level-code
 })
 
 export class SignUpComponent implements OnInit, OnDestroy {
-  initialList$: Observable<string[]> = new Observable<string[]>;
   title: string = 'Where is your institution located?';
-  intro: string = "Let's find where you study";
+  intro: string = "Let's find where you study.";
 
-  title2: string = 'You must provide an email that is recognized by the selected school';
-  intro2: string = "Validation time";
+  title2: string = 'This cannot be changed later.';
+  intro2: string = "Choose a unique username.";
 
-  title3: string = 'This will be displayed on your profile';
-  intro3: string = "Basic information";
+  title3: string = 'Provide an email that is recognized by your school.';
+  intro3: string = "Validation time";
 
-  title4: string = 'Used to help connect you with others';
-  intro4: string = "Main focuses";
+  title4: string = 'This will be displayed on your profile';
+  intro4: string = "Basic information";
+
+  title5: string = 'Used to help connect you with others';
+  intro5: string = "Main focuses";
 
   selectedFile: File | undefined;
   imagePreview: string | ArrayBuffer | null = '';
@@ -191,7 +193,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.titleService.setTitle('Skalarly - Signup');
-    this.initialList$ = of(this.institutionInfoService.symbol());
     // intitial call
     combineLatest([
       this.signUpForm.get('username')!.valueChanges,
@@ -222,11 +223,10 @@ private updateFormValue(formControlName: string, value: string | null, newTitle:
   this.title = newTitle;
 }
 updateCountrySelection(country: string): void {
-  this.updateFormValue('country', country, country ? 'Which region of the country?' : 'Which country do you study in?');
+  this.updateFormValue('country', country, country ? `Which region of ${country}?` : 'Which country do you study in?');
   if (country) {
-    console.log('country', country);
+    console.log('1', country);
     this.institutionInfoService.getStateProvinces(country);
-    this.initialList$ = of(this.institutionInfoService.symbol());
   }
 }
 regionSelection(stateProvince: string): void {

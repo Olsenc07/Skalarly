@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const skalarSchema = mongoose.Schema({
+const loginSchema = mongoose.Schema({
    email: { type: String, required: true},
    emailToken: { type: String },
    isVerified: { type: Boolean },
@@ -8,4 +8,4 @@ const skalarSchema = mongoose.Schema({
    password: { type: String, required: true},
 });
 
-export default mongoose.model('Skalar', skalarSchema);
+export default mongoose.model('Login', loginSchema);

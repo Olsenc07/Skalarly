@@ -1,5 +1,5 @@
 export interface BasicProvinceInterface {
-  provinces: {
+  regions: {
     province: string;
     schoolTypes: {
       universities: basicinfo[];

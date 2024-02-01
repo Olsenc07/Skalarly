@@ -11,31 +11,31 @@
   <div class="input-list">
     <app-signup-titles [intro]="intro" [title]="title"></app-signup-titles>
 <app-reusable-inputs [label]="'Country'" class="input-list-inputs input-list-first"
- icon="flag_circle" [initialList$]="initialList$"
+ icon="flag_circle" [initialList]="this.institutionInfoService.countries()"
 (selectedChange)="updateCountrySelection($event)">
 </app-reusable-inputs >
 <!-- if province-state needs to be chosen -->
 @if(instituitionForm.get('country')?.value) {
-<app-reusable-inputs [label]="'Region of the country'" 
-icon="explore" [initialList$]="initialList$"
+<app-reusable-inputs [label]="'Region of ' + (instituitionForm.get('country')?.value)" 
+icon="explore" [initialList]="this.institutionInfoService.region()"
 (selectedChange)="regionSelection($event)" >
 </app-reusable-inputs >
 @if(instituitionForm.get('region')?.value){
-  <app-reusable-inputs [label]="'What type of school?'" 
-  icon="things_to_do" [initialList$]="initialList$"
+  <app-reusable-inputs [label]="'Which type of school?'" 
+  icon="things_to_do" [initialList]="this.institutionInfoService.typesOfInst()"
   (selectedChange)="typeInstituition($event)">
   </app-reusable-inputs >
 @if(instituitionForm.get('type')?.value){
   <app-reusable-inputs [label]="'Where do you attend school?'" 
-  icon="things_to_do" [initialList$]="initialList$"
+  icon="things_to_do" [initialList]="this.institutionInfoService.instName()"
   (selectedChange)="chosenInstituition($event)">
   </app-reusable-inputs>
   }  
 }
 }
 <div class="nav-wrapper">
-  <button mat-button matStepperPrevious (click)="navigate()">Login</button>
-  <button mat-button matStepperNext>Next</button>
+  <button mat-stroked-button matStepperPrevious (click)="navigate()">Login</button>
+  <button mat-raised-button matStepperNext>Next</button>
 </div> 
 
 </div>
@@ -48,12 +48,13 @@ icon="explore" [initialList$]="initialList$"
 <form [formGroup]="signUpForm" (ngSubmit)="createAccount()">
   <ng-template matStepContent>
     <div class="input-list">
-    <app-signup-titles [intro]="intro2" [title]="title2"></app-signup-titles>
+  <app-signup-titles [intro]="intro2" [title]="title2"></app-signup-titles>
   <app-reusable-inputs class="input-list-inputs input-list-first" [isValid]="isValid"  (valueChange)="onValueChange($event)"
     label="Username" placeholder="Username" icon="account_circle"
   [error]="getError('username') | errorPipe"
   ></app-reusable-inputs>
   @if(signUpForm.get('username')?.valid){ 
+  <app-signup-titles [intro]="intro3" [title]="title3"></app-signup-titles>
   <app-reusable-inputs class="input-list-inputs" [isValid]="isValid" (valueChange)="onValueChange($event)"
    label="Email" placeholder="Email" icon="alternate_email"
   [error]="getError('email') | errorPipe" [hint]="'Match Insitution chosen'"
@@ -70,9 +71,9 @@ icon="explore" [initialList$]="initialList$"
   </button>
 </div>
 <div class="nav-wrapper">
-  <button mat-button matStepperPrevious type="button">Back</button>
+  <button mat-stroked-button matStepperPrevious type="button">Back</button>
   <!-- allow next when validated -->
-  <button mat-button matStepperNext type="button">Next</button>
+  <button mat-raised-button matStepperNext type="button">Next</button>
 </div>
     <!-- Password Requirements -->
 </div>
@@ -86,7 +87,7 @@ icon="explore" [initialList$]="initialList$"
   <form [formGroup]="personalForm" (ngSubmit)="createAccount()">
   <ng-template matStepContent>
     <div class="input-list">
-    <app-signup-titles [intro]="intro3" [title]="title3"></app-signup-titles>
+    <app-signup-titles [intro]="intro4" [title]="title4"></app-signup-titles>
           <div>
           <button mat-button [matMenuTriggerFor]="menu" profilePic>
           Add A Profile Picture
@@ -146,8 +147,8 @@ Upload Photo
     </div>
   </div>
   <div class="nav-wrapper">
-    <button mat-button matStepperPrevious type="button">Back</button>
-    <button mat-button matStepperNext type="button">Next</button>
+    <button mat-stroked-button matStepperPrevious type="button">Back</button>
+    <button mat-raised-button matStepperNext type="button">Next</button>
   </div> 
 </div>
   </ng-template>
@@ -159,7 +160,7 @@ Upload Photo
   <form [formGroup]="infoForm" (ngSubmit)="addSkalarInfo()">
   <ng-template matStepContent>
     <div class="input-list">
-    <app-signup-titles [intro]="intro4" [title]="title4"></app-signup-titles>
+    <app-signup-titles [intro]="intro5" [title]="title5"></app-signup-titles>
             <div class="two-by-two input-list-first">
       <app-reusable-input-dynamic  (inputChange)="updateMajor($event)" label="Major" icon="school"></app-reusable-input-dynamic>
       <app-reusable-input-dynamic (inputChange)="updateMinor($event)" label="Minor" icon="book"></app-reusable-input-dynamic>
@@ -177,7 +178,7 @@ Upload Photo
       </div>
   
       <div class="nav-wrapper">
-        <button mat-button matStepperPrevious type="button">Back</button>
+        <button mat-stroked-button matStepperPrevious type="button">Back</button>
         <button mat-raised-button matStepperNext submit [disabled]="infoForm.valid">Create</button>
       </div> 
     </div>
