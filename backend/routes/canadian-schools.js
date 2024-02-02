@@ -26,19 +26,29 @@ router.get('/schoolTypes', async (req, res) => {
 
     console.log('o wo wo', countryName);
     try {
-        // test one at a time and learn layering
-        // const finalList = await Signup.findOne( {$and: [
-        //     {countryName: countryName}, {'regions.province': province}, {'regions.province.schoolTypes': type}
-        // ]}).exec()
-        console.log('countryData', finalList);
-       if (!finalList || !finalList.name) {
-           return res.status(404).json({ message: 'School not found' });
-       }
-       const names = finalList.map(specific => specific.name);
-       res.status(200).json({ data: names });
-   } catch (e) {
-       console.log('find me 2', e);
-       res.status(500).json({ message: 'Error fetching province data', error: e });
-   }
+        const finalList = await Signup.findOne({countryName: countryName}).exec();
+      if(finalList){
+        let region = finalList.regions.map(r => r.province === province);
+            if (!region) {
+                return res.status(404).json({ message: `Province ${province} not found` });
+            }
+
+            let schoolTypeArray = region.schoolTypes[type];
+            if (!schoolTypeArray) {
+                return res.status(404).json({ message: `School type ${type} not found in province ${province}` });
+            }
+
+        const schoolsData = schoolType.map(school => ( school.emailExtensions));
+        console.log('schoolsData:', schoolsData);
+
+        res.status(200).json(schoolsData);
+      } else{
+        res.status(500).json({ message: 'Error fetching school data', error: e });
+      }
+  
+} catch (e) {
+    console.log('find me 3', e);
+    res.status(500).json({ message: 'Error fetching final school', error: e });
+}
 });
 export default router;

@@ -5,12 +5,6 @@
   text-align: center; 
   align-items: center;
   padding: 1% 0%;
-@media only screen and (min-width: 600px) {
-  border-top: 7px solid  var(--secondChoice);
-  border-left: 7px solid var(--secondChoice);
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
-}
 }
   button[join]:hover:after {
     content: '\2728'; 

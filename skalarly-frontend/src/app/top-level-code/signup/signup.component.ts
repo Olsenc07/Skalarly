@@ -100,7 +100,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   // second major stage
   userInteracted: boolean = false;
   visiblePassword: boolean = false;
-  domain: string[] | undefined = undefined;
+  domain: string[] = [];
   // skalar info form
   infoForm: FormGroup = new FormGroup({
     club: new FormControl<SkalarInfoInterface['club']>([]),
@@ -158,7 +158,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
           emailUsernameValidator(
             this.accountManagementService,
             false,
-            this.domain
+            this.institutionInfoService.instEmails()
           )
         ])
       ),
@@ -242,7 +242,8 @@ typeInstituition(type: string): void {
 chosenInstituition(institution: string): void {
   this.updateFormValue('institution', institution);
   if(institution){
-    this.domain = this.institutionInfoService.getSchoolNamesEmails(institution);
+    this.institutionInfoService.
+    getSchoolNamesEmails(this.instituitionForm.get('region')!.value, this.instituitionForm.get('type')!.value, institution);
   }
 }
  updateUrl(socialLinks: {

@@ -4,6 +4,7 @@ import { EditingService } from '../../assistant-level-code/custom-architecture-a
 import { MatButtonModule } from '@angular/material/button';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -13,6 +14,8 @@ import { Router } from '@angular/router';
   imports: [MatButtonModule, NgIf, AsyncPipe]
 })
 export class EditProfileComponent {
+  // will reset to old value 
+  name = new FormControl('current value', {nonNullable: true});
   change$: Observable<boolean> = new Observable<boolean>();
   constructor(
     private editingService: EditingService,

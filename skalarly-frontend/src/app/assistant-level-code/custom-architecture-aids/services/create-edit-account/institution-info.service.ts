@@ -1,5 +1,5 @@
 import { Injectable, Signal, computed, signal } from '@angular/core';
-import { ReplaySubject, map, take } from 'rxjs';
+import { ReplaySubject, map, shareReplay, take } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import type { ProvinceSchoolTypes, basicinfo } from '../../interfaces/basic-province-interface';
 import { environment } from 'src/environments/environment';
@@ -9,17 +9,20 @@ import { environment } from 'src/environments/environment';
 })
 export class InstitutionInfoService {
   private apiUrl: string = environment.apiUrl;
-  private apiSource: basicinfo | null = null;
-  private cacheSchoolData: Map<string, ReplaySubject<ProvinceSchoolTypes>> = new Map();
+  private cacheSchoolData: Map<string, ReplaySubject<basicinfo[] | string[]>> = new Map();
   private countriesState = signal<string[]>(['Canada', 'United States']);
   private regionsState = signal<string[]>(['']);
   private typesOfInstitution = signal<string[]>(['']);
   private institutionName = signal<string[]>(['']);
+  private institutionEmails = signal<string[]>(['']);
+
 
   countries = computed<string[]>(() => this.countriesState());
   region = computed<string[]>(() => this.regionsState());
   typesOfInst = computed<string[]>(() => this.typesOfInstitution());
   instName = computed<string[]>(() => this.institutionName());
+  instEmails = computed<string[]>(() => this.institutionEmails());
+
 
   constructor(private http: HttpClient) {}
 
@@ -30,8 +33,9 @@ export class InstitutionInfoService {
   
   // If canada use db, or else use api 
   getStateProvinces(country: string): void {
-    console.log('api', this.apiUrl);
-    if (country === 'Canada') {
+  // Check if the country is 'Canada' and if the data is already cached
+  if (country === 'Canada' ) {
+    // If not cached, create a new ReplaySubject for caching and fetch the data
     console.log('country', country);
       this.http.get<{data: string[]; message: string}>(`${this.apiUrl}/canada/province?country=${country}`)
         .pipe(
@@ -40,7 +44,7 @@ export class InstitutionInfoService {
          )
         .subscribe({
           next: (provinceNames) => {
-            const provinces: string[] = provinceNames
+            const provinces: string[] = provinceNames;
             console.log('s', provinces)
             this.regionsState.set(provinces);
           },
@@ -72,22 +76,24 @@ export class InstitutionInfoService {
   }
 
   getSpecificSchool(region:string, type: string): void {
-    const cacheKey = `${region}-${type}`;
+    const cacheKey = `schools-${region}-${type}`;
+
     if (!this.cacheSchoolData.has(cacheKey)) {
-      this.cacheSchoolData.set(cacheKey, new ReplaySubject<ProvinceSchoolTypes>(1));
-      this.http.get<ProvinceSchoolTypes>(`${this.apiUrl}/canada/schoolTypes?country=Canada&province=${region}&type=${type}`)
+      const schoolTypes$ = new ReplaySubject<basicinfo[] | string[]>(1);
+      this.cacheSchoolData.set(cacheKey, schoolTypes$);
+      this.http.get<basicinfo[]>(`${this.apiUrl}/canada/schoolTypes?country=Canada&province=${region}&type=${type}`)
         .pipe(take(1))
         .subscribe({
           next: (schoolData) => {
-
-            this.cacheSchoolData.get(cacheKey)?.next(schoolData);
-            this.typesOfInstitution.set(this.extractSchoolTypes());
+            schoolTypes$.next(schoolData);
+            const schoolNames = schoolData.map(school => school.name);
+          this.institutionName.set(schoolNames);
           },
           error: (error) => console.error('Error fetching school data:', error)
         });
     } else {
       this.cacheSchoolData.get(cacheKey)?.subscribe(schoolData => {
-        this.typesOfInstitution.set(this.extractSchoolTypes());
+        this.institutionName.set(this.extractSchoolTypes());
       });
     }
   }
@@ -96,14 +102,30 @@ export class InstitutionInfoService {
   }
   
   
-  getSchoolNamesEmails(institution: string): string[] {
-    if (!this.apiSource) return [];
-    // Check if the name of the apiSource matches the institution
-    if (this.apiSource.name === institution) {
-      return this.apiSource.emailExtensions;
-    }
-    return []; 
+  getSchoolNamesEmails(region: string, type: string, institution: string): void {
+    const cacheKey = `emails-${region}-${type}-${institution}`;
+
+    if (!this.cacheSchoolData.has(cacheKey)) {
+      const emails$ = new ReplaySubject<basicinfo[] | string[]>(1);
+      this.cacheSchoolData.set(cacheKey, emails$);
+      this.http.get<string[]>(`${this.apiUrl}
+      /canada/schoolTypes?country=Canada&province=${region}&type=${type}&name=${institution}`)
+      .pipe(  take(1),
+      shareReplay(1) 
+    )
+      .subscribe({
+        next: (emails) => {
+          console.log('emails', emails)
+          emails$.next(emails);
+      this.institutionEmails.set(emails);
+        },
+        error: (error) => {
+          console.error('Error fetching emails:', error);
+        }
+    });
+  } else {
+    this.cacheSchoolData.get(cacheKey)?.asObservable().subscribe(this.institutionEmails);
   }
-  
+}
   
 }
