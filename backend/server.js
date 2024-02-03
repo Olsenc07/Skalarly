@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 if (process.env.NODE_ENV === 'development') {
   dotenv.config();
 }
-const portEnv = process.env.PORT_BACK;
+const port = process.env.PORT || 3000;
 const db_auth = process.env.MONGODB_AUTH;
 const db_content = process.env.MONGODB_CONTENT;
 
@@ -127,6 +127,6 @@ const angularAppPath =
   });
 
 // Server Activation
-app.listen(portEnv, () => {
+app.listen(port, () => {
   console.log(`Listening to requests on ${portEnv}`);
 })
