@@ -10,7 +10,8 @@
 <ng-template matStepContent>
   <div class="input-list">
     <app-signup-titles [intro]="intro" [title]="title"></app-signup-titles>
-<app-reusable-inputs [label]="'Country'" class="input-list-inputs input-list-first"
+<app-reusable-inputs [label]="instituitionForm.get('country')?.value" class="input-list-inputs input-list-first"
+[filler]="instituitionForm.get('country')?.value"
  icon="flag_circle" [initialList]="this.institutionInfoService.countries()"
 (selectedChange)="updateCountrySelection($event)">
 </app-reusable-inputs >
@@ -21,16 +22,18 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
 (selectedChange)="regionSelection($event)" >
 </app-reusable-inputs >
 @if(instituitionForm.get('region')?.value){
-  <app-reusable-inputs [label]="'Which type of school?'" 
+  <app-reusable-inputs [label]="'Which type of school in' + ' ' + 
+  (instituitionForm.get('region')?.value) + '?'" 
   icon="things_to_do" [initialList]="this.institutionInfoService.typesOfInst()"
   (selectedChange)="typeInstituition($event)">
   </app-reusable-inputs >
 @if(instituitionForm.get('type')?.value){
-  <app-reusable-inputs [label]="'Official name of school?'" 
-  icon="things_to_do" [initialList]="this.institutionInfoService.instName()"
+  <app-reusable-inputs [label]="'Official selection'" 
+  icon="signature" [initialList]="this.institutionInfoService.instName()"
   (selectedChange)="chosenInstituition($event)">
   </app-reusable-inputs>
   }  
+
 }
 }
 <div class="nav-wrapper">

@@ -136,7 +136,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     protected orientationService: OrientationService
   ) {
     this.instituitionForm = new FormGroup({
-      country: new FormControl<string>(''),
+      country: new FormControl<string>('Canada'),
       region: new FormControl<string>(''),
       type: new FormControl<string>(''),
       institution: new FormControl<string>(''),
@@ -193,6 +193,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.titleService.setTitle('Skalarly - Signup');
+    // intitially call canada data
+    this.institutionInfoService
+    .getStateProvinces(this.instituitionForm.get('country')!.value);
     // intitial call
     combineLatest([
       this.signUpForm.get('username')!.valueChanges,
@@ -235,7 +238,7 @@ regionSelection(stateProvince: string): void {
 typeInstituition(type: string): void {
   this.updateFormValue('type', type);
   if(type){
-    this.institutionInfoService.getSpecificSchool(this.instituitionForm.get('region')!.value, type)
+    this.institutionInfoService.getSchoolNames(this.instituitionForm.get('region')!.value, type)
   }
 
 }
@@ -243,7 +246,7 @@ chosenInstituition(institution: string): void {
   this.updateFormValue('institution', institution);
   if(institution){
     this.institutionInfoService.
-    getSchoolNamesEmails(this.instituitionForm.get('region')!.value, this.instituitionForm.get('type')!.value, institution);
+    getSchoolEmails(this.instituitionForm.get('region')!.value, this.instituitionForm.get('type')!.value, institution);
   }
 }
  updateUrl(socialLinks: {

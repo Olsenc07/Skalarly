@@ -116,10 +116,7 @@ app.use((error, req, res, next) => {
     message: error.message
   });
 });
-const angularAppPath = 
-   join(__dirname, 'dist', 'skalarly-frontend', 'skalarly-frontend')
-  // : join('/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/src');
-
+const angularAppPath = join(__dirname, '..', 'skalarly-frontend', 'dist', 'skalarly-frontend');
   app.use(express.static(angularAppPath));
 
   app.get('*', (req, res) => {
@@ -128,5 +125,5 @@ const angularAppPath =
 
 // Server Activation
 app.listen(port, () => {
-  console.log(`Listening to requests on ${portEnv}`);
+  console.log(`Listening to requests on ${port}`);
 })

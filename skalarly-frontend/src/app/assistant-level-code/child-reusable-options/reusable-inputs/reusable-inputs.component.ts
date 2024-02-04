@@ -34,6 +34,7 @@ export class ReusableInputsComponent implements OnChanges, OnDestroy {
   visiblePassword: boolean = false;
   listItems: string[] = [];
   @Input() default: boolean = true;  
+  @Input() filler?: string;  
   @Input() controlType: 'text' | 'password' = 'text';
   @Input() title?: string;
   @Input() label?: string;
@@ -47,7 +48,7 @@ export class ReusableInputsComponent implements OnChanges, OnDestroy {
   auto: MatAutocomplete | undefined; 
   @Output() selectedChange: EventEmitter<string> =
   new EventEmitter<string>();
-@Output() valueChange: EventEmitter<string> = new EventEmitter<string>(); 
+  @Output() valueChange: EventEmitter<string> = new EventEmitter<string>(); 
   
   private unsubscribe$: Subject<void> = new Subject<void>();
   filteredList$: Observable<string[]> = new Observable<string[]>;
@@ -56,7 +57,7 @@ export class ReusableInputsComponent implements OnChanges, OnDestroy {
     console.log('list', this.initialList)
     this.filteredList$ = combineLatest([
       this.input.valueChanges.pipe(
-      debounceTime(500),
+      debounceTime(200),
       distinctUntilChanged(),
       startWith('')),
       of(this.initialList)

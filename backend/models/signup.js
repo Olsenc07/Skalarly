@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const basicInfoSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  url: { type: String, required: true },
+  url: { type: String },
   studentEnrollment: {
     fullTimeUndergraduate: { type: Number, default: 0 },
     partTimeUndergraduate: { type: Number, default: 0 },
@@ -24,10 +24,10 @@ const basicInfoSchema = new mongoose.Schema({
 const provinceSchema = new mongoose.Schema({
     province: {type: String},
     schoolTypes: {
-      universities: [basicInfoSchema],
-      colleges: [basicInfoSchema],
-      technicalInstitutes: [basicInfoSchema],
-      theologicalSchools: [basicInfoSchema]
+      University: [basicInfoSchema],
+      College: [basicInfoSchema],
+      Technical: [basicInfoSchema],
+      Theological: [basicInfoSchema]
     }
   });
   

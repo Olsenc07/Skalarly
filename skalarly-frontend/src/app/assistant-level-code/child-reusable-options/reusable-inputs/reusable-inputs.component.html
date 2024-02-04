@@ -15,7 +15,8 @@
 @if(default){
   @switch(controlType){
   @case("text"){
-    <input type="text" matInput [matAutocomplete]="auto" [formControl]="input">
+    <input type="text" matInput [matAutocomplete]="auto" [formControl]="input"
+    [placeholder]="filler || ''">
     <mat-autocomplete #auto="matAutocomplete" >
       @for(options of (filteredList$ | async); let i = $index; track options){
         <mat-option [value]="options" (click)="emitSelectedChange(options)">

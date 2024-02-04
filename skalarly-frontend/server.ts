@@ -29,7 +29,7 @@ const apiProxyOptions = {
 };
 
 app.get('*', async (req: Request, res: Response) => {
-console.log('huhh');
+console.log('huhh', DIST_FOLDER);
 
   try {
     const commonEngine = new CommonEngine();
