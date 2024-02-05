@@ -19,24 +19,25 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): 
   Observable<HttpEvent<any>> {
-    return this.authService.token$.pipe(
-      switchMap((token: string | null) => {
-        console.log('environment', environment.production);
-        const authReq = token ? req.clone({
-          setHeaders: {
-            Authorization: `Bearer ${token}`
-          }
-      }): req;
-      console.log('authReq', authReq);
-
-      return next.handle(authReq).pipe(
-      catchError((error: HttpErrorResponse) => {
-        // Handle the error here, you can log it or perform any other action
-        console.error('HTTP error occurred in auth-interceptor', error);
-        // Rethrow the error to propagate it to the caller
-        throw error
-      })
-    );
-  }))
+  //   return this.authService.token$.pipe(
+  //     switchMap((token: string | null) => {
+  //       console.log('environment', environment.production);
+  //       const authReq = token ? req.clone({
+  //         setHeaders: {
+  //           Authorization: `Bearer ${token}`
+  //         }
+  //     }): req;
+  //     console.log('authReq', authReq);
+  //     return next.handle(authReq).pipe(
+  //     catchError((error: HttpErrorResponse) => {
+  //       console.error('HTTP error occurred in auth-interceptor', error);
+  //       // Rethrow the error to propagate it to the caller
+  //       throw error
+  //     })
+  //   );
+  // }))
+  // temporary
+  return next.handle(req);
+  
 }
 }
