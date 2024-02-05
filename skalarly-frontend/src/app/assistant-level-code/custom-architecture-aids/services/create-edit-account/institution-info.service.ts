@@ -105,11 +105,12 @@ export class InstitutionInfoService {
   getSchoolEmails(region: string, type: string, names: string): void {
     const cacheKey = `emails-${region}-${type}-${names}`;
     if (!this.cacheSchoolEmails.has(cacheKey)) {
-      this.http.get<string[]>(`${this.apiUrl}/canada/emails?country=Canada&province=${region}&type=${type}&name=${names}`)
+      this.http.get<any>(`${this.apiUrl}/canada/emails?country=Canada&province=${region}&type=${type}&name=${names}`)
       .pipe(take(1),
       shareReplay(1))
       .subscribe({
         next: (emails) => {
+          console.log('eeeee', emails);
           this.cacheSchoolEmails.set(cacheKey, emails);
         this.institutionEmails.set(emails);
         },

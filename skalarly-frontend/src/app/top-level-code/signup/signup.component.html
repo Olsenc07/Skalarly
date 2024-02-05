@@ -52,16 +52,16 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
   <ng-template matStepContent>
     <div class="input-list">
   <app-signup-titles [intro]="intro2" [title]="title2"></app-signup-titles>
+    <app-reusable-inputs class="input-list-inputs" [isValid]="isValid" (valueChange)="onValueChange($event)"
+    [controlType]="'email'" label="Email" [filler]="'Academic email'" icon="alternate_email"
+    [error]="getError('email') | errorPipe" [hint]="getStyledEmailHint()" 
+  ></app-reusable-inputs>
+  @if(signUpForm.get('email')?.valid){ 
+  <app-signup-titles [intro]="intro3" [title]="title3"></app-signup-titles>
   <app-reusable-inputs class="input-list-inputs input-list-first" [isValid]="isValid"  (valueChange)="onValueChange($event)"
     label="Username" placeholder="Username" icon="account_circle"
   [error]="getError('username') | errorPipe"
   ></app-reusable-inputs>
-  @if(signUpForm.get('username')?.valid){ 
-  <app-signup-titles [intro]="intro3" [title]="title3"></app-signup-titles>
-  <app-reusable-inputs class="input-list-inputs" [isValid]="isValid" (valueChange)="onValueChange($event)"
-   label="Email" placeholder="Email" icon="alternate_email"
-  [error]="getError('email') | errorPipe" [hint]="'Match Insitution chosen'"
-></app-reusable-inputs>
   }
   @if(signUpForm.get('email')?.valid){ 
   <app-reusable-inputs class="input-list-inputs" [controlType]="'password'" label="Password" placeholder="Password" 
@@ -70,7 +70,7 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
    } 
   <div class="center">
   <button mat-raised-button type="submit" [disabled]="signUpForm.invalid" initial>
-    Validate
+   Send Email to Validate
   </button>
 </div>
 <div class="nav-wrapper">

@@ -8,7 +8,7 @@ import { AsyncPipe, TitleCasePipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { SocialMediaOptions } from './../reusable-inputs-misc.component';
+import { SocialMediaOptions } from '../reusable-inputs-misc.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BoldPipe } from 'src/app/assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
 interface socialLinks {
@@ -23,10 +23,10 @@ interface socialLinks {
     MatIconModule, MatInputModule, 
     ReactiveFormsModule, TitleCasePipe
   ],
-  templateUrl: './reusable-input-autocomplete.component.html',
+  templateUrl: './reusable-input-autocomplete-dynamic.component.html',
   styleUrl: '../reusable-inputs.component.scss'
 })
-export class ReusableInputAutocompleteComponent {
+export class ReusableInputAutocompleteDynamicComponent {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   inputObjects: FormControl<socialLinks[] | null> = new FormControl(null);
   filterControl: FormControl<string | null> = new FormControl(null);

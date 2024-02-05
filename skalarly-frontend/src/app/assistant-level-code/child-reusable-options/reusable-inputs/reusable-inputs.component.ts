@@ -35,7 +35,7 @@ export class ReusableInputsComponent implements OnChanges, OnDestroy {
   listItems: string[] = [];
   @Input() default: boolean = true;  
   @Input() filler?: string;  
-  @Input() controlType: 'text' | 'password' = 'text';
+  @Input() controlType: 'text' | 'email' | 'password' = 'text';
   @Input() title?: string;
   @Input() label?: string;
   @Input() hint?: string;

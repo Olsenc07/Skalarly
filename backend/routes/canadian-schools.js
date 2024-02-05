@@ -79,14 +79,15 @@ router.get('/emails', async (req, res) => {
         console.log('name', name);
 
         // Find the school by name within the school type array
-        const school = schoolTypeArray.find(s => s.name.toLowerCase() === name.toLowerCase().trim());
+        const normalizedQueryName = name.toLowerCase().trim();
+        const school = schoolTypeArray.find(s => s.name.toLowerCase().includes(normalizedQueryName));
         if (!school) {
             return res.status(404).json({ message: `School ${name} not found` });
         }
-        console.log('school', school);
+        console.log('school', school.emailExtensions);
 
         // Get the email extensions for the school
-        const emails = school.map(e => e.emailExtensions);
+        const emails = school.emailExtensions;
         if (!emails || emails.length === 0) {
             return res.status(404).json({ message: `Email extensions for ${name} not found` });
         }

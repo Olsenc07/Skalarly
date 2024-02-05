@@ -68,7 +68,14 @@ mat-toolbar{
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.25);
     background-color: #27496d;
 }
-
+div.mat-mdc-text-field-wrapper {
+  background-color: var(--basicText);
+}
+mat-form-field[southPaw]{
+div.mat-mdc-text-field-wrapper {
+  background-color: var(--background);
+}
+}
 .glow-animation {
   overflow: hidden;
   box-shadow: 0 3px 3px var(--mdc-outlined-text-field-outline-color);

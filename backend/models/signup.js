@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const basicInfoSchema = new mongoose.Schema({
+const advancedInfoSchema = new mongoose.Schema({
   name: { type: String, required: true },
   url: { type: String },
   studentEnrollment: {
@@ -19,6 +19,11 @@ const basicInfoSchema = new mongoose.Schema({
       graduate: [{ type: Number }]
     }
   }
+});
+
+const basicInfoSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  emailExtensions: [{ type: String }]
 });
 
 const provinceSchema = new mongoose.Schema({

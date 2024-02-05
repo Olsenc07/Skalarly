@@ -26,6 +26,10 @@
     }
     </mat-autocomplete>
   }
+  @case("email"){
+    <input type="email" matInput [formControl]="input"
+    [placeholder]="filler || ''">
+  }
     @case("password"){
       <input type="password" matInput [formControl]="input">
       <button matSuffix mat-icon-button type="button"

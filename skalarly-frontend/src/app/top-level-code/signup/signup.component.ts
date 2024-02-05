@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
 import {
-  FormArray,
   FormControl,
   ReactiveFormsModule,
   FormGroup,
@@ -44,7 +43,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { HttpClientModule } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
-import { ReusableInputAutocompleteComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-autocomplete/reusable-input-autocomplete.component';
+import { ReusableInputAutocompleteDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-autocomplete-dynamic/reusable-input-autocomplete.component-dynamic';
 
 
 @Component({
@@ -66,7 +65,7 @@ import { ReusableInputAutocompleteComponent } from 'src/app/assistant-level-code
     ReactiveFormsModule,
     ReusableInputsComponent,
     ReusableInputDynamicComponent,
-    ReusableInputAutocompleteComponent,
+    ReusableInputAutocompleteDynamicComponent,
     SkeletonLoaderSignupComponent,
     SignupTitlesComponent,
     HttpClientModule,
@@ -78,11 +77,11 @@ export class SignUpComponent implements OnInit, OnDestroy {
   title: string = 'Where is your institution located?';
   intro: string = "Let's find where you study";
 
-  title2: string = 'This cannot be changed later.';
-  intro2: string = "Choose a unique username";
+  title2: string = 'Provide an email that is recognized by your school.';
+  intro2: string = "Validate enrollment";
 
-  title3: string = 'Provide an email that is recognized by your school.';
-  intro3: string = "Validation time";
+  title3: string = 'This cannot be changed later.';
+  intro3: string = "Choose a unique username";
 
   title4: string = 'This will be displayed on your profile.';
   intro4: string = "Basic information";
@@ -248,6 +247,11 @@ chosenInstituition(institution: string): void {
     this.institutionInfoService.
     getSchoolEmails(this.instituitionForm.get('region')!.value, this.instituitionForm.get('type')!.value, institution);
   }
+}
+// 2nd page
+getStyledEmailHint(): string {
+  const emails = this.institutionInfoService.instEmails().join(', '); // Assuming instEmails returns an array of emails
+  return `Validate email extensions include: [${emails}]`;
 }
  updateUrl(socialLinks: {
   name: string; 

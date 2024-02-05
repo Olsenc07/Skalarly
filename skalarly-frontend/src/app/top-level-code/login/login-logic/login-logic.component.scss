@@ -37,6 +37,7 @@ div[forgot]{
     @include responsive.responsiveFontSize('smaller');
     }
   }
+
   .normal-style{
     @include common.common(flex, center, column);
     align-items: baseline;

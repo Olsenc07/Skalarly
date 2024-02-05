@@ -7,7 +7,7 @@
     <div column>
   <!-- enter email -->
   @if(email$ | async; as emailInfo) {
-  <mat-form-field  appearance="outline" >
+  <mat-form-field  appearance="outline" southPaw>
     <input matInput formControlName="email"  placeholder="ex: name@institution.ca" type="email"
     id="skalarlyEmail" [appGlowBorder]="isGlowing" />
     <mat-label [class.condition-met]="emailInfo.emailFound">
@@ -42,7 +42,7 @@
   <div column>
    <!-- enter password -->
    @if(password$ | async; as passwordInfo){
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" southPaw>
     <mat-icon matPrefix class="material-symbols-outlined"
     [@lock]="passwordInfo.lockState" placeholder="Password">
       {{ !passwordInfo.isPasswordValid ? 'lock' : 'lock_open' }}

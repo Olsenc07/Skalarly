@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReusableInputAutocompleteComponent } from './reusable-input-autocomplete.component';
+import { ReusableInputAutocompleteComponent } from './reusable-input-autocomplete.component-dynamic';
 
 describe('ReusableInputAutocompleteComponent', () => {
   let component: ReusableInputAutocompleteComponent;
