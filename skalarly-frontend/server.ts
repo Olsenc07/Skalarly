@@ -20,15 +20,13 @@ app.set('views', DIST_FOLDER);
 app.use(express.static(DIST_FOLDER));
 
 const API_BASE_URL = process.env['BACKEND_API_URL'];
-console.log('API_BASE_URL', API_BASE_URL);
+console.log('API_BASE_URL',   );
 const apiProxyOptions = {
   target: API_BASE_URL,
   changeOrigin: true,
-  pathRewrite: { '^/api' : ''},
   followRedirects: true,
 };
 app.use('/api', createProxyMiddleware(apiProxyOptions));
-
 app.get('*', async (req: Request, res: Response) => {
   try {
     const commonEngine = new CommonEngine();
