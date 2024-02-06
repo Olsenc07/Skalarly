@@ -32,10 +32,7 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
   icon="signature" [initialList]="this.institutionInfoService.instName()"
   (selectedChange)="chosenInstituition($event)">
   </app-reusable-inputs>
-  }  
-
-}
-}
+  }}}
 <div class="nav-wrapper">
   <button mat-stroked-button matStepperPrevious (click)="navigate()">Login</button>
   <button mat-raised-button matStepperNext>Next</button>
@@ -53,7 +50,7 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
     <div class="input-list">
   <app-signup-titles [intro]="intro2" [title]="title2"></app-signup-titles>
     <app-reusable-inputs class="input-list-inputs" [isValid]="isValid" (valueChange)="onValueChange($event)"
-    [controlType]="'email'" label="Email" [filler]="'Academic email'" icon="alternate_email"
+    [controlType]="'email'" label="Email" [filler]="emailFiller()" icon="alternate_email"
     [error]="getError('email') | errorPipe" [hint]="getStyledEmailHint()" 
   ></app-reusable-inputs>
   @if(signUpForm.get('email')?.valid){ 
@@ -193,3 +190,4 @@ Upload Photo
 }@placeholder { 
  <app-skeleton-loader-signup></app-skeleton-loader-signup>
   }
+

@@ -249,9 +249,16 @@ chosenInstituition(institution: string): void {
   }
 }
 // 2nd page
+ emailFiller(): string {
+  return `Academic email from ${this.infoForm.get('institution')!.value}`;
+}
 getStyledEmailHint(): string {
-  const emails = this.institutionInfoService.instEmails().join(', '); // Assuming instEmails returns an array of emails
-  return `Validate email extensions include: [${emails}]`;
+  if(this.institutionInfoService.instEmails()){
+  const emails: string = this.institutionInfoService.instEmails().join(', '); 
+  return `Validate email extensions include: ${emails} `;
+  } else {
+    return `This school doesn't have any emails to validate from.`
+  }
 }
  updateUrl(socialLinks: {
   name: string; 

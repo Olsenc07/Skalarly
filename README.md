@@ -3,7 +3,7 @@ skalarly.com
 Here is the latest version of Skalarly: from the SkalarlyDeploy repository, now re-engineered with Angular 17's advanced features. This updated project, showcases the capabilities and high standards of Angular's latest version. My ongoing efforts are focused on continuously displaying my learning in modern Web Development
 
 Highlights: 
-Progressive Web App using M.E.A.N Stack
+Progressive Web App utilizing the M.E.A.N Stack
 
 Standalone Components - Enhancing flexibility and maintainability.
 
