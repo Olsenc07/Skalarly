@@ -24,9 +24,10 @@ console.log('API_BASE_URL', API_BASE_URL);
 const apiProxyOptions = {
   target: API_BASE_URL,
   changeOrigin: true,
-  pathRewrite: { '': '^/api' },
+  pathRewrite: { '^/api' : ''},
   followRedirects: true,
 };
+app.use('/api', createProxyMiddleware(apiProxyOptions));
 
 app.get('*', async (req: Request, res: Response) => {
 console.log('huhh', DIST_FOLDER);
@@ -51,7 +52,6 @@ console.log('huhh', DIST_FOLDER);
     res.status(500).send('Server error');
   }
 });
-app.use('/api', createProxyMiddleware(apiProxyOptions));
 app.listen(PORT, () => {
   console.log(`Node Express server listening on http://localhost:${PORT}`);
 });
