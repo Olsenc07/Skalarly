@@ -15,8 +15,7 @@
     "dev": "concurrently \"npm run dev:backend:ssr\" \"npm run dev:frontend:ssr\"",
     "dev:backend:ssr": "NODE_ENV=development nodemon backend/server.js",
     "dev:frontend:ssr": "cd skalarly-frontend && npm run serve-ssr",
-    "test": "echo \"No tests specified\"",
-    "heroku-postbuild": "npm install && npm install -g @angular/cli && cd skalarly-frontend && npm install && npm run build:prod"
+    "test": "echo \"No tests specified\""
   },
   "repository": {
     "type": "git",

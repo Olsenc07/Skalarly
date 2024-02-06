@@ -115,8 +115,8 @@ app.use((error, req, res, next) => {
     message: error.message
   });
 });
-console.log('dirname',__dirname)
-const angularAppPath = join('..', 'skalarly-frontend', 'dist', 'skalarly-frontend');
+console.log('__dirname', __dirname);
+const angularAppPath = join(__dirname, 'dist', 'skalarly-frontend');
   app.use(express.static(angularAppPath));
 
   app.get('*', (req, res) => {
