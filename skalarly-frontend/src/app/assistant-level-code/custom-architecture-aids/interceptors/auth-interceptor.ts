@@ -19,6 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): 
   Observable<HttpEvent<any>> {
+    // if not on signup or login page
   //   return this.authService.token$.pipe(
   //     switchMap((token: string | null) => {
   //       console.log('environment', environment.production);
