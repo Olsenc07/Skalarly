@@ -27,7 +27,7 @@ const apiProxyOptions = {
   followRedirects: true,
 };
 app.use('/api/*', (req, res, next) => {
-  console.log('API Request Received:', req.method, req.path);
+  console.log('API Request Received:', req.baseUrl, req.url);
   next();
 });
 app.use('/api', createProxyMiddleware(apiProxyOptions));
