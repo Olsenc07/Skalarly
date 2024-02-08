@@ -33,6 +33,7 @@ const apiProxyOptions = {
     }
   }
 };
+app.use(express.static(DIST_FOLDER));
 app.use('/api/*', (req, res, next) => {
   console.log('API Request Received:', req.baseUrl, req.url);
   next();
@@ -59,7 +60,6 @@ app.get('*', async (req: Request, res: Response) => {
     res.status(500).send('Server error');
   }
 });
-app.use(express.static(DIST_FOLDER));
 
 app.listen(PORT, () => {
   console.log(`Node Express server listening on http://localhost:${PORT}`);
