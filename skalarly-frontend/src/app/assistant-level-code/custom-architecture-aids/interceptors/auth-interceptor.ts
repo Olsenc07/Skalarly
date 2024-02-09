@@ -20,6 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): 
   Observable<HttpEvent<any>> {
     if (this.easyAccess(req.url)) {
+      console.log('eazy');
       return next.handle(req);
     } else {
     return this.authService.token$.pipe(
