@@ -37,7 +37,6 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
   <button mat-stroked-button matStepperPrevious (click)="navigate()">Login</button>
   <button mat-raised-button matStepperNext>Next</button>
 </div> 
-
 </div>
 </ng-template>
 </form>
@@ -94,28 +93,27 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
             <mat-icon class="material-symbols-outlined" >account_circle</mat-icon>
           </button>
         </div>
-
           <mat-menu #menu="matMenu">
           <div class="image-selection">
             <!-- Profile Pic -->
             <button mat-menu-item>
             <div class="image-individual">
-    <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
-Upload Photo
-    <button mat-icon-button (click)="fileInput.click()">
-      <mat-icon class="material-symbols-outlined">
-      attach_file
-    </mat-icon>
-</button>
-</div>
-</button>
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden #fileInput>
+          <button mat-fab (click)="fileInput.click()">
+            <mat-icon class="material-symbols-outlined">
+              attach_file
+            </mat-icon>
+            Upload
+          </button>
+     </div>
+    </button>
 <button mat-menu-item>
 <div class="image-individual">
-    Take Photo
-    <button mat-icon-button (click)="onCameraClick()">
+    <button mat-fab (click)="onCameraClick()">
       <mat-icon class="material-symbols-outlined">
       add_a_photo
     </mat-icon>
+    Take
     </button>
   </div>
   </button>
@@ -124,8 +122,9 @@ Upload Photo
     @if(imagePreview){
     <img [src]="imagePreview" class="image-preview">
     }
-    <app-reusable-inputs [label]="'Full Name'" ></app-reusable-inputs>
-    <app-reusable-inputs [label]="'Bio'" [default]="false"></app-reusable-inputs>
+    <app-reusable-inputs [label]="'Full Name'" [default]="false"></app-reusable-inputs>
+    <app-reusable-inputs [label]="'Bio'" [default]="false" [defaultType]="'textarea'" [filler]="'Share briefly about yourself and explain your academic adventures.'">
+      </app-reusable-inputs>
     <!-- lloking to obtain have a drop down of types of degrees with autocomplete
        <app-reusable-inputs [label]=""></app-reusable-inputs> -->
        <div class="input-individual">

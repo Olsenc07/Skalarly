@@ -42,7 +42,7 @@ export class AuthInterceptor implements HttpInterceptor {
 }
   }
 private easyAccess(url: string): boolean {
-  return url.includes('/sign-up') || url.includes('/login') || url.includes('forgot-password')
-  || url.includes('single-feed');
+  return url.includes('/sign-up') || url.includes('/login') || url.includes('/forgot-password')
+  || url.includes('/single-feed');
 }
 }

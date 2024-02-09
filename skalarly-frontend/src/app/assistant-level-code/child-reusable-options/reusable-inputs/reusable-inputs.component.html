@@ -15,8 +15,8 @@
 @if(default){
   @switch(controlType){
   @case("text"){
-    <input type="text" matInput [matAutocomplete]="auto" [formControl]="input"
-    [placeholder]="filler || ''">
+  <input type="text" matInput [matAutocomplete]="auto" [formControl]="input"
+  [placeholder]="filler || ''">
     <mat-autocomplete #auto="matAutocomplete" >
       @for(options of (filteredList$ | async); let i = $index; track options){
         <mat-option [value]="options" (click)="emitSelectedChange(options)">
@@ -25,7 +25,7 @@
         </mat-option>
     }
     </mat-autocomplete>
-  }
+  } 
   @case("email"){
     <input type="email" matInput [formControl]="input"
     [placeholder]="filler || ''">
@@ -53,8 +53,16 @@
     }
   }
  } @else { 
-  <textarea matInput></textarea>
+  @switch(defaultType){
+    @case("textarea"){
+  <textarea matInput [formControl]="input" [placeholder]="filler || ''"></textarea>
+    }
+    @case("textsingle"){
+      <input type="text" matInput [formControl]="input"
+      [placeholder]="filler || ''">
+    }
 }
+ }
     @if (error){
       <mat-error >{{ error }}</mat-error>
     }

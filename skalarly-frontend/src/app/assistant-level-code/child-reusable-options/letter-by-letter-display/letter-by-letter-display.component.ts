@@ -29,12 +29,11 @@ export class LetterByLetterComponent implements OnChanges {
   @Input() lastLetterAnimation: boolean = false;
   animatedText: Letter[] = [];
   private renderCount: number = 0;
-  private maxRenders: number = 4;
+  private maxRenders: number = 3;
 
   // seven animations
   classes: string[] = [
     'magical-letterpulse',
-    'magical-letterspin',
     'magical-letterflip',
     'magical-letterbounce'
   ];

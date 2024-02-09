@@ -250,7 +250,12 @@ chosenInstituition(institution: string): void {
 }
 // 2nd page
  emailFiller(): string {
-  return `Academic email from ${this.infoForm.get('institution')!.value}`;
+  const institutionValue: string = this.infoForm.get('institution')?.value ?? null;
+  if (institutionValue.length > 0) {
+    return `Academic email from ${institutionValue}`;
+  } else {
+    return `Academic email from ...`;
+  }
 }
 getStyledEmailHint(): string {
   if(this.institutionInfoService.instEmails()){

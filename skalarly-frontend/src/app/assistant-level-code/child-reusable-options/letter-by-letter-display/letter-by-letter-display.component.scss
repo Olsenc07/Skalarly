@@ -7,13 +7,9 @@ $Pulse: (
   translateY-start: 0px, translateY-mid: 0px, translateY-end: 0px,
   rotate-start: 15deg, rotate-mid: -15deg, rotate-end: 0deg
 );
-$Spin: (
-  translateY-start: 0px, translateY-mid: 0px, translateY-end: 0px,
-  rotate-start: 0deg, rotate-mid: 180deg, rotate-end: 360deg
-);
 $Flip: (
   translateY-start: 0px, translateY-mid: 0px, translateY-end: 0px,
-  rotate-start: 0deg, rotate-mid: 180deg, rotate-end: 360deg
+  rotate-start: 30deg, rotate-mid: 400deg, rotate-end: 360deg
 );
 $Bounce: (
   translateY-start: -30px, translateY-mid: 15px, translateY-end: 0px,
@@ -65,9 +61,6 @@ $Bounce: (
   .magical-letterpulse {
       @include animation('Pulse', $Pulse);
     }
-  .magical-letterspin {
-    @include animation('Spin', $Spin);
-  }
   .magical-letterflip {
     @include animation('Flip', $Flip);
   }
