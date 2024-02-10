@@ -1,5 +1,5 @@
 # Exclude node_modules directory
-node_modules
+node_modules/
 .angular
 cypress
 
@@ -13,6 +13,7 @@ cypress
 .env
 .env.local
 .env.development
+.env.production
 .env.test
 
 # Exclude other unnecessary files
