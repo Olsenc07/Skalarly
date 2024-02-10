@@ -115,7 +115,7 @@ app.use((error, req, res, next) => {
   });
 });
 console.log('__dirname', __dirname);
-direction =  process.env.NODE_ENV === 'production' ? '/app' : __dirname
+const direction =  process.env.NODE_ENV === 'production' ? '/app' : __dirname
 const angularAppPath = join(direction, 'dist', 'skalarly-frontend');
 console.log('friday', angularAppPath);
   app.use(express.static(angularAppPath));
