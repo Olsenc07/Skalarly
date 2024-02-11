@@ -20,7 +20,7 @@ export interface SkalarInfoInterface {
   name: string;
   region: string;
   institution: string;
-  webPages: [{name: string, url: string}];
+  webPages: string[];
   readonly skalar?: string;
 }
 export interface InitialAccountInterface {

@@ -140,9 +140,9 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
     </div> -->
     <mat-divider></mat-divider>
     <div class="input-list-networks">
-    <div>Connect other networks</div>
-    <app-reusable-input-autocomplete label="Social Link" (inputChangeObject)="updateUrl($event)"
-     icon="share"></app-reusable-input-autocomplete>
+    <app-reusable-input-dynamic label="Connect Social Links"
+    filler="Ex: www.linkedin.com/in/username/" (inputChange)="updateUrl($event)"
+     icon="share"></app-reusable-input-dynamic >
     </div>
   </div>
   <div class="nav-wrapper">

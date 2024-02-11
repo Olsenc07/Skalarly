@@ -43,7 +43,6 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { HttpClientModule } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
-import { ReusableInputAutocompleteDynamicComponent } from 'src/app/assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-autocomplete-dynamic/reusable-input-autocomplete.component-dynamic';
 
 
 @Component({
@@ -65,7 +64,6 @@ import { ReusableInputAutocompleteDynamicComponent } from 'src/app/assistant-lev
     ReactiveFormsModule,
     ReusableInputsComponent,
     ReusableInputDynamicComponent,
-    ReusableInputAutocompleteDynamicComponent,
     SkeletonLoaderSignupComponent,
     SignupTitlesComponent,
     HttpClientModule,
@@ -122,7 +120,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     institution: new FormControl<SkalarInfoInterface['institution']>('', [
       Validators.required
     ]),
-    webPages: new FormControl<SkalarInfoInterface['webPages'][]>([])
+    webPages: new FormControl<SkalarInfoInterface['webPages']>([])
   });
 
   constructor(
@@ -265,10 +263,7 @@ getStyledEmailHint(): string {
     return `This school doesn't have any emails to validate from.`
   }
 }
- updateUrl(socialLinks: {
-  name: string; 
-  url: string; 
-}[]){
+ updateUrl(socialLinks: string[]){
     console.log('webpage', socialLinks);
     this.infoForm.get('webPages')?.setValue(socialLinks);
   }

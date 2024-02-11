@@ -1,6 +1,41 @@
 "use strict";
 (self["webpackChunkskalarly_fs"] = self["webpackChunkskalarly_fs"] || []).push([["common"],{
 
+/***/ 4573:
+/*!**********************************************************************************!*\
+  !*** ./src/app/assistant-level-code/custom-architecture-aids/pipes/bold.pipe.ts ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BoldPipe: () => (/* binding */ BoldPipe)
+/* harmony export */ });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 1699);
+
+class BoldPipe {
+  // list is from whichever api call that is being matched
+  // input is from formcontrol value inputed by skalar
+  transform(list, input) {
+    // Create a regular expression object for pattern matching
+    //  g is global and i is case-insensitive
+    const matchOptions = new RegExp(input, 'gi');
+    const boldedValueInList = item => item.replace(matchOptions, match => `<b>${match}</b>`);
+    return boldedValueInList(list);
+  }
+  static ɵfac = function BoldPipe_Factory(t) {
+    return new (t || BoldPipe)();
+  };
+  static ɵpipe = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefinePipe"]({
+    name: "bold",
+    type: BoldPipe,
+    pure: true,
+    standalone: true
+  });
+}
+
+/***/ }),
+
 /***/ 645:
 /*!**********************************************************!*\
   !*** ./src/app/nav-bar/nav-icons/nav-icons.component.ts ***!

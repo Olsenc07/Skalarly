@@ -16,44 +16,40 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: '../../reusable-inputs/reusable-inputs.component.scss'
 })
 export class ReusableInputDynamicComponent  {
-  readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  inputsStrings: FormControl<string[] | null> = new FormControl([]);
+  inputsString: FormControl<string | null> = new FormControl('');
+  inputsEntered: FormControl<string[] | null> = new FormControl([]);
   @Input() label?: string;
-  @Input() icon?: string;
-
+  @Input() filler?: string;
   @Output() inputChange: EventEmitter<string[]> =
   new EventEmitter<string[]>();
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
     add(event: MatChipInputEvent): void {
       const value: string = (event.value || '').trim();
-      if (!value) {
-        return;
-      } else{
-        const currentInputs = (this.inputsStrings.value || []) as string[];
-        this.inputsStrings.setValue([...currentInputs, value]);
-      event.chipInput!.clear();
+      if (value) {
+        const currentInputs = this.inputsEntered.value || []
+        currentInputs.push(value);
+        this.inputsEntered.setValue(currentInputs);
+        this.inputChange.emit(currentInputs);
+        this.inputsString.reset();
       }
     }
+
     remove(index: number): void {
-      const currentInputs = this.inputsStrings.value;
-      if (currentInputs && index >= 0 && index < currentInputs.length) {
-        const updatedInputs = currentInputs.slice(0, index).concat(currentInputs.slice(index + 1));
-        if (Array.isArray(updatedInputs) && updatedInputs.every(item => typeof item === 'string')) {
-          this.inputsStrings.setValue(updatedInputs as string[]);
-        }
-      }
-   
+      const currentInputs = this.inputsEntered.value || [];
+      currentInputs.splice(index, 1); 
+      this.inputsEntered.setValue(currentInputs); 
+      this.inputChange.emit(currentInputs); 
     }
   
-    edit(input: string, event: MatChipEditedEvent, index: number): void {
-      const value: string = event.value.trim();
-      if (!value) {
-        this.remove(index);
-        return;
-      } else {
-        const currentInputs: string[] | null = this.inputsStrings.value;
-        if (typeof input === 'string' && currentInputs) {
-          const updatedInputs: string[] = [...currentInputs];
-          updatedInputs[index] = value;
-          this.inputsStrings.setValue(updatedInputs);
-        }}
-  }}
+    edit(changedChip: string, event: MatChipEditedEvent, index: number): void {
+      console.log('edit', changedChip);
+      console.log('edit 3', event.value);
+      const editedValue = event.value.trim();
+      if (editedValue) {
+        const currentInputs = this.inputsEntered.value || [];
+        currentInputs[index] = editedValue;
+        this.inputsEntered.setValue(currentInputs);
+        this.inputChange.emit(currentInputs);
+      }
+    }
+}
