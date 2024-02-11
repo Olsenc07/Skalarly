@@ -16,7 +16,7 @@ export interface SkalarInfoInterface {
   minor: string[];
   completedCourses: string[];
   pursuingCourses: string[];
-
+  photo: string;
   name: string;
   region: string;
   institution: string;

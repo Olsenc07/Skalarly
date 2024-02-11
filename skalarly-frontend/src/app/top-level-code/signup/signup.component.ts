@@ -14,7 +14,7 @@ import {
   Subject,
   combineLatest,
   takeUntil,
-  tap, map
+  tap, map, Subscription
 } from 'rxjs';
 import { ReusableInputDynamicComponent } from '../../assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-dynamic/reusable-input-dynamic.component';
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
@@ -43,6 +43,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { HttpClientModule } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
+import { ImagePreviewComponent } from 'src/app/assistant-level-code/child-reusable-options/image-preview/image-preview.component';
 
 
 @Component({
@@ -51,6 +52,7 @@ import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
   styleUrl: './signup.component.scss',
   imports: [  
     ErrorPipe,
+    ImagePreviewComponent,
     MatDividerModule,
     MatButtonModule,
     MatDatepickerModule,
@@ -72,6 +74,7 @@ import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
 })
 
 export class SignUpComponent implements OnInit, OnDestroy {
+  userInteracted: boolean = false;
   title: string = 'Where is your institution located?';
   intro: string = "Let's find where you study";
 
@@ -92,10 +95,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
   instituitionForm: FormGroup;
   signUpForm: FormGroup;
   personalForm: FormGroup;
+  private activatedSubscription$: Subscription;
   private values$: Subject<void> = new Subject<void>();
   private accountSub$: Subject<void> = new Subject<void>();
   // second major stage
-  userInteracted: boolean = false;
   visiblePassword: boolean = false;
   domain: string[] = [];
   // skalar info form
@@ -110,7 +113,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     minor: new FormControl<SkalarInfoInterface['minor']>([]),
     completedCourses: new FormControl<SkalarInfoInterface['completedCourses']>([]),
     pursuingCourses: new FormControl<SkalarInfoInterface['pursuingCourses']>([]),
-
+    photo: new FormControl<SkalarInfoInterface['photo']>(''),
     name: new FormControl<SkalarInfoInterface['name']>('', [
       Validators.required
     ]),
@@ -168,6 +171,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
       )
     });
     this.personalForm = new FormGroup({});
+    this.activatedSubscription$ = this.signUpForm.valueChanges.subscribe(() => {
+      this.userInteracted = true;
+      })
   }
   get usernameControl(): FormControl {
     return this.signUpForm.get('username') as FormControl;
@@ -179,6 +185,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   get passwordControl(): FormControl {
     return this.signUpForm.get('password') as FormControl;
+  }
+  getRouteGuardStatus(): boolean {
+    return this.userInteracted;
   }
   getError(controlName: string): string | null {
     const controlErrors: ValidationErrors | null | undefined =
@@ -213,14 +222,6 @@ handleValueChange(controlName: string, value: string): void {
     const control = this.signUpForm.get(controlName);
     control?.setValue(value);
   }
-// Common method for setting form value or resetting based on condition
-private updateFormValue(formControlName: string, value: string | null): void {
-  if (value) {
-    this.instituitionForm.get(formControlName)?.setValue(value);
-  } else {
-    this.instituitionForm.get(formControlName)?.reset();
-  }
-}
 updateCountrySelection(country: string): void {
   this.updateFormValue('country', country);
   if (country) {
@@ -263,38 +264,33 @@ getStyledEmailHint(): string {
     return `This school doesn't have any emails to validate from.`
   }
 }
- updateUrl(socialLinks: string[]){
+ updateUrl(socialLinks: string[]): void{
     console.log('webpage', socialLinks);
     this.infoForm.get('webPages')?.setValue(socialLinks);
   }
-  updateMajor(major: string[]){
-    console.log('major', major);
-    this.infoForm.get('major')?.setValue(major);
+  clearPreview(): void{
+  this.instituitionForm.get('photo')?.reset();
   }
-  updateMinor(minor: string[]){
-    this.infoForm.get('minor')?.setValue(minor);
+  editPreview(editedPhoto: string): void{
+    this.infoForm.get('photo')?.setValue(editedPhoto);
   }
-  updateSport(sport: string[]){
-    this.infoForm.get('sport')?.setValue(sport);
+  updateFormValue(fieldName: string, value: any): void {
+    const control = this.infoForm.get(fieldName);
+    if (control) {
+      control.setValue(value);
+      console.log(`${fieldName} updated`, value);
+    } else {
+      console.error(`Form control '${fieldName}' not found`);
+    }
   }
-  updateClub(club: string[]){
-    this.infoForm.get('club')?.setValue(club);
-  }
-  updateComp(completedCourses: string[]){
-    this.infoForm.get('completedCourses')?.setValue(completedCourses);
-  }
-  updatePur(pursuingCourses: string[]){
-    this.infoForm.get('pursuingCourses')?.setValue(pursuingCourses);
+  updateForm(fieldName: string, value: string[]): void {
+    this.updateFormValue(fieldName, value);
   }
 
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;
-  }
-  // request to use route guard
-  getRouteGuardStatus(): boolean {
-    return this.userInteracted;
-  }
+  } 
   // save initial credentials
   firstSubmit(): void {
     // if successfully saved
@@ -414,6 +410,9 @@ onCameraClick() {
   }
   // if skalar trys to close entire browser before cpmpleting,delete saved content
   ngOnDestroy(): void {
+    if (this.activatedSubscription$) {
+      this.activatedSubscription$.unsubscribe();
+    }
     this.values$.next(); 
     this.values$.complete();
     this.accountSub$.next();

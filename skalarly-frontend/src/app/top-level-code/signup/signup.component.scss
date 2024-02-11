@@ -8,7 +8,6 @@
   @include stack-justify;
   align-items: center;
 }
-
 .input-list{
 display: flex;
 flex-direction: column;
@@ -42,16 +41,21 @@ button[mat-fab] {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: transparent;
-  color: black;
+  box-shadow: none;
+  background-color: var(--secondChoice);
   mat-icon {
+      color: white;
       margin-right: 0px;
   }
 }
+.image-selection{
+  @include stack-justify(flex, unset, space-between);
+  align-items: center;
 .image-individual{
   @include stack-justify;
   text-align: center;
   align-items: center;
+}
 }
 .stepper{
   @include stack-justify;
@@ -69,8 +73,6 @@ button[mat-fab] {
     padding: 0 2%;
   }
 }
-
-
 mat-stepper {
   @include stack-justify;
   @media only screen and (max-width: 768px){
@@ -83,13 +85,9 @@ mat-stepper {
   }
   .mat-horizontal-stepper-header:last-of-type{
     border-top-right-radius: 25px;
-
   }
 }
-.image-selection{
-  @include stack-justify(flex, unset, space-between);
-  align-items: center;
-}
+
   button{
   &[matStepperNext]{
       color: var(--secondChoice);

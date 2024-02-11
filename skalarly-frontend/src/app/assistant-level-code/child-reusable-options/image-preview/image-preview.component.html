@@ -1,0 +1,18 @@
+<div class="image-cropper-container">
+    <div  class="image-preview">
+      <img [src]="imagePreviewUrl">
+    </div>
+    <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [resizeToWidth]="128" 
+        [imageQuality]="75" 
+        format="jpeg" 
+        (imageCropped)="onImageCropped($event)">
+    </image-cropper>
+    <button mat-icon-button (click)="clearPreview()" class="clear-preview-button">
+      <mat-icon class="material-symbols-outlined">close</mat-icon>
+    </button>
+  </div>
+  
