@@ -1,7 +1,7 @@
 import type {
   InitialAccountInterface,
 } from '../interfaces/skalars-info-interface';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { Injectable } from '@angular/core';
@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AccountManagementService {
   private apiUrl = environment.apiUrl;
+  headers: HttpHeaders;
   private newAccountEmail: string | null = null;
   username: string | undefined;
   constructor(
@@ -22,16 +23,20 @@ export class AccountManagementService {
     private snackBar: MatSnackBar,
     protected institutionInfoService: InstitutionInfoService,
     private router: Router
-  ) {}
+  ) { 
+    this.headers = new HttpHeaders({
+    'X-Current-Route': this.router.url 
+  });}
   //   make sure username and email aren't used yet
   uniqueEmail(email: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
     return this.http.get<boolean>(
       // set up mock server to serve local host requests?
-      this.apiUrl + '/accountManagement/emailValidation', 
+      this.apiUrl + '/accountManagement/emailValidation',
       {
+        headers: this.headers,
         params: queryParams
-      }
+       }
     );
   }
   uniqueUserName(username: string): Observable<boolean> {
@@ -40,8 +45,9 @@ export class AccountManagementService {
     return this.http.get<boolean>(
       this.apiUrl + '/accountManagement/uniqueUserName', 
       {
+        headers: this.headers,
         params: queryParams
-      }
+       }
     );
   }
 
@@ -52,7 +58,10 @@ export class AccountManagementService {
     return this.http
       .post<InitialAccountInterface>(
         this.apiUrl + '/accountManagement/createAccount', 
-        queryParams
+        {
+          headers: this.headers,
+          params: queryParams
+         }
       )
       .pipe(
         switchMap((data: InitialAccountInterface) => {
@@ -72,8 +81,9 @@ export class AccountManagementService {
     return this.http.get<boolean>(
       this.apiUrl + '/accountManagement/validateEmail', 
       {
+        headers: this.headers,
         params: queryParams
-      }
+       }
     );
   }
   addSkalarInfo(infoForm: FormGroup): Observable<boolean> {
@@ -84,7 +94,10 @@ export class AccountManagementService {
     return this.http
       .post<InitialAccountInterface>(
         this.apiUrl + '/accountManagement/createAccount', 
-        queryParams
+        {
+          headers: this.headers,
+          params: queryParams
+         }
       )
       .pipe(
         map((data: InitialAccountInterface) => {
@@ -114,8 +127,9 @@ export class AccountManagementService {
       // Assuming newAccount$ contains the necessary data for the request
       this.http
         .delete(deleteUrl, {
-          body: { email: this.newAccountEmail } // Provide the payload here
-        })
+          body: { email: this.newAccountEmail},
+            headers: this.headers
+          })
         .subscribe(() => {
           // handle success
           this.snackBar.open(messageWithIcon, '', {

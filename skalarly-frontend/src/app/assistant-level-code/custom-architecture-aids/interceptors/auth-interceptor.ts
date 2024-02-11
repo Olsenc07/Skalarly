@@ -19,10 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): 
   Observable<HttpEvent<any>> {
-    const currentRoute = req.headers.get('X-Current-Route');
-    console.log('eazy ', currentRoute);
-
-    // Use the custom route to determine if the request is an "easy access" route
+    const currentRoute: string | null = req.headers.get('X-Current-Route');
     if (currentRoute) {
       console.log('eazy access');
       const newReq = req.clone({ headers: req.headers.delete('X-Current-Route') })

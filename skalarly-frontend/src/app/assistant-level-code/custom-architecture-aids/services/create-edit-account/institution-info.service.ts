@@ -1,7 +1,6 @@
-import { Injectable, Signal, computed, signal } from '@angular/core';
-import { ReplaySubject, map, shareReplay, take } from 'rxjs';
+import { Injectable, computed, signal } from '@angular/core';
+import { map, shareReplay, take } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import type { ProvinceSchoolTypes, basicinfo } from '../../interfaces/basic-province-interface';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
@@ -20,7 +19,6 @@ export class InstitutionInfoService {
   private typesOfInstitution = signal<string[]>(['']);
   private institutionName = signal<string[]>(['']);
   private institutionEmails = signal<string[]>(['']);
-
 
   countries = computed<string[]>(() => this.countriesState());
   region = computed<string[]>(() => this.regionsState());
