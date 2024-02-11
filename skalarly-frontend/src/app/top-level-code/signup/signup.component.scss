@@ -19,6 +19,9 @@ padding: 2%;
 border-radius: 8px;
 }
 }
+.input-list-first{
+  margin-top: 1%;
+}
 .input-list-networks{
 @include stack-justify(flex, column, flex-start);
 width: 100%;
@@ -56,14 +59,17 @@ button[mat-fab] {
 }
 .two-by-two{
   margin-top: 1%;
+  width: 100%;
   @media only screen and (min-width: 767px){
   @include stack-justify(flex, row, space-around);
   align-items: center;
   }
+  app-reusable-input-dynamic{
+    width: 90%;
+    padding: 0 2%;
+  }
 }
-.input-list-first{
-  margin-top: 1%;
-}
+
 
 mat-stepper {
   @include stack-justify;

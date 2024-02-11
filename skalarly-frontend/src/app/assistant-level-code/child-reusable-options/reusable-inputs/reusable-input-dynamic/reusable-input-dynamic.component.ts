@@ -29,18 +29,18 @@ export class ReusableInputDynamicComponent  {
         const currentInputs = this.inputsEntered.value || []
         currentInputs.push(value);
         this.inputsEntered.setValue(currentInputs);
+        console.log('jp blow', this.inputsEntered.value);
         this.inputChange.emit(currentInputs);
         this.inputsString.reset();
       }
     }
-
     remove(index: number): void {
       const currentInputs = this.inputsEntered.value || [];
       currentInputs.splice(index, 1); 
       this.inputsEntered.setValue(currentInputs); 
+      console.log('yo', this.inputsEntered.value);
       this.inputChange.emit(currentInputs); 
     }
-  
     edit(changedChip: string, event: MatChipEditedEvent, index: number): void {
       console.log('edit', changedChip);
       console.log('edit 3', event.value);
