@@ -7,7 +7,11 @@ const dataCache = {};
 
 router.get('/province', async (req, res) => {
     // Only one call to database
-    const countryName = req.query.country;
+    const countryName = req.query.country.trim();
+    console.log('req.query', req.query);
+    console.log('countryName', countryName);
+    console.log('Signup', Signup);
+
     const cacheKey = `provinceData-${countryName}`;
     try {
          const countryData = await Signup.findOne({countryName: countryName}).exec()
@@ -19,6 +23,7 @@ router.get('/province', async (req, res) => {
         const provinceData = countryData.regions.map(region => region.province);
         res.status(200).json({ data: provinceData });
     } catch (e) {
+        console.error('Query error:', error);
         res.status(500).json({ message: 'Error fetching province data', error: e });
     }
 });

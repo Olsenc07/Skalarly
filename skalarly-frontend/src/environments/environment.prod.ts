@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://www.skalarly.com/api'
+  apiUrl: 'https://skalarly.com/api'
 };
