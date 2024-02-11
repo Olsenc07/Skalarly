@@ -735,12 +735,18 @@ class AuthInterceptor {
     this.authService = authService;
   }
   intercept(req, next) {
-    if (this.easyAccess(req.url)) {
-      console.log('eazy');
-      return next.handle(req);
+    const currentRoute = req.headers.get('X-Current-Route');
+    console.log('eazy ', currentRoute);
+    // Use the custom route to determine if the request is an "easy access" route
+    if (currentRoute) {
+      console.log('eazy access');
+      const newReq = req.clone({
+        headers: req.headers.delete('X-Current-Route')
+      });
+      return next.handle(newReq);
     } else {
       return this.authService.token$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_2__.switchMap)(token => {
-        console.log('environment', src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.production);
+        console.log('environmen 77t', src_environments_environment__WEBPACK_IMPORTED_MODULE_0__.environment.production);
         const authReq = token ? req.clone({
           setHeaders: {
             Authorization: `Bearer ${token}`
@@ -754,9 +760,6 @@ class AuthInterceptor {
         }));
       }));
     }
-  }
-  easyAccess(url) {
-    return url.includes('/sign-up') || url.includes('/login') || url.includes('/forgot-password') || url.includes('/single-feed');
   }
   static ɵfac = function AuthInterceptor_Factory(t) {
     return new (t || AuthInterceptor)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵinject"](_services_authorize_service__WEBPACK_IMPORTED_MODULE_1__.AuthorizeService));

@@ -19,13 +19,18 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): 
   Observable<HttpEvent<any>> {
-    if (this.easyAccess(req.url)) {
-      console.log('eazy');
-      return next.handle(req);
+    const currentRoute = req.headers.get('X-Current-Route');
+    console.log('eazy ', currentRoute);
+
+    // Use the custom route to determine if the request is an "easy access" route
+    if (currentRoute) {
+      console.log('eazy access');
+      const newReq = req.clone({ headers: req.headers.delete('X-Current-Route') })
+      return next.handle(newReq);
     } else {
     return this.authService.token$.pipe(
       switchMap((token: string | null) => {
-        console.log('environment', environment.production);
+        console.log('environmen 77t', environment.production);
         const authReq = token ? req.clone({
           setHeaders: {
             Authorization: `Bearer ${token}`
@@ -42,8 +47,4 @@ export class AuthInterceptor implements HttpInterceptor {
   }))
 }
   }
-private easyAccess(url: string): boolean {
-  return url.includes('/sign-up') || url.includes('/login') || url.includes('/forgot-password')
-  || url.includes('/single-feed');
-}
 }

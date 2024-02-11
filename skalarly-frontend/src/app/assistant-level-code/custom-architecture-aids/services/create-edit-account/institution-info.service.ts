@@ -1,14 +1,16 @@
 import { Injectable, Signal, computed, signal } from '@angular/core';
 import { ReplaySubject, map, shareReplay, take } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import type { ProvinceSchoolTypes, basicinfo } from '../../interfaces/basic-province-interface';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InstitutionInfoService {
   private apiUrl: string = environment.apiUrl;
+  headers: HttpHeaders;
   private cacheSchoolCountry: Map<string, string> = new Map();
   private cacheSchoolNames: Map<string, string[]> = new Map();
   private cacheSchoolEmails: Map<string, string[]> = new Map();
@@ -27,7 +29,11 @@ export class InstitutionInfoService {
   instEmails = computed<string[]>(() => this.institutionEmails());
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {
+     this.headers = new HttpHeaders({
+      'X-Current-Route': this.router.url 
+    });
+  }
 
   getCountries(): void {
     const countryNames = ['Canada', 'United States'];
@@ -39,7 +45,8 @@ export class InstitutionInfoService {
     const cacheKey = `country-${country}`;
   if (country === 'Canada' && !this.cacheSchoolCountry.has(cacheKey)) {
     console.log('this.apiUrl', this.apiUrl);
-      this.http.get<{data: string[]; message: string}>(`${this.apiUrl}/canada/province?country=${country}`)
+      this.http.get<{data: string[]; message: string}>(`${this.apiUrl}/canada/province?country=${country}`
+      ,{ headers: this.headers })
         .pipe(take(1),
           shareReplay(1),
           map(response => response.data)
@@ -85,7 +92,9 @@ export class InstitutionInfoService {
     console.log('wake up', this.apiUrl);
 
     if (!this.cacheSchoolNames.has(cacheKey)) {
-      this.http.get<string[]>(`${this.apiUrl}/canada/names?country=Canada&province=${region}&type=${type}`)
+     
+      this.http.get<string[]>(`${this.apiUrl}/canada/names?country=Canada&province=${region}&type=${type}`
+      ,{ headers: this.headers })
       .pipe(take(1),
       shareReplay(1))
       .subscribe({
@@ -105,7 +114,8 @@ export class InstitutionInfoService {
   getSchoolEmails(region: string, type: string, names: string): void {
     const cacheKey = `emails-${region}-${type}-${names}`;
     if (!this.cacheSchoolEmails.has(cacheKey)) {
-      this.http.get<any>(`${this.apiUrl}/canada/emails?country=Canada&province=${region}&type=${type}&name=${names}`)
+      this.http.get<any>(`${this.apiUrl}/canada/emails?country=Canada&province=${region}&type=${type}&name=${names}`
+      ,{ headers: this.headers })
       .pipe(take(1),
       shareReplay(1))
       .subscribe({
