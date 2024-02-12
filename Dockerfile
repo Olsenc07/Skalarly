@@ -5,10 +5,10 @@ WORKDIR /app/frontend
 
 COPY skalarly-frontend/package*.json ./
 
+RUN npm install --only=production
+
 # Installing Angular CLI temporarily for the build process
 RUN npm install @angular/cli
-
-RUN npm install --only=production
 
 COPY skalarly-frontend/ ./
 
