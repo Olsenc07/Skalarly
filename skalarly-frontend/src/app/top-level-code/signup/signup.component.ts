@@ -100,7 +100,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   private accountSub$: Subject<void> = new Subject<void>();
   // second major stage
   visiblePassword: boolean = false;
-  domain: string[] = [];
   // skalar info form
   infoForm: FormGroup = new FormGroup({
     club: new FormControl<SkalarInfoInterface['club']>([]),
@@ -175,17 +174,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
       this.userInteracted = true;
       })
   }
-  get usernameControl(): FormControl {
-    return this.signUpForm.get('username') as FormControl;
-  }
-
-  get emailControl(): FormControl {
-    return this.signUpForm.get('email') as FormControl;
-  }
-
-  get passwordControl(): FormControl {
-    return this.signUpForm.get('password') as FormControl;
-  }
+ 
   getRouteGuardStatus(): boolean {
     return this.userInteracted;
   }
