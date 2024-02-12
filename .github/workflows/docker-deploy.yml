@@ -24,7 +24,7 @@ jobs:
       # Backend
       - name: Build and Push Backend Docker Image to Heroku
         run: |
-          docker build -t registry.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}/web ./skalarly-backend 
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}/web ./backend 
           docker push registry.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}/web
 
       - name: Release Backend Docker Image
