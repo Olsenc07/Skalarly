@@ -5,12 +5,16 @@ WORKDIR /app/frontend
 
 COPY skalarly-frontend/package*.json ./
 
-RUN npm install 
+# Installing Angular CLI temporarily for the build process
+RUN npm install @angular/cli
+
+RUN npm install --only=production
 
 COPY skalarly-frontend/ ./
 
 RUN npm run build:ssr
 
+RUN npm uninstall @angular/cli
 
 # Build Backend
 FROM node:20.10.0 as backend-build
