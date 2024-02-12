@@ -24,10 +24,10 @@ jobs:
       # Unified Application
       - name: Build and Push Unified Docker Image to Heroku
         run: |
-          docker build -t registry.heroku.com/${{ secrets.HEROKU_FS_APP_NAME }}/web ./skalarly-fs
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_FS_APP_NAME }}/web .
           docker push registry.heroku.com/${{ secrets.HEROKU_FS_APP_NAME }}/web
 
-      - name: Release Frontend Docker Image
+      - name: Release Unified Docker Image
         run: heroku container:release web --app ${{ secrets.HEROKU_FS_APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
