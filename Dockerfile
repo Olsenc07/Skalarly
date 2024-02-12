@@ -34,8 +34,8 @@ WORKDIR /app
 COPY --from=backend-build /app/backend /app/backend
 COPY --from=backend-build /app/backend/node_modules /app/backend/node_modules
 #Copy SSR
-COPY --from=frontend-build /app/frontend/dist /app/backend/public
-COPY --from=frontend-build /app/frontend/dist/skalarly-fs /app/backend/dist
+COPY --from=frontend-build /app/skalarly-frontend/dist /app/backend/public
+COPY --from=frontend-build /app/skalarly-frontend/dist/skalarly-fs /app/backend/dist
 
 EXPOSE 3000
 
