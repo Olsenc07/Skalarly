@@ -34,10 +34,6 @@ const apiProxyOptions = {
   }
 };
 app.use(express.static(DIST_FOLDER));
-app.use('/api/*', (req, res, next) => {
-  console.log('API Request Received:', req.baseUrl, req.url);
-  next();
-});
 app.use('/api', createProxyMiddleware(apiProxyOptions));
 app.get('*', async (req: Request, res: Response) => {
   try {

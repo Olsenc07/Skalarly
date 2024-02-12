@@ -5,7 +5,7 @@ WORKDIR /app/frontend
 
 COPY skalarly-frontend/package*.json ./
 
-RUN npm install --only=production
+RUN npm install 
 
 COPY skalarly-frontend/ ./
 
@@ -31,7 +31,7 @@ COPY --from=backend-build /app/backend /app/backend
 COPY --from=backend-build /app/backend/node_modules /app/backend/node_modules
 #Copy SSR
 COPY --from=frontend-build /app/frontend/dist /app/backend/public
-COPY --from=frontend-build /app/frontend/node_modules /app/backend/node_modules
+COPY --from=frontend-build /app/frontend/dist/skalarly-fs /app/backend/dist
 
 EXPOSE 3000
 

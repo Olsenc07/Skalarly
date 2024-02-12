@@ -26,7 +26,6 @@ export class InstitutionInfoService {
   instName = computed<string[]>(() => this.institutionName());
   instEmails = computed<string[]>(() => this.institutionEmails());
 
-
   constructor(private http: HttpClient, private router: Router) {
      this.headers = new HttpHeaders({
       'X-Current-Route': this.router.url 
