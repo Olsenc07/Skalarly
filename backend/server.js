@@ -32,11 +32,6 @@ import authorizeRoute from './routes/authorize.js';
 import skalarsRoute from './routes/skalars.js';
 import canadianRoute from './routes/canadian-schools.js';
 
-
-// Constructing __dirname 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 // App Variables
 const app = express();
 
