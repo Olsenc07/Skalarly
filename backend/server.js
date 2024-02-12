@@ -32,6 +32,11 @@ import authorizeRoute from './routes/authorize.js';
 import skalarsRoute from './routes/skalars.js';
 import canadianRoute from './routes/canadian-schools.js';
 
+
+// Constructing __dirname 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 // App Variables
 const app = express();
 
@@ -109,6 +114,16 @@ app.use((error, req, res, next) => {
     message: error.message
   });
 });
+
+console.log('__dirname', __dirname);
+const direction =  process.env.NODE_ENV === 'production' ? '/app' : __dirname
+const angularAppPath = join(direction, 'dist', 'skalarly-frontend');
+console.log('friday', angularAppPath);
+  app.use(express.static(angularAppPath));
+
+  app.get('*', (req, res) => {
+    res.sendFile(join(angularAppPath, 'index.html'));
+  });
 
 // Server Activation
 app.listen(process.env.PORT || 3000, () => {

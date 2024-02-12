@@ -1,0 +1,22 @@
+export const SocialMediaOptions = [
+    { name: 'LinkedIn', url: 'linkedin' },
+    { name: 'Twitter', url: 'twitter' },
+    { name: 'Instagram', url: 'instagram' },
+    { name: 'Facebook', url: 'facebook' },
+    { name: 'YouTube', url: 'youtube' },
+    { name: 'Pinterest', url: 'pinterest' },
+    { name: 'Snapchat', url: 'snapchat' },
+    { name: 'TikTok', url: 'tiktok' },
+    { name: 'Reddit', url: 'reddit' },
+    { name: 'Tumblr', url: 'tumblr' },
+    { name: 'Flickr', url: 'flickr' },
+    { name: 'Spotify', url: 'spotify' },
+    { name: 'GitHub', url: 'github' },
+    { name: 'Vimeo', url: 'vimeo' },
+    { name: 'Dribbble', url: 'dribbble' },
+    { name: 'Behance', url: 'behance' },
+    { name: 'Medium', url: 'medium' },
+    { name: 'SoundCloud', url: 'soundcloud' },
+    { name: 'Goodreads', url: 'goodreads' },
+    { name: 'Skype', url: 'skype' }
+];

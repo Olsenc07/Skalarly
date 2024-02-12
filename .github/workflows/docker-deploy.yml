@@ -21,21 +21,10 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }} 
 
-      # Backend
-      - name: Build and Push Backend Docker Image to Heroku
+      # Unified Application
+      - name: Build and Push Unified Docker Image to Heroku
         run: |
-          docker build -t registry.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}/web ./backend 
-          docker push registry.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}/web
-
-      - name: Release Backend Docker Image
-        run: heroku container:release web --app ${{ secrets.HEROKU_BACKEND_APP_NAME }}
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-
-      # Frontend
-      - name: Build and Push Frontend Docker Image to Heroku
-        run: |
-          docker build -t registry.heroku.com/${{ secrets.HEROKU_FS_APP_NAME }}/web ./skalarly-frontend 
+          docker build -t registry.heroku.com/${{ secrets.HEROKU_FS_APP_NAME }}/web ./skalarly-fs
           docker push registry.heroku.com/${{ secrets.HEROKU_FS_APP_NAME }}/web
 
       - name: Release Frontend Docker Image
