@@ -123,7 +123,7 @@
           "options": {
             "outputPath": "dist/skalarly-frontend/server",
             "main": "src/main.server.ts",
-            "tsConfig": "../tsconfig.server.json",
+            "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss"
           },
           "configurations": {
