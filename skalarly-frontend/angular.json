@@ -3,22 +3,22 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "skalarly-fs": {
+    "skalarly-frontend": {
       "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [],
-            "outputPath": "dist/skalarly-frontend",
+            "outputPath": "../dist/skalarly-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -121,9 +121,9 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/server",
-            "main": "server.ts",
-            "tsConfig": "tsconfig.server.json",
+            "outputPath": "dist/skalarly-frontend/server",
+            "main": "src/main.server.ts",
+            "tsConfig": "../tsconfig.server.json",
             "inlineStyleLanguage": "scss"
           },
           "configurations": {

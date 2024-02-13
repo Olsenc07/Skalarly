@@ -5,10 +5,8 @@ COPY skalarly-frontend/package*.json ./
 
 RUN npm install --only=production
 # Installing Angular CLI temporarily for the build process
-RUN npm install @angular/cli
 COPY skalarly-frontend/ ./
 RUN npm run build:ssr
-RUN npm install @angular/cli
 
 # Build Backend
 FROM node:20.10.0 as backend-build
@@ -31,5 +29,5 @@ EXPOSE 3000
 
 ENV NODE_ENV production
 
-# Start the server with SSR
-CMD ["node", "backend/dist/skalarly-fs/server/main.js"]
+# Start the unified server 
+CMD ["node", "server.js"]
