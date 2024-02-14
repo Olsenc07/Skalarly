@@ -4,11 +4,16 @@
   "description": "Front-end for Skalarly application",
   "scripts": {
     "ng": "ng",
-    "build": "ng build --configuration=production --output-path ../dist/skalarly-frontend",
-    "build:ssr": "ng build --configuration=production && ng run skalarly-frontend:server:production",
+    "start": "ng serve",
+    "build": "ng build --configuration=production --output-path ../dist/skalarly-frontend/browser",
+    "build:ssr": "ng build --configuration=production --output-path ../dist/skalarly-frontend/browser && ng run skalarly-frontend:server:production --output-path ../dist/skalarly-frontend/server",
+    "serve:ssr": "node ../dist/skalarly-frontend/server/main.js",
+    "deploy:ssr": "npm run build:ssr && node ../dist/skalarly-frontend/server/main.js",
     "lint": "ng lint",
     "test": "ng test",
-    "e2e": "start-server-and-test build-and-deploy:prod http://localhost:3000 cypress:run"
+    "e2e": "start-server-and-test build-and-deploy:prod http://localhost:3000 cypress:run",
+    "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer dist/skalarly-frontend/browser/stats.json",
+    "predeploy": "npm run build:ssr"
   },
   "private": true,
   "dependencies": {
@@ -31,10 +36,10 @@
     "rxjs": "^7.4.0",
     "tslib": "^2.6.2",
     "uuid": "^9.0.1",
-    "webpack-bundle-analyzer": "^4.10.1",
     "zone.js": "^0.14.2"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^17.0.0",
     "@angular-devkit/build-angular": "^17.1.3",
     "@angular-eslint/builder": "^17.2.1",
     "@angular-eslint/eslint-plugin": "^17.2.1",
@@ -65,7 +70,8 @@
     "tough-cookie": "4.1.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
-    "webpack": "^5.90.1"
+    "webpack": "^5.90.1",
+    "webpack-bundle-analyzer": "^4.10.1"
   },
   "overrides": {
     "axios": "^1.6.2"

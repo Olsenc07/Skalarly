@@ -13,7 +13,7 @@ const apiLimiter = rateLimit({
     max: 7, // limit each IP to 7 requests per windowMs
     handler: function (req, res, next) {
       const error = new Error('Too many attempts, please try again after 5 minutes');
-      error.status = 429; // Too Many Requests
+      error.status = 429; // Too Many Requests 
       next(error);
     }
   });
@@ -95,8 +95,8 @@ const PORT = process.env.PORT || 3000;
 const DIST_FOLDER = join(__dirname, './dist/skalarly-frontend/');
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);
-
 app.use(express.static(DIST_FOLDER, { index: false }));
+
 app.get('*', async (req, res) => {
     try {
       const commonEngine = new CommonEngine();
