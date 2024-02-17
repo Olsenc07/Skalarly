@@ -1,4 +1,6 @@
 @use './assistant-level-code/universal-reusable-styles/common' as common;
+@use './assistant-level-code/universal-reusable-styles/one-by-one' as loop;
+
 .content-container{
   @include common.common(flex, space-between, column);
   @include common.pageSize;
@@ -40,14 +42,23 @@ footer{
   box-shadow: 0 0 10px 5px var(--pairingColor);
   transition: box-shadow 0.3s ease; 
 }
-.line {
+@keyframes glow-animation {
+  from { opacity: 0; transform: translateX(-100%)  skewX(-20deg); }
+  to { opacity: 1; transform: translateX(0) rotate(340deg) skewX(-70deg); }
+} 
+  @mixin animationEnter($delay) {
+    animation: glow-animation 1s $delay forwards;
+  }
+.line{
+  opacity: 0;
   position: absolute;
-  overflow: hidden;
-  background-image: linear-gradient(var(--firstChoice), var(--secondChoice));
-  transform: rotate(340deg);
-  height: 5px;
-}
+  @include animationEnter(1s);
+  width: 13%;
+  height: 1px;
+  box-shadow: 3px 3px 7px var(--secondChoice);
+  background: linear-gradient(45deg, var(--firstChoice), var(--secondChoice));
+  &:nth-child(odd){
+  background: linear-gradient(45deg, var(--secondChoice), var(--firstChoice));
+  }
 
- .line.e{
-  background-image: pink;
- }
+}

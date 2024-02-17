@@ -7,7 +7,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NavIconsComponent } from './nav-bar/nav-icons/nav-icons.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { scrollToggleDirective } from './assistant-level-code/custom-architecture-aids/directives/scroll-toggle.directive';
-import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   standalone: true,
@@ -31,27 +31,23 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
         marginTop: '0rem'
       })),
       transition('withMargin <=> withoutMargin', animate('300ms ease-in-out')),
-    ]),
-    trigger('lineAnimation', [
-      // Define states for each line with unique styles
-      state('line0', style({ top: '10%', left: '0%'})),
-      state('line1', style({ top: '37%', left: '25%'})),
-      state('line2', style({ top: '50%', left: '45%'})),
-      state('line3', style({ top: '85%', left: '60%' })),
-      state('line4', style({ top: '90%', left: '85%' })),
-      transition('* => *', [ 
-        animate('1.5s ease-in', keyframes([
-          style({ opacity: 0, transform: 'translateX(-50%)' }), 
-          style({ opacity: 1, transform: 'translateX(0)' }), 
-        ]))
-    ]),
     ])
   ],
   providers: [{ provide: TitleStrategy, useClass: CustomTitleStrategy }]
 })
 export class AppComponent  {
   marginState: 'withMargin' | 'withoutMargin' = 'withMargin';
-  lines = new Array(5);
+  lines: Array<{ top: string, left: string }> = [
+    { top: '90%', left: '83%' }, 
+    { top: '1%', left: '83%' }, 
+    { top: '65%', left: '87%' }, 
+    { top: '35%', left: '5%' },
+    { top: '5%', left: '10%' },
+    { top: '80%', left: '10%' },
+    { top: '60%', left: '0%' },
+    { top: '40%', left: '80%' },
+  ];
+
   constructor(protected orientationService: OrientationService){}
   onToggleHeader(show: boolean): void {
     this.marginState = show ? 'withMargin' : 'withoutMargin';

@@ -1,20 +1,22 @@
 @defer { 
-<div class="content-container">
-  @if(this.orientationService.url() == ('/login' || '/' )){
-
-  @for (line of lines; let i = $index, e = $even; track line){
-    <div [@lineAnimation]=" 'line' + i" class="line"
-    [ngClass]="{'e': e}"
-    ></div>
+<div class="content-container" #enter>
+  @if(!this.orientationService.screen() && this.orientationService.url() == ('/login' || '/' )){
+@defer (on hover(enter)) { 
+  @for (line of lines; let i = $index; track line){
+    <span class="line"
+    [style.top]="line.top"
+    [style.left]="line.left"
+    [style.animation-delay]="i * 0.35 + 's'"
+    ></span>
   }
-
   }
+}
     <div>
 @if (this.orientationService.url() !== ('/login' || '/' )){
 <app-nav-bar scrollToggle (toggleHeader)="onToggleHeader($event)"></app-nav-bar>
  }
  <div [@fadeMargin]="marginState" >
-  <!-- <router-outlet></router-outlet>  -->
+  <router-outlet></router-outlet> 
 </div>
 </div>
   @if(this.orientationService.screen() && (this.orientationService.url() !== ('/login' || '/' ))){
