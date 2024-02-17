@@ -5,13 +5,13 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration=production --output-path ../dist/skalarly-frontend/browser",
-    "build:ssr": "ng build --configuration=production --output-path ../dist/skalarly-frontend/browser && ng run skalarly-frontend:server:production --output-path ../dist/skalarly-frontend/server",
+    "build": "ng build --configuration=production ",
+    "build:ssr": "npm run build && npm run build:server",
     "serve:ssr": "node ../dist/skalarly-frontend/server/main.js",
     "deploy:ssr": "npm run build:ssr && node ../dist/skalarly-frontend/server/main.js",
     "lint": "ng lint",
     "test": "ng test",
-    "e2e": "start-server-and-test build-and-deploy:prod http://localhost:3000 cypress:run",
+    "e2e": "start-server-and-test serve http://localhost:3000 cypress:run",
     "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer dist/skalarly-frontend/browser/stats.json",
     "predeploy": "npm run build:ssr"
   },

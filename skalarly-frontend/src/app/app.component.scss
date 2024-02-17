@@ -40,28 +40,14 @@ footer{
   box-shadow: 0 0 10px 5px var(--pairingColor);
   transition: box-shadow 0.3s ease; 
 }
-// .desktop{
-//   display: flex;
-//   flex-direction: column;
-// router-outlet[content] {
-//   order: 2;
-//   box-sizing: border-box;
-//   flex: 1; 
-// }
-// app-nav-bar{
-//   order: 1;
-// }
-// }
-// .mobile{
-//   display: flex;
-//   flex-direction: column;
-//   router-outlet[content] {
-//     order: 1;
-//     box-sizing: border-box;
-//     flex: 1; 
-//     padding-bottom: 4em;
-//   }
-//   app-nav-bar{
-//     order: 2;
-//   }
-//   }
+.line {
+  position: absolute;
+  overflow: hidden;
+  background-image: linear-gradient(var(--firstChoice), var(--secondChoice));
+  transform: rotate(340deg);
+  height: 5px;
+}
+
+ .line.e{
+  background-image: pink;
+ }

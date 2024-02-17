@@ -88,11 +88,11 @@ const switchDatabase = async (req, res, next) => {
 // Frontend SSR 
 import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
-import { AppServerPromise } from './dist/skalarly-frontend/main.server';
+import { AppServerPromise } from './dist/server/main.js';
 
 // Serve static files and SSR
 const PORT = process.env.PORT || 3000;
-const DIST_FOLDER = join(__dirname, './dist/skalarly-frontend/');
+const DIST_FOLDER = join(__dirname, './dist/skalarly-frontend');
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);
 app.use(express.static(DIST_FOLDER, { index: false }));
@@ -107,7 +107,7 @@ app.get('*', async (req, res) => {
         providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }]
       };
       const html = await commonEngine.render({
-        bootstrap: AppServerPromise, 
+        bootstrap: AppServerPromise(), 
         ...options
       });
       res.send(html);

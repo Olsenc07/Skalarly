@@ -1,13 +1,20 @@
 @defer { 
-<div [ngClass]="this.orientationService.url() == ('/login' || '/' )
- ? '' : 'content-container' ">
+<div class="content-container">
+  @if(this.orientationService.url() == ('/login' || '/' )){
+
+  @for (line of lines; let i = $index, e = $even; track line){
+    <div [@lineAnimation]=" 'line' + i" class="line"
+    [ngClass]="{'e': e}"
+    ></div>
+  }
+
+  }
     <div>
 @if (this.orientationService.url() !== ('/login' || '/' )){
 <app-nav-bar scrollToggle (toggleHeader)="onToggleHeader($event)"></app-nav-bar>
-
  }
- <div [@fadeMargin]="marginState"t>
-  <router-outlet></router-outlet> 
+ <div [@fadeMargin]="marginState" >
+  <!-- <router-outlet></router-outlet>  -->
 </div>
 </div>
   @if(this.orientationService.screen() && (this.orientationService.url() !== ('/login' || '/' ))){
@@ -23,10 +30,8 @@
 } 
 @loading (minimum 300ms) {
 <div  class="initial-load">   
-<img src="assets/images/Skalar_Hat_Icon.svg" 
-    width="82" height="60.5" sizes="15vw" alt="Skalarly Grad Wizard Hat Icon">
-    <h1>
-    Skalarly
-    </h1>
+  <svg>
+    <use href="#skalarly-icon"></use>
+  </svg>
 </div>
 }

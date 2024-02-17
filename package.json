@@ -9,10 +9,14 @@
     "npm": "10.2.3"
   },
   "scripts": {
+    "build:client": "cd skalarly-frontend && ng build --configuration=production ",
+    "build:server": "cd skalarly-frontend && ng run skalarly-frontend:server:production ",
+    "build:ssr": "npm run build:client && npm run build:server",
     "prestart": "npm run build:ssr",
     "start": "NODE_ENV=production node server.js",
-    "build:ssr": "cd skalarly-frontend && npm run build:ssr",
-    "dev": "concurrently \"nodemon server.js\" \"cd skalarly-frontend && npm run build:ssr -- --watch\"",
+    "dev:client": "cd skalarly-frontend && ng serve",
+    "dev:server": "cd skalarly-frontend && ng run skalarly-frontend:server:development --watch",
+    "dev": "concurrently \"nodemon --watch ./dist/skalarly-frontend/server\" \"npm run dev:client\" \"npm run dev:server\"",
     "test": "echo \"No tests specified\""
   },
   "repository": {

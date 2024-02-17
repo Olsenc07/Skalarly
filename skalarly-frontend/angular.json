@@ -81,10 +81,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "skalarly-fs:build:production"
+              "buildTarget": "skalarly-frontend:build:production"
             },
             "development": {
-              "buildTarget": "skalarly-fs:build:development"
+              "buildTarget": "skalarly-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -92,7 +92,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "skalarly-fs:build"
+            "buildTarget": "skalarly-frontend:build"
           }
         },
         "test": {
@@ -153,12 +153,12 @@
           "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "skalarly-fs:build:development",
-              "serverTarget": "skalarly-fs:server:development"
+              "browserTarget": "skalarly-frontend:build:development",
+              "serverTarget": "skalarly-frontend:server:development"
             },
             "production": {
-              "browserTarget": "skalarly-fs:build:production",
-              "serverTarget": "skalarly-fs:server:production"
+              "browserTarget": "skalarly-frontend:build:production",
+              "serverTarget": "skalarly-frontend:server:production"
             }
           },
           "defaultConfiguration": "production"

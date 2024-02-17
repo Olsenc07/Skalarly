@@ -190,4 +190,8 @@ icon="explore" [initialList]="this.institutionInfoService.region()"
 }@placeholder { 
  <app-skeleton-loader-signup></app-skeleton-loader-signup>
   }
-
+  @error {
+    <span class="material-symbols-outlined">
+      sync_problem
+      </span>
+  }
