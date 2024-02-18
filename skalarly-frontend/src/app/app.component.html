@@ -3,11 +3,14 @@
   @if(!this.orientationService.screen() && this.orientationService.url() == ('/login' || '/' )){
 @defer (on hover(enter)) { 
   @for (line of lines; let i = $index; track line){
-    <span class="line"
+    <div 
+    class="line"
     [style.top]="line.top"
     [style.left]="line.left"
-    [style.animation-delay]="i * 0.35 + 's'"
-    ></span>
+    [style.animation-delay]="i * 1 + 's'"
+    [ngClass]="line.uniqueClass"
+    >
+  {{line.data}}</div>
   }
   }
 }

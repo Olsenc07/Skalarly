@@ -25,7 +25,7 @@ COPY --from=backend-build /app/backend/node_modules /app/backend/node_modules
 COPY --from=frontend-build /app/skalarly-frontend/dist /app/backend/public
 COPY --from=frontend-build /app/skalarly-frontend/dist/skalarly-frontend /app/backend/dist
 
-EXPOSE 3000
+EXPOSE 4200
 
 ENV NODE_ENV production
 

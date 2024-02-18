@@ -28,6 +28,7 @@ import accountManagementRoute from './backend/routes/account-management.js';
 import authorizeRoute from './backend/routes/authorize.js';
 import skalarsRoute from './backend/routes/skalars.js';
 import canadianRoute from './backend/routes/canadian-schools.js';
+console.log('imported', canadianRoute);
 const __filename = fileURLToPath(import.meta.url);
 console.log('hey', __filename);
 const __dirname = dirname(__filename);
@@ -88,10 +89,15 @@ const switchDatabase = async (req, res, next) => {
 // Frontend SSR 
 import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
-import { AppServerPromise } from './dist/server/main.js';
+let AppServerPromise;
+import('./dist/server/main.js').then(module => {
+  AppServerPromise = module.AppServerPromise;
+}).catch(err => {
+  console.error("Failed to import 'AppServerPromise':", err);
+});
 
 // Serve static files and SSR
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4200;
 const DIST_FOLDER = join(__dirname, './dist/skalarly-frontend');
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);

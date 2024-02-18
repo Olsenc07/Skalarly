@@ -38,27 +38,49 @@ footer{
       z-index: -1;
     }
   }
-.glow-effect {
-  box-shadow: 0 0 10px 5px var(--pairingColor);
-  transition: box-shadow 0.3s ease; 
-}
-@keyframes glow-animation {
-  from { opacity: 0; transform: translateX(-100%)  skewX(-20deg); }
-  to { opacity: 1; transform: translateX(0) rotate(340deg) skewX(-70deg); }
-} 
-  @mixin animationEnter($delay) {
-    animation: glow-animation 1s $delay forwards;
+  @keyframes flyRight {
+    0% { 
+      transform: translate(-100vw, 100vh) rotate(-30deg); 
+      opacity: 0.7; 
+    }
+    50% {
+      transform: translate(-10vw, 10vh);
+      opacity: 1;
+    }
+    100% { 
+      transform: translate(170vw, 80vh) rotate(90deg);
+      opacity: 1; 
+    }
   }
+  @keyframes reverseFlyRight {
+    0% { 
+      transform: translate(-100vw, 100vh) rotate(-30deg); 
+      opacity: 0.7; 
+    }
+    50% {
+      transform: translate(-35vw, 25vh);
+      opacity: 1;
+    }
+    100% { 
+      transform: translate(-100vw, -100vh) rotate(0deg);
+      opacity: 1; 
+    }
+  }
+  
+  .reverseAnimation {
+  opacity: 0;
+  animation: reverseFlyRight 10s 15s linear 1 !important;
+  color: var(--pairingColor2);
+  position: absolute;
+  font-size: xx-large;
+
+  }
+  
 .line{
   opacity: 0;
+  width: 100%;
+  color: var(--pairingColor2);
   position: absolute;
-  @include animationEnter(1s);
-  width: 13%;
-  height: 1px;
-  box-shadow: 3px 3px 7px var(--secondChoice);
-  background: linear-gradient(45deg, var(--firstChoice), var(--secondChoice));
-  &:nth-child(odd){
-  background: linear-gradient(45deg, var(--secondChoice), var(--firstChoice));
-  }
-
+  font-size: xx-large;
+  animation: flyRight 13s linear 1;
 }
