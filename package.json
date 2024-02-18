@@ -9,7 +9,7 @@
     "npm": "10.2.3"
   },
   "scripts": {
-    "build:client": "cd skalarly-frontend && ng build  ",
+    "build:client": "cd skalarly-frontend && ng build",
     "build:server": "cd skalarly-frontend && ng run skalarly-frontend:server",
     "build:ssr": "npm run build:client && npm run build:server",
     "prestart": "npm run build:ssr",
