@@ -68,18 +68,12 @@ footer{
   }
   
   .reverseAnimation {
-  opacity: 0;
   animation: reverseFlyRight 10s 15s linear 1 !important;
-  color: var(--pairingColor2);
-  position: absolute;
-  font-size: xx-large;
-
   }
   
 .line{
   opacity: 0;
   width: 100%;
-  color: var(--pairingColor2);
   position: absolute;
   font-size: xx-large;
   animation: flyRight 13s linear 1;
