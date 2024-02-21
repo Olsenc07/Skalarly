@@ -1,5 +1,5 @@
 import { ApplicationRef } from '@angular/core';
-import { AppComponent }from 'src/app/app.component'; // is this the problem?
+import { AppComponent }from 'src/app/app.component'; 
 import { ServerModule } from '@angular/platform-server';
 import { bootstrapApplication } from '@angular/platform-browser';
 

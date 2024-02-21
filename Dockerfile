@@ -1,10 +1,10 @@
 # Build Frontend SSR & static assets
 FROM node:20.10.0 as frontend-build
 WORKDIR /app/skalarly-frontend
-RUN npm install -g @angular/cli
 COPY skalarly-frontend/package*.json ./
 
 RUN npm install --only=production
+RUN npm install -g @angular/cli
 # Installing Angular CLI temporarily for the build process
 COPY skalarly-frontend/ ./
 RUN npm run build
