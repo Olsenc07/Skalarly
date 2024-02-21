@@ -22,7 +22,7 @@
               "path": "./extra-webpack.config.cjs"
             },
             "allowedCommonJsDependencies": [],
-            "outputPath": "../dist/skalarly-frontend",
+            "outputPath": "../dist/skalarly-frontend/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

@@ -14,7 +14,7 @@
     "build:server": "cd skalarly-frontend && npm run build:server",
     "prestart": "npm run build",
     "start": "NODE_ENV=production node server.js",
-    "start:dev": "nodemon server.js", 
+    "start:dev": "NODE_ENV=development nodemon server.js", 
     "combined": "node server.js",
     "dev:server": "cd skalarly-frontend && npm run serve:ssr:dev",
     "dev": "concurrently \"npm run combined\" \"npm run dev:server\"",
