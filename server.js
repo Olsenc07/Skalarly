@@ -87,6 +87,7 @@ const switchDatabase = async (req, res, next) => {
   app.use("/api/canada", canadianRoute);
 
 // Frontend SSR 
+import '@angular/compiler'; // dev
 import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
 let AppServerPromise;
