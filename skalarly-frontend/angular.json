@@ -125,7 +125,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "../dist/server",
+            "outputPath": "../dist/skalarly-frontend/server",
             "main": "src/main.server.ts",
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss"
@@ -138,7 +138,9 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "sourceMap": false,
+              "optimization": true
             },
             "development": {
               "buildOptimizer": false,

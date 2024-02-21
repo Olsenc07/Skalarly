@@ -90,7 +90,7 @@ const switchDatabase = async (req, res, next) => {
 import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
 let AppServerPromise;
-import('./dist/server/main.js').then(module => {
+import('./dist/skalarly-frontend/server/main.js').then(module => {
   AppServerPromise = module.AppServerPromise;
 }).catch(err => {
   console.error("Failed to import 'AppServerPromise':", err);

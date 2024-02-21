@@ -35,7 +35,7 @@ import { LoginSpecificService } from 'src/app/assistant-level-code/custom-archit
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
    // mobile first
   orientation: WritableSignal<boolean> = signal(true);
   // animation based
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
   welcome: string = 'Welcome To Skalarly';
 
   constructor(
-    private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
+ private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
     protected orientationService: OrientationService,
     private readonly router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -57,14 +57,12 @@ export class LoginComponent implements OnInit {
           this.skalarlyState = 'rise';
         }, 7000);
       }
-    }, { phase: AfterRenderPhase.Read })
+      if (!this.orientationService.screen()) {
+        // Now you can use this.loginSpecificService
+        this.loginSpecificService.randomizePairs();
+      }
+  }, { phase: AfterRenderPhase.Read });
   }
-
-  ngOnInit(): void {
-    // randomize phrases
-    this.loginSpecificService.randomizePairs();
-  }
-
   navigate(): void {
     this.router.navigate(['/sign-up']);
   }

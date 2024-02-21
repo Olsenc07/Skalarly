@@ -9,15 +9,14 @@
     "npm": "10.2.3"
   },
   "scripts": {
-    "build:client": "cd skalarly-frontend && ng build",
-    "build:server": "cd skalarly-frontend && ng run skalarly-frontend:server",
-    "build:ssr": "npm run build:client && npm run build:server",
-    "prestart": "npm run build:ssr",
+    "build": "cd skalarly-frontend && npm run build",
+    "build:client": "cd skalarly-frontend && npm run build:client",
+    "build:server": "cd skalarly-frontend && npm run build:server",
+    "prestart": "npm run build",
     "start": "NODE_ENV=production node server.js",
     "combined": "node server.js",
-    "dev:client": "cd skalarly-frontend && ng serve",
-    "dev:server": "cd skalarly-frontend && npm run serve:ssr",
-    "dev": "concurrently \"npm run combined\" \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:server": "cd skalarly-frontend && npm run serve:ssr:dev",
+    "dev": "concurrently \"npm run combined\" \"npm run dev:server\"",
     "test": "echo \"No tests specified\""
   },
   "repository": {
@@ -33,9 +32,8 @@
   "dependencies": {
     "@angular/platform-server": "^17.2.1",
     "@angular/ssr": "^17.2.0",
-    "@angular/compiler": "^17.2.1",
     "bcrypt": "^5.1.1",
-    "cypress": "^13.6.4",
+    "cypress": "^13.6.5",
     "dotenv": "16.4.3",
     "express": "^4.18.2",
     "express-rate-limit": "^7.1.5",
@@ -46,8 +44,10 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "17.2.0",
+    "@angular/compiler": "^17.2.1",
     "@angular/cli": "^17.2.0",
     "@angular/compiler-cli": "^17.2.1",
+    "@angular/platform-browser-dynamic": "^17.2.1",
     "@types/compression": "^1.7.5",
     "concurrently": "^8.2.2",
     "cypress": "^13.6.4",
