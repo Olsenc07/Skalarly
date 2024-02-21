@@ -3,18 +3,20 @@
   "version": "1.0.0",
   "description": "Wrapper for Skalarly application",
   "type": "module",
-  "main": "backend/server.js",
+  "main": "server.js",
   "engines": {
     "node": "20.10.0",
     "npm": "10.2.3"
   },
   "scripts": {
-    "start": "npm run start:backend && npm run start:frontend",
-    "start:frontend": "cd skalarly-frontend && npm run serve:ssr",
-    "start:backend": "NODE_ENV=production node backend/server.js",
-    "dev": "concurrently \"npm run dev:backend:ssr\" \"npm run dev:frontend:ssr\"",
-    "dev:backend:ssr": "NODE_ENV=development nodemon backend/server.js",
-    "dev:frontend:ssr": "cd skalarly-frontend && npm run serve-ssr",
+    "build": "cd skalarly-frontend && npm run build",
+    "build:client": "cd skalarly-frontend && npm run build:client",
+    "build:server": "cd skalarly-frontend && npm run build:server",
+    "prestart": "npm run build",
+    "start": "NODE_ENV=production node server.js",
+    "combined": "node server.js",
+    "dev:server": "cd skalarly-frontend && npm run serve:ssr:dev",
+    "dev": "concurrently \"npm run combined\" \"npm run dev:server\"",
     "test": "echo \"No tests specified\""
   },
   "repository": {
@@ -28,18 +30,27 @@
   },
   "homepage": "https://github.com/Olsenc07/skalarly-fs#readme",
   "dependencies": {
-    "@angular-devkit/build-angular": "17.1.1",
-    "@angular/cli": "^17.1.1",
+    "@angular/platform-server": "^17.2.1",
+    "@angular/ssr": "^17.2.0",
     "bcrypt": "^5.1.1",
-    "concurrently": "^8.2.2",
-    "cypress": "^13.6.3",
+    "cypress": "^13.6.5",
+    "dotenv": "16.4.3",
     "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.0.3",
-    "uuid": "^9.0.1",
-    "web-push": "^3.6.6"
+    "mongodb": "6.3.0",
+    "mongoose": "^8.1.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@angular-devkit/build-angular": "17.2.0",
+    "@angular/compiler": "^17.2.1",
+    "@angular/cli": "^17.2.0",
+    "@angular/compiler-cli": "^17.2.1",
+    "@angular/platform-browser-dynamic": "^17.2.1",
+    "@types/compression": "^1.7.5",
+    "concurrently": "^8.2.2",
+    "cypress": "^13.6.4",
     "nodemon": "^3.0.2"
   },
   "overrides": {

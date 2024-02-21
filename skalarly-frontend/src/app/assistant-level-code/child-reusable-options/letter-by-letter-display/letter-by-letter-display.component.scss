@@ -1,5 +1,7 @@
 @use '../../universal-reusable-styles/responsive-mixin' as responsive;
 @use '../../universal-reusable-styles/common' as universial;
+@use '../../universal-reusable-styles/one-by-one' as loop;
+
 div{
   @include universial.common(flex, row)
 }
@@ -37,25 +39,9 @@ $Bounce: (
     }
   }
   animation: #{$name} 1s ease-in-out forwards;
-}
-
-@keyframes glow-animation {
-  from { opacity: 0; transform: translateX(-100%); }
-  to { opacity: 1; transform: translateX(0); }
-}
-  @mixin animationEnter($delay) {
-    animation: glow-animation 0.25s $delay forwards;
-    opacity: 0;
-    background: linear-gradient(45deg, var(--firstChoice), var(--secondChoice));
-    transition: background 0.3s, color 0.3s;
-    background-clip: text;
-    white-space: nowrap;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
- 
+} 
   .animations{
-    @include animationEnter(0.5s);
+    @include loop.animationEnter(0.5s);
   }
   /* Apply the mixin to each class */
   .magical-letterpulse {

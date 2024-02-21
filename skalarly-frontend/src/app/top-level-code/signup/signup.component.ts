@@ -31,9 +31,8 @@ import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatDividerModule } from '@angular/material/divider'
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatIconModule} from '@angular/material/icon';
-import {MatMenuModule} from '@angular/material/menu'
+import { MatMenuModule } from '@angular/material/menu'
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -55,7 +54,6 @@ import { ImagePreviewComponent } from 'src/app/assistant-level-code/child-reusab
     ImagePreviewComponent,
     MatDividerModule,
     MatButtonModule,
-    MatDatepickerModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,

@@ -1,14 +1,12 @@
 # Build Frontend SSR & static assets
 FROM node:20.10.0 as frontend-build
-WORKDIR /app/frontend
+WORKDIR /app/skalarly-frontend
 COPY skalarly-frontend/package*.json ./
 
 RUN npm install --only=production
 # Installing Angular CLI temporarily for the build process
-RUN npm install @angular/cli
 COPY skalarly-frontend/ ./
-RUN npm run build:ssr
-RUN npm install @angular/cli
+RUN npm run build
 
 # Build Backend
 FROM node:20.10.0 as backend-build
@@ -27,9 +25,9 @@ COPY --from=backend-build /app/backend/node_modules /app/backend/node_modules
 COPY --from=frontend-build /app/skalarly-frontend/dist /app/backend/public
 COPY --from=frontend-build /app/skalarly-frontend/dist/skalarly-frontend /app/backend/dist
 
-EXPOSE 3000
+EXPOSE 4200
 
 ENV NODE_ENV production
 
-# Start the server with SSR
-CMD ["node", "backend/dist/skalarly-fs/server/main.js"]
+# Start the unified server 
+CMD ["node", "server.js"]

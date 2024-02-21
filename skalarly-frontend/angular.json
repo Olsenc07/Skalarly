@@ -3,22 +3,26 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "skalarly-fs": {
+    "skalarly-frontend": {
       "projectType": "application",
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "aot": true,
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.cjs"
+            },
             "allowedCommonJsDependencies": [],
-            "outputPath": "dist/skalarly-frontend",
+            "outputPath": "../dist/skalarly-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -78,10 +82,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "skalarly-fs:build:production"
+              "buildTarget": "skalarly-frontend:build:production"
             },
             "development": {
-              "buildTarget": "skalarly-fs:build:development"
+              "buildTarget": "skalarly-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -89,7 +93,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "skalarly-fs:build"
+            "buildTarget": "skalarly-frontend:build"
           }
         },
         "test": {
@@ -121,8 +125,8 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/server",
-            "main": "server.ts",
+            "outputPath": "../dist/skalarly-frontend/server",
+            "main": "src/main.server.ts",
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss"
           },
@@ -134,7 +138,9 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "sourceMap": false,
+              "optimization": true
             },
             "development": {
               "buildOptimizer": false,
@@ -150,12 +156,12 @@
           "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "skalarly-fs:build:development",
-              "serverTarget": "skalarly-fs:server:development"
+              "browserTarget": "skalarly-frontend:build:development",
+              "serverTarget": "skalarly-frontend:server:development"
             },
             "production": {
-              "browserTarget": "skalarly-fs:build:production",
-              "serverTarget": "skalarly-fs:server:production"
+              "browserTarget": "skalarly-frontend:build:production",
+              "serverTarget": "skalarly-frontend:server:production"
             }
           },
           "defaultConfiguration": "production"
