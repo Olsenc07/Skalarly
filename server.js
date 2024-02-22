@@ -28,7 +28,6 @@ import accountManagementRoute from './backend/routes/account-management.js';
 import authorizeRoute from './backend/routes/authorize.js';
 import skalarsRoute from './backend/routes/skalars.js';
 import canadianRoute from './backend/routes/canadian-schools.js';
-console.log('imported', canadianRoute);
 const __filename = fileURLToPath(import.meta.url);
 console.log('hey', __filename);
 const __dirname = dirname(__filename);
@@ -90,7 +89,25 @@ const switchDatabase = async (req, res, next) => {
 import '@angular/compiler'; // dev
 import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
-import { AppServerPromise } from './dist/skalarly-frontend/server/main.js'
+
+const renderApp = async () => {
+  try {
+    const commonEngine = new CommonEngine();
+
+    const { AppServerPromise } = await import('./dist/skalarly-frontend/server/main.js');
+    const appRef = await AppServerPromise();
+    const html = await commonEngine.render({
+      bootstrap: appRef.component, 
+      ...options
+    });
+    res.send(html);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+};
+
+renderApp();
 
 // Serve static files and SSR
 const PORT = process.env.PORT || 4200;
@@ -101,7 +118,6 @@ app.use(express.static(DIST_FOLDER, { index: false }));
 
 app.get('*', async (req, res) => {
     try {
-      const commonEngine = new CommonEngine();
       const options = {
         providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
         url: req.url,
@@ -221,14 +237,9 @@ app.get('*', async (req, res) => {
 ,        
         documentFilePath: join(DIST_FOLDER, 'index.html'),
       };
-      const html = await commonEngine.render({
-        bootstrap: AppServerPromise(), 
-        ...options
-      });
-      res.send(html);
-    } catch (err) {
+     } catch (err) {
       console.error(err);
-      res.status(500).send('Server error');
+      res.status(500).send('Static files error');
     }
   });
   app.use((error, req, res, next) => {
