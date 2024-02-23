@@ -17,3 +17,5 @@ export async function AppServerPromise(): Promise<ApplicationRef> {
     throw err;
   }
 }
+
+export default AppServerPromise

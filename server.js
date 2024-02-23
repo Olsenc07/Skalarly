@@ -90,24 +90,6 @@ import '@angular/compiler'; // dev
 import { CommonEngine } from '@angular/ssr';
 import { APP_BASE_HREF } from '@angular/common';
 
-const renderApp = async () => {
-  try {
-    const commonEngine = new CommonEngine();
-
-    const { AppServerPromise } = await import('./dist/skalarly-frontend/server/main.js');
-    const appRef = await AppServerPromise();
-    const html = await commonEngine.render({
-      bootstrap: appRef.component, 
-      ...options
-    });
-    res.send(html);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server error');
-  }
-};
-
-renderApp();
 
 // Serve static files and SSR
 const PORT = process.env.PORT || 4200;
@@ -233,10 +215,26 @@ app.get('*', async (req, res) => {
           </svg>
           <app-root></app-root>
           </body>
-        </html>`
-,        
+        </html>`,
         documentFilePath: join(DIST_FOLDER, 'index.html'),
       };
+      const renderApp = async (req, res) => {
+        try {
+          const commonEngine = new CommonEngine();
+      
+          const { default: AppServerPromise } = await import('./dist/skalarly-frontend/server/main.js');
+          const appRef = await AppServerPromise();
+          const html = await commonEngine.render({
+            bootstrap: appRef, 
+            ...options
+          });
+          res.send(html);
+        } catch (err) {
+          console.error(err);
+          res.status(500).send('Server error');
+        }
+      };
+      renderApp();
      } catch (err) {
       console.error(err);
       res.status(500).send('Static files error');
