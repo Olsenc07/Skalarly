@@ -226,9 +226,9 @@ app.get('*', async (req, res) => {
         documentFilePath: join(DIST_FOLDER, 'index.html'),
       };
           const commonEngine = new CommonEngine();
-          const { AppServerPromise } = await import('../skalarly-fs/dist/skalarly-frontend/server/main.js');
-
-          const appRef = await AppServerPromise();
+          const pathToMainJs = join(__dirname, '../skalarly-fs/dist/skalarly-frontend/server/main.js');
+          const { AppServerModulePromise } = await import(pathToMainJs);
+          const appRef = await AppServerModulePromise();
           const html = await commonEngine.render({
             bootstrap: appRef, 
             ...options
