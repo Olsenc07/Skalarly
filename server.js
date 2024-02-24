@@ -1,13 +1,15 @@
 // Backend SERVER NODE.JS Using ES6 module
 import dotenv from 'dotenv';
-if (process.env.NODE_ENV === 'development') {
     dotenv.config();
-  }
-const db_auth = process.env.MONGODB_AUTH;
-const db_content = process.env.MONGODB_CONTENT;
+
 import express from 'express';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
+const db_auth = process.env.MONGODB_AUTH;
+const db_content = process.env.MONGODB_CONTENT;
+console.log('a', db_auth);
+console.log('b', db_content);
+
 const apiLimiter = rateLimit({
     windowMs: 5 * 60 * 1000, // 5 minutes
     max: 7, // limit each IP to 7 requests per windowMs
@@ -21,36 +23,40 @@ import bodyParser from 'body-parser';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
-const mongooseAuth = mongoose.createConnection();
-const mongooseContent = mongoose.createConnection();
+
 // API Routes
 import accountManagementRoute from './backend/routes/account-management.js';
 import authorizeRoute from './backend/routes/authorize.js';
 import skalarsRoute from './backend/routes/skalars.js';
 import canadianRoute from './backend/routes/canadian-schools.js';
 const __filename = fileURLToPath(import.meta.url);
-console.log('hey', __filename);
 const __dirname = dirname(__filename);
 //  Responsive DataBase connection
+// Initialize mongoose connections
+let mongooseAuth, mongooseContent;
+
 const connectAuthDB = async () => {
-    if (mongooseAuth.readyState === 0) {
+  if (!mongooseAuth || mongooseAuth.readyState === 0) {
     try {
-        await mongoose.connect(db_auth);
-        console.log('Connected to Auth database!');
+      mongooseAuth = mongoose.createConnection(db_auth);
+      console.log('Connected to Auth database!');
     } catch (error) {
-        console.error('MongoDB Auth connection error:', error);
+      console.error('MongoDB Auth connection error:', error);
     }
   }
-  };
-  // Connection to Content Database
-  const connectContentDB = async () => {
+};
+
+const connectContentDB = async () => {
+  if (!mongooseContent || mongooseContent.readyState === 0) {
     try {
-        await mongoose.connect(db_content);
-        console.log('Connected to Content database!');
+      mongooseContent = mongoose.createConnection(db_content);
+      console.log('Connected to Content database!');
     } catch (error) {
-        console.error('MongoDB Content connection error:', error);
+      console.error('MongoDB Content connection error:', error);
     }
-  };
+  }
+};
+
 // Middleware to switch databases
 const switchDatabase = async (req, res, next) => {
     try {
@@ -93,7 +99,8 @@ import { APP_BASE_HREF } from '@angular/common';
 
 // Serve static files and SSR
 const PORT = process.env.PORT || 4200;
-const DIST_FOLDER = join(__dirname, './dist/skalarly-frontend/browser');
+const DIST_FOLDER = join(__dirname, '../skalarly-fs/dist/skalarly-frontend/browser');
+console.log('hey 77', DIST_FOLDER);
 app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);
 app.use(express.static(DIST_FOLDER, { index: false }));
@@ -104,7 +111,7 @@ app.get('*', async (req, res) => {
         providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
         url: req.url,
         publicPath: DIST_FOLDER,
-        document: `DOCTYPE html>
+        document: `<!DOCTYPE html>
         <html lang="en">
         <head>
           <meta charset="utf-8">
@@ -218,23 +225,15 @@ app.get('*', async (req, res) => {
         </html>`,
         documentFilePath: join(DIST_FOLDER, 'index.html'),
       };
-      const renderApp = async (req, res) => {
-        try {
           const commonEngine = new CommonEngine();
-      
-          const { default: AppServerPromise } = await import('./dist/skalarly-frontend/server/main.js');
+          const { AppServerPromise } = await import('../skalarly-fs/dist/skalarly-frontend/server/main.js');
+
           const appRef = await AppServerPromise();
           const html = await commonEngine.render({
             bootstrap: appRef, 
             ...options
           });
           res.send(html);
-        } catch (err) {
-          console.error(err);
-          res.status(500).send('Server error');
-        }
-      };
-      renderApp();
      } catch (err) {
       console.error(err);
       res.status(500).send('Static files error');

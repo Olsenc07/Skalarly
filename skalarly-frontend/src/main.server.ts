@@ -3,9 +3,9 @@ import { AppComponent }from 'src/app/app.component';
 import { ServerModule } from '@angular/platform-server';
 import { bootstrapApplication } from '@angular/platform-browser';
 
-export async function AppServerPromise(): Promise<ApplicationRef> {
+ export function AppServerPromise(): Promise<ApplicationRef> {
   try {
-    const appRef = await bootstrapApplication(AppComponent, {
+    const appRef = bootstrapApplication(AppComponent, {
       providers: [
         ServerModule,
       ]
@@ -17,5 +17,3 @@ export async function AppServerPromise(): Promise<ApplicationRef> {
     throw err;
   }
 }
-
-export default AppServerPromise
