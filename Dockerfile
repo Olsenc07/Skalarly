@@ -3,7 +3,7 @@ FROM node:20.10.0 as frontend-build
 WORKDIR /app/skalarly-frontend
 COPY skalarly-frontend/package*.json ./
 
-RUN npm install --only=production
+RUN npm install --omit=dev
 COPY skalarly-frontend/ ./
 RUN npm run build
 
@@ -11,7 +11,7 @@ RUN npm run build
 FROM node:20.10.0 as backend-build
 WORKDIR /app/backend
 COPY backend/package*.json ./
-RUN npm install --only=production
+RUN npm install --omit=dev
 COPY backend/ ./
 
 # Set up the production environment

@@ -8,7 +8,7 @@
     "start": "ng serve",
     "build": "npm run build:server && npm run build:client",
     "build:client": "ng build --configuration=production",
-    "build:server": "ng run skalarly-frontend:server:production",
+    "build:server": "ng run skalarly-frontend:server",
     "build:client:dev": "ng build --configuration=development",
     "build:server:dev": "ng run skalarly-frontend:server:development && ng build --configuration=development",
     "serve:ssr": "node ../dist/skalarly-frontend/server/main.js",
