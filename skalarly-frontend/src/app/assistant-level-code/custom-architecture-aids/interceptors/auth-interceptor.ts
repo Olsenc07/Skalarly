@@ -17,31 +17,35 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
-  ): 
-  Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<any>> {
     const currentRoute: string | null = req.headers.get('X-Current-Route');
     if (currentRoute) {
       console.log('eazy access');
-      const newReq = req.clone({ headers: req.headers.delete('X-Current-Route') })
+      const newReq = req.clone({
+        headers: req.headers.delete('X-Current-Route')
+      });
       return next.handle(newReq);
     } else {
-    return this.authService.token$.pipe(
-      switchMap((token: string | null) => {
-        console.log('environmen 77t', environment.production);
-        const authReq = token ? req.clone({
-          setHeaders: {
-            Authorization: `Bearer ${token}`
-          }
-      }): req;
-      console.log('authReq', authReq);
-      return next.handle(authReq).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error('HTTP error occurred in auth-interceptor', error);
-        // Rethrow the error to propagate it to the caller
-        throw error
-      })
-    );
-  }))
-}
+      return this.authService.token$.pipe(
+        switchMap((token: string | null) => {
+          console.log('environmen 77t', environment.production);
+          const authReq = token
+            ? req.clone({
+                setHeaders: {
+                  Authorization: `Bearer ${token}`
+                }
+              })
+            : req;
+          console.log('authReq', authReq);
+          return next.handle(authReq).pipe(
+            catchError((error: HttpErrorResponse) => {
+              console.error('HTTP error occurred in auth-interceptor', error);
+              // Rethrow the error to propagate it to the caller
+              throw error;
+            })
+          );
+        })
+      );
+    }
   }
 }

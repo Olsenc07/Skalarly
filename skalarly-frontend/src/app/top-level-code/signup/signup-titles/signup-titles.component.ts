@@ -8,7 +8,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './signup-titles.component.scss'
 })
 export class SignupTitlesComponent {
-@Input() title: string = '';
-@Input() intro: string = '';
-
+  @Input() title: string = '';
+  @Input() intro: string = '';
 }

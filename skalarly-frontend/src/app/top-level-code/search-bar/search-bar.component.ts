@@ -1,7 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable, debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import {
+  Observable,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  switchMap
+} from 'rxjs';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -33,14 +45,18 @@ import { OrientationService } from 'src/app/assistant-level-code/custom-architec
 })
 export class SearchBarComponent implements OnInit {
   skalars$: Observable<SkalarInfoInterface[]>;
-  searchSkalarForm: FormControl<string | null> = new FormControl<string | null>('');
+  searchSkalarForm: FormControl<string | null> = new FormControl<string | null>(
+    ''
+  );
   // Child to parent for animation
   @Output() backEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   showResults: 'in' | 'out' = 'out';
 
   // eslint-disable-next-line no-unused-vars
-  constructor(private skalarsService: SkalarsService,
-    protected orientationService: OrientationService) {
+  constructor(
+    private skalarsService: SkalarsService,
+    protected orientationService: OrientationService
+  ) {
     this.skalars$ = this.searchSkalarForm.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),

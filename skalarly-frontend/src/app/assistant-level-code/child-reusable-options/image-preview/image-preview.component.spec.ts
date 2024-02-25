@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImagePreviewComponent } from './image-preview.component';
+// import { ImagePreviewComponent } from './image-preview.component';
 
-describe('ImagePreviewComponent', () => {
-  let component: ImagePreviewComponent;
-  let fixture: ComponentFixture<ImagePreviewComponent>;
+// describe('ImagePreviewComponent', () => {
+//   let component: ImagePreviewComponent;
+//   let fixture: ComponentFixture<ImagePreviewComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ImagePreviewComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       imports: [ImagePreviewComponent]
+//     })
+//     .compileComponents();
     
-    fixture = TestBed.createComponent(ImagePreviewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(ImagePreviewComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

@@ -1,9 +1,13 @@
-import { bootstrapApplication, provideClientHydration, withHttpTransferCacheOptions } from '@angular/platform-browser';
+import {
+  bootstrapApplication,
+  provideClientHydration,
+  withHttpTransferCacheOptions
+} from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { provideRouter, withViewTransitions } from '@angular/router';
-import { importProvidersFrom} from '@angular/core';
+import { importProvidersFrom } from '@angular/core';
 
 import { AppComponent } from './app/app.component';
 import { AuthInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/auth-interceptor';
@@ -22,18 +26,14 @@ bootstrapApplication(AppComponent, {
       useClass: ErrorInterceptor,
       multi: true
     },
-    provideRouter(
-      routes,
-      withViewTransitions()
-    ), 
+    provideRouter(routes, withViewTransitions()),
     provideAnimationsAsync(),
-    importProvidersFrom(
-      HttpClientModule,
-      BrowserAnimationsModule
-    ),    
-    provideClientHydration(withHttpTransferCacheOptions({
-      includePostRequests: true
-    }))
+    importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
+    provideClientHydration(
+      withHttpTransferCacheOptions({
+        includePostRequests: true
+      })
+    )
   ]
 })
   .then((started) => {

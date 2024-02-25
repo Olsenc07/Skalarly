@@ -8,6 +8,4 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
   styleUrl: './skeleton-loader-signup.component.scss',
   imports: [NgxSkeletonLoaderModule]
 })
-export class SkeletonLoaderSignupComponent {
-
-}
+export class SkeletonLoaderSignupComponent {}

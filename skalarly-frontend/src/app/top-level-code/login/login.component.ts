@@ -1,5 +1,14 @@
-
-import { Component, OnInit, ChangeDetectionStrategy, Inject, signal, PLATFORM_ID, WritableSignal, afterNextRender, AfterRenderPhase } from '@angular/core';
+import {
+  AfterRenderPhase,
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
+  WritableSignal,
+  afterNextRender,
+  signal
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { LetterByLetterComponent } from '../../assistant-level-code/child-reusable-options/letter-by-letter-display/letter-by-letter-display.component';
 import { LoginLogicComponent } from './login-logic/login-logic.component';
@@ -36,7 +45,7 @@ import { LoginSpecificService } from 'src/app/assistant-level-code/custom-archit
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
-   // mobile first
+  // mobile first
   orientation: WritableSignal<boolean> = signal(true);
   // animation based
   nextAnimations: boolean = false;
@@ -46,22 +55,25 @@ export class LoginComponent {
   welcome: string = 'Welcome To Skalarly';
 
   constructor(
- private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
+    private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
     protected orientationService: OrientationService,
     private readonly router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    afterNextRender(() => {
-      if (isPlatformBrowser(this.platformId)) {
-        setTimeout(() => {
-          this.skalarlyState = 'rise';
-        }, 7000);
-      }
-      if (!this.orientationService.screen()) {
-        // Now you can use this.loginSpecificService
-        this.loginSpecificService.randomizePairs();
-      }
-  }, { phase: AfterRenderPhase.Read });
+    afterNextRender(
+      () => {
+        if (isPlatformBrowser(this.platformId)) {
+          setTimeout(() => {
+            this.skalarlyState = 'rise';
+          }, 7000);
+        }
+        if (!this.orientationService.screen()) {
+          // Now you can use this.loginSpecificService
+          this.loginSpecificService.randomizePairs();
+        }
+      },
+      { phase: AfterRenderPhase.Read }
+    );
   }
   navigate(): void {
     this.router.navigate(['/sign-up']);

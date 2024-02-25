@@ -1,6 +1,13 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, Observable, combineLatest, debounceTime, distinctUntilChanged, map  } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  map
+} from 'rxjs';
 import { BoldPipe } from '../../assistant-level-code/custom-architecture-aids/pipes/bold.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,7 +19,7 @@ import { type SkalarInfoInterface } from '../../assistant-level-code/custom-arch
   selector: 'app-skalar-card',
   templateUrl: './skalar-card.component.html',
   styleUrls: ['./skalar-card.component.scss'],
-  imports: [BoldPipe, MatButtonModule, MatCardModule, AsyncPipe],
+  imports: [BoldPipe, MatButtonModule, MatCardModule, AsyncPipe]
   // animations: [
   //   trigger('cardOptionsAnimation', [
   //     state('open', style({ height: '*' })), // Options are open
@@ -40,9 +47,13 @@ import { type SkalarInfoInterface } from '../../assistant-level-code/custom-arch
 })
 export class SkalarCardComponent implements OnChanges {
   // From search-bar
-  @Input() searchSkalar: FormControl<string | null> = new FormControl<string>('');
+  @Input() searchSkalar: FormControl<string | null> = new FormControl<string>(
+    ''
+  );
   @Input() skalarInfo!: SkalarInfoInterface;
-  @Input() skalars$: Observable<SkalarInfoInterface[]> = new  Observable<SkalarInfoInterface[]>;
+  @Input() skalars$: Observable<SkalarInfoInterface[]> = new Observable<
+    SkalarInfoInterface[]
+  >();
 
   // Define an initial list as a BehaviorSubject
   initialList$: BehaviorSubject<SkalarInfoInterface[]> = new BehaviorSubject<

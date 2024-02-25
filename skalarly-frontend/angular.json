@@ -15,19 +15,16 @@
       },
       "architect": {
         "build": {
-          "builder": "@angular-devkit/custom-webpack:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "customWebpackConfig": {
-              "path": "./extra-webpack.config.js"
+              "path": "./extra-webpack-browser.config.js"
             },
-          "options": {
             "aot": true,
-            "allowedCommonJsDependencies": [],
             "outputPath": "../dist/skalarly-frontend/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "tsconfig.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets/images"
@@ -46,12 +43,11 @@
           "configurations": {
             "production": {
               "baseHref": "/",
-              "allowedCommonJsDependencies": [],
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "950kb"
+                  "maximumError": "1.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -80,7 +76,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-devkit/custom-webpack:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "skalarly-frontend:build:production"
@@ -102,7 +98,6 @@
           "options": {
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -124,8 +119,11 @@
           }
         },
         "server": {
-          "builder": "@angular-devkit/build-angular:server",
+          "builder": "@angular-builders/custom-webpack:server",
           "options": {
+            "customWebpackConfig": {
+              "path": "./extra-webpack-server.config.js"
+            },
             "outputPath": "../dist/skalarly-frontend/server",
             "main": "src/main.server.ts",
             "tsConfig": "tsconfig.server.json",

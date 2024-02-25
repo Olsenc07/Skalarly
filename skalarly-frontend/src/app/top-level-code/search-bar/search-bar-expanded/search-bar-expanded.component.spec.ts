@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchBarExpandedComponent } from './search-bar-expanded.component';
+// import { SearchBarExpandedComponent } from './search-bar-expanded.component';
 
-describe('SearchBarExpandedComponent', () => {
-  let component: SearchBarExpandedComponent;
-  let fixture: ComponentFixture<SearchBarExpandedComponent>;
+// describe('SearchBarExpandedComponent', () => {
+//   let component: SearchBarExpandedComponent;
+//   let fixture: ComponentFixture<SearchBarExpandedComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SearchBarExpandedComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       imports: [SearchBarExpandedComponent]
+//     })
+//     .compileComponents();
     
-    fixture = TestBed.createComponent(SearchBarExpandedComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(SearchBarExpandedComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

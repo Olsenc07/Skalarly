@@ -51,7 +51,7 @@ router.get('/names', async (req, res) => {
         // Extract the names from the schoolTypeArray
         const schoolsData = schoolTypeArray.map(school => school.name);
         if (!schoolsData) {
-            return res.status(404).json({ message: `School ${name} not found` });
+            return res.status(404).json({ message: `School ${school.name} not found` });
         }
         console.log('Schools Data:', schoolsData);
 

@@ -1,15 +1,18 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
-  "extends": "./tsconfig.app.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist/skalarly-frontend/server",
     "target": "ES2022",
     "moduleResolution": "node",
     "module": "ES2022",
-    "types": ["node"]
+    "types": ["node"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "files": [
     "src/main.server.ts"
-  ]
+  ],
+  "exclude": ["node_modules"]
 }
 

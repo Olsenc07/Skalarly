@@ -11,7 +11,7 @@ import verifyEmail from '../middleware/verify-email.js';
 // Login
 // verify email can be done when seeing if email exist
 // could siplay hint or error saying to verify it
-router.post("/login", verifyEmail, async(reg, res, next) => {
+router.post("/login", verifyEmail, async(reg, res) => {
     let fetchedUser;
     await connectAuthDB();
     try{ 
@@ -58,7 +58,7 @@ router.post("/login", verifyEmail, async(reg, res, next) => {
 });
 
 // stayLoggedIn
-router.post("/stayLoggedIn",  async(reg, res, next) => {
+router.post("/stayLoggedIn",  async(reg, res) => {
     console.log('got the jam', reg.body.UserId);
    await Skalar.findOne({ _id: reg.body.UserId })
     .then(user => {
@@ -73,7 +73,7 @@ router.post("/stayLoggedIn",  async(reg, res, next) => {
         expiresIn: 2.88e+7,
         userId: fetchedUser._id
     });
-})  .catch(err => {
+})  .catch(() => {
      res.status(401).json({
         message: "Invalid authentication credentials!",
 

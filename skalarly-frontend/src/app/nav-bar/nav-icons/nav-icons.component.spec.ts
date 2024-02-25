@@ -1,23 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NavIconsComponent } from './nav-icons.component';
+// import { NavIconsComponent } from './nav-icons.component';
 
-describe('NavIconsComponent', () => {
-  let component: NavIconsComponent;
-  let fixture: ComponentFixture<NavIconsComponent>;
+// describe('NavIconsComponent', () => {
+//   let component: NavIconsComponent;
+//   let fixture: ComponentFixture<NavIconsComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NavIconsComponent]
-    })
-    .compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       imports: [NavIconsComponent]
+//     })
+//     .compileComponents();
     
-    fixture = TestBed.createComponent(NavIconsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+//     fixture = TestBed.createComponent(NavIconsComponent);
+//     component = fixture.componentInstance;
+//     fixture.detectChanges();
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });

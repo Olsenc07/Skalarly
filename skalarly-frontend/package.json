@@ -14,7 +14,7 @@
     "serve:ssr": "node ../dist/skalarly-frontend/server/main.js",
     "serve:ssr:dev": "npm run build:client:dev && npm run build:server:dev && node ../dist/skalarly-frontend/server/main.js",
     "deploy:ssr": "npm run build && npm run serve:ssr",
-    "lint": "ng lint",
+    "lint": "eslint . --ext .ts,.js",
     "test": "ng test",
     "e2e": "start-server-and-test serve http://localhost:4200 cypress:run",
     "analyze": "ng build --prod --stats-json && webpack-bundle-analyzer ../dist/skalarly-frontend/",
@@ -34,7 +34,7 @@
     "ngx-image-cropper": "^7.2.1",
     "ngx-skeleton-loader": "^8.1.0",
     "node": "^20.10.0",
-    "rxjs": "^7.4.0",
+    "rxjs": "^7.8.1",
     "tslib": "^2.6.2",
     "uuid": "^9.0.1",
     "zone.js": "^0.14.2"

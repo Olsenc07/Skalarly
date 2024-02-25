@@ -19,12 +19,37 @@ interface NavItem {
   styleUrl: './nav-icons.component.scss'
 })
 export class NavIconsComponent {
-  constructor( protected orientationService: OrientationService){}
+  constructor(protected orientationService: OrientationService) {}
   navIcon: NavItem[] = [
-    { url: '/institutions', activeIcon: 'stadium', defaultIcon: 'things_to_do', description: 'Schools' },
-    { url: '/connections', activeIcon: 'hub', defaultIcon: 'share', description: 'Network' },
-    { url: '/home', activeIcon: 'cottage', defaultIcon: 'home', description: 'Home' },
-    { url: '/messages', activeIcon: 'forum', defaultIcon: 'chat', description: 'Messages' },
-    { url: '/notifications', activeIcon: 'notifications_active', defaultIcon: 'notifications', description: 'Updates' },
+    {
+      url: '/institutions',
+      activeIcon: 'stadium',
+      defaultIcon: 'things_to_do',
+      description: 'Schools'
+    },
+    {
+      url: '/connections',
+      activeIcon: 'hub',
+      defaultIcon: 'share',
+      description: 'Network'
+    },
+    {
+      url: '/home',
+      activeIcon: 'cottage',
+      defaultIcon: 'home',
+      description: 'Home'
+    },
+    {
+      url: '/messages',
+      activeIcon: 'forum',
+      defaultIcon: 'chat',
+      description: 'Messages'
+    },
+    {
+      url: '/notifications',
+      activeIcon: 'notifications_active',
+      defaultIcon: 'notifications',
+      description: 'Updates'
+    }
   ];
 }

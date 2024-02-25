@@ -1,4 +1,10 @@
-import { Component, HostListener, Inject, PLATFORM_ID, type OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  Inject,
+  type OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import { NgFor, NgIf, isPlatformBrowser } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -14,7 +20,7 @@ import { type PostInterface } from 'src/app/assistant-level-code/custom-architec
 export class SpecificFeedPageComponent implements OnInit {
   posts: PostInterface[] | undefined;
 
-  constructor( @Inject(PLATFORM_ID) private platformId: Object){}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
   ngOnInit(): void {
     // fetch posts
     console.log('posts');
@@ -24,23 +30,23 @@ export class SpecificFeedPageComponent implements OnInit {
   onWindowScroll() {
     // Add logic to show/hide the scroll button based on scroll position
     if (isPlatformBrowser(this.platformId)) {
-    const scrollToTopElement: HTMLElement | null =
-      document.getElementById('scrollToTop');
-    if (scrollToTopElement) {
-      if (window.scrollY > 100) {
-        // Adjust this value based on your needs
-        scrollToTopElement.style.display = 'block';
-      } else {
-        scrollToTopElement.style.display = 'none';
+      const scrollToTopElement: HTMLElement | null =
+        document.getElementById('scrollToTop');
+      if (scrollToTopElement) {
+        if (window.scrollY > 100) {
+          // Adjust this value based on your needs
+          scrollToTopElement.style.display = 'block';
+        } else {
+          scrollToTopElement.style.display = 'none';
+        }
       }
     }
-  }
   }
 
   // scroll to top
   scrollToTop(): void {
     if (isPlatformBrowser(this.platformId)) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 

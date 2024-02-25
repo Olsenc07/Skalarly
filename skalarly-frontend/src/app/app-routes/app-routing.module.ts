@@ -1,8 +1,7 @@
-import { Routes, UrlTree } from '@angular/router';
+import { Routes, UrlSerializer, UrlTree } from '@angular/router';
 import { AuthGuard } from './route-guards/auth.guard';
 import { ConfirmGuard } from './route-guards/confirm.guard';
 import { SaveSignUpGuard } from './route-guards/signup-guard';
-import { UrlSerializer } from '@angular/router';
 import { UserProfileResolver } from '../assistant-level-code/custom-architecture-aids/resolvers/skalar-info-resolver.component';
 import { inject } from '@angular/core';
 

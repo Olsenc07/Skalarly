@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit, PLATFORM_ID } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import {
   FormControl,
-  ReactiveFormsModule,
   FormGroup,
+  ReactiveFormsModule,
   ValidationErrors,
   Validators
 } from '@angular/forms';
@@ -12,9 +19,11 @@ import type {
 } from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
 import {
   Subject,
+  Subscription,
   combineLatest,
+  map,
   takeUntil,
-  tap, map, Subscription
+  tap
 } from 'rxjs';
 import { ReusableInputDynamicComponent } from '../../assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-dynamic/reusable-input-dynamic.component';
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service';
@@ -30,9 +39,9 @@ import { OrientationService } from 'src/app/assistant-level-code/custom-architec
 import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton-loader-signup.component';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { MatDividerModule } from '@angular/material/divider'
-import { MatIconModule} from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu'
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -44,12 +53,11 @@ import { isPlatformBrowser } from '@angular/common';
 import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
 import { ImagePreviewComponent } from 'src/app/assistant-level-code/child-reusable-options/image-preview/image-preview.component';
 
-
 @Component({
   standalone: true,
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
-  imports: [  
+  imports: [
     ErrorPipe,
     ImagePreviewComponent,
     MatDividerModule,
@@ -66,27 +74,26 @@ import { ImagePreviewComponent } from 'src/app/assistant-level-code/child-reusab
     ReusableInputDynamicComponent,
     SkeletonLoaderSignupComponent,
     SignupTitlesComponent,
-    HttpClientModule,
+    HttpClientModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-
 export class SignUpComponent implements OnInit, OnDestroy {
   userInteracted: boolean = false;
   title: string = 'Where is your institution located?';
   intro: string = "Let's find where you study";
 
   title2: string = 'Provide an email that is recognized by your school.';
-  intro2: string = "Validate enrollment";
+  intro2: string = 'Validate enrollment';
 
   title3: string = 'This cannot be changed later.';
-  intro3: string = "Choose a unique username";
+  intro3: string = 'Choose a unique username';
 
   title4: string = 'This will be displayed on your profile.';
-  intro4: string = "Basic information";
+  intro4: string = 'Basic information';
 
   title5: string = 'This is used to help connect you with others.';
-  intro5: string = "Main focuses";
+  intro5: string = 'Main focuses';
 
   selectedFile: File | undefined;
   imagePreview: string | ArrayBuffer | null = '';
@@ -108,8 +115,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
     sport: new FormControl<SkalarInfoInterface['sport']>([]),
     major: new FormControl<SkalarInfoInterface['major']>([]),
     minor: new FormControl<SkalarInfoInterface['minor']>([]),
-    completedCourses: new FormControl<SkalarInfoInterface['completedCourses']>([]),
-    pursuingCourses: new FormControl<SkalarInfoInterface['pursuingCourses']>([]),
+    completedCourses: new FormControl<SkalarInfoInterface['completedCourses']>(
+      []
+    ),
+    pursuingCourses: new FormControl<SkalarInfoInterface['pursuingCourses']>(
+      []
+    ),
     photo: new FormControl<SkalarInfoInterface['photo']>(''),
     name: new FormControl<SkalarInfoInterface['name']>('', [
       Validators.required
@@ -140,13 +151,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
       webpages: new FormControl<Array<string>>([''])
     });
     this.signUpForm = new FormGroup({
-      username: new FormControl<InitialAccountInterface['username']>(
-        '',
-        [
-          Validators.required,
-          emailUsernameValidator(this.accountManagementService, true)
-        ]
-      ),
+      username: new FormControl<InitialAccountInterface['username']>('', [
+        Validators.required,
+        emailUsernameValidator(this.accountManagementService, true)
+      ]),
       email: new FormControl<InitialAccountInterface['email']>(
         '',
         Validators.compose([
@@ -159,20 +167,17 @@ export class SignUpComponent implements OnInit, OnDestroy {
           )
         ])
       ),
-      password: new FormControl<InitialAccountInterface['password']>(
-        '',
-        {
-          validators: [Validators.required],
-          asyncValidators: [passwordValidator()]
-        }
-      )
+      password: new FormControl<InitialAccountInterface['password']>('', {
+        validators: [Validators.required],
+        asyncValidators: [passwordValidator()]
+      })
     });
     this.personalForm = new FormGroup({});
     this.activatedSubscription$ = this.signUpForm.valueChanges.subscribe(() => {
       this.userInteracted = true;
-      })
+    });
   }
- 
+
   getRouteGuardStatus(): boolean {
     return this.userInteracted;
   }
@@ -187,8 +192,9 @@ export class SignUpComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.titleService.setTitle('Skalarly - Signup');
     // intitially call canada data
-    this.institutionInfoService
-    .getStateProvinces(this.instituitionForm.get('country')!.value);
+    this.institutionInfoService.getStateProvinces(
+      this.instituitionForm.get('country')!.value
+    );
     // intitial call
     combineLatest([
       this.signUpForm.get('username')!.valueChanges,
@@ -205,60 +211,68 @@ export class SignUpComponent implements OnInit, OnDestroy {
       // eslint-disable-next-line rxjs-angular/prefer-async-pipe
       .subscribe();
   }
-handleValueChange(controlName: string, value: string): void {
+  handleValueChange(controlName: string, value: string): void {
     const control = this.signUpForm.get(controlName);
     control?.setValue(value);
   }
-updateCountrySelection(country: string): void {
-  this.updateFormValue('country', country);
-  if (country) {
-    console.log('1', country);
-    this.institutionInfoService.getStateProvinces(country);
+  updateCountrySelection(country: string): void {
+    this.updateFormValue('country', country);
+    if (country) {
+      console.log('1', country);
+      this.institutionInfoService.getStateProvinces(country);
+    }
   }
-}
-regionSelection(stateProvince: string): void {
-  this.updateFormValue('region', stateProvince);
+  regionSelection(stateProvince: string): void {
+    this.updateFormValue('region', stateProvince);
     this.institutionInfoService.getSchoolTypes();
-}
-typeInstituition(type: string): void {
-  this.updateFormValue('type', type);
-  if(type){
-    this.institutionInfoService.getSchoolNames(this.instituitionForm.get('region')!.value, type)
   }
-
-}
-chosenInstituition(institution: string): void {
-  this.updateFormValue('institution', institution);
-  if(institution){
-    this.institutionInfoService.
-    getSchoolEmails(this.instituitionForm.get('region')!.value, this.instituitionForm.get('type')!.value, institution);
+  typeInstituition(type: string): void {
+    this.updateFormValue('type', type);
+    if (type) {
+      this.institutionInfoService.getSchoolNames(
+        this.instituitionForm.get('region')!.value,
+        type
+      );
+    }
   }
-}
-// 2nd page
- emailFiller(): string {
-  const institutionValue: string = this.infoForm.get('institution')?.value ?? null;
-  if (institutionValue.length > 0) {
-    return `Academic email from ${institutionValue}`;
-  } else {
-    return `Academic email from ...`;
+  chosenInstituition(institution: string): void {
+    this.updateFormValue('institution', institution);
+    if (institution) {
+      this.institutionInfoService.getSchoolEmails(
+        this.instituitionForm.get('region')!.value,
+        this.instituitionForm.get('type')!.value,
+        institution
+      );
+    }
   }
-}
-getStyledEmailHint(): string {
-  if(this.institutionInfoService.instEmails()){
-  const emails: string = this.institutionInfoService.instEmails().join(', '); 
-  return `Validate email extensions include: ${emails} `;
-  } else {
-    return `This school doesn't have any emails to validate from.`
+  // 2nd page
+  emailFiller(): string {
+    const institutionValue: string =
+      this.infoForm.get('institution')?.value ?? null;
+    if (institutionValue.length > 0) {
+      return `Academic email from ${institutionValue}`;
+    } else {
+      return `Academic email from ...`;
+    }
   }
-}
- updateUrl(socialLinks: string[]): void{
+  getStyledEmailHint(): string {
+    if (this.institutionInfoService.instEmails()) {
+      const emails: string = this.institutionInfoService
+        .instEmails()
+        .join(', ');
+      return `Validate email extensions include: ${emails} `;
+    } else {
+      return `This school doesn't have any emails to validate from.`;
+    }
+  }
+  updateUrl(socialLinks: string[]): void {
     console.log('webpage', socialLinks);
     this.infoForm.get('webPages')?.setValue(socialLinks);
   }
-  clearPreview(): void{
-  this.instituitionForm.get('photo')?.reset();
+  clearPreview(): void {
+    this.instituitionForm.get('photo')?.reset();
   }
-  editPreview(editedPhoto: string): void{
+  editPreview(editedPhoto: string): void {
     this.infoForm.get('photo')?.setValue(editedPhoto);
   }
   updateFormValue(fieldName: string, value: any): void {
@@ -277,7 +291,7 @@ getStyledEmailHint(): string {
   // toggle password visbility
   toggleVisibility(): void {
     this.visiblePassword = !this.visiblePassword;
-  } 
+  }
   // save initial credentials
   firstSubmit(): void {
     // if successfully saved
@@ -311,84 +325,87 @@ getStyledEmailHint(): string {
     });
   }
 
-// Account Info
-isValid = false; // Validity status
+  // Account Info
+  isValid = false; // Validity status
 
-onValueChange(value: string) {
-  // Perform validation and update isValid
-  this.isValid = this.validateValue(value);
-}
-
-validateValue(value: string): boolean {
-  // Custom validation logic
-  return value.length > 3; // Example: valid if length is greater than 3
-}
-// Inside your Angular component
-onFileSelected(event: Event) {
-  if (isPlatformBrowser(this.platformId)) {
-  const inputElement = event.target as HTMLInputElement;
-  if (inputElement && inputElement.files && inputElement.files.length > 0) {
-    const file = inputElement.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result;
-    };
-    reader.readAsDataURL(file);
-  }
-}
-}
-onCameraClick() {
-  if (isPlatformBrowser(this.platformId)) {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    console.error('Media Devices API or getUserMedia is not supported in this browser.');
-    return;
+  onValueChange(value: string) {
+    // Perform validation and update isValid
+    this.isValid = this.validateValue(value);
   }
 
-  navigator.mediaDevices.getUserMedia({ video: true })
-    .then(stream => {
-      // You'll need to handle the stream here.
-      // For example, you could display it in a video element for the user to take a picture.
-    })
-    .catch(err => {
-      console.error('Error accessing the camera:', err);
-    });
+  validateValue(value: string): boolean {
+    // Custom validation logic
+    return value.length > 3; // Example: valid if length is greater than 3
   }
-}
+  // Inside your Angular component
+  onFileSelected(event: Event) {
+    if (isPlatformBrowser(this.platformId)) {
+      const inputElement = event.target as HTMLInputElement;
+      if (inputElement && inputElement.files && inputElement.files.length > 0) {
+        const file = inputElement.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.imagePreview = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+  onCameraClick() {
+    if (isPlatformBrowser(this.platformId)) {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        console.log(
+          'Media Devices API or getUserMedia is not supported in this browser.'
+        );
+        return;
+      }
+
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          // You'll need to handle the stream here.
+          // For example, you could display it in a video element for the user to take a picture.
+        })
+        .catch((err) => {
+          console.log('Error accessing the camera:', err);
+        });
+    }
+  }
 
   // final submit
   addSkalarInfo(): void {
     this.router.navigate(['/home']);
 
-  //   this.accountManagementService
-  //     .createAccount(this.infoForm)
-  //     .pipe(takeUntil(this.skalarInfoSub$))
-  //     .subscribe((success) => {
-  //       if (success) {
-  //         const messageWithIcon = `
-  //   <h2>
-  //   <i class="fa-solid fa-graduation-cap"></i>
-  //     Welcome to Skalarly!
-  //     <i class="fa-solid fa-graduation-cap"></i>
-  //   </h2>
-  //   <br>
-  //  <span>
-  //  We're delighted to have you kick-start your academic journey with us. 
-  //  Here you're an esteemed member of our vibrant educational community.
-  //   Get ready to connect with fellow learners, explore enriching content, and embark on a shared academic adventure.
-  //  </span> `;
-  //         this.updateProgress(100);
-  //         // display message
-  //         this.snackBar.open(messageWithIcon, '', {
-  //           duration: 5000,
-  //           panelClass: ['snackbar-cleared-icon'] // add styling
-  //         });
-  //         // navigate to home page
-  //         this.router.navigate(['/home']);
-  //       } else {
-  //         // handle failed creation
-  //         // try again
-  //       }
-  //     });
+    //   this.accountManagementService
+    //     .createAccount(this.infoForm)
+    //     .pipe(takeUntil(this.skalarInfoSub$))
+    //     .subscribe((success) => {
+    //       if (success) {
+    //         const messageWithIcon = `
+    //   <h2>
+    //   <i class="fa-solid fa-graduation-cap"></i>
+    //     Welcome to Skalarly!
+    //     <i class="fa-solid fa-graduation-cap"></i>
+    //   </h2>
+    //   <br>
+    //  <span>
+    //  We're delighted to have you kick-start your academic journey with us.
+    //  Here you're an esteemed member of our vibrant educational community.
+    //   Get ready to connect with fellow learners, explore enriching content, and embark on a shared academic adventure.
+    //  </span> `;
+    //         this.updateProgress(100);
+    //         // display message
+    //         this.snackBar.open(messageWithIcon, '', {
+    //           duration: 5000,
+    //           panelClass: ['snackbar-cleared-icon'] // add styling
+    //         });
+    //         // navigate to home page
+    //         this.router.navigate(['/home']);
+    //       } else {
+    //         // handle failed creation
+    //         // try again
+    //       }
+    //     });
   }
 
   // clean up
@@ -400,7 +417,7 @@ onCameraClick() {
     if (this.activatedSubscription$) {
       this.activatedSubscription$.unsubscribe();
     }
-    this.values$.next(); 
+    this.values$.next();
     this.values$.complete();
     this.accountSub$.next();
     this.accountSub$.complete();

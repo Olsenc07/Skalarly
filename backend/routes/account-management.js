@@ -25,7 +25,7 @@ router.get('/uniqueUserName', async(req,res) => {
             })
         })
 // verify account once 7 digits have been imported
-router.get('/verifyAccount', async (req, res, next) => {
+router.get('/verifyAccount', async (req) => {
     const token = req.query.token;
     const user = await Skalar.findOne({ emailToken: token });
     if (user) {
@@ -43,7 +43,7 @@ router.get('/verifyAccount', async (req, res, next) => {
 });
 
 //delete uncompleted signup
-router.delete('deleteUncompletedSignUp', async (req, res, next) => {
+router.delete('deleteUncompletedSignUp', async (req, res) => {
     try {
         const email = req.body.email; // Get email from the request body
     

@@ -7,6 +7,4 @@ import { Component } from '@angular/core';
   templateUrl: './connections.component.html',
   styleUrl: './connections.component.scss'
 })
-export class ConnectionsComponent {
-
-}
+export class ConnectionsComponent {}

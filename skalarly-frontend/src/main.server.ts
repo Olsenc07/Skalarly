@@ -1,14 +1,12 @@
 import { ApplicationRef } from '@angular/core';
-import { AppComponent }from 'src/app/app.component'; 
+import { AppComponent } from './app/app.component';
 import { ServerModule } from '@angular/platform-server';
 import { bootstrapApplication } from '@angular/platform-browser';
 
- export function AppServerPromise(): Promise<ApplicationRef> {
+export function AppServerPromise(): Promise<ApplicationRef> {
   try {
     const appRef = bootstrapApplication(AppComponent, {
-      providers: [
-        ServerModule,
-      ]
+      providers: [ServerModule]
     });
     console.log('standalone');
     return appRef;

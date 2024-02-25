@@ -1,6 +1,4 @@
-import type {
-  InitialAccountInterface,
-} from '../interfaces/skalars-info-interface';
+import type { InitialAccountInterface } from '../interfaces/skalars-info-interface';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { FormGroup } from '@angular/forms';
@@ -23,10 +21,11 @@ export class AccountManagementService {
     private snackBar: MatSnackBar,
     protected institutionInfoService: InstitutionInfoService,
     private router: Router
-  ) { 
+  ) {
     this.headers = new HttpHeaders({
-    'X-Current-Route': this.router.url 
-  });}
+      'X-Current-Route': this.router.url
+    });
+  }
   //   make sure username and email aren't used yet
   uniqueEmail(email: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
@@ -36,18 +35,18 @@ export class AccountManagementService {
       {
         headers: this.headers,
         params: queryParams
-       }
+      }
     );
   }
   uniqueUserName(username: string): Observable<boolean> {
-    console.log('username',username)
+    console.log('username', username);
     const queryParams: HttpParams = new HttpParams({ fromString: username });
     return this.http.get<boolean>(
-      this.apiUrl + '/accountManagement/uniqueUserName', 
+      this.apiUrl + '/accountManagement/uniqueUserName',
       {
         headers: this.headers,
         params: queryParams
-       }
+      }
     );
   }
 
@@ -57,11 +56,11 @@ export class AccountManagementService {
     });
     return this.http
       .post<InitialAccountInterface>(
-        this.apiUrl + '/accountManagement/createAccount', 
+        this.apiUrl + '/accountManagement/createAccount',
         {
           headers: this.headers,
           params: queryParams
-         }
+        }
       )
       .pipe(
         switchMap((data: InitialAccountInterface) => {
@@ -79,11 +78,11 @@ export class AccountManagementService {
     // matches a seven digit code sent to email
     const queryParams: HttpParams = new HttpParams({ fromString: code });
     return this.http.get<boolean>(
-      this.apiUrl + '/accountManagement/validateEmail', 
+      this.apiUrl + '/accountManagement/validateEmail',
       {
         headers: this.headers,
         params: queryParams
-       }
+      }
     );
   }
   addSkalarInfo(infoForm: FormGroup): Observable<boolean> {
@@ -93,11 +92,11 @@ export class AccountManagementService {
     // i wamnt to pass the values in the form group as well as the username that was saved from create Account function
     return this.http
       .post<InitialAccountInterface>(
-        this.apiUrl + '/accountManagement/createAccount', 
+        this.apiUrl + '/accountManagement/createAccount',
         {
           headers: this.headers,
           params: queryParams
-         }
+        }
       )
       .pipe(
         map((data: InitialAccountInterface) => {
@@ -121,15 +120,15 @@ export class AccountManagementService {
     <i class="fa-regular fa-circle-check"></i> 
     </span>`;
     const deleteUrl =
-      this.apiUrl + '/accountManagement/deleteUncompletedSignUp'
+      this.apiUrl + '/accountManagement/deleteUncompletedSignUp';
 
     if (typeof this.newAccountEmail === 'string') {
       // Assuming newAccount$ contains the necessary data for the request
       this.http
         .delete(deleteUrl, {
-          body: { email: this.newAccountEmail},
-            headers: this.headers
-          })
+          body: { email: this.newAccountEmail },
+          headers: this.headers
+        })
         .subscribe(() => {
           // handle success
           this.snackBar.open(messageWithIcon, '', {

@@ -5,7 +5,7 @@ import { dialog } from '../../custom-architecture-aids/animations/dialog-animati
 @Component({
   selector: 'app-error-handler-parent',
   standalone: true,
-  imports: [ ErrorHandlerComponent],
+  imports: [ErrorHandlerComponent],
   templateUrl: './error-handler-parent.component.html',
   animations: [dialog]
 })

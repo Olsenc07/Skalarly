@@ -14,8 +14,8 @@ import { FormControl } from '@angular/forms';
   imports: [MatButtonModule, NgIf, AsyncPipe]
 })
 export class EditProfileComponent {
-  // will reset to old value 
-  name = new FormControl('current value', {nonNullable: true});
+  // will reset to old value
+  name = new FormControl('current value', { nonNullable: true });
   change$: Observable<boolean> = new Observable<boolean>();
   constructor(
     private editingService: EditingService,

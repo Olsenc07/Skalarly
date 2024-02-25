@@ -21,12 +21,18 @@
     "lib": [
       "es2022",
       "dom"
-    ],
-    "types": ["node"]
+    ]
   },
+  "files": [
+    "src/main.ts"
+  ],
   "exclude": [
     "src/test.ts",
-    "src/**/*.spec.ts"
+    "src/**/*.spec.ts",
+    "**/node_modules/**",
+  ],
+  "include": [
+    "src/**/*.ts"
   ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -21,5 +21,5 @@ export interface ProvinceSchoolTypes {
 
 export interface basicinfo {
   name: string;
-  emailExtensions: string[]
+  emailExtensions: string[];
 }

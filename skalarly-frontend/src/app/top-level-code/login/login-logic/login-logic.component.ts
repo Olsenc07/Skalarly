@@ -1,6 +1,26 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Observable, concat, debounceTime, distinctUntilChanged, of, map, startWith, switchMap } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit
+} from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+import {
+  Observable,
+  concat,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  startWith,
+  switchMap
+} from 'rxjs';
 import { AuthorizeService } from '../../../assistant-level-code/custom-architecture-aids/services/authorize.service';
 import { GlowBorderDirective } from '../../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
 import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
@@ -15,7 +35,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Router } from '@angular/router';
 
-import type { EmailInterface, PasswordInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/login-interface';
+import type {
+  EmailInterface,
+  PasswordInterface
+} from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/login-interface';
 
 @Component({
   selector: 'app-login-logic',
@@ -51,7 +74,7 @@ export class LoginLogicComponent implements OnInit {
 
   visiblePassword: boolean = false;
   stayLoggedIn: boolean = false;
- 
+
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
     private readonly router: Router,
@@ -170,16 +193,16 @@ export class LoginLogicComponent implements OnInit {
     this.progressState = 'loading';
     this.cdr.detectChanges(); // Detect changes immediately
 
-  setTimeout(() => {
-    this.progressState = 'declined';
-    this.cdr.detectChanges(); // Detect changes when state changes to 'declined'
-
     setTimeout(() => {
-      this.progressState = 'default';
-      this.cdr.detectChanges(); // Detect changes when state resets to 'default'
-    }, 2000); // Wait 3 seconds before returning to default
-  }, 2000);
-   // 2 seconds to go to 'declined'
+      this.progressState = 'declined';
+      this.cdr.detectChanges(); // Detect changes when state changes to 'declined'
+
+      setTimeout(() => {
+        this.progressState = 'default';
+        this.cdr.detectChanges(); // Detect changes when state resets to 'default'
+      }, 2000); // Wait 3 seconds before returning to default
+    }, 2000);
+    // 2 seconds to go to 'declined'
     // when success this.progressState = 'complete';
 
     // this.authorizeService
@@ -213,21 +236,21 @@ export class LoginLogicComponent implements OnInit {
     //     }
     //   });
   }
-getIconConfig(progressState: string): string{
+  getIconConfig(progressState: string): string {
     switch (progressState) {
       case 'default':
-        return '' ;
+        return '';
       case 'loading':
-        return  '' ;
+        return '';
       case 'complete':
-        return 'fingerprint-border-approved' ;
-        case 'declined':
+        return 'fingerprint-border-approved';
+      case 'declined':
         return 'fingerprint-border-declined';
       default:
-        return  '';
+        return '';
     }
   }
-  
+
   // ability to login using enter click
   enterClicked(): void {
     if (this.loginForm.valid) {

@@ -1,32 +1,40 @@
 {
   "root": true,
-  "ignorePatterns": [
-    "projects/**/*"
-  ],
   "env": {
     "browser": true,
     "cypress/globals": true,
     "jasmine": true,
+    "es2022": true,
     "node": true
   },
+  "plugins": [
+    "@angular-eslint",
+    "cypress",
+    "rxjs-angular",
+    "jasmine",
+    "prettier",
+    "import"
+  ],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "/Users/chaseolsen/skalarly-MVP/skalarly-fs/skalarly-frontend/tsconfig.json",
-          "e2e/tsconfig.json"
+          "skalarly-frontend/tsconfig.json",
+          "skalarly-frontend/tsconfig.server.json"
+
         ],
-        "createDefaultProgram": true
+        "createDefaultProgram": true,
+        "sourceType": "module"
       },
       "extends": [
         "eslint:recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:cypress/recommended",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:node/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings"
       ],
       "rules": {
         "@angular-eslint/component-selector": [
@@ -55,26 +63,65 @@
             "allowSeparatedGroups": false
           }
         ],
-          // Override the "no-unused-vars" rule for constructors
         "no-unused-vars": [
           "error",
           {
-           "varsIgnorePattern": "^[A-Z][a-zA-Z]*$", // Ignores constructor names
-            "argsIgnorePattern": "^[a-z]" // Ignores parameters starting with a lowercase letter
+           "varsIgnorePattern": "^[A-Z][a-zA-Z]*$", 
+            "argsIgnorePattern": "^[a-z]" 
         }
        ],
-       "rxjs-angular/prefer-async-pipe": "error"
-      }
+       "rxjs-angular/prefer-async-pipe": "error",
+      "import/no-unresolved": "error",
+      "import/named": "error",
+      "import/namespace": "error",
+      "import/default": "error",
+      "import/export": "error",
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "never",
+          "jsx": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
+      ]
+    }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "plugins": ["cypress","rxjs-angular", "jasmine"],
+      "files": ["*.component.html"],
+      "extends": [
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ]
+    },
+    {
+      "files": ["*.html"],
+      "excludedFiles": ["*.component.html"],
       "extends": [
         "plugin:@angular-eslint/template/recommended"
       ],
       "rules": {
+        "@angular-eslint/template/no-negated-async": "error",
+        "@angular-eslint/template/accessibility-alt-text": "warn",
+        "@angular-eslint/template/click-events-have-key-events": "warn",
+        "@angular-eslint/template/mouse-events-have-key-events": "warn",
+        "@angular-eslint/template/no-any": "warn",
+        "@angular-eslint/template/no-distracting-elements": "warn"
+      }
+    },
+    {
+      "files": ["*.server.ts", "server/**/*.ts"], // Adjust the glob patterns to match your server-side files
+      "env": {
+        "node": true, // Enable Node environment
+        "browser": false // Disable Browser environment
+      },
+      "extends": [
+        "plugin:node/recommended" // Extend from Node.js recommended rules
+      ],
+      // Add any Node.js specific rules or overrides here
+      "rules": {
+        // Example: Override a rule specific to Node.js
+        "no-console": "off" // Assuming you allow console logs in Node.js environment
       }
     }
   ]

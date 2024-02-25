@@ -28,7 +28,6 @@ router.get('/skalarsInfo', async(req,res) => {
     // From Middleware
     const cancelNavigation = req.blocked;
     console.log('ID', idProfile);
-    console.log('filteredQuery', filteredQuery);
 
     if (cancelNavigation) {
         return res.status(400).json({ message: '' });

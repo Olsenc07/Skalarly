@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, of, shareReplay } from 'rxjs';
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -43,12 +43,9 @@ export class AuthorizeService {
   // search email on login
   searchEmails(email: string): Observable<boolean> {
     const queryParams: HttpParams = new HttpParams({ fromString: email });
-    return this.http.get<boolean>(
-      this.apiUrl + '/authorize/emailValidation',
-      {
-        params: queryParams
-      }
-    );
+    return this.http.get<boolean>(this.apiUrl + '/authorize/emailValidation', {
+      params: queryParams
+    });
   }
   // Login
   login(
@@ -59,10 +56,11 @@ export class AuthorizeService {
     const authData: any = { email, password, stayLoggedIn };
     console.log('stayLoggedIn', stayLoggedIn);
     this.http
-      .post<{ token: string; expiresIn: number; userId: string }>(
-        this.apiUrl + '/authorize/login', 
-        authData
-      )
+      .post<{
+        token: string;
+        expiresIn: number;
+        userId: string;
+      }>(this.apiUrl + '/authorize/login', authData)
       .subscribe({
         next: (response) => {
           if (response.token) {
@@ -102,10 +100,11 @@ export class AuthorizeService {
     const Id = this.userId;
     console.log('followed by userId', Id);
     const sub = this.http
-      .post<{ token: string; expiresIn: number; userId: string }>(
-        this.apiUrl +'/authorize/stayLoggedIn',
-        Id
-      )
+      .post<{
+        token: string;
+        expiresIn: number;
+        userId: string;
+      }>(this.apiUrl + '/authorize/stayLoggedIn', Id)
       .subscribe({
         next: (response) => {
           if (response.token) {
@@ -165,10 +164,11 @@ export class AuthorizeService {
     userId: string
   ): void {
     if (isPlatformBrowser(this.platformId)) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('expiration', expirationDate.toISOString());
-    localStorage.setItem('userId', userId);
-  }}
+      localStorage.setItem('token', token);
+      localStorage.setItem('expiration', expirationDate.toISOString());
+      localStorage.setItem('userId', userId);
+    }
+  }
   public getAuthData(): any {
     const token = localStorage.getItem('token');
     this.tokenSubject$.next(token);
@@ -177,29 +177,30 @@ export class AuthorizeService {
   // access removal
   private clearAuthData(): void {
     if (isPlatformBrowser(this.platformId)) {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expiration');
-    localStorage.removeItem('userId');
-  }}
+      localStorage.removeItem('token');
+      localStorage.removeItem('expiration');
+      localStorage.removeItem('userId');
+    }
+  }
 
   // clean up
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
-    this.currentRoute = document.URL;
-    console.log('current url', this.currentRoute);
-    if (
-      this.currentRoute !== 'http://localhost:4200/login' &&
-      this.currentRoute !== 'https://www.skalarly.com/login'
-    ) {
-      this.router.navigate(['/login']);
-    }
-    this.tokenSubject$.next(null);
-    this.isAuthenticated = false;
-    this.userId = null;
-    // change activity status to false
+      this.currentRoute = document.URL;
+      console.log('current url', this.currentRoute);
+      if (
+        this.currentRoute !== 'http://localhost:4200/login' &&
+        this.currentRoute !== 'https://www.skalarly.com/login'
+      ) {
+        this.router.navigate(['/login']);
+      }
+      this.tokenSubject$.next(null);
+      this.isAuthenticated = false;
+      this.userId = null;
+      // change activity status to false
 
-    // clear local storage
-    this.clearAuthData();
-  }
+      // clear local storage
+      this.clearAuthData();
+    }
   }
 }

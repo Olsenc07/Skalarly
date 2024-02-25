@@ -7,11 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-search-bar-expanded',
   standalone: true,
-  imports: [MatButtonModule, MatFormFieldModule,
-    MatIconModule, MatInputModule],
+  imports: [MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule],
   templateUrl: './search-bar-expanded.component.html',
   styleUrl: '../search-bar.component.scss'
 })
-export class SearchBarExpandedComponent {
-
-}
+export class SearchBarExpandedComponent {}

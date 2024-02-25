@@ -75,8 +75,8 @@ export class LetterByLetterComponent implements OnChanges {
   }
 
   letterAnimation(message: string): void {
-    const totalDuration: number = 1; 
-    const delayIncrement: number = totalDuration / message.length; 
+    const totalDuration: number = 1;
+    const delayIncrement: number = totalDuration / message.length;
     const letters: {
       letter: string;
       delay: number;
