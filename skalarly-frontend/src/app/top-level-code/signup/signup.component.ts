@@ -34,7 +34,7 @@ import { InstitutionInfoService } from '../../assistant-level-code/custom-archit
 import { passwordValidator } from '../../assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { ReusableInputsComponent } from '../../assistant-level-code/child-reusable-options/reusable-inputs/reusable-inputs.component';
 import { SignUpFormStateService } from '../../assistant-level-code/custom-architecture-aids/services/create-edit-account/signup-form-state.service';
-import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
+import { OrientationService } from '../../assistant-level-code/custom-architecture-aids/services/orientation.service';
 
 import { SkeletonLoaderSignupComponent } from './skeleton-loader-signup/skeleton-loader-signup.component';
 import { Router } from '@angular/router';
@@ -51,7 +51,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { HttpClientModule } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { SignupTitlesComponent } from './signup-titles/signup-titles.component';
-import { ImagePreviewComponent } from 'src/app/assistant-level-code/child-reusable-options/image-preview/image-preview.component';
+import { ImagePreviewComponent } from '../../assistant-level-code/child-reusable-options/image-preview/image-preview.component';
 
 @Component({
   standalone: true,

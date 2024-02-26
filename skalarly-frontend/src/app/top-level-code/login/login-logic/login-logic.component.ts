@@ -23,7 +23,7 @@ import {
 } from 'rxjs';
 import { AuthorizeService } from '../../../assistant-level-code/custom-architecture-aids/services/authorize.service';
 import { GlowBorderDirective } from '../../../assistant-level-code/custom-architecture-aids/directives/glow-border.directive';
-import { passwordValidator } from 'src/app/assistant-level-code/custom-architecture-aids/validators/password.validator';
+import { passwordValidator } from '../../../assistant-level-code/custom-architecture-aids/validators/password.validator';
 import { reusableLogicAnimations } from './../imports/animation-logic-imports';
 
 import { AsyncPipe, NgClass } from '@angular/common';
@@ -38,7 +38,7 @@ import { Router } from '@angular/router';
 import type {
   EmailInterface,
   PasswordInterface
-} from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/login-interface';
+} from '../../../assistant-level-code/custom-architecture-aids/interfaces/login-interface';
 
 @Component({
   selector: 'app-login-logic',

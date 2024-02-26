@@ -8,7 +8,7 @@ import {
 import { NgFor, NgIf, isPlatformBrowser } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { type PostInterface } from 'src/app/assistant-level-code/custom-architecture-aids/interfaces/post-interface';
+import { type PostInterface } from '../../../assistant-level-code/custom-architecture-aids/interfaces/post-interface';
 
 @Component({
   standalone: true,

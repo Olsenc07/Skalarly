@@ -7,12 +7,20 @@
     "moduleResolution": "node",
     "module": "ES2022",
     "types": ["node"],
+    "lib": ["ES2022", "ESNext"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
   "files": [
     "src/main.server.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "src/test.ts",
+    "**/*.spec.ts"
+  ]
+  ,
+  "include": [
+    "src/**/*.server.ts" 
+  ]
 }
-
