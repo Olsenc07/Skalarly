@@ -1,7 +1,8 @@
 {
     "backTicks": true,
-    "trailingComma": "all",
+    "trailingComma": "none",
     "semi": false,
+    "endOfLine": "auto",
     "tabWidth": 2
   }
   

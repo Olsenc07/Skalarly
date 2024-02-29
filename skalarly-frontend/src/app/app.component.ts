@@ -1,19 +1,13 @@
-import { Component } from '@angular/core';
-import { NgClass } from '@angular/common';
-import { RouterModule, TitleStrategy } from '@angular/router';
-import { CustomTitleStrategy } from './assistant-level-code/custom-architecture-aids/services/router-strategies/title-strategy.service';
-import { OrientationService } from './assistant-level-code/custom-architecture-aids/services/orientation.service';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { NavIconsComponent } from './nav-bar/nav-icons/nav-icons.component';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { scrollToggleDirective } from './assistant-level-code/custom-architecture-aids/directives/scroll-toggle.directive';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
+import { Component } from '@angular/core'
+import { NgClass } from '@angular/common'
+import { RouterModule, TitleStrategy } from '@angular/router'
+import { CustomTitleStrategy } from './assistant-level-code/custom-architecture-aids/services/router-strategies/title-strategy.service'
+import { OrientationService } from './assistant-level-code/custom-architecture-aids/services/orientation.service'
+import { NavBarComponent } from './nav-bar/nav-bar.component'
+import { NavIconsComponent } from './nav-bar/nav-icons/nav-icons.component'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { scrollToggleDirective } from './assistant-level-code/custom-architecture-aids/directives/scroll-toggle.directive'
+import { animate, state, style, transition, trigger } from '@angular/animations'
 
 @Component({
   standalone: true,
@@ -48,12 +42,12 @@ import {
   providers: [{ provide: TitleStrategy, useClass: CustomTitleStrategy }]
 })
 export class AppComponent {
-  marginState: 'withMargin' | 'withoutMargin' = 'withMargin';
+  marginState: 'withMargin' | 'withoutMargin' = 'withMargin'
   lines: Array<{
-    top: string;
-    left: string;
-    data: string;
-    uniqueClass?: string;
+    top: string
+    left: string
+    data: string
+    uniqueClass?: string
   }> = [
     { top: '30%', left: '30%', data: '|Ψ⟩ = 1/√2 (|01⟩ + |10⟩)' },
     { top: '1%', left: '30%', data: 'a² + b² = c²' },
@@ -78,10 +72,10 @@ export class AppComponent {
       uniqueClass: 'reverseAnimation'
     },
     { top: '55%', left: '50%', data: 'Memento Mori' }
-  ];
+  ]
 
   constructor(protected orientationService: OrientationService) {}
   onToggleHeader(show: boolean): void {
-    this.marginState = show ? 'withMargin' : 'withoutMargin';
+    this.marginState = show ? 'withMargin' : 'withoutMargin'
   }
 }

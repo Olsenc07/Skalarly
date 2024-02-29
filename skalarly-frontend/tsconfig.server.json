@@ -5,22 +5,17 @@
     "outDir": "./dist/skalarly-frontend/server",
     "target": "ES2022",
     "moduleResolution": "node",
-    "module": "ES2022",
+    "module": "ESNext",
     "types": ["node"],
-    "lib": ["ES2022", "ESNext"],
+    "lib": ["ES2022", "ESNext", "DOM"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true
   },
   "files": [
-    "src/main.server.ts"
+    "./src/main.server.ts"
   ],
   "exclude": [
     "node_modules",
-    "src/test.ts",
-    "**/*.spec.ts"
-  ]
-  ,
-  "include": [
-    "src/**/*.server.ts" 
+    "dist"
   ]
 }

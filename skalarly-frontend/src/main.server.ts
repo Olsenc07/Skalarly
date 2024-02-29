@@ -1,17 +1,7 @@
-import { ApplicationRef } from '@angular/core';
-import { AppComponent } from './app/app.component';
-import { ServerModule } from '@angular/platform-server';
-import { bootstrapApplication } from '@angular/platform-browser';
+import { NgModule } from '@angular/core'
+import { ServerModule } from '@angular/platform-server'
 
-export function AppServerPromise(): Promise<ApplicationRef> {
-  try {
-    const appRef = bootstrapApplication(AppComponent, {
-      providers: [ServerModule]
-    });
-    console.log('standalone');
-    return appRef;
-  } catch (err) {
-    console.error('Bootstrap error', err);
-    throw err;
-  }
-}
+@NgModule({
+  imports: [ServerModule]
+})
+export class AppServerModule {}

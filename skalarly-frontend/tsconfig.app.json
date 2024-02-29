@@ -1,0 +1,31 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/skalarly-frontend/browser",
+    "baseUrl": "./",
+    "module": "es2022",
+    "moduleResolution": "node",
+    "target": "es2022",
+    "lib": ["ES2022", "DOM"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "files": [
+    "src/main.ts"
+  ],
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/test.ts",
+    "src/**/*.spec.ts"
+  ],
+  "angularCompilerOptions": {
+  "enableI18nLegacyMessageIdFormat": false,
+  "fullTemplateTypeCheck": true,
+  "strictInjectionParameters": true,
+  "strictInputAccessModifiers": true,
+  "strictTemplates": true,
+  "strictMetadataEmit" : true
+}
+}

@@ -13,6 +13,7 @@ import { AppComponent } from './app/app.component';
 import { AuthInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/auth-interceptor';
 import { ErrorInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/error-interceptor';
 import { routes } from './app/app-routes/app-routing.module';
+import { provideServerRendering } from '@angular/platform-server';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -29,6 +30,7 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withViewTransitions()),
     provideAnimationsAsync(),
     importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
+    provideServerRendering(),
     provideClientHydration(
       withHttpTransferCacheOptions({
         includePostRequests: true
