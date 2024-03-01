@@ -18,6 +18,9 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "aot": true,
+            "customWebpackConfig": {
+              "path": "./webpack.config.client.js" 
+            },
             "outputPath": "../dist/skalarly-frontend/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -107,7 +110,9 @@
             "outputPath": "../dist/skalarly-frontend/server",
             "main": "src/main.server.ts",
             "tsConfig": "tsconfig.server.json",
-            "inlineStyleLanguage": "scss"
+            "customWebpackConfig": {
+              "path": "./webpack.config.server.js" 
+            }
           },
           "configurations": {
             "production": {

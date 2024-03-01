@@ -3,7 +3,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM"],
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,
@@ -24,9 +24,6 @@
     "src/test.ts",
     "**/*.spec.ts",
     "**/node_modules/**",
-  ],
-  "include": [
-    "src/**/*.ts"
   ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
