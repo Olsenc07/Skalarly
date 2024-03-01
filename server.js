@@ -92,15 +92,14 @@ const switchDatabase = async (req, res, next) => {
   app.use("/api/canada", canadianRoute);
 
 // Frontend SSR 
-import '@angular/compiler'; // dev
-import { CommonEngine } from '@angular/ssr';
+import { renderModule } from '@angular/platform-server';
 import { APP_BASE_HREF } from '@angular/common';
 
 
 // Serve static files and SSR
 const PORT = process.env.PORT || 4200;
 const DIST_FOLDER = join(__dirname, '../skalarly-fs/dist/skalarly-frontend/browser');
-const template = readFileSync(join(DIST_FOLDER, 'browser', 'index.html'), 'utf8');
+const template = readFileSync(join(DIST_FOLDER, 'index.html'), 'utf8');
 
 console.log('hey 77', DIST_FOLDER);
 console.log('777 howdy', template);
@@ -110,6 +109,7 @@ app.set('views', DIST_FOLDER);
 app.use(express.static(DIST_FOLDER, { index: false }));
 
 app.get('*', async (req, res) => {
+  const { AppServerModule } = await import('../skalarly-fs/dist/skalarly-frontend/server/main.js');
       const options = {
         providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }],
         url: req.url,
@@ -117,11 +117,8 @@ app.get('*', async (req, res) => {
         document: template,
         documentFilePath: join(DIST_FOLDER, 'index.html'),
       };
-          const commonEngine = new CommonEngine();
-          import('../skalarly-fs/dist/skalarly-frontend/server/main.js').then(async module => {
-            const AppServerModule = module.AppServerModule;
     try {
-          const html = await commonEngine.render(AppServerModule, 
+          const html = await renderModule(AppServerModule, 
             ...options
           );
           res.send(html);
@@ -133,7 +130,6 @@ app.get('*', async (req, res) => {
         console.error('Module import error:', error);
         res.status(500).send('Server error');
       });
-  });
   app.use((error, req, res, next) => {
     // Default to 500 server error
     const status = error.status || 500;
