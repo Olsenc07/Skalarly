@@ -30,8 +30,8 @@
               "src/assets/images"
             ],
             "styles": [
-              "src/styles.scss",
-              "src/theme.scss"
+              "skalarly-frontend/src/styles.scss",
+              "skalarly-frontend/src/theme.scss"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
@@ -108,7 +108,7 @@
           "builder": "@angular-builders/custom-webpack:server",
           "options": {
             "outputPath": "../dist/skalarly-frontend/server",
-            "main": "src/main.server.ts",
+            "main": "main.server.ts",
             "tsConfig": "tsconfig.server.json",
             "customWebpackConfig": {
               "path": "./webpack.config.server.js" 
