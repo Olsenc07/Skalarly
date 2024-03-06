@@ -7,6 +7,7 @@ const dataCache = {};
 
 router.get('/province', async (req, res) => {
     // Only one call to database
+    if (typeof req.query.country === 'string') {
     const countryName = req.query.country.trim();
     console.log('req.query', req.query);
     console.log('countryName', countryName);
@@ -23,8 +24,11 @@ router.get('/province', async (req, res) => {
         const provinceData = countryData.regions.map(region => region.province);
         res.status(200).json({ data: provinceData });
     } catch (e) {
-        console.error('Query error:', error);
+        console.error('Query error:', e);
         res.status(500).json({ message: 'Error fetching province data', error: e });
+    }
+}else {
+        res.status(200).json({ data: 'Hey chazyy' });
     }
 });
 router.get('/names', async (req, res) => {

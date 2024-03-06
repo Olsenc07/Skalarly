@@ -32,7 +32,6 @@
     "@angular/ssr": "^17.2.2",
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
-    "compressing": "^1.10.0",
     "compression": "^1.7.4",
     "cypress": "^13.6.5",
     "dotenv": "16.4.3",

@@ -3,8 +3,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import bodyParser from 'body-parser';
-import compression from 'compression';
+import compression from 'compression'; 
 import express from 'express';
+import { Request, Response, NextFunction } from 'express';
+
 import mongoose from 'mongoose';
 import rateLimit from 'express-rate-limit';
 import { dirname, join, resolve } from 'node:path';
@@ -16,10 +18,10 @@ import { CommonEngine } from '@angular/ssr';
 import bootstrap from './skalarly-frontend/src/main.server';
 
 // API Routes
-import accountManagementRoute from './backend/routes/account-management.js';
-import authorizeRoute from './backend/routes/authorize.js';
-import skalarsRoute from './backend/routes/skalars.js';
-import canadianRoute from './backend/routes/canadian-schools.js';
+import accountManagementRoute from './backend/routes/account-management';
+import authorizeRoute from './backend/routes/authorize';
+import skalarsRoute from './backend/routes/skalars';
+import canadianRoute from './backend/routes/canadian-schools';
 
 // DB connection URIs from env variables
 const db_auth = process.env['MONGODB_AUTH'] || '';
@@ -66,7 +68,7 @@ const connectContentDB = async () => {
 };
 
 // Middleware to switch databases
-const switchDatabase = async (req: { path: string; }, next) => {
+const switchDatabase = async (req: { path: string; }, next: NextFunction) => {
     try {
     if (req.path.startsWith('/')  || req.path.startsWith('/sign-up') || req.path.startsWith('/login')) {
        await connectAuthDB();
@@ -113,7 +115,7 @@ function createExpressApp(): express.Express {
   }));
 
   // All regular routes use the Angular engine
-  app.get('*', (req, res) => {
+  app.get('*', (req: Request, res: Response) => {
       const { protocol, originalUrl, baseUrl, headers } = req;
       const commonEngine = new CommonEngine();
 
