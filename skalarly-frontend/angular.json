@@ -5,25 +5,21 @@
   "projects": {
     "skalarly-frontend": {
       "projectType": "application",
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "aot": true,
-            "customWebpackConfig": {
-              "path": "./webpack.config.client.js" 
-            },
-            "outputPath": "../dist/skalarly-frontend/browser",
+            "outputPath": "../dist/skalarly-frontend",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -34,10 +30,10 @@
               "skalarly-frontend/src/theme.scss"
             ],
             "scripts": [],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "src"
-              ]
+            "server": "src/main.server.ts",
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
             }
           },
           "configurations": {
@@ -48,7 +44,6 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "baseHref": "/",
               "budgets": [
                 {
                   "type": "initial",
@@ -67,9 +62,7 @@
               "sourceMap": false
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -78,7 +71,7 @@
           "defaultConfiguration": "production"
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
               "buildTarget": "skalarly-frontend:build:production"
@@ -103,59 +96,8 @@
               "src/**/*.html"
             ]
           }
-        },
-        "server": {
-          "builder": "@angular-builders/custom-webpack:server",
-          "options": {
-            "outputPath": "../dist/skalarly-frontend/server",
-            "main": "main.server.ts",
-            "tsConfig": "tsconfig.server.json",
-            "customWebpackConfig": {
-              "path": "./webpack.config.server.js" 
-            }
-          },
-          "configurations": {
-            "production": {
-              "outputHashing": "media",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "sourceMap": false,
-              "optimization": true
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "sourceMap": true,
-              "extractLicenses": false,
-              "vendorChunk": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve-ssr": {
-          "builder": "@angular-devkit/build-angular:ssr-dev-server",
-          "configurations": {
-            "development": {
-              "browserTarget": "skalarly-frontend:build:development",
-              "serverTarget": "skalarly-frontend:server:development"
-            },
-            "production": {
-              "browserTarget": "skalarly-frontend:build:production",
-              "serverTarget": "skalarly-frontend:server:production"
-            }
-          },
-          "defaultConfiguration": "production"
         }
       }
     }
-  },
-  "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
   }
 }

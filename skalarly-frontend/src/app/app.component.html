@@ -18,7 +18,7 @@
 @if (this.orientationService.url() !== ('/login' || '/' )){
 <app-nav-bar scrollToggle (toggleHeader)="onToggleHeader($event)"></app-nav-bar>
  }
- <div [@fadeMargin]="marginState" >
+ <div [@fadeMargin]="marginState">
   <router-outlet></router-outlet> 
 </div>
 </div>

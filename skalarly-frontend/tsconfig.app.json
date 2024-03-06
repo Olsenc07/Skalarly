@@ -6,17 +6,15 @@
       "@assets/*": ["src/assets/*"],
       "@environments/*": ["src/environments/*"]
     },    
-    "outDir": "./dist/skalarly-frontend/browser",
-    "baseUrl": "./",
-    "lib": ["ES2022", "DOM"],
-    "module": "es2022",
-    "moduleResolution": "node",
-    "target": "es2022",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "outDir": "./out-tsc/app",
+    "types": [
+      "node"
+    ]
   },
   "files": [
-    "src/main.ts"
+    "src/main.ts",
+    "src/main.server.ts",
+    "../server.js"
   ],
   "include": [
     "src/**/*.ts"
@@ -24,13 +22,5 @@
   "exclude": [
     "src/test.ts",
     "src/**/*.spec.ts"
-  ],
-  "angularCompilerOptions": {
-  "enableI18nLegacyMessageIdFormat": false,
-  "fullTemplateTypeCheck": true,
-  "strictInjectionParameters": true,
-  "strictInputAccessModifiers": true,
-  "strictTemplates": true,
-  "strictMetadataEmit" : true
-}
+  ]
 }
