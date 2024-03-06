@@ -21,9 +21,7 @@
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "project": [
-          "skalarly-frontend/tsconfig.json",
-          "skalarly-frontend/tsconfig.server.json"
-
+          "skalarly-frontend/tsconfig.json"
         ],
         "createDefaultProgram": true,
         "sourceType": "module"
