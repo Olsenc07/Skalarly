@@ -9,7 +9,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 import { AuthorizeService } from '../services/authorize.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
   // eslint-disable-next-line no-unused-vars

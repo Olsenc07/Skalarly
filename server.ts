@@ -22,8 +22,8 @@ import skalarsRoute from './backend/routes/skalars.js';
 import canadianRoute from './backend/routes/canadian-schools.js';
 
 // DB connection URIs from env variables
-const db_auth = process.env.MONGODB_AUTH || '';
-const db_content = process.env.MONGODB_CONTENT || '';
+const db_auth = process.env['MONGODB_AUTH'] || '';
+const db_content = process.env['MONGODB_CONTENT'] || '';
 
 // Rate limiting middleware
 const apiLimiter = rateLimit({
@@ -66,7 +66,7 @@ const connectContentDB = async () => {
 };
 
 // Middleware to switch databases
-const switchDatabase = async (req, res, next) => {
+const switchDatabase = async (req: { path: string; }, next) => {
     try {
     if (req.path.startsWith('/')  || req.path.startsWith('/sign-up') || req.path.startsWith('/login')) {
        await connectAuthDB();
@@ -113,7 +113,7 @@ function createExpressApp(): express.Express {
   }));
 
   // All regular routes use the Angular engine
-  app.get('*', (req, res, next) => {
+  app.get('*', (req, res) => {
       const { protocol, originalUrl, baseUrl, headers } = req;
       const commonEngine = new CommonEngine();
 
@@ -135,7 +135,7 @@ function createExpressApp(): express.Express {
 }
 
 function run() {
-  const port = process.env.PORT || 4200;
+  const port = process.env['PORT'] || 4200;
   const app = createExpressApp();
 
   app.listen(port, () => {

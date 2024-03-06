@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ErrorHandlerParentComponent } from '../error-handler-parent/error-handler-parent.component';
-import { LoginLogicComponent } from 'src/app/top-level-code/login/login-logic/login-logic.component';
+import { LoginLogicComponent } from '../../../top-level-code/login/login-logic/login-logic.component';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';

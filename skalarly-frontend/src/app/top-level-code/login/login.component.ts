@@ -22,8 +22,8 @@ import { MatInputModule } from '@angular/material/input'
 import { ReactiveFormsModule } from '@angular/forms'
 import { reusableAnimations } from './imports/animation-imports'
 import { Router } from '@angular/router'
-import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service'
-import { LoginSpecificService } from 'src/app/assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service'
+import { OrientationService } from '../../assistant-level-code/custom-architecture-aids/services/orientation.service'
+import { LoginSpecificService } from '../../assistant-level-code/custom-architecture-aids/services/login-validation/login-specific.service'
 
 @Component({
   selector: 'app-login-format',

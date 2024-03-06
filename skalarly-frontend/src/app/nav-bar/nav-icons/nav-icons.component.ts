@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
+import { OrientationService } from '../../assistant-level-code/custom-architecture-aids/services/orientation.service';
 import { MatChipsModule } from '@angular/material/chips';
 
 interface NavItem {

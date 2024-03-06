@@ -1,7 +1,7 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { map, shareReplay, take } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../../environments/environment';
 import { Router } from '@angular/router';
 
 @Injectable({

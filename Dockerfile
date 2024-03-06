@@ -29,4 +29,4 @@ EXPOSE 4200
 ENV NODE_ENV production
 
 # Start the unified server 
-CMD ["node", "server.js"]
+CMD ["node", "server.ts"]

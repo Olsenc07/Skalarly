@@ -3,7 +3,7 @@ import { Observable, catchError, map, shareReplay } from 'rxjs';
 import { AuthorizeService } from './authorize.service';
 import { Injectable } from '@angular/core';
 import { SkalarInfoInterface } from '../interfaces/skalars-info-interface';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

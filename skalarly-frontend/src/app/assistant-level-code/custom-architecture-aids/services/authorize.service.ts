@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ReauthorizeComponent } from '../reauthorize/reauthorize.component'
 import { Router } from '@angular/router'
-import { environment } from 'src/environments/environment'
+import { environment } from '../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'

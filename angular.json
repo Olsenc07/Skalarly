@@ -20,12 +20,13 @@
             "outputPath": "dist/skalarly-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "skalarly-frontend/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/assets/images"
             ],
             "styles": [
+              "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "skalarly-frontend/src/styles.scss",
               "skalarly-frontend/src/theme.scss"
             ],

@@ -8,13 +8,11 @@ import { AuthorizeService } from './authorize.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { type SkalarInfoInterface } from '../interfaces/skalars-info-interface';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkalarsService {
-  private apiUrl = environment.apiUrl;
   userId: string | null;
 
   constructor(
@@ -31,18 +29,19 @@ export class SkalarsService {
   // like youtube!
 
   // triggered by search bar input
-  getSkalars(input: string): Observable<SkalarInfoInterface[]> {
-    // fetch userId from auth service that stores id after login
-    const queryParams = {
-      input: input,
-      userId: this.userId!
-    };
-    const params: HttpParams = new HttpParams({ fromObject: queryParams });
-    return this.http.get<SkalarInfoInterface[]>(
-      this.apiUrl + '/skalars/skalarsInfoSearch',
-      {
-        params
-      }
-    );
+  getSkalars(input: string): Observable<SkalarInfoInterface[]> | void {
+  //   // fetch userId from auth service that stores id after login
+  //   const queryParams = {
+  //     input: input,
+  //     userId: this.userId!
+  //   };
+    // const params: HttpParams = new HttpParams({ fromObject: queryParams });
+    // return this.http.get<SkalarInfoInterface[]>(
+    //   this.apiUrl + '/skalars/skalarsInfoSearch',
+    //   {
+    //     params
+    //   }
+    // );
+    return;
   }
 }

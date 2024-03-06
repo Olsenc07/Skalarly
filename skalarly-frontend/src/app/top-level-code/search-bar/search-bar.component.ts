@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   Observable,
@@ -20,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { SkalarCardComponent } from '../skalar-card/skalar-card.component';
 import { type SkalarInfoInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
 import { SkalarsService } from '../../assistant-level-code/custom-architecture-aids/services/skalars.service';
-import { OrientationService } from 'src/app/assistant-level-code/custom-architecture-aids/services/orientation.service';
+import { OrientationService } from '../../assistant-level-code/custom-architecture-aids/services/orientation.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -44,7 +44,7 @@ import { OrientationService } from 'src/app/assistant-level-code/custom-architec
   ]
 })
 export class SearchBarComponent implements OnInit {
-  skalars$: Observable<SkalarInfoInterface[]>;
+  // skalars$: Observable<SkalarInfoInterface[]>;
   searchSkalarForm: FormControl<string | null> = new FormControl<string | null>(
     ''
   );
@@ -57,14 +57,14 @@ export class SearchBarComponent implements OnInit {
     private skalarsService: SkalarsService,
     protected orientationService: OrientationService
   ) {
-    this.skalars$ = this.searchSkalarForm.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      filter((input: string | null) => !!input), // Skip if input is null or empty
-      switchMap((input: string | null) =>
-        this.skalarsService.getSkalars(input || '')
-      )
-    );
+  //   this.skalars$ = this.searchSkalarForm.valueChanges.pipe(
+  //     debounceTime(300),
+  //     distinctUntilChanged(),
+  //     filter((input: string | null) => !!input), // Skip if input is null or empty
+  //     switchMap((input: string | null) =>
+  //       this.skalarsService.getSkalars(input || '')
+  //     )
+  //   );
   }
 
   ngOnInit(): void {
