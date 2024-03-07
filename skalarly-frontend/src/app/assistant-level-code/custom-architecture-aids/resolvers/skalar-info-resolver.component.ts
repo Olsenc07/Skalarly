@@ -3,7 +3,7 @@ import { Observable, catchError, map, of } from 'rxjs';
 import { GlobalDataService } from '../services/global-data.service';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SkalarInfoInterface } from '../interfaces/skalars-info-interface';
+import { SkalarInfoInterface } from '../../../../../../shared/interfaces/skalars-info-interface';
 
 @Injectable({
   providedIn: 'root'

@@ -16,7 +16,7 @@ import {
 import type {
   InitialAccountInterface,
   SkalarInfoInterface
-} from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface'
+} from '../../../../../shared/interfaces/skalars-info-interface'
 import { Subject, Subscription, combineLatest, map, takeUntil, tap } from 'rxjs'
 import { ReusableInputDynamicComponent } from '../../assistant-level-code/child-reusable-options/reusable-inputs/reusable-input-dynamic/reusable-input-dynamic.component'
 import { AccountManagementService } from '../../assistant-level-code/custom-architecture-aids/services/account-management.service'

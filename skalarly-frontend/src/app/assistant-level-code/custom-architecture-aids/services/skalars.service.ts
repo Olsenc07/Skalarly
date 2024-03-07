@@ -7,7 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthorizeService } from './authorize.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { type SkalarInfoInterface } from '../interfaces/skalars-info-interface';
+import { type SkalarInfoInterface } from '../../../../../../shared/interfaces/skalars-info-interface';
 
 @Injectable({
   providedIn: 'root'

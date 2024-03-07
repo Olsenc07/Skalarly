@@ -28,7 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { PassWordInterface } from '../../../assistant-level-code/custom-architecture-aids/interfaces/password-interface';
+import { PassWordInterface } from '../../../../../../shared/interfaces/password-interface';
 import { BoldPipe } from '../../custom-architecture-aids/pipes/bold.pipe';
 
 @Component({

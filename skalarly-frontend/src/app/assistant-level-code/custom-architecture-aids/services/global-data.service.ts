@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, shareReplay } from 'rxjs';
 import { AuthorizeService } from './authorize.service';
 import { Injectable } from '@angular/core';
-import { SkalarInfoInterface } from '../interfaces/skalars-info-interface';
+import { SkalarInfoInterface } from '../../../../../../shared/interfaces/skalars-info-interface';
 import { environment } from '../../../../../environments/environment';
 
 @Injectable({

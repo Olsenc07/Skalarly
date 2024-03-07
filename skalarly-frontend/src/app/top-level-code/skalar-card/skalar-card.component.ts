@@ -12,7 +12,7 @@ import { BoldPipe } from '../../assistant-level-code/custom-architecture-aids/pi
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { AsyncPipe } from '@angular/common';
-import { type SkalarInfoInterface } from '../../assistant-level-code/custom-architecture-aids/interfaces/skalars-info-interface';
+import { type SkalarInfoInterface } from '../../../../../shared/interfaces/skalars-info-interface';
 
 @Component({
   standalone: true,

@@ -1,4 +1,4 @@
-import type { InitialAccountInterface } from '../interfaces/skalars-info-interface';
+import type { InitialAccountInterface } from '../../../../../../shared/interfaces/skalars-info-interface';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, map, of, switchMap } from 'rxjs';
 import { FormGroup } from '@angular/forms';

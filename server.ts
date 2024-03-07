@@ -68,7 +68,7 @@ const connectContentDB = async () => {
 };
 
 // Middleware to switch databases
-const switchDatabase = async (req: { path: string; }, next: NextFunction) => {
+const switchDatabase = async (req: Request, res: Response, next: NextFunction) => {
     try {
     if (req.path.startsWith('/')  || req.path.startsWith('/sign-up') || req.path.startsWith('/login')) {
        await connectAuthDB();

@@ -38,7 +38,7 @@ import { Router } from '@angular/router';
 import type {
   EmailInterface,
   PasswordInterface
-} from '../../../assistant-level-code/custom-architecture-aids/interfaces/login-interface';
+} from '../../../../../../shared/interfaces/login-interface';
 
 @Component({
   selector: 'app-login-logic',
