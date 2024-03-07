@@ -1,30 +1,30 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import  SkalarInfo  from '../models/skalarInfo.js';
+// import  SkalarInfo  from '../models/skalarInfo';
 
 // Middleware
 // import filterBlockedUsers  from '../middleware/filter-blocked-skalars.js';
 
 // searching self
 router.get('/selfInfo', async(req,res) => {
-    await SkalarInfo.findOne({Creator: req.query.userId})
-        // .select('-password') if i was fetching user info, dont want password passed on front end
-        .then(documents => {
-            res.status(200).json({
-                message: 'Users fetched succesfully!',
-                infos: documents
-            });
-        })
-        .catch(error => {
-            res.status(500).json({
-                message: 'Fetching users failed!'
-            });
-        });
+    // await SkalarInfo.findOne({Creator: req.query.userId})
+    //     // .select('-password') if i was fetching user info, dont want password passed on front end
+    //     .then(documents => {
+    //         res.status(200).json({
+    //             message: 'Users fetched succesfully!',
+    //             infos: documents
+    //         });
+    //     })
+    //     .catch(error => {
+    //         res.status(500).json({
+    //             message: 'Fetching users failed!'
+    //         });
+    //     });
 })
 // finding skalars info for thier profile filterBlockedUsers
 router.get('/skalarsInfo', async(req,res) => {
-    const idProfile = req.query.id;
+    const idProfile = req.query['id'];
     // From Middleware
     // const cancelNavigation = req.blocked;
     // console.log('ID', idProfile);

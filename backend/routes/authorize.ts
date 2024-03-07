@@ -1,17 +1,19 @@
 import { Router } from 'express';
 const router = Router();
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+// import bcrypt from 'bcrypt';
+// import jwt from 'jsonwebtoken';
 // Models Used
-import Login from '../models/login.js';
-import SkalarInfo from '../models/skalarInfo.js';
-// Middleware
-import verifyEmail from '../middleware/verify-email.js';
+// import Login from '../models/login';
+// import SkalarInfo from '../models/skalarInfo';
+// // Middleware
+// import verifyEmail from '../middleware/verify-email';
 
 // Login
 // verify email can be done when seeing if email exist
 // could siplay hint or error saying to verify it
-router.post("/login", verifyEmail, async(reg, res) => {
+// router.post("/login", verifyEmail, async(reg, res) => {
+router.post("/login", async(reg, res) => {
+
     // let fetchedUser: { password: any; email: any; _id: any; };
     // await connectAuthDB();
     // try{ 

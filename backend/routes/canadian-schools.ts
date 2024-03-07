@@ -5,35 +5,35 @@ import Signup from '../models/signup.js';
 // Interfaces
 import { BasicProvinceInterface, BasicInfo } from '../../shared/interfaces/basic-province-interface';
 
-const dataCache: Record<string, BasicProvinceInterface> = {};
+const dataCache: Record<string, BasicProvinceInterface | undefined> = {};
 
 router.get('/province', async (req: Request, res: Response) => {
+    const countryName = typeof req.query.country === 'string' ? req.query.country.trim() : null;
+    if (!countryName) {
+        return res.status(400).json({ message: 'Country query parameter is required and must be a string.' });
+    }
     // Only one call to database
-    if (typeof req.query.country === 'string') {
-    const countryName = req.query.country.trim();
     console.log('req.query', req.query);
     console.log('countryName', countryName);
     const cacheKey = `provinceData-${countryName}`;
      // Check if data is already in cache to avoid unnecessary DB queries
-     if (dataCache[cacheKey]) {
-        console.log('Data retrieved from cache');
-        return res.status(200).json(dataCache[cacheKey]);
-      }
+     const cachedData = dataCache[cacheKey];
+     if (cachedData) {
+         console.log('Data retrieved from cache');
+         return res.status(200).json({ regions: cachedData.regions.map(region => region.province) });
+     }
     try {
-         const countryData = await Signup.findOne({countryName: countryName}).lean().exec()
+         const countryData = await Signup.findOne({ countryName: countryName }).lean().exec() as unknown as BasicProvinceInterface;
         if (!countryData || !countryData.regions) {
             return res.status(404).json({ message: 'Country not found or no regions' });
         }
         console.log('oo', countryData);
-        dataCache[cacheKey] = countryData as unknown as BasicProvinceInterface;
+        dataCache[cacheKey] = countryData as BasicProvinceInterface;
         const provinceData = countryData.regions.map(region => region.province);
-        res.status(200).json({ data: provinceData });
+      return res.status(200).json({ data: provinceData });
     } catch (e) {
         console.error('Query error:', e);
-        res.status(500).json({ message: 'Error fetching province data', error: e });
-    }
-}else {
-        res.status(200).json({ data: 'Hey chazyy' });
+       return res.status(500).json({ message: 'Error fetching province data', error: e.toString() });
     }
 });
 // Returns school names
@@ -56,30 +56,33 @@ router.get('/names', async (req: Request, res: Response) => {
         if (!schoolTypeArray) {
             return res.status(404).json({ message: `School type not found in province ${province}` });
         }
-
         // Extract the names from the schoolTypeArray
         const schoolsData = schoolTypeArray.map(school => school.name);
-        res.status(200).json(schoolsData);
+        return res.status(200).json(schoolsData);
     } catch (e) {
     console.log('find me 3', e);
-    res.status(500).json({ message: 'Error fetching final school', error: e.toString() });
+    return res.status(500).json({ message: 'Error fetching final school', error: e.toString() });
     }
 })
 
 // final school step
-router.get('/emails', async (req, res) => {
+router.get('/emails', async (req: Request, res: Response) => {
     let { country, province, type, name } = req.query as {
         country: string;
         province: string;
         type: keyof BasicProvinceInterface['regions'][number]['schoolTypes'];
         name: string;
     };
+        if (typeof country !== 'string' || typeof province !== 'string' || 
+        typeof type !== 'string' || typeof name !== 'string') {
+        return res.status(400).json({ message: 'Missing or invalid query parameters' });
+    }
     const cacheKey = `provinceData-${country}`;
+    const cachedRegion = dataCache[cacheKey];
     try {
     // Check if we have cached data for the given country
-    if (dataCache[cacheKey]) {
         // Find the region within the cached data
-        const region = dataCache[cacheKey].regions.find(r => r.province === province);
+        const region = cachedRegion!.regions.find(r=> r.province === province);
         if (!region) {
             return res.status(404).json({ message: `Province ${province} not found` });
         }
@@ -94,13 +97,10 @@ router.get('/emails', async (req, res) => {
             return res.status(404).json({ message: `School ${name} not found` });
         }
         console.log('school', school.emailExtensions);
-        res.status(200).json(school.emailExtensions);
-    }  else {
-            res.status(500).json({ message: 'Error fetching school data' });
-        }
+       return res.status(200).json(school.emailExtensions);
 } catch (e) {
     console.log('find me 3', e);
-    res.status(500).json({ message: 'Error fetching final school', error: e });
+    return res.status(500).json({ message: 'Error fetching final school', error: e.toString() });
 }
 });
 export default router;

@@ -1,7 +1,4 @@
 // Backend SERVER NODE.JS Using ES6 module
-import dotenv from 'dotenv';
-dotenv.config();
-
 import bodyParser from 'body-parser';
 import compression from 'compression'; 
 import express from 'express';

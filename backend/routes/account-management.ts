@@ -5,10 +5,10 @@ import Skalar from '../models/login.js';
 
 // Has this username already been used?
 router.get('/uniqueUserName', async(req,res) => {
-    let userName = req.query.username;
+    let userName = req.query['username'];
     console.log('uniqueUserName', userName);
     await Skalar.findOne({user: userName})
-    .then(search => {
+    .then((search: any) => {
         if(search){
             console.log('username', search);
             res.status(200);
@@ -19,14 +19,14 @@ router.get('/uniqueUserName', async(req,res) => {
                 res.status(200);
                 return false
             }
-        }).catch(err => {
+        }).catch((err: any) => {
             res.status(401);
             console.log('error', err);
             })
         })
 // verify account once 7 digits have been imported
 router.get('/verifyAccount', async (req) => {
-    const token = req.query.token;
+    const token = req.query['token'];
     const user = await Skalar.findOne({ emailToken: token });
     if (user) {
         user.emailToken = null;

@@ -3,7 +3,7 @@ export interface BasicInfo {
   emailExtensions: string[];
 }
 export interface ProvinceSchoolTypes {
-  province: string;
+  province?: string;
   schoolTypes: {
     universities: BasicInfo[];
     colleges: BasicInfo[];
