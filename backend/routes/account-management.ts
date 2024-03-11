@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import Skalar from '../models/login.js';
+import Skalar from '../models/login';
 
 // Has this username already been used?
 router.get('/uniqueUserName', async(req,res) => {
@@ -29,8 +29,8 @@ router.get('/verifyAccount', async (req) => {
     const token = req.query['token'];
     const user = await Skalar.findOne({ emailToken: token });
     if (user) {
-        user.emailToken = null;
-        user.isVerified = 'true';
+        user.emailToken = '';
+        user.isVerified = true;
         await user.save()
     //   return true and go to next page or close verify pop up..
        

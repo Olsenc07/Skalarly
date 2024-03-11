@@ -1,14 +1,14 @@
 import { Router, Request, Response } from 'express';
 const router = Router();
 // Models Used
-import Signup from '../models/signup.js';
+import Signup from '../models/signup';
 // Interfaces
 import { BasicProvinceInterface, BasicInfo } from '../../shared/interfaces/basic-province-interface';
 
 const dataCache: Record<string, BasicProvinceInterface | undefined> = {};
 
 router.get('/province', async (req: Request, res: Response) => {
-    const countryName = typeof req.query.country === 'string' ? req.query.country.trim() : null;
+    const countryName = typeof req.query['country'] === 'string' ? req.query['country'].trim() : null;
     if (!countryName) {
         return res.status(400).json({ message: 'Country query parameter is required and must be a string.' });
     }
@@ -33,7 +33,7 @@ router.get('/province', async (req: Request, res: Response) => {
       return res.status(200).json({ data: provinceData });
     } catch (e) {
         console.error('Query error:', e);
-       return res.status(500).json({ message: 'Error fetching province data', error: e.toString() });
+       return res.status(500).json({ message: 'Error fetching province data', error: e });
     }
 });
 // Returns school names
@@ -61,7 +61,7 @@ router.get('/names', async (req: Request, res: Response) => {
         return res.status(200).json(schoolsData);
     } catch (e) {
     console.log('find me 3', e);
-    return res.status(500).json({ message: 'Error fetching final school', error: e.toString() });
+    return res.status(500).json({ message: 'Error fetching final school', error: e });
     }
 })
 
@@ -100,7 +100,7 @@ router.get('/emails', async (req: Request, res: Response) => {
        return res.status(200).json(school.emailExtensions);
 } catch (e) {
     console.log('find me 3', e);
-    return res.status(500).json({ message: 'Error fetching final school', error: e.toString() });
+    return res.status(500).json({ message: 'Error fetching final school', error: e });
 }
 });
 export default router;

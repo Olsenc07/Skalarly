@@ -101,7 +101,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
   // skalar info form
   infoForm: FormGroup = new FormGroup({
     club: new FormControl<SkalarInfoInterface['club']>([]),
-    domains: new FormControl<SkalarInfoInterface['domains']>(
+    domains: new FormControl<SkalarInfoInterface['webPages']>(
       [''],
       [Validators.required]
     ),
@@ -114,7 +114,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
     pursuingCourses: new FormControl<SkalarInfoInterface['pursuingCourses']>(
       []
     ),
-    photo: new FormControl<SkalarInfoInterface['photo']>(''),
+    photo: new FormControl<SkalarInfoInterface['profilePic']>(''),
     name: new FormControl<SkalarInfoInterface['name']>('', [
       Validators.required
     ]),

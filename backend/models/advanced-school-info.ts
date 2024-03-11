@@ -1,4 +1,29 @@
-import mongoose from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
+
+interface StudentEnrollment {
+  fullTimeUndergraduate: number;
+  partTimeUndergraduate: number;
+  fullTimeGraduate: number;
+  partTimeGraduate: number;
+}
+
+interface TuitionFeesCategory {
+  undergraduate: number[];
+  graduate: number[];
+}
+
+interface TuitionFees {
+  canadianStudent: TuitionFeesCategory;
+  internationalStudent: TuitionFeesCategory;
+}
+
+interface AdvancedSchoolInfoDocument extends Document {
+  name: string;
+  url?: string;
+  studentEnrollment: StudentEnrollment;
+  tuitionFees: TuitionFees;
+}
+
 
 const advancedInfoSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -21,4 +46,4 @@ const advancedInfoSchema = new mongoose.Schema({
     }
   });
 
-  export default mongoose.model('AdvancedSchoolInfo', advancedInfoSchema);
+  export default mongoose.model<AdvancedSchoolInfoDocument>('AdvancedSchoolInfo', advancedInfoSchema);
