@@ -2,18 +2,16 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "@app/*": ["/src/app/*"],
-      "@assets/*": ["/src/assets/*"],
-      "@environments/*": ["/src/environments/*"],
+      "@app/*": ["/../app/*"],
+      "@assets/*": ["/../assets/*"],
+      "@environments/*": ["/../environments/*"],
       "@shared/*": ["../shared/interfaces/*"]
     },    
-    "outDir": "./out-tsc/app",
-    "types": [
-      "node"
-    ]
+    "outDir": "./out-tsc/app"
   },
   "files": [
     "src/main.ts",
+    "../polyfills.ts",
     "src/main.server.ts",
     "../server.ts"
   ],

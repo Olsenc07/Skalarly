@@ -1,6 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
+  NgZone,
   Input,
   OnChanges,
   SimpleChanges
@@ -42,7 +43,8 @@ export class LetterByLetterComponent implements OnChanges {
 
   constructor(
     private loginSpecificService: LoginSpecificService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {
     this.shuffleClasses();
   }
@@ -103,7 +105,9 @@ export class LetterByLetterComponent implements OnChanges {
       this.letterAnimation(this.message);
       this.cdr.detectChanges();
       this.renderCount++;
+      this.ngZone.runOutsideAngular(() => {
       setTimeout(() => this.renderOn(), 4000); // next call
+      })
     } else {
       this.renderCount = 0;
     }

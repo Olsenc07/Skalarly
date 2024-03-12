@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   Input,
+  NgZone,
   OnInit
 } from '@angular/core';
 import {
@@ -78,7 +79,8 @@ export class LoginLogicComponent implements OnInit {
   constructor(
     private authorizeService: AuthorizeService, // eslint-disable-next-line no-unused-vars
     private readonly router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {}
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
@@ -191,8 +193,8 @@ export class LoginLogicComponent implements OnInit {
   }
   login(): void {
     this.progressState = 'loading';
+    this.ngZone.runOutsideAngular(() => {
     this.cdr.detectChanges(); // Detect changes immediately
-
     setTimeout(() => {
       this.progressState = 'declined';
       this.cdr.detectChanges(); // Detect changes when state changes to 'declined'
@@ -235,6 +237,7 @@ export class LoginLogicComponent implements OnInit {
     //       this.progressState = 'default'; // Hide the loading button in case of an error
     //     }
     //   });
+  })
   }
   getIconConfig(progressState: string): string {
     switch (progressState) {

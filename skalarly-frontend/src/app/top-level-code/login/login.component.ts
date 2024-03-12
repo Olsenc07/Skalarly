@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
-  OnInit,
+  NgZone,
   PLATFORM_ID,
   WritableSignal,
   afterNextRender,
@@ -58,14 +58,17 @@ export class LoginComponent {
     private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
     protected orientationService: OrientationService,
     private readonly router: Router,
+    private ngZone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     afterNextRender(
       () => {
         if (isPlatformBrowser(this.platformId)) {
+          this.ngZone.runOutsideAngular(() => {
           setTimeout(() => {
             this.skalarlyState = 'rise'
           }, 7000)
+        })
         }
         if (!this.orientationService.screen()) {
           // Now you can use this.loginSpecificService

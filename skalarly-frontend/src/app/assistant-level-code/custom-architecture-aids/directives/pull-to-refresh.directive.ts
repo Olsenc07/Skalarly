@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, HostListener, Output } from '@angular/core'
+import { Directive, EventEmitter, NgZone, HostListener, Output } from '@angular/core'
 
 @Directive({
   standalone: true,
@@ -15,6 +15,7 @@ export class PullToRefreshDirective {
   private holdTimer: any
   private debounceTimer: any
 
+  constructor(private ngZone: NgZone){}
   @Output() deltaYChange: EventEmitter<{
     state: number
   }> = new EventEmitter<{ state: number }>()
@@ -79,12 +80,14 @@ export class PullToRefreshDirective {
     if (deltaYChange > 50 && timeChange < 100) {
       // 'Flick' gesture threshold
       clearTimeout(this.debounceTimer)
+      this.ngZone.runOutsideAngular(() => {
       this.debounceTimer = setTimeout(() => {
         if (deltaYChange > 2) {
           this.stopHoldCount()
           this.thresholdReached = false
         }
       }, 1000)
+    })
     }
   }
 

@@ -42,17 +42,18 @@ export class NavBarComponent {
     this.visible = display;
   }
   onDeltaYChange(reload: number): void {
-    if (reload == 1) {
-      this.reloadState = 'initial';
-    }
-    if (reload == 2) {
-      this.reloadState = 'intermediate';
-    }
-    if (reload === 3) {
-      this.reloadState = 'final';
-      // Special case for a 3-second hold, trigger a reload
-      setTimeout(() => location.reload(), 700);
-    }
+    // improve approach
+    // if (reload == 1) {
+    //   this.reloadState = 'initial';
+    // }
+    // if (reload == 2) {
+    //   this.reloadState = 'intermediate';
+    // }
+    // if (reload === 3) {
+    //   this.reloadState = 'final';
+    //   // Special case for a 3-second hold, trigger a reload
+    //   setTimeout(() => location.reload(), 700);
+    // }
   }
   getIcon(reloadState: string | null): string {
     if (reloadState === null) {

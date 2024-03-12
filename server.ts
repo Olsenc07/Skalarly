@@ -1,4 +1,6 @@
 // Backend SERVER NODE.JS Using ES6 module
+// For server-side (Node.js environment)
+import 'zone.js/dist/zone-node';
 import bodyParser from 'body-parser';
 import compression from 'compression'; 
 import express from 'express';

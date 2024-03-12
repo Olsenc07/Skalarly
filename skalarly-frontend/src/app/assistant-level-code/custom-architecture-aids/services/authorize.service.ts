@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, of, shareReplay } from 'rxjs'
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core'
+import { Inject, Injectable, NgZone, PLATFORM_ID } from '@angular/core'
 import { isPlatformBrowser } from '@angular/common'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { MatDialog } from '@angular/material/dialog'
@@ -31,6 +31,7 @@ export class AuthorizeService {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router,
+    private ngZone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
   //  recieved credentials
@@ -133,6 +134,7 @@ export class AuthorizeService {
 
   private setAuthTimer(duration: number): void {
     const warningTime = duration - 30000 // 30 seconds before expiration
+    this.ngZone.runOutsideAngular(() => {
     setTimeout(() => {
       // Calculate the remaining time in seconds
       const remainingTime = Math.floor((duration - Date.now()) / 1000)
@@ -148,13 +150,14 @@ export class AuthorizeService {
         } else {
           // User didn't extend, you can handle this case accordingly
           // logout when time runs out
-          this.logout()
+          // this.logout()
           this.snackBar.open('Validation Expired', 'Please Relogin', {
             duration: 3000
           })
         }
       })
     }, warningTime)
+  })
   }
 
   // needs to be triggered whenever one of these values change
