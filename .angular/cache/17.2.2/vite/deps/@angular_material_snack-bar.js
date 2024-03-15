@@ -1,4 +1,8 @@
 import {
+  MatButton,
+  MatButtonModule
+} from "./chunk-O7I4UEOF.js";
+import {
   Overlay,
   OverlayConfig,
   OverlayModule
@@ -17,10 +21,6 @@ import {
   transition,
   trigger
 } from "./chunk-HGUUYAXF.js";
-import {
-  MatButton,
-  MatButtonModule
-} from "./chunk-O7I4UEOF.js";
 import {
   BreakpointObserver,
   Breakpoints,
