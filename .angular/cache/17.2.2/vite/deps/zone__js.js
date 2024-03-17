@@ -1,421 +1,9 @@
 import {
-  __commonJS,
   __spreadProps,
   __spreadValues
 } from "./chunk-WKYGNSYM.js";
 
-// node_modules/events/events.js
-var require_events = __commonJS({
-  "node_modules/events/events.js"(exports, module) {
-    "use strict";
-    var R = typeof Reflect === "object" ? Reflect : null;
-    var ReflectApply = R && typeof R.apply === "function" ? R.apply : function ReflectApply2(target, receiver, args) {
-      return Function.prototype.apply.call(target, receiver, args);
-    };
-    var ReflectOwnKeys;
-    if (R && typeof R.ownKeys === "function") {
-      ReflectOwnKeys = R.ownKeys;
-    } else if (Object.getOwnPropertySymbols) {
-      ReflectOwnKeys = function ReflectOwnKeys2(target) {
-        return Object.getOwnPropertyNames(target).concat(Object.getOwnPropertySymbols(target));
-      };
-    } else {
-      ReflectOwnKeys = function ReflectOwnKeys2(target) {
-        return Object.getOwnPropertyNames(target);
-      };
-    }
-    function ProcessEmitWarning(warning) {
-      if (console && console.warn)
-        console.warn(warning);
-    }
-    var NumberIsNaN = Number.isNaN || function NumberIsNaN2(value) {
-      return value !== value;
-    };
-    function EventEmitter() {
-      EventEmitter.init.call(this);
-    }
-    module.exports = EventEmitter;
-    module.exports.once = once;
-    EventEmitter.EventEmitter = EventEmitter;
-    EventEmitter.prototype._events = void 0;
-    EventEmitter.prototype._eventsCount = 0;
-    EventEmitter.prototype._maxListeners = void 0;
-    var defaultMaxListeners = 10;
-    function checkListener(listener) {
-      if (typeof listener !== "function") {
-        throw new TypeError('The "listener" argument must be of type Function. Received type ' + typeof listener);
-      }
-    }
-    Object.defineProperty(EventEmitter, "defaultMaxListeners", {
-      enumerable: true,
-      get: function() {
-        return defaultMaxListeners;
-      },
-      set: function(arg) {
-        if (typeof arg !== "number" || arg < 0 || NumberIsNaN(arg)) {
-          throw new RangeError('The value of "defaultMaxListeners" is out of range. It must be a non-negative number. Received ' + arg + ".");
-        }
-        defaultMaxListeners = arg;
-      }
-    });
-    EventEmitter.init = function() {
-      if (this._events === void 0 || this._events === Object.getPrototypeOf(this)._events) {
-        this._events = /* @__PURE__ */ Object.create(null);
-        this._eventsCount = 0;
-      }
-      this._maxListeners = this._maxListeners || void 0;
-    };
-    EventEmitter.prototype.setMaxListeners = function setMaxListeners(n) {
-      if (typeof n !== "number" || n < 0 || NumberIsNaN(n)) {
-        throw new RangeError('The value of "n" is out of range. It must be a non-negative number. Received ' + n + ".");
-      }
-      this._maxListeners = n;
-      return this;
-    };
-    function _getMaxListeners(that) {
-      if (that._maxListeners === void 0)
-        return EventEmitter.defaultMaxListeners;
-      return that._maxListeners;
-    }
-    EventEmitter.prototype.getMaxListeners = function getMaxListeners() {
-      return _getMaxListeners(this);
-    };
-    EventEmitter.prototype.emit = function emit(type) {
-      var args = [];
-      for (var i = 1; i < arguments.length; i++)
-        args.push(arguments[i]);
-      var doError = type === "error";
-      var events = this._events;
-      if (events !== void 0)
-        doError = doError && events.error === void 0;
-      else if (!doError)
-        return false;
-      if (doError) {
-        var er;
-        if (args.length > 0)
-          er = args[0];
-        if (er instanceof Error) {
-          throw er;
-        }
-        var err = new Error("Unhandled error." + (er ? " (" + er.message + ")" : ""));
-        err.context = er;
-        throw err;
-      }
-      var handler = events[type];
-      if (handler === void 0)
-        return false;
-      if (typeof handler === "function") {
-        ReflectApply(handler, this, args);
-      } else {
-        var len = handler.length;
-        var listeners = arrayClone(handler, len);
-        for (var i = 0; i < len; ++i)
-          ReflectApply(listeners[i], this, args);
-      }
-      return true;
-    };
-    function _addListener(target, type, listener, prepend) {
-      var m;
-      var events;
-      var existing;
-      checkListener(listener);
-      events = target._events;
-      if (events === void 0) {
-        events = target._events = /* @__PURE__ */ Object.create(null);
-        target._eventsCount = 0;
-      } else {
-        if (events.newListener !== void 0) {
-          target.emit(
-            "newListener",
-            type,
-            listener.listener ? listener.listener : listener
-          );
-          events = target._events;
-        }
-        existing = events[type];
-      }
-      if (existing === void 0) {
-        existing = events[type] = listener;
-        ++target._eventsCount;
-      } else {
-        if (typeof existing === "function") {
-          existing = events[type] = prepend ? [listener, existing] : [existing, listener];
-        } else if (prepend) {
-          existing.unshift(listener);
-        } else {
-          existing.push(listener);
-        }
-        m = _getMaxListeners(target);
-        if (m > 0 && existing.length > m && !existing.warned) {
-          existing.warned = true;
-          var w = new Error("Possible EventEmitter memory leak detected. " + existing.length + " " + String(type) + " listeners added. Use emitter.setMaxListeners() to increase limit");
-          w.name = "MaxListenersExceededWarning";
-          w.emitter = target;
-          w.type = type;
-          w.count = existing.length;
-          ProcessEmitWarning(w);
-        }
-      }
-      return target;
-    }
-    EventEmitter.prototype.addListener = function addListener(type, listener) {
-      return _addListener(this, type, listener, false);
-    };
-    EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-    EventEmitter.prototype.prependListener = function prependListener(type, listener) {
-      return _addListener(this, type, listener, true);
-    };
-    function onceWrapper() {
-      if (!this.fired) {
-        this.target.removeListener(this.type, this.wrapFn);
-        this.fired = true;
-        if (arguments.length === 0)
-          return this.listener.call(this.target);
-        return this.listener.apply(this.target, arguments);
-      }
-    }
-    function _onceWrap(target, type, listener) {
-      var state = { fired: false, wrapFn: void 0, target, type, listener };
-      var wrapped = onceWrapper.bind(state);
-      wrapped.listener = listener;
-      state.wrapFn = wrapped;
-      return wrapped;
-    }
-    EventEmitter.prototype.once = function once2(type, listener) {
-      checkListener(listener);
-      this.on(type, _onceWrap(this, type, listener));
-      return this;
-    };
-    EventEmitter.prototype.prependOnceListener = function prependOnceListener(type, listener) {
-      checkListener(listener);
-      this.prependListener(type, _onceWrap(this, type, listener));
-      return this;
-    };
-    EventEmitter.prototype.removeListener = function removeListener(type, listener) {
-      var list, events, position, i, originalListener;
-      checkListener(listener);
-      events = this._events;
-      if (events === void 0)
-        return this;
-      list = events[type];
-      if (list === void 0)
-        return this;
-      if (list === listener || list.listener === listener) {
-        if (--this._eventsCount === 0)
-          this._events = /* @__PURE__ */ Object.create(null);
-        else {
-          delete events[type];
-          if (events.removeListener)
-            this.emit("removeListener", type, list.listener || listener);
-        }
-      } else if (typeof list !== "function") {
-        position = -1;
-        for (i = list.length - 1; i >= 0; i--) {
-          if (list[i] === listener || list[i].listener === listener) {
-            originalListener = list[i].listener;
-            position = i;
-            break;
-          }
-        }
-        if (position < 0)
-          return this;
-        if (position === 0)
-          list.shift();
-        else {
-          spliceOne(list, position);
-        }
-        if (list.length === 1)
-          events[type] = list[0];
-        if (events.removeListener !== void 0)
-          this.emit("removeListener", type, originalListener || listener);
-      }
-      return this;
-    };
-    EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
-    EventEmitter.prototype.removeAllListeners = function removeAllListeners(type) {
-      var listeners, events, i;
-      events = this._events;
-      if (events === void 0)
-        return this;
-      if (events.removeListener === void 0) {
-        if (arguments.length === 0) {
-          this._events = /* @__PURE__ */ Object.create(null);
-          this._eventsCount = 0;
-        } else if (events[type] !== void 0) {
-          if (--this._eventsCount === 0)
-            this._events = /* @__PURE__ */ Object.create(null);
-          else
-            delete events[type];
-        }
-        return this;
-      }
-      if (arguments.length === 0) {
-        var keys = Object.keys(events);
-        var key;
-        for (i = 0; i < keys.length; ++i) {
-          key = keys[i];
-          if (key === "removeListener")
-            continue;
-          this.removeAllListeners(key);
-        }
-        this.removeAllListeners("removeListener");
-        this._events = /* @__PURE__ */ Object.create(null);
-        this._eventsCount = 0;
-        return this;
-      }
-      listeners = events[type];
-      if (typeof listeners === "function") {
-        this.removeListener(type, listeners);
-      } else if (listeners !== void 0) {
-        for (i = listeners.length - 1; i >= 0; i--) {
-          this.removeListener(type, listeners[i]);
-        }
-      }
-      return this;
-    };
-    function _listeners(target, type, unwrap) {
-      var events = target._events;
-      if (events === void 0)
-        return [];
-      var evlistener = events[type];
-      if (evlistener === void 0)
-        return [];
-      if (typeof evlistener === "function")
-        return unwrap ? [evlistener.listener || evlistener] : [evlistener];
-      return unwrap ? unwrapListeners(evlistener) : arrayClone(evlistener, evlistener.length);
-    }
-    EventEmitter.prototype.listeners = function listeners(type) {
-      return _listeners(this, type, true);
-    };
-    EventEmitter.prototype.rawListeners = function rawListeners(type) {
-      return _listeners(this, type, false);
-    };
-    EventEmitter.listenerCount = function(emitter, type) {
-      if (typeof emitter.listenerCount === "function") {
-        return emitter.listenerCount(type);
-      } else {
-        return listenerCount.call(emitter, type);
-      }
-    };
-    EventEmitter.prototype.listenerCount = listenerCount;
-    function listenerCount(type) {
-      var events = this._events;
-      if (events !== void 0) {
-        var evlistener = events[type];
-        if (typeof evlistener === "function") {
-          return 1;
-        } else if (evlistener !== void 0) {
-          return evlistener.length;
-        }
-      }
-      return 0;
-    }
-    EventEmitter.prototype.eventNames = function eventNames() {
-      return this._eventsCount > 0 ? ReflectOwnKeys(this._events) : [];
-    };
-    function arrayClone(arr, n) {
-      var copy = new Array(n);
-      for (var i = 0; i < n; ++i)
-        copy[i] = arr[i];
-      return copy;
-    }
-    function spliceOne(list, index) {
-      for (; index + 1 < list.length; index++)
-        list[index] = list[index + 1];
-      list.pop();
-    }
-    function unwrapListeners(arr) {
-      var ret = new Array(arr.length);
-      for (var i = 0; i < ret.length; ++i) {
-        ret[i] = arr[i].listener || arr[i];
-      }
-      return ret;
-    }
-    function once(emitter, name) {
-      return new Promise(function(resolve, reject) {
-        function errorListener(err) {
-          emitter.removeListener(name, resolver);
-          reject(err);
-        }
-        function resolver() {
-          if (typeof emitter.removeListener === "function") {
-            emitter.removeListener("error", errorListener);
-          }
-          resolve([].slice.call(arguments));
-        }
-        ;
-        eventTargetAgnosticAddListener(emitter, name, resolver, { once: true });
-        if (name !== "error") {
-          addErrorHandlerIfEventEmitter(emitter, errorListener, { once: true });
-        }
-      });
-    }
-    function addErrorHandlerIfEventEmitter(emitter, handler, flags) {
-      if (typeof emitter.on === "function") {
-        eventTargetAgnosticAddListener(emitter, "error", handler, flags);
-      }
-    }
-    function eventTargetAgnosticAddListener(emitter, name, listener, flags) {
-      if (typeof emitter.on === "function") {
-        if (flags.once) {
-          emitter.once(name, listener);
-        } else {
-          emitter.on(name, listener);
-        }
-      } else if (typeof emitter.addEventListener === "function") {
-        emitter.addEventListener(name, function wrapListener(arg) {
-          if (flags.once) {
-            emitter.removeEventListener(name, wrapListener);
-          }
-          listener(arg);
-        });
-      } else {
-        throw new TypeError('The "emitter" argument must be of type EventEmitter. Received type ' + typeof emitter);
-      }
-    }
-  }
-});
-
-// browser-external:fs
-var require_fs = __commonJS({
-  "browser-external:fs"(exports, module) {
-    module.exports = Object.create(new Proxy({}, {
-      get(_, key) {
-        if (key !== "__esModule" && key !== "__proto__" && key !== "constructor" && key !== "splice") {
-          console.warn(`Module "fs" has been externalized for browser compatibility. Cannot access "fs.${key}" in client code. See https://vitejs.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.`);
-        }
-      }
-    }));
-  }
-});
-
-// browser-external:timers
-var require_timers = __commonJS({
-  "browser-external:timers"(exports, module) {
-    module.exports = Object.create(new Proxy({}, {
-      get(_, key) {
-        if (key !== "__esModule" && key !== "__proto__" && key !== "constructor" && key !== "splice") {
-          console.warn(`Module "timers" has been externalized for browser compatibility. Cannot access "timers.${key}" in client code. See https://vitejs.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.`);
-        }
-      }
-    }));
-  }
-});
-
-// browser-external:crypto
-var require_crypto = __commonJS({
-  "browser-external:crypto"(exports, module) {
-    module.exports = Object.create(new Proxy({}, {
-      get(_, key) {
-        if (key !== "__esModule" && key !== "__proto__" && key !== "constructor" && key !== "splice") {
-          console.warn(`Module "crypto" has been externalized for browser compatibility. Cannot access "crypto.${key}" in client code. See https://vitejs.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.`);
-        }
-      }
-    }));
-  }
-});
-
-// node_modules/zone.js/fesm2015/zone-node.js
+// node_modules/zone.js/fesm2015/zone.js
 (function(global) {
   const performance = global["performance"];
   function mark(name) {
@@ -944,11 +532,12 @@ var require_crypto = __commonJS({
 var ObjectGetOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 var ObjectDefineProperty = Object.defineProperty;
 var ObjectGetPrototypeOf = Object.getPrototypeOf;
+var ObjectCreate = Object.create;
 var ArraySlice = Array.prototype.slice;
 var ADD_EVENT_LISTENER_STR = "addEventListener";
 var REMOVE_EVENT_LISTENER_STR = "removeEventListener";
-Zone.__symbol__(ADD_EVENT_LISTENER_STR);
-Zone.__symbol__(REMOVE_EVENT_LISTENER_STR);
+var ZONE_SYMBOL_ADD_EVENT_LISTENER = Zone.__symbol__(ADD_EVENT_LISTENER_STR);
+var ZONE_SYMBOL_REMOVE_EVENT_LISTENER = Zone.__symbol__(REMOVE_EVENT_LISTENER_STR);
 var TRUE_STR = "true";
 var FALSE_STR = "false";
 var ZONE_SYMBOL_PREFIX = Zone.__symbol__("");
@@ -970,6 +559,26 @@ function bindArguments(args, source) {
     }
   }
   return args;
+}
+function patchPrototype(prototype, fnNames) {
+  const source = prototype.constructor["name"];
+  for (let i = 0; i < fnNames.length; i++) {
+    const name = fnNames[i];
+    const delegate = prototype[name];
+    if (delegate) {
+      const prototypeDesc = ObjectGetOwnPropertyDescriptor(prototype, name);
+      if (!isPropertyWritable(prototypeDesc)) {
+        continue;
+      }
+      prototype[name] = ((delegate2) => {
+        const patched = function() {
+          return delegate2.apply(this, bindArguments(arguments, source + "." + name));
+        };
+        attachOriginToPatched(patched, delegate2);
+        return patched;
+      })(delegate);
+    }
+  }
 }
 function isPropertyWritable(propertyDesc) {
   if (!propertyDesc) {
@@ -1096,32 +705,68 @@ function patchOnProperties(obj, properties, prototype) {
     }
   }
 }
-zoneSymbol("originalInstance");
-function copySymbolProperties(src, dest) {
-  if (typeof Object.getOwnPropertySymbols !== "function") {
+var originalInstanceKey = zoneSymbol("originalInstance");
+function patchClass(className) {
+  const OriginalClass = _global[className];
+  if (!OriginalClass)
     return;
-  }
-  const symbols = Object.getOwnPropertySymbols(src);
-  symbols.forEach((symbol) => {
-    const desc = Object.getOwnPropertyDescriptor(src, symbol);
-    Object.defineProperty(dest, symbol, {
-      get: function() {
-        return src[symbol];
-      },
-      set: function(value) {
-        if (desc && (!desc.writable || typeof desc.set !== "function")) {
-          return;
-        }
-        src[symbol] = value;
-      },
-      enumerable: desc ? desc.enumerable : true,
-      configurable: desc ? desc.configurable : true
-    });
+  _global[zoneSymbol(className)] = OriginalClass;
+  _global[className] = function() {
+    const a = bindArguments(arguments, className);
+    switch (a.length) {
+      case 0:
+        this[originalInstanceKey] = new OriginalClass();
+        break;
+      case 1:
+        this[originalInstanceKey] = new OriginalClass(a[0]);
+        break;
+      case 2:
+        this[originalInstanceKey] = new OriginalClass(a[0], a[1]);
+        break;
+      case 3:
+        this[originalInstanceKey] = new OriginalClass(a[0], a[1], a[2]);
+        break;
+      case 4:
+        this[originalInstanceKey] = new OriginalClass(a[0], a[1], a[2], a[3]);
+        break;
+      default:
+        throw new Error("Arg list too long.");
+    }
+  };
+  attachOriginToPatched(_global[className], OriginalClass);
+  const instance = new OriginalClass(function() {
   });
-}
-var shouldCopySymbolProperties = false;
-function setShouldCopySymbolProperties(flag) {
-  shouldCopySymbolProperties = flag;
+  let prop;
+  for (prop in instance) {
+    if (className === "XMLHttpRequest" && prop === "responseBlob")
+      continue;
+    (function(prop2) {
+      if (typeof instance[prop2] === "function") {
+        _global[className].prototype[prop2] = function() {
+          return this[originalInstanceKey][prop2].apply(this[originalInstanceKey], arguments);
+        };
+      } else {
+        ObjectDefineProperty(_global[className].prototype, prop2, {
+          set: function(fn) {
+            if (typeof fn === "function") {
+              this[originalInstanceKey][prop2] = wrapWithCurrentZone(fn, className + "." + prop2);
+              attachOriginToPatched(this[originalInstanceKey][prop2], fn);
+            } else {
+              this[originalInstanceKey][prop2] = fn;
+            }
+          },
+          get: function() {
+            return this[originalInstanceKey][prop2];
+          }
+        });
+      }
+    })(prop);
+  }
+  for (prop in OriginalClass) {
+    if (prop !== "prototype" && OriginalClass.hasOwnProperty(prop)) {
+      _global[className][prop] = OriginalClass[prop];
+    }
+  }
 }
 function patchMethod(target, name, patchFn) {
   let proto = target;
@@ -1142,9 +787,6 @@ function patchMethod(target, name, patchFn) {
         return patchDelegate(this, arguments);
       };
       attachOriginToPatched(proto[name], delegate);
-      if (shouldCopySymbolProperties) {
-        copySymbolProperties(delegate, proto[name]);
-      }
     }
   }
   return delegate;
@@ -1168,27 +810,34 @@ function patchMacroTask(obj, funcName, metaCreator) {
     }
   });
 }
-function patchMicroTask(obj, funcName, metaCreator) {
-  let setNative = null;
-  function scheduleTask(task) {
-    const data = task.data;
-    data.args[data.cbIdx] = function() {
-      task.invoke.apply(this, arguments);
-    };
-    setNative.apply(data.target, data.args);
-    return task;
-  }
-  setNative = patchMethod(obj, funcName, (delegate) => function(self2, args) {
-    const meta = metaCreator(self2, args);
-    if (meta.cbIdx >= 0 && typeof args[meta.cbIdx] === "function") {
-      return Zone.current.scheduleMicroTask(meta.name, args[meta.cbIdx], meta, scheduleTask);
-    } else {
-      return delegate.apply(self2, args);
-    }
-  });
-}
 function attachOriginToPatched(patched, original) {
   patched[zoneSymbol("OriginalDelegate")] = original;
+}
+var isDetectedIEOrEdge = false;
+var ieOrEdge = false;
+function isIE() {
+  try {
+    const ua = internalWindow.navigator.userAgent;
+    if (ua.indexOf("MSIE ") !== -1 || ua.indexOf("Trident/") !== -1) {
+      return true;
+    }
+  } catch (error) {
+  }
+  return false;
+}
+function isIEOrEdge() {
+  if (isDetectedIEOrEdge) {
+    return ieOrEdge;
+  }
+  isDetectedIEOrEdge = true;
+  try {
+    const ua = internalWindow.navigator.userAgent;
+    if (ua.indexOf("MSIE ") !== -1 || ua.indexOf("Trident/") !== -1 || ua.indexOf("Edge/") !== -1) {
+      ieOrEdge = true;
+    }
+  } catch (error) {
+  }
+  return ieOrEdge;
 }
 Zone.__load_patch("ZoneAwarePromise", (global, Zone2, api) => {
   const ObjectGetOwnPropertyDescriptor2 = Object.getOwnPropertyDescriptor;
@@ -1666,13 +1315,6 @@ Zone.__load_patch("toString", (global) => {
     }
     return originalObjectToString.call(this);
   };
-});
-Zone.__load_patch("node_util", (global, Zone2, api) => {
-  api.patchOnProperties = patchOnProperties;
-  api.patchMethod = patchMethod;
-  api.bindArguments = bindArguments;
-  api.patchMacroTask = patchMacroTask;
-  setShouldCopySymbolProperties(true);
 });
 var passiveSupported = false;
 if (typeof window !== "undefined") {
@@ -2162,117 +1804,150 @@ function findEventTasks(target, eventName) {
     return captureTrueTasks ? captureFalseTasks.concat(captureTrueTasks) : captureFalseTasks.slice();
   }
 }
-Zone.__load_patch("EventEmitter", (global, Zone2, api) => {
-  const EE_ADD_LISTENER = "addListener";
-  const EE_PREPEND_LISTENER = "prependListener";
-  const EE_REMOVE_LISTENER = "removeListener";
-  const EE_REMOVE_ALL_LISTENER = "removeAllListeners";
-  const EE_LISTENERS = "listeners";
-  const EE_ON = "on";
-  const EE_OFF = "off";
-  const compareTaskCallbackVsDelegate = function(task, delegate) {
-    return task.callback === delegate || task.callback.listener === delegate;
-  };
-  const eventNameToString = function(eventName) {
-    if (typeof eventName === "string") {
-      return eventName;
-    }
-    if (!eventName) {
-      return "";
-    }
-    return eventName.toString().replace("(", "_").replace(")", "_");
-  };
-  function patchEventEmitterMethods(obj) {
-    const result = patchEventTarget(global, api, [obj], {
-      useG: false,
-      add: EE_ADD_LISTENER,
-      rm: EE_REMOVE_LISTENER,
-      prepend: EE_PREPEND_LISTENER,
-      rmAll: EE_REMOVE_ALL_LISTENER,
-      listeners: EE_LISTENERS,
-      chkDup: false,
-      rt: true,
-      diff: compareTaskCallbackVsDelegate,
-      eventNameToString
+function patchEventPrototype(global, api) {
+  const Event = global["Event"];
+  if (Event && Event.prototype) {
+    api.patchMethod(Event.prototype, "stopImmediatePropagation", (delegate) => function(self2, args) {
+      self2[IMMEDIATE_PROPAGATION_SYMBOL] = true;
+      delegate && delegate.apply(self2, args);
     });
-    if (result && result[0]) {
-      obj[EE_ON] = obj[EE_ADD_LISTENER];
-      obj[EE_OFF] = obj[EE_REMOVE_LISTENER];
-    }
   }
-  let events;
-  try {
-    events = require_events();
-  } catch (err) {
-  }
-  if (events && events.EventEmitter) {
-    patchEventEmitterMethods(events.EventEmitter.prototype);
-  }
-});
-Zone.__load_patch("fs", (global, Zone2, api) => {
-  let fs;
-  try {
-    fs = require_fs();
-  } catch (err) {
-  }
-  if (!fs)
+}
+function patchCallbacks(api, target, targetName, method, callbacks) {
+  const symbol = Zone.__symbol__(method);
+  if (target[symbol]) {
     return;
-  const TO_PATCH_MACROTASK_METHODS = [
-    "access",
-    "appendFile",
-    "chmod",
-    "chown",
-    "close",
-    "exists",
-    "fchmod",
-    "fchown",
-    "fdatasync",
-    "fstat",
-    "fsync",
-    "ftruncate",
-    "futimes",
-    "lchmod",
-    "lchown",
-    "link",
-    "lstat",
-    "mkdir",
-    "mkdtemp",
-    "open",
-    "read",
-    "readdir",
-    "readFile",
-    "readlink",
-    "realpath",
-    "rename",
-    "rmdir",
-    "stat",
-    "symlink",
-    "truncate",
-    "unlink",
-    "utimes",
-    "write",
-    "writeFile"
-  ];
-  TO_PATCH_MACROTASK_METHODS.filter((name) => !!fs[name] && typeof fs[name] === "function").forEach((name) => {
-    patchMacroTask(fs, name, (self2, args) => {
-      return {
-        name: "fs." + name,
-        args,
-        cbIdx: args.length > 0 ? args.length - 1 : -1,
-        target: self2
-      };
-    });
-  });
-  const realpathOriginalDelegate = fs.realpath?.[api.symbol("OriginalDelegate")];
-  if (realpathOriginalDelegate?.native) {
-    fs.realpath.native = realpathOriginalDelegate.native;
-    patchMacroTask(fs.realpath, "native", (self2, args) => ({
-      args,
-      target: self2,
-      cbIdx: args.length > 0 ? args.length - 1 : -1,
-      name: "fs.realpath.native"
-    }));
   }
+  const nativeDelegate = target[symbol] = target[method];
+  target[method] = function(name, opts, options) {
+    if (opts && opts.prototype) {
+      callbacks.forEach(function(callback) {
+        const source = `${targetName}.${method}::` + callback;
+        const prototype = opts.prototype;
+        try {
+          if (prototype.hasOwnProperty(callback)) {
+            const descriptor = api.ObjectGetOwnPropertyDescriptor(prototype, callback);
+            if (descriptor && descriptor.value) {
+              descriptor.value = api.wrapWithCurrentZone(descriptor.value, source);
+              api._redefineProperty(opts.prototype, callback, descriptor);
+            } else if (prototype[callback]) {
+              prototype[callback] = api.wrapWithCurrentZone(prototype[callback], source);
+            }
+          } else if (prototype[callback]) {
+            prototype[callback] = api.wrapWithCurrentZone(prototype[callback], source);
+          }
+        } catch {
+        }
+      });
+    }
+    return nativeDelegate.call(target, name, opts, options);
+  };
+  api.attachOriginToPatched(target[method], nativeDelegate);
+}
+function filterProperties(target, onProperties, ignoreProperties) {
+  if (!ignoreProperties || ignoreProperties.length === 0) {
+    return onProperties;
+  }
+  const tip = ignoreProperties.filter((ip) => ip.target === target);
+  if (!tip || tip.length === 0) {
+    return onProperties;
+  }
+  const targetIgnoreProperties = tip[0].ignoreProperties;
+  return onProperties.filter((op) => targetIgnoreProperties.indexOf(op) === -1);
+}
+function patchFilteredProperties(target, onProperties, ignoreProperties, prototype) {
+  if (!target) {
+    return;
+  }
+  const filteredProperties = filterProperties(target, onProperties, ignoreProperties);
+  patchOnProperties(target, filteredProperties, prototype);
+}
+function getOnEventNames(target) {
+  return Object.getOwnPropertyNames(target).filter((name) => name.startsWith("on") && name.length > 2).map((name) => name.substring(2));
+}
+function propertyDescriptorPatch(api, _global2) {
+  if (isNode && !isMix) {
+    return;
+  }
+  if (Zone[api.symbol("patchEvents")]) {
+    return;
+  }
+  const ignoreProperties = _global2["__Zone_ignore_on_properties"];
+  let patchTargets = [];
+  if (isBrowser) {
+    const internalWindow2 = window;
+    patchTargets = patchTargets.concat([
+      "Document",
+      "SVGElement",
+      "Element",
+      "HTMLElement",
+      "HTMLBodyElement",
+      "HTMLMediaElement",
+      "HTMLFrameSetElement",
+      "HTMLFrameElement",
+      "HTMLIFrameElement",
+      "HTMLMarqueeElement",
+      "Worker"
+    ]);
+    const ignoreErrorProperties = isIE() ? [{ target: internalWindow2, ignoreProperties: ["error"] }] : [];
+    patchFilteredProperties(internalWindow2, getOnEventNames(internalWindow2), ignoreProperties ? ignoreProperties.concat(ignoreErrorProperties) : ignoreProperties, ObjectGetPrototypeOf(internalWindow2));
+  }
+  patchTargets = patchTargets.concat([
+    "XMLHttpRequest",
+    "XMLHttpRequestEventTarget",
+    "IDBIndex",
+    "IDBRequest",
+    "IDBOpenDBRequest",
+    "IDBDatabase",
+    "IDBTransaction",
+    "IDBCursor",
+    "WebSocket"
+  ]);
+  for (let i = 0; i < patchTargets.length; i++) {
+    const target = _global2[patchTargets[i]];
+    target && target.prototype && patchFilteredProperties(target.prototype, getOnEventNames(target.prototype), ignoreProperties);
+  }
+}
+Zone.__load_patch("util", (global, Zone2, api) => {
+  const eventNames = getOnEventNames(global);
+  api.patchOnProperties = patchOnProperties;
+  api.patchMethod = patchMethod;
+  api.bindArguments = bindArguments;
+  api.patchMacroTask = patchMacroTask;
+  const SYMBOL_BLACK_LISTED_EVENTS = Zone2.__symbol__("BLACK_LISTED_EVENTS");
+  const SYMBOL_UNPATCHED_EVENTS = Zone2.__symbol__("UNPATCHED_EVENTS");
+  if (global[SYMBOL_UNPATCHED_EVENTS]) {
+    global[SYMBOL_BLACK_LISTED_EVENTS] = global[SYMBOL_UNPATCHED_EVENTS];
+  }
+  if (global[SYMBOL_BLACK_LISTED_EVENTS]) {
+    Zone2[SYMBOL_BLACK_LISTED_EVENTS] = Zone2[SYMBOL_UNPATCHED_EVENTS] = global[SYMBOL_BLACK_LISTED_EVENTS];
+  }
+  api.patchEventPrototype = patchEventPrototype;
+  api.patchEventTarget = patchEventTarget;
+  api.isIEOrEdge = isIEOrEdge;
+  api.ObjectDefineProperty = ObjectDefineProperty;
+  api.ObjectGetOwnPropertyDescriptor = ObjectGetOwnPropertyDescriptor;
+  api.ObjectCreate = ObjectCreate;
+  api.ArraySlice = ArraySlice;
+  api.patchClass = patchClass;
+  api.wrapWithCurrentZone = wrapWithCurrentZone;
+  api.filterProperties = filterProperties;
+  api.attachOriginToPatched = attachOriginToPatched;
+  api._redefineProperty = Object.defineProperty;
+  api.patchCallbacks = patchCallbacks;
+  api.getGlobalObjects = () => ({
+    globalSources,
+    zoneSymbolEventNames,
+    eventNames,
+    isBrowser,
+    isMix,
+    isNode,
+    TRUE_STR,
+    FALSE_STR,
+    ZONE_SYMBOL_PREFIX,
+    ADD_EVENT_LISTENER_STR,
+    REMOVE_EVENT_LISTENER_STR
+  });
 });
 function patchQueueMicrotask(global, api) {
   api.patchMethod(global, "queueMicrotask", (delegate) => {
@@ -2367,114 +2042,253 @@ function patchTimer(window2, setName, cancelName, nameSuffix) {
     }
   });
 }
-var set = "set";
-var clear = "clear";
-Zone.__load_patch("node_timers", (global, Zone2) => {
-  let globalUseTimeoutFromTimer = false;
-  try {
-    const timers = require_timers();
-    let globalEqualTimersTimeout = global.setTimeout === timers.setTimeout;
-    if (!globalEqualTimersTimeout && !isMix) {
-      const originSetTimeout = timers.setTimeout;
-      timers.setTimeout = function() {
-        globalUseTimeoutFromTimer = true;
-        return originSetTimeout.apply(this, arguments);
-      };
-      const detectTimeout = global.setTimeout(() => {
-      }, 100);
-      clearTimeout(detectTimeout);
-      timers.setTimeout = originSetTimeout;
-    }
-    patchTimer(timers, set, clear, "Timeout");
-    patchTimer(timers, set, clear, "Interval");
-    patchTimer(timers, set, clear, "Immediate");
-  } catch (error) {
-  }
-  if (isMix) {
+function patchCustomElements(_global2, api) {
+  const { isBrowser: isBrowser2, isMix: isMix2 } = api.getGlobalObjects();
+  if (!isBrowser2 && !isMix2 || !_global2["customElements"] || !("customElements" in _global2)) {
     return;
   }
-  if (!globalUseTimeoutFromTimer) {
-    patchTimer(global, set, clear, "Timeout");
-    patchTimer(global, set, clear, "Interval");
-    patchTimer(global, set, clear, "Immediate");
-  } else {
-    global[Zone2.__symbol__("setTimeout")] = global.setTimeout;
-    global[Zone2.__symbol__("setInterval")] = global.setInterval;
-    global[Zone2.__symbol__("setImmediate")] = global.setImmediate;
+  const callbacks = [
+    "connectedCallback",
+    "disconnectedCallback",
+    "adoptedCallback",
+    "attributeChangedCallback",
+    "formAssociatedCallback",
+    "formDisabledCallback",
+    "formResetCallback",
+    "formStateRestoreCallback"
+  ];
+  api.patchCallbacks(api, _global2.customElements, "customElements", "define", callbacks);
+}
+function eventTargetPatch(_global2, api) {
+  if (Zone[api.symbol("patchEventTarget")]) {
+    return;
+  }
+  const { eventNames, zoneSymbolEventNames: zoneSymbolEventNames2, TRUE_STR: TRUE_STR2, FALSE_STR: FALSE_STR2, ZONE_SYMBOL_PREFIX: ZONE_SYMBOL_PREFIX2 } = api.getGlobalObjects();
+  for (let i = 0; i < eventNames.length; i++) {
+    const eventName = eventNames[i];
+    const falseEventName = eventName + FALSE_STR2;
+    const trueEventName = eventName + TRUE_STR2;
+    const symbol = ZONE_SYMBOL_PREFIX2 + falseEventName;
+    const symbolCapture = ZONE_SYMBOL_PREFIX2 + trueEventName;
+    zoneSymbolEventNames2[eventName] = {};
+    zoneSymbolEventNames2[eventName][FALSE_STR2] = symbol;
+    zoneSymbolEventNames2[eventName][TRUE_STR2] = symbolCapture;
+  }
+  const EVENT_TARGET = _global2["EventTarget"];
+  if (!EVENT_TARGET || !EVENT_TARGET.prototype) {
+    return;
+  }
+  api.patchEventTarget(_global2, api, [EVENT_TARGET && EVENT_TARGET.prototype]);
+  return true;
+}
+function patchEvent(global, api) {
+  api.patchEventPrototype(global, api);
+}
+Zone.__load_patch("legacy", (global) => {
+  const legacyPatch = global[Zone.__symbol__("legacyPatch")];
+  if (legacyPatch) {
+    legacyPatch();
   }
 });
-Zone.__load_patch("nextTick", () => {
-  patchMicroTask(process, "nextTick", (self2, args) => {
-    return {
-      name: "process.nextTick",
-      args,
-      cbIdx: args.length > 0 && typeof args[0] === "function" ? 0 : -1,
-      target: process
-    };
-  });
+Zone.__load_patch("timers", (global) => {
+  const set = "set";
+  const clear = "clear";
+  patchTimer(global, set, clear, "Timeout");
+  patchTimer(global, set, clear, "Interval");
+  patchTimer(global, set, clear, "Immediate");
 });
-Zone.__load_patch("handleUnhandledPromiseRejection", (global, Zone2, api) => {
-  Zone2[api.symbol("unhandledPromiseRejectionHandler")] = findProcessPromiseRejectionHandler("unhandledRejection");
-  Zone2[api.symbol("rejectionHandledHandler")] = findProcessPromiseRejectionHandler("rejectionHandled");
-  function findProcessPromiseRejectionHandler(evtName) {
-    return function(e) {
-      const eventTasks = findEventTasks(process, evtName);
-      eventTasks.forEach((eventTask) => {
-        if (evtName === "unhandledRejection") {
-          eventTask.invoke(e.rejection, e.promise);
-        } else if (evtName === "rejectionHandled") {
-          eventTask.invoke(e.promise);
-        }
-      });
-    };
-  }
+Zone.__load_patch("requestAnimationFrame", (global) => {
+  patchTimer(global, "request", "cancel", "AnimationFrame");
+  patchTimer(global, "mozRequest", "mozCancel", "AnimationFrame");
+  patchTimer(global, "webkitRequest", "webkitCancel", "AnimationFrame");
 });
-Zone.__load_patch("crypto", () => {
-  let crypto;
-  try {
-    crypto = require_crypto();
-  } catch (err) {
-  }
-  if (crypto) {
-    const methodNames = ["randomBytes", "pbkdf2"];
-    methodNames.forEach((name) => {
-      patchMacroTask(crypto, name, (self2, args) => {
-        return {
-          name: "crypto." + name,
-          args,
-          cbIdx: args.length > 0 && typeof args[args.length - 1] === "function" ? args.length - 1 : -1,
-          target: crypto
-        };
-      });
+Zone.__load_patch("blocking", (global, Zone2) => {
+  const blockingMethods = ["alert", "prompt", "confirm"];
+  for (let i = 0; i < blockingMethods.length; i++) {
+    const name = blockingMethods[i];
+    patchMethod(global, name, (delegate, symbol, name2) => {
+      return function(s, args) {
+        return Zone2.current.run(delegate, global, args, name2);
+      };
     });
   }
 });
-Zone.__load_patch("console", (global, Zone2) => {
-  const consoleMethods = ["dir", "log", "info", "error", "warn", "assert", "debug", "timeEnd", "trace"];
-  consoleMethods.forEach((m) => {
-    const originalMethod = console[Zone2.__symbol__(m)] = console[m];
-    if (originalMethod) {
-      console[m] = function() {
-        const args = ArraySlice.call(arguments);
-        if (Zone2.current === Zone2.root) {
-          return originalMethod.apply(this, args);
-        } else {
-          return Zone2.root.run(originalMethod, this, args);
+Zone.__load_patch("EventTarget", (global, Zone2, api) => {
+  patchEvent(global, api);
+  eventTargetPatch(global, api);
+  const XMLHttpRequestEventTarget = global["XMLHttpRequestEventTarget"];
+  if (XMLHttpRequestEventTarget && XMLHttpRequestEventTarget.prototype) {
+    api.patchEventTarget(global, api, [XMLHttpRequestEventTarget.prototype]);
+  }
+});
+Zone.__load_patch("MutationObserver", (global, Zone2, api) => {
+  patchClass("MutationObserver");
+  patchClass("WebKitMutationObserver");
+});
+Zone.__load_patch("IntersectionObserver", (global, Zone2, api) => {
+  patchClass("IntersectionObserver");
+});
+Zone.__load_patch("FileReader", (global, Zone2, api) => {
+  patchClass("FileReader");
+});
+Zone.__load_patch("on_property", (global, Zone2, api) => {
+  propertyDescriptorPatch(api, global);
+});
+Zone.__load_patch("customElements", (global, Zone2, api) => {
+  patchCustomElements(global, api);
+});
+Zone.__load_patch("XHR", (global, Zone2) => {
+  patchXHR(global);
+  const XHR_TASK = zoneSymbol("xhrTask");
+  const XHR_SYNC = zoneSymbol("xhrSync");
+  const XHR_LISTENER = zoneSymbol("xhrListener");
+  const XHR_SCHEDULED = zoneSymbol("xhrScheduled");
+  const XHR_URL = zoneSymbol("xhrURL");
+  const XHR_ERROR_BEFORE_SCHEDULED = zoneSymbol("xhrErrorBeforeScheduled");
+  function patchXHR(window2) {
+    const XMLHttpRequest = window2["XMLHttpRequest"];
+    if (!XMLHttpRequest) {
+      return;
+    }
+    const XMLHttpRequestPrototype = XMLHttpRequest.prototype;
+    function findPendingTask(target) {
+      return target[XHR_TASK];
+    }
+    let oriAddListener = XMLHttpRequestPrototype[ZONE_SYMBOL_ADD_EVENT_LISTENER];
+    let oriRemoveListener = XMLHttpRequestPrototype[ZONE_SYMBOL_REMOVE_EVENT_LISTENER];
+    if (!oriAddListener) {
+      const XMLHttpRequestEventTarget = window2["XMLHttpRequestEventTarget"];
+      if (XMLHttpRequestEventTarget) {
+        const XMLHttpRequestEventTargetPrototype = XMLHttpRequestEventTarget.prototype;
+        oriAddListener = XMLHttpRequestEventTargetPrototype[ZONE_SYMBOL_ADD_EVENT_LISTENER];
+        oriRemoveListener = XMLHttpRequestEventTargetPrototype[ZONE_SYMBOL_REMOVE_EVENT_LISTENER];
+      }
+    }
+    const READY_STATE_CHANGE = "readystatechange";
+    const SCHEDULED = "scheduled";
+    function scheduleTask(task) {
+      const data = task.data;
+      const target = data.target;
+      target[XHR_SCHEDULED] = false;
+      target[XHR_ERROR_BEFORE_SCHEDULED] = false;
+      const listener = target[XHR_LISTENER];
+      if (!oriAddListener) {
+        oriAddListener = target[ZONE_SYMBOL_ADD_EVENT_LISTENER];
+        oriRemoveListener = target[ZONE_SYMBOL_REMOVE_EVENT_LISTENER];
+      }
+      if (listener) {
+        oriRemoveListener.call(target, READY_STATE_CHANGE, listener);
+      }
+      const newListener = target[XHR_LISTENER] = () => {
+        if (target.readyState === target.DONE) {
+          if (!data.aborted && target[XHR_SCHEDULED] && task.state === SCHEDULED) {
+            const loadTasks = target[Zone2.__symbol__("loadfalse")];
+            if (target.status !== 0 && loadTasks && loadTasks.length > 0) {
+              const oriInvoke = task.invoke;
+              task.invoke = function() {
+                const loadTasks2 = target[Zone2.__symbol__("loadfalse")];
+                for (let i = 0; i < loadTasks2.length; i++) {
+                  if (loadTasks2[i] === task) {
+                    loadTasks2.splice(i, 1);
+                  }
+                }
+                if (!data.aborted && task.state === SCHEDULED) {
+                  oriInvoke.call(task);
+                }
+              };
+              loadTasks.push(task);
+            } else {
+              task.invoke();
+            }
+          } else if (!data.aborted && target[XHR_SCHEDULED] === false) {
+            target[XHR_ERROR_BEFORE_SCHEDULED] = true;
+          }
         }
       };
+      oriAddListener.call(target, READY_STATE_CHANGE, newListener);
+      const storedTask = target[XHR_TASK];
+      if (!storedTask) {
+        target[XHR_TASK] = task;
+      }
+      sendNative.apply(target, data.args);
+      target[XHR_SCHEDULED] = true;
+      return task;
     }
-  });
+    function placeholderCallback() {
+    }
+    function clearTask(task) {
+      const data = task.data;
+      data.aborted = true;
+      return abortNative.apply(data.target, data.args);
+    }
+    const openNative = patchMethod(XMLHttpRequestPrototype, "open", () => function(self2, args) {
+      self2[XHR_SYNC] = args[2] == false;
+      self2[XHR_URL] = args[1];
+      return openNative.apply(self2, args);
+    });
+    const XMLHTTPREQUEST_SOURCE = "XMLHttpRequest.send";
+    const fetchTaskAborting = zoneSymbol("fetchTaskAborting");
+    const fetchTaskScheduling = zoneSymbol("fetchTaskScheduling");
+    const sendNative = patchMethod(XMLHttpRequestPrototype, "send", () => function(self2, args) {
+      if (Zone2.current[fetchTaskScheduling] === true) {
+        return sendNative.apply(self2, args);
+      }
+      if (self2[XHR_SYNC]) {
+        return sendNative.apply(self2, args);
+      } else {
+        const options = { target: self2, url: self2[XHR_URL], isPeriodic: false, args, aborted: false };
+        const task = scheduleMacroTaskWithCurrentZone(XMLHTTPREQUEST_SOURCE, placeholderCallback, options, scheduleTask, clearTask);
+        if (self2 && self2[XHR_ERROR_BEFORE_SCHEDULED] === true && !options.aborted && task.state === SCHEDULED) {
+          task.invoke();
+        }
+      }
+    });
+    const abortNative = patchMethod(XMLHttpRequestPrototype, "abort", () => function(self2, args) {
+      const task = findPendingTask(self2);
+      if (task && typeof task.type == "string") {
+        if (task.cancelFn == null || task.data && task.data.aborted) {
+          return;
+        }
+        task.zone.cancelTask(task);
+      } else if (Zone2.current[fetchTaskAborting] === true) {
+        return abortNative.apply(self2, args);
+      }
+    });
+  }
+});
+Zone.__load_patch("geolocation", (global) => {
+  if (global["navigator"] && global["navigator"].geolocation) {
+    patchPrototype(global["navigator"].geolocation, ["getCurrentPosition", "watchPosition"]);
+  }
+});
+Zone.__load_patch("PromiseRejectionEvent", (global, Zone2) => {
+  function findPromiseRejectionHandler(evtName) {
+    return function(e) {
+      const eventTasks = findEventTasks(global, evtName);
+      eventTasks.forEach((eventTask) => {
+        const PromiseRejectionEvent = global["PromiseRejectionEvent"];
+        if (PromiseRejectionEvent) {
+          const evt = new PromiseRejectionEvent(evtName, { promise: e.promise, reason: e.rejection });
+          eventTask.invoke(evt);
+        }
+      });
+    };
+  }
+  if (global["PromiseRejectionEvent"]) {
+    Zone2[zoneSymbol("unhandledPromiseRejectionHandler")] = findPromiseRejectionHandler("unhandledrejection");
+    Zone2[zoneSymbol("rejectionHandledHandler")] = findPromiseRejectionHandler("rejectionhandled");
+  }
 });
 Zone.__load_patch("queueMicrotask", (global, Zone2, api) => {
   patchQueueMicrotask(global, api);
 });
 /*! Bundled license information:
 
-zone.js/fesm2015/zone-node.js:
+zone.js/fesm2015/zone.js:
   (**
    * @license Angular v<unknown>
    * (c) 2010-2022 Google LLC. https://angular.io/
    * License: MIT
    *)
 */
-//# sourceMappingURL=zone__js_node.js.map
+//# sourceMappingURL=zone__js.js.map

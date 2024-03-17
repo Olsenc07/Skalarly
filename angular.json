@@ -26,6 +26,11 @@
             "assets": [
               "src/assets/images"
             ],
+            "allowedCommonJsDependencies": [
+              "body-parser",
+              "compression",
+              "mongoose"
+            ],
             "styles": [
               "node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "skalarly-frontend/src/styles.scss",

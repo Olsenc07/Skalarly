@@ -1,15 +1,13 @@
 // Backend SERVER NODE.JS Using ES6 module
 // For server-side (Node.js environment)
 import 'zone.js';
-import bodyParser from 'body-parser';
-import compression from 'compression'; 
-import express from 'express';
-import { Request, Response, NextFunction } from 'express';
-
+import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+
 import rateLimit from 'express-rate-limit';
-import { dirname, join, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join, resolve } from 'path';
+import { fileURLToPath } from 'url';
 
 // Frontend SSR 
 import { APP_BASE_HREF } from '@angular/common';
@@ -40,9 +38,6 @@ const apiLimiter = rateLimit({
 // Initialize mongoose connections
 let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
 
-// Other middleware & functions 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 //  Responsive DataBase connection
 const connectAuthDB = async () => {
   if (!mongooseAuth || mongooseAuth.readyState === 0) {
@@ -89,14 +84,14 @@ const switchDatabase = async (req: Request, res: Response, next: NextFunction) =
   }
   };
   // The Express app is exported so that it can be used by serverless Functions.
-function createExpressApp(): express.Express {
+async function createExpressApp(): Promise<express.Express> {
   const app = express();
   const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-  const serverDistFolder = __dirname;
+  const serverDistFolder = __filename;
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(browserDistFolder, 'index.server.html');
 
+  const compression = (await import('compression')).default;
   app.use(compression());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -134,12 +129,12 @@ function createExpressApp(): express.Express {
 
   return app;
 }
-
-function run() {
+// Run server
+async function run() {
   const port = process.env['PORT'] || 4200;
   const app = createExpressApp();
 
-  app.listen(port, () => {
+  (await app).listen(port, () => {
       console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }

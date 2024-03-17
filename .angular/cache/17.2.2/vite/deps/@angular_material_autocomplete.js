@@ -21,9 +21,6 @@ import {
   trigger
 } from "./chunk-HGUUYAXF.js";
 import {
-  NG_VALUE_ACCESSOR
-} from "./chunk-W2FPSNM4.js";
-import {
   ActiveDescendantKeyManager,
   Directionality,
   MAT_OPTGROUP,
@@ -49,6 +46,9 @@ import {
   UP_ARROW,
   hasModifierKey
 } from "./chunk-CJNMZQC3.js";
+import {
+  NG_VALUE_ACCESSOR
+} from "./chunk-W2FPSNM4.js";
 import {
   CommonModule,
   DOCUMENT,
@@ -105,12 +105,12 @@ import {
   ɵɵtemplate,
   ɵɵviewQuery
 } from "./chunk-BLR2DKIM.js";
-import "./chunk-SAVXX6OM.js";
 import {
   defer,
   fromEvent,
   merge
 } from "./chunk-SG3BCSKH.js";
+import "./chunk-SAVXX6OM.js";
 import {
   Subject,
   Subscription,

@@ -9,11 +9,11 @@ import {
   EVENT_MANAGER_PLUGINS,
   EventManagerPlugin
 } from "./chunk-GGSASQTS.js";
-import "./chunk-HGUUYAXF.js";
 import {
   HTTP_ROOT_INTERCEPTOR_FNS,
   HttpClientModule
 } from "./chunk-NJIPK5FP.js";
+import "./chunk-HGUUYAXF.js";
 import {
   DOCUMENT,
   NullViewportScroller,
@@ -56,8 +56,8 @@ import {
   ɵɵdefineNgModule,
   ɵɵinject
 } from "./chunk-BLR2DKIM.js";
-import "./chunk-SAVXX6OM.js";
 import "./chunk-SG3BCSKH.js";
+import "./chunk-SAVXX6OM.js";
 import {
   Subject
 } from "./chunk-PQ7O3X3G.js";

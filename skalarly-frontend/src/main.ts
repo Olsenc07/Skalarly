@@ -1,4 +1,4 @@
-import 'zone.js/node';
+import 'zone.js';
 import {
   bootstrapApplication,
   provideClientHydration,

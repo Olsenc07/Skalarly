@@ -22,6 +22,10 @@
     "module": "ES2022",
     "lib": ["ES2022", "dom"]
   },
+  "files": [
+    "../server.ts",
+    "src/main.server.ts",
+  ],
   "exclude": [
     "src/test.ts",
     "**/*.spec.ts",
