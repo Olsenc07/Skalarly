@@ -50,14 +50,14 @@ export class AppComponent {
     uniqueClass?: string
   }> = [
     { top: '30%', left: '30%', data: '|Ψ⟩ = 1/√2 (|01⟩ + |10⟩)' },
-    { top: '1%', left: '30%', data: 'a² + b² = c²' },
+    // { top: '1%', left: '30%', data: 'a² + b² = c²' },
     // { top: '65%', left: '47%', data: 'F = ma' },
     { top: '35%', left: '5%', data: 'Life attracts life' },
     { top: '75%', left: '30%', data: 'i² = -1' },
     // { top: '30%', left: '30%', data: 'Λ = 8πGρ_{vac} / c²' },
     // { top: '60%', left: '30%', data: 'PV = nRT' },
     { top: '40%', left: '60%', data: 'E = mc²' },
-    { top: '20%', left: '35%', data: 'E_total = K + U' },
+    // { top: '20%', left: '35%', data: 'E_total = K + U' },
     // { top: '50%', left: '60%', data: 'To be or not to be' },
     { top: '70%', left: '45%', data: 'Take up and read' },
     { top: '15%', left: '75%', data: 'ΔS ≥ 0' },
@@ -66,9 +66,7 @@ export class AppComponent {
     { top: '75%', left: '15%', data: 'e^{iπ} + 1 = 0' },
     // { top: '10%', left: '65%', data: 'φ = (1 + √5) / 2' },
     {
-      top: '10%',
-      left: '50%',
-      data: 'Narrow the road that leads to life.',
+      top: '10%', left: '50%', data: 'Narrow the road that leads to life.',
       uniqueClass: 'reverseAnimation'
     },
     { top: '55%', left: '50%', data: 'Memento Mori' }

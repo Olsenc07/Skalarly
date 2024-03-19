@@ -45,7 +45,7 @@ div[phrase]{
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent; 
-    background-image: linear-gradient(45deg, var(--bolder), var(--firstChoice), var(--bolder));
+    background-image: linear-gradient(45deg, var(--secondChoice), var(--firstChoice), var(--secondChoice));
     background-size: 200% 200%; 
     @include animation.gradientFlow;
     animation: gradient-flow 7s linear infinite; 
