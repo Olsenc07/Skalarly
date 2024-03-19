@@ -5,6 +5,10 @@
   align-items: center;
   padding-top: 1%;
 }
+.titl-center{
+  display: flex;
+  text-align: center;
+}
   button[join]:hover:after {
     content: '\2728'; 
     position: absolute;
@@ -12,8 +16,10 @@
     left: 65%;
   }
 p{
-  @include common.common(flex, center, unset);
-  font-size: smaller;
+  @include common.common(flex, flex-end, unset);
+  margin-right: 5%;
+  bottom: 0%;
+  font-size: x-small;
 }
 div[column] {
   display: flex;

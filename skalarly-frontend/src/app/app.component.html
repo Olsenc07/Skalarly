@@ -1,4 +1,4 @@
-@defer { 
+ @defer { 
 <div class="content-container" #enter>
   @if(!this.orientationService.screen() && this.orientationService.url() == ('/login' || '/' )){
 @defer (on hover(enter)) { 
@@ -28,15 +28,13 @@
       </app-nav-icons>
     </footer>
     }
-
  <!-- Render as component based on path of routes -->
      <!-- <router-outlet ></router-outlet>  Secondary outlet for sidebars & later maybe modals/dialog -->
-</div>
-} 
-@loading (minimum 300ms) {
-  
-<div  class="initial-load">   
-  <svg>
+ </div>  
+}  
+ @loading (minimum 300ms) { 
+<div class="initial-load">   
+  <svg viewBox="0 0 1024 1024">
     <use href="#skalarly-icon"></use>
   </svg>
 </div>

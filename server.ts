@@ -34,7 +34,6 @@ const apiLimiter = rateLimit({
       });
   }
   });
-
 // Initialize mongoose connections
 let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
 

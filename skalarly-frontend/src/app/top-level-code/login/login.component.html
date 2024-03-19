@@ -35,15 +35,14 @@
       </div>
   </div>
       </div>
-      <footer><p>Copyright © 2024 Skalarly</p></footer>
   } @else {
-      <div entire-page>
-            <div class="login-header">
-              <svg>
-                <use xlink:href="#skalarly-icon"></use>
-              </svg>
-              <div skalarly>   
-                Skalarly
+    <div entire-page>
+    <div class="login-head">
+      <div class="title-center">
+        <!-- go ack to svg and reduce width and height and background till it fits -->
+          <img Src="../../../../src/assets/images/Skalarly_S.png">
+ 
+        <div skalarly>kalarly</div>
               </div>
             </div>
 <app-login-logic>
@@ -74,12 +73,11 @@
    [welcomeSouthPaw]="false" 
   ></app-letter-by-letter>
     </div>
-</div>
-</div>
+  </div>
+  </div>
+}
 <footer><p>Copyright © 2024 Skalarly</p></footer>
-  }
-} 
-@placeholder(minimum 300ms) {
+}@placeholder(minimum 300ms) {
   <div column>
     <app-skeleton-loader-login>
     </app-skeleton-loader-login>
