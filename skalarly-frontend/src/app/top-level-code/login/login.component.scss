@@ -15,12 +15,6 @@
     top: 5%;
     left: 65%;
   }
-p{
-  @include common.common(flex, flex-end, unset);
-  margin-right: 5%;
-  bottom: 0%;
-  font-size: x-small;
-}
 div[column] {
   display: flex;
   flex-direction: column;

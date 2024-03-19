@@ -20,6 +20,10 @@ footer{
   z-index: 4;
   width: 100%
 }
+p[copyright]{
+  bottom: 0%;
+  font-size: x-small;
+}
 .initial-load{
   @include  common.common;
   align-items: center;
