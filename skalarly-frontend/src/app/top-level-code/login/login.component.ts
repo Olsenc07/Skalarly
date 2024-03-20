@@ -1,6 +1,7 @@
 import {
   AfterRenderPhase,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   Inject,
   NgZone,
@@ -53,11 +54,13 @@ export class LoginComponent {
   skalarlyState: string = 'initial'
   join: string = 'Join'
   welcome: string = 'Welcome To Skalarly'
+  final: boolean = false;
 
   constructor(
     private loginSpecificService: LoginSpecificService, // eslint-disable-next-line no-unused-vars
     protected orientationService: OrientationService,
     private readonly router: Router,
+    private cdr: ChangeDetectorRef,
     private ngZone: NgZone,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -88,5 +91,11 @@ export class LoginComponent {
       this.welcome = this.loginSpecificService.updatePhrase()
       this.toggle = true
     }
+  }
+  finally(newJoinValue: string): void {
+    console.log('rreached');
+    this.cdr.detectChanges();
+    this.join = newJoinValue;
+    this.final = true;
   }
 }

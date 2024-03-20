@@ -3,8 +3,10 @@ import {
   Component,
   NgZone,
   Input,
+  Output,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
+  EventEmitter
 } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { LoginSpecificService } from '../../custom-architecture-aids/services/login-validation/login-specific.service';
@@ -28,9 +30,12 @@ export class LetterByLetterComponent implements OnChanges {
   @Input() welcomeSouthPaw: boolean = false;
   @Input() autoGenerate: boolean = false;
   @Input() lastLetterAnimation: boolean = false;
+
+  @Output() joinChangeEvent = new EventEmitter<string>();
   animatedText: Letter[] = [];
   private renderCount: number = 0;
   private maxRenders: number = 3;
+
 
   // seven animations
   classes: string[] = [
@@ -108,8 +113,9 @@ export class LetterByLetterComponent implements OnChanges {
       this.ngZone.runOutsideAngular(() => {
       setTimeout(() => this.renderOn(), 4000); // next call
       })
-    } else {
+      }else{
       this.renderCount = 0;
+      this.joinChangeEvent.emit('Join Now');
     }
   }
 }

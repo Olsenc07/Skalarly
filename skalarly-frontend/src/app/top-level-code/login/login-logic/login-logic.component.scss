@@ -1,4 +1,3 @@
-@use 'login-logic-animations.component' as animation;
 @use '../../../assistant-level-code/universal-reusable-styles/responsive-mixin' as responsive;
 @use '../../../assistant-level-code/universal-reusable-styles/common' as common;
 div[column] {
@@ -47,13 +46,13 @@ div[forgot]{
 .error-style {
   @include common.common(flex, center, column);
 }
-  span[matPrefix] { margin-left: 15%; }
+span[matPrefix] { 
+  margin-left: 15%; 
+ }
 .login-options {
   @include common.common;
   text-align: center;
        }
-       
-.hide-border{ border-right: none; }
   .input-boxes:first-of-type { mat-checkbox { margin-left: 3%; } }
   .login-standard-wrapper {
     display: flex;
@@ -65,39 +64,7 @@ div[forgot]{
     background-color: var(--firstChoice); 
     color: var(--basicText);
     border-radius: 25px; 
-    padding: 12px 24px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
-    width: 75%;
-    position: relative; 
-    overflow: hidden; 
-    transition: transform 1.2s ease, box-shadow 0.5s ease; 
-  will-change: transform, box-shadow;
-    &:hover {
-      transition: right 1.2s ease;
-      transform: scale(1.05) skewX(-15deg);
-      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-    }
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0; 
-      right: 100%;
-      bottom: 0;
-      background-image: linear-gradient(to left, var(--pairingColor), var(--secondChoice));
-      transition: right 1.2s ease;
-      will-change: right;
-      z-index: -1; 
-    }
-    &:hover:before {
-      right: 0; 
-    }
-
-  &.fingerprint-border-declined {
-      background-color: var(--error);
-      @include animation.declined;
-      animation: shake .5s linear;  
-    }
+    width: 65%;
     &.fingerprint-border-approved { 
       text-shadow: 0 0 5px var(--approved);
       transform: scale(1.7);

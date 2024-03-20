@@ -247,8 +247,6 @@ export class LoginLogicComponent implements OnInit {
         return '';
       case 'complete':
         return 'fingerprint-border-approved';
-      case 'declined':
-        return 'fingerprint-border-declined';
       default:
         return '';
     }

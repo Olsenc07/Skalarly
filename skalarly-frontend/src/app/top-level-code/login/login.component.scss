@@ -1,13 +1,5 @@
-@use '../../assistant-level-code/universal-reusable-styles/common' as common;
-.login-header {
-  @include common.common;
-  text-align: center; 
-  align-items: center;
-  padding-top: 1%;
-}
-.titl-center{
-  display: flex;
-  text-align: center;
+.logo {
+  display: contents;
 }
   button[join]:hover:after {
     content: '\2728'; 
@@ -15,11 +7,20 @@
     top: 5%;
     left: 65%;
   }
+  .hidden {
+    visibility: hidden;
+  }
 div[column] {
   display: flex;
   flex-direction: column;
   padding: 3% 1% 0% 1%;
   height: 100vh;
+}
+footer{
+  display: flex;
+  justify-content: flex-end;
+  width: 80%;
+  font-size: small;
 }
 app-letter-by-letter{
     display: flex;

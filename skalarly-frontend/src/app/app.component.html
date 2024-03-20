@@ -1,19 +1,17 @@
  @defer { 
-<div class="content-container" #enter>
+<div class="content-container">
   @if(!this.orientationService.screen() && this.orientationService.url() == ('/login' || '/' )){
-@defer (on hover(enter)) { 
+@defer (on idle) { 
   @for (line of lines; let i = $index; track line){
     <div 
     class="line"
     [style.top]="line.top"
     [style.left]="line.left"
-    [style.animation-delay]="i * 1 + 's'"
-    [ngClass]="line.uniqueClass"
+  [style.animation-delay]="i * 2 + 's'"
     >
   {{line.data}}</div>
   }
   }
-<footer><p copyright>Copyright © 2024 Skalarly</p></footer>
 }
     <div>
 @if (this.orientationService.url() !== ('/login' || '/' )){

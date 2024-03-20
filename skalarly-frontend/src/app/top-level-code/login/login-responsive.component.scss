@@ -69,8 +69,7 @@ button[join] {
     @include responsive.responsiveFontSize();
       position: relative; 
       overflow: hidden; 
-      box-shadow: 3px 3px #007bff;
-      transition: background-image 1.5s ease; 
+      box-shadow: 3px 3px var(--pairingColor);
       margin-bottom: 1.5%;
       &.welcome-text-south-paw {
         background-color: var(--basicText);

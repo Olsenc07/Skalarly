@@ -20,10 +20,6 @@ footer{
   z-index: 4;
   width: 100%
 }
-p[copyright]{
-  bottom: 0%;
-  font-size: x-small;
-}
 .initial-load{
   @include  common.common;
   align-items: center;
@@ -47,38 +43,15 @@ p[copyright]{
       transform: translate(-100vw, 100vh) rotate(-30deg); 
       opacity: 0.7; 
     }
-    50% {
-      transform: translate(-10vw, 10vh);
-      opacity: 1;
-    }
     100% { 
-      transform: translate(170vw, 80vh) rotate(90deg);
-      opacity: 1; 
-    }
-  }
-  @keyframes reverseFlyRight {
-    0% { 
-      transform: translate(-100vw, 100vh) rotate(-30deg); 
-      opacity: 0.7; 
-    }
-    50% {
-      transform: translate(-35vw, 25vh);
-      opacity: 1;
-    }
-    100% { 
-      transform: translate(-100vw, -100vh) rotate(0deg);
+      transform: translate(70vw, -40vh) rotate(0deg);
       opacity: 1; 
     }
   }
   
-  .reverseAnimation {
-  animation: reverseFlyRight 10s 15s linear 1 !important;
-  }
-  
-.line{
-  opacity: 0;
-  width: 100%;
-  position: absolute;
-  font-size: xx-large;
-  animation: flyRight 13s linear 1;
+  .line {
+    opacity: 0;
+    position: absolute;
+    font-size: xx-large;
+    animation: flyRight 10s linear 1;
 }

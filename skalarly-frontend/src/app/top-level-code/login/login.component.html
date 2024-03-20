@@ -16,7 +16,8 @@
   } @else {
     <button mat-stroked-button
     (click)="navigate()" [class.welcome-text-south-paw]="nextAnimations"
-     [@bubble]="nextAnimations ? 'animate' : 'noAnimate'" join>
+     [@bubble]="nextAnimations ? 'animate' : 'noAnimate'" join
+     [class.hidden]="!final">
     <app-letter-by-letter [customClass]="'default'"
     [lastLetterAnimation]="true"
     [message]="join" [autoGenerate]="false" 
@@ -37,18 +38,14 @@
       </div>
   } @else {
     <div entire-page>
-    <div class="login-head">
-      <div class="title-center">
-        <div skalarly>
+    <div class="logo">
           <svg>
             <use href="#skalarly-icon"></use>
           </svg>
-          </div>
-
+          <div skalarly>
           Skalarly
           </div>
-              </div>
-            </div>
+        </div>
 <app-login-logic>
 </app-login-logic>
 <div class="welcome-container">
@@ -68,17 +65,21 @@
   [welcomeSouthPaw]="true"></app-letter-by-letter>
   </button>
   }
+
     <div [@welcomeRise]="skalarlyState ? 'rise' : 'initial' "
-    (@welcomeRise.done)="welcomeRiseDone()" >
+    (@welcomeRise.done)="welcomeRiseDone()" [class.hidden]="final">
   <app-letter-by-letter 
    [message]="welcome"
    [lastLetterAnimation]="true"
    [autoGenerate]="toggle" 
    [welcomeSouthPaw]="false" 
+   (joinChangeEvent)="finally($event)"
   ></app-letter-by-letter>
     </div>
   </div>
+</div>
 }
+<footer>Copyright © 2024 Skalarly</footer>
 }@placeholder(minimum 300ms) {
   <div column>
     <app-skeleton-loader-login>
