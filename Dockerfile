@@ -1,18 +1,17 @@
 # Build Frontend SSR & static assets
-FROM node:20.10.0 as frontend-build
-WORKDIR /app/skalarly-frontend
-COPY skalarly-frontend/package*.json ./
+FROM node:18.20.2 as build-step
+WORKDIR /app
+COPY package*.json ./
 
-RUN npm install --omit=dev
-COPY skalarly-frontend/ ./
+RUN npm install 
+COPY . .
 RUN npm run build
 
-# Build Backend
-FROM node:20.10.0 as backend-build
-WORKDIR /app/backend
-COPY backend/package*.json ./
-RUN npm install --omit=dev
-COPY backend/ ./
+# Step 2: Setup the server
+FROM node:18.20.2 
+
+WORKDIR /app
+
 
 # Set up the production environment
 FROM node:20.10.0
@@ -29,4 +28,4 @@ EXPOSE 4200
 ENV NODE_ENV production
 
 # Start the unified server 
-CMD ["node", "server.ts"]
+CMD ["node", "dist/server/server.mjs"]

@@ -1,26 +1,28 @@
-skalarly.com
+# AngularSkalarly
 
-Here is the latest version of Skalarly: from the SkalarlyDeploy repository, now re-engineered with Angular 17's advanced features. This updated project, showcases the capabilities and high standards of Angular's latest version. My ongoing efforts are focused on continuously displaying my learning in modern Web Development
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
 
-Highlights: 
-Progressive Web App utilizing the M.E.A.N Stack
+## Development server
 
-Standalone Components - Enhancing flexibility and maintainability.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-Lazy Loading: Optimizing performance and speed.
+## Code scaffolding
 
-Mobile-First Approach - Prioritizing responsiveness and accessibility.
-Server-Side Rendering (SSR) - Enhancing performance and SEO.
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-Security - Making sure to properly handle and store sensitive information. Attention to common web vulnerabilities.
+## Build
 
-Data Storage/Access - Utilizing the NoSQL database MongoDB to handle diverse data types and allow easy and secure queries.
-CI/CD - Utilizing containerized applications "Docker-Kubernetes", and testing frameworks "Cypress-Jasmine" that are deployed by Heroku.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-Code Quality Assurance - Employing strict eslint plugins, ensuring that every line of code meets the standards of cleanliness and efficiency.
+## Running unit tests
 
-Web Accessibility - Following international standards for web accessibility.
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-Future Integrations: 
+## Running end-to-end tests
 
-Integration of Google Cloud Platform (GCP), TensorFlow.js, Jenkins, and Ionic to further enhance the application's versatility and skillset.
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+

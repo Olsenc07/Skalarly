@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "ts-node": {
+    "compilerOptions": {
+      "transpileOnly": true,
+      "files": true
+    }
+  },
+  "compilerOptions": {
+    "baseUrl": "./"
+  },
+  "files": [
+    "server.ts"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "**/*.spec.ts"
+  ], 
+  "exclude": [
+    "src/test.ts",
+    "src/**/*.spec.ts"
+  ]
+}

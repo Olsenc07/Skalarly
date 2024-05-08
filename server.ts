@@ -1,18 +1,22 @@
-// Backend SERVER NODE.JS Using ES6 module
-// For server-side (Node.js environment)
 import 'zone.js';
 import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import bodyParser from 'body-parser';
-
-import rateLimit from 'express-rate-limit';
-import { join, resolve } from 'path';
-import { fileURLToPath } from 'url';
-
-// Frontend SSR 
+import compression from 'compression';
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr';
-import bootstrap from './skalarly-frontend/src/main.server';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import rateLimit from 'express-rate-limit';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// static files
+const browserDistFolder = join(__dirname, '../browser');
+// SSR entry
+const bootstrapPath = join(__dirname, '../server/main.server.mjs');
+const indexHtml = join(__dirname, 'index.server.html');
 
 // API Routes
 import accountManagementRoute from './backend/routes/account-management';
@@ -24,16 +28,19 @@ import canadianRoute from './backend/routes/canadian-schools';
 const db_auth = process.env['MONGODB_AUTH'] || '';
 const db_content = process.env['MONGODB_CONTENT'] || '';
 
+
+const isProduction = process.env['NODE_ENV'] === 'production';
+
 // Rate limiting middleware
-const apiLimiter = rateLimit({
-    windowMs: 5 * 60 * 1000, // 5 minutes
-    max: 7, // limit each IP to 7 requests per windowMs
-    handler: (req, res, next) => {
-      res.status(429).json({
-          error: 'Too many requests, please try again after 5 minutes'
-      });
-  }
-  });
+// const apiLimiter = rateLimit({
+//     windowMs: 5 * 60 * 1000, // 5 minutes
+//     max: 7, // limit each IP to 7 requests per windowMs
+//     handler: (req, res, next) => {
+//       res.status(429).json({
+//           error: 'Too many requests, please try again after 5 minutes'
+//       });
+//   }
+//   });
 // Initialize mongoose connections
 let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
 
@@ -83,59 +90,72 @@ const switchDatabase = async (req: Request, res: Response, next: NextFunction) =
   }
   };
   // The Express app is exported so that it can be used by serverless Functions.
-async function createExpressApp(): Promise<express.Express> {
-  const app = express();
-  const __filename = fileURLToPath(import.meta.url);
-  const serverDistFolder = __filename;
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(browserDistFolder, 'index.server.html');
+async function createServer(): Promise<express.Express> {
+  const server = express();
+  server.use(cors())
 
-  const compression = (await import('compression')).default;
-  app.use(compression());
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(switchDatabase);
+     // Middleware
+     server.use(compression());
+
+     server.use(express.json());
+     server.use(express.urlencoded({ extended: true }));
+      
+    server.set('view engine', 'html');
+    server.set('views', browserDistFolder);
+  // Serve static files
+  server.get('*.*', express.static(browserDistFolder, {
+    maxAge: isProduction ? '1y' : '0', 
+    etag: isProduction, 
+    setHeaders: (res, path) => {
+        if (isProduction) {
+            if (path.endsWith('index.html')) {
+                res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+            }
+        }
+    }
+}));
+  server.use(switchDatabase);
 
   // API Routes
-  app.use("/api/authorize", apiLimiter, authorizeRoute);
-  app.use("/api/accountManagement", accountManagementRoute);
-  app.use("/api/skalars", skalarsRoute);
-  app.use("/api/canada", canadianRoute);
+  server.use("/api/authorize", authorizeRoute);
+  server.use("/api/accountManagement", accountManagementRoute);
+  server.use("/api/skalars", skalarsRoute);
+  server.use("/api/canada", canadianRoute);
 
-  // Serve static files
-  app.get('*.*', express.static(browserDistFolder, {
-      maxAge: '1y'
-  }));
-
-  // All regular routes use the Angular engine
-  app.get('*', (req: Request, res: Response) => {
-      const { protocol, originalUrl, baseUrl, headers } = req;
-      const commonEngine = new CommonEngine();
-
-      commonEngine.render({
-          bootstrap,
-          documentFilePath: indexHtml,
-          url: `${protocol}://${headers.host}${originalUrl}`,
-          publicPath: browserDistFolder,
-          providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-      })
-      .then(html => res.send(html))
-      .catch(err => {
-          console.error('Error occurred in server side rendering:', err);
-          res.status(500).send('Server error');
-      });
+ // All regular routes use the Angular engine
+ server.get('*', async (req: Request, res: Response) => {
+  try {
+  const { protocol, originalUrl, baseUrl, headers } = req;
+  const commonEngine = new CommonEngine();
+  const { default: bootstrap } = await import(bootstrapPath);
+  commonEngine.render({
+      bootstrap,
+      documentFilePath: indexHtml,
+      url: `${protocol}://${headers.host}${originalUrl}`,
+      publicPath: browserDistFolder,
+      providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+  })
+  .then(html => res.send(html))
+  .catch(err => {
+      console.error('Error occurred in server side engine:', err);
+      res.status(500).send('Server error');
   });
-
-  return app;
+} catch (error) {
+  console.error('Error occurred in server side rendering:', error);
+  res.status(500).send('Server error');
 }
-// Run server
-async function run() {
+});
+return server;
+}
+
+async function startServer() {
   const port = process.env['PORT'] || 4200;
-  const app = createExpressApp();
-
-  (await app).listen(port, () => {
-      console.log(`Node Express server listening on http://localhost:${port}`);
+  const server = createServer();
+  (await server).listen(port, () => {
+      console.log(`Node Express server listening`);
   });
 }
 
-run();
+startServer().catch(err => {
+  console.error('Uncaught error in startServer:', err);
+});
