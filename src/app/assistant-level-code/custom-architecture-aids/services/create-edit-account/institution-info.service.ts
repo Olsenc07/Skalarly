@@ -43,82 +43,82 @@ export class InstitutionInfoService {
   // If canada use db, or else use api
   getStateProvinces(country: string): void {
     const cacheKey = `country-${country}`;
-    if (country === 'Canada' && !this.cacheSchoolCountry.has(cacheKey)) {
-      console.log('this.apiUrl', this.apiUrl);
-      this.http
-        .get<{ data: string[]; message: string }>(
-          `${this.apiUrl}/canada/province?country=${country}`,
-          { headers: this.headers }
-        )
-        .pipe(
-          take(1),
-          shareReplay(1),
-          map((response) => response.data)
-        )
-        .subscribe({
-          next: (provinceNames) => {
-            const provinces: string[] = provinceNames;
-            console.log('s', provinces);
-            this.regionsState.set(provinces);
-          },
-          error: (error) => console.error('Error fetching provinces:', error)
-        });
-    } else if (country === 'United States') {
-      // Simulate an API call for US states with mock data
-      const mockUSStates: string[] = [
-        'Alabama',
-        'Alaska',
-        'Arizona',
-        'Arkansas',
-        'California',
-        'Colorado',
-        'Connecticut',
-        'Delaware',
-        'Florida',
-        'Georgia',
-        'Hawaii',
-        'Idaho',
-        'Illinois',
-        'Indiana',
-        'Iowa',
-        'Kansas',
-        'Kentucky',
-        'Louisiana',
-        'Maine',
-        'Maryland',
-        'Massachusetts',
-        'Michigan',
-        'Minnesota',
-        'Mississippi',
-        'Missouri',
-        'Montana',
-        'Nebraska',
-        'Nevada',
-        'New Hampshire',
-        'New Jersey',
-        'New Mexico',
-        'New York',
-        'North Carolina',
-        'North Dakota',
-        'Ohio',
-        'Oklahoma',
-        'Oregon',
-        'Pennsylvania',
-        'Rhode Island',
-        'South Carolina',
-        'South Dakota',
-        'Tennessee',
-        'Texas',
-        'Utah',
-        'Vermont',
-        'Virginia',
-        'Washington',
-        'West Virginia',
-        'Wisconsin',
-        'Wyoming'
-      ];
-      this.regionsState.set(mockUSStates);
-    }
+    // if (country === 'Canada' && !this.cacheSchoolCountry.has(cacheKey)) {
+    //   console.log('this.apiUrl', this.apiUrl);
+    //   this.http
+    //     .get<{ data: string[]; message: string }>(
+    //       `${this.apiUrl}/canada/province?country=${country}`,
+    //       { headers: this.headers }
+    //     )
+    //     .pipe(
+    //       take(1),
+    //       shareReplay(1),
+    //       map((response) => response.data)
+    //     )
+    //     .subscribe({
+    //       next: (provinceNames) => {
+    //         const provinces: string[] = provinceNames;
+    //         console.log('s', provinces);
+    //         this.regionsState.set(provinces);
+    //       },
+    //       error: (error) => console.error('Error fetching provinces:', error)
+    //     });
+    // } else if (country === 'United States') {
+    //   // Simulate an API call for US states with mock data
+    //   const mockUSStates: string[] = [
+    //     'Alabama',
+    //     'Alaska',
+    //     'Arizona',
+    //     'Arkansas',
+    //     'California',
+    //     'Colorado',
+    //     'Connecticut',
+    //     'Delaware',
+    //     'Florida',
+    //     'Georgia',
+    //     'Hawaii',
+    //     'Idaho',
+    //     'Illinois',
+    //     'Indiana',
+    //     'Iowa',
+    //     'Kansas',
+    //     'Kentucky',
+    //     'Louisiana',
+    //     'Maine',
+    //     'Maryland',
+    //     'Massachusetts',
+    //     'Michigan',
+    //     'Minnesota',
+    //     'Mississippi',
+    //     'Missouri',
+    //     'Montana',
+    //     'Nebraska',
+    //     'Nevada',
+    //     'New Hampshire',
+    //     'New Jersey',
+    //     'New Mexico',
+    //     'New York',
+    //     'North Carolina',
+    //     'North Dakota',
+    //     'Ohio',
+    //     'Oklahoma',
+    //     'Oregon',
+    //     'Pennsylvania',
+    //     'Rhode Island',
+    //     'South Carolina',
+    //     'South Dakota',
+    //     'Tennessee',
+    //     'Texas',
+    //     'Utah',
+    //     'Vermont',
+    //     'Virginia',
+    //     'Washington',
+    //     'West Virginia',
+    //     'Wisconsin',
+    //     'Wyoming'
+    //   ];
+    //   this.regionsState.set(mockUSStates);
+    // }
   }
 
   getSchoolTypes(): void {

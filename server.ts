@@ -18,17 +18,9 @@ const browserDistFolder = join(__dirname, '../browser');
 const bootstrapPath = join(__dirname, '../server/main.server.mjs');
 const indexHtml = join(__dirname, 'index.server.html');
 
-// API Routes
-import accountManagementRoute from './backend/routes/account-management';
-import authorizeRoute from './backend/routes/authorize';
-import skalarsRoute from './backend/routes/skalars';
-import canadianRoute from './backend/routes/canadian-schools';
-
 // DB connection URIs from env variables
-const db_auth = process.env['MONGODB_AUTH'] || '';
-const db_content = process.env['MONGODB_CONTENT'] || '';
-
-
+// const db_auth = process.env['MONGODB_AUTH'] || '';
+// const db_content = process.env['MONGODB_CONTENT'] || '';
 const isProduction = process.env['NODE_ENV'] === 'production';
 
 // Rate limiting middleware
@@ -45,50 +37,50 @@ const isProduction = process.env['NODE_ENV'] === 'production';
 let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
 
 //  Responsive DataBase connection
-const connectAuthDB = async () => {
-  if (!mongooseAuth || mongooseAuth.readyState === 0) {
-    try {
-      mongooseAuth = mongoose.createConnection(db_auth);
-      console.log('Connected to Auth database!');
-    } catch (error) {
-      console.error('MongoDB Auth connection error:', error);
-    }
-  }
-};
+// const connectAuthDB = async () => {
+//   if (!mongooseAuth || mongooseAuth.readyState === 0) {
+//     try {
+//       mongooseAuth = mongoose.createConnection(db_auth);
+//       console.log('Connected to Auth database!');
+//     } catch (error) {
+//       console.error('MongoDB Auth connection error:', error);
+//     }
+//   }
+// };
 
-const connectContentDB = async () => {
-  if (!mongooseContent || mongooseContent.readyState === 0) {
-    try {
-      mongooseContent = mongoose.createConnection(db_content);
-      console.log('Connected to Content database!');
-    } catch (error) {
-      console.error('MongoDB Content connection error:', error);
-    }
-  }
-};
+// const connectContentDB = async () => {
+//   if (!mongooseContent || mongooseContent.readyState === 0) {
+//     try {
+//       mongooseContent = mongoose.createConnection(db_content);
+//       console.log('Connected to Content database!');
+//     } catch (error) {
+//       console.error('MongoDB Content connection error:', error);
+//     }
+//   }
+// };
 
 // Middleware to switch databases
-const switchDatabase = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-    if (req.path.startsWith('/')  || req.path.startsWith('/sign-up') || req.path.startsWith('/login')) {
-       await connectAuthDB();
-    } else {
-       await connectContentDB();
-       if (mongooseAuth.readyState === 1) { 
-        try {
-          await mongooseAuth.close();
-          console.log('Disconnected from Auth database!');
-        } catch (closeError) {
-          console.error('Error closing Auth DB connection:', closeError);
-        }
-      }
-    }
-    next();
-  } catch (error) {
-    console.error('Error in switchDatabase:', error);
-    next(error); 
-  }
-  };
+// const switchDatabase = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//     if (req.path.startsWith('/')  || req.path.startsWith('/sign-up') || req.path.startsWith('/login')) {
+//        await connectAuthDB();
+//     } else {
+//        await connectContentDB();
+//        if (mongooseAuth.readyState === 1) { 
+//         try {
+//           await mongooseAuth.close();
+//           console.log('Disconnected from Auth database!');
+//         } catch (closeError) {
+//           console.error('Error closing Auth DB connection:', closeError);
+//         }
+//       }
+//     }
+//     next();
+//   } catch (error) {
+//     console.error('Error in switchDatabase:', error);
+//     next(error); 
+//   }
+//   };
   // The Express app is exported so that it can be used by serverless Functions.
 async function createServer(): Promise<express.Express> {
   const server = express();
@@ -114,13 +106,28 @@ async function createServer(): Promise<express.Express> {
         }
     }
 }));
-  server.use(switchDatabase);
+  // server.use(switchDatabase);
 
+
+// fix routes
+     // Backend routes
+  
+// API Routes
+// const accountManagementRoutePath = join(__filename, '../..backend/routes/account-management.js');
+// const authorizeRoutePath = join(__filename, '../../backend/routes/authorize.js');
+// const skalarsRoutePath = join(__filename, '../..backend/routes/skalars.js');
+// const canadianRoutePath = join(__filename, '../../backend/routes/canadian-schools.js');
+
+//   const accountManagementRoute = (await import(accountManagementRoutePath)).default;
+//   const authorizeRoute = (await import(authorizeRoutePath)).default;
+//   const skalarsRoute = (await import(skalarsRoutePath)).default;
+//   const canadianRoute = (await import(canadianRoutePath)).default;
+ 
   // API Routes
-  server.use("/api/authorize", authorizeRoute);
-  server.use("/api/accountManagement", accountManagementRoute);
-  server.use("/api/skalars", skalarsRoute);
-  server.use("/api/canada", canadianRoute);
+  // server.use("/api/authorize", authorizeRoute);
+  // server.use("/api/accountManagement", accountManagementRoute);
+  // server.use("/api/skalars", skalarsRoute);
+  // server.use("/api/canada", canadianRoute);
 
  // All regular routes use the Angular engine
  server.get('*', async (req: Request, res: Response) => {
