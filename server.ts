@@ -14,7 +14,6 @@ const isProduction = process.env['NODE_ENV'] === 'production';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-console.log('wz up', __dirname);
 // static files
 const browserDistFolder = join(__dirname, '../browser');
 // SSR entry
