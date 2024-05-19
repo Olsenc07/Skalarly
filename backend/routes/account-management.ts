@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 // Models Used
-import Skalar from '../models/login';
+import Skalar from '../models/login.js';
 
 // Has this username already been used?
 router.get('/uniqueUserName', async(req,res) => {

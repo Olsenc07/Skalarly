@@ -1,0 +1,8 @@
+{
+    "/api": {
+      "target": "https://skalarly.com",
+      "secure": true,
+      "changeOrigin": true
+    }
+  }
+  

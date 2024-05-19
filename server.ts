@@ -2,26 +2,38 @@ import 'zone.js';
 import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import bodyParser from 'body-parser';
 import compression from 'compression';
 import { APP_BASE_HREF } from '@angular/common';
 import { CommonEngine } from '@angular/ssr';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import helmet, { HelmetOptions } from 'helmet';
 import rateLimit from 'express-rate-limit';
+
+const isProduction = process.env['NODE_ENV'] === 'production';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+console.log('wz up', __dirname);
 // static files
 const browserDistFolder = join(__dirname, '../browser');
 // SSR entry
 const bootstrapPath = join(__dirname, '../server/main.server.mjs');
 const indexHtml = join(__dirname, 'index.server.html');
 
+// Backend Paths
+const accountManagementRoutePath = join(__dirname, '../backend/routes/account-management.js');
+const authorizeRoutePath = join(__dirname, '../backend/routes/authorize.js');
+const skalarsRoutePath = join(__dirname, '../backend/routes/skalars.js');
+const canadianRoutePath = join(__dirname, '../backend/routes/canadian-schools.js');
+
+// fix dist backend routes backend ...
+
 // DB connection URIs from env variables
 // const db_auth = process.env['MONGODB_AUTH'] || '';
 // const db_content = process.env['MONGODB_CONTENT'] || '';
-const isProduction = process.env['NODE_ENV'] === 'production';
+// console.log('hi', db_auth);
+// console.log(db_content);
 
 // Rate limiting middleware
 // const apiLimiter = rateLimit({
@@ -34,7 +46,7 @@ const isProduction = process.env['NODE_ENV'] === 'production';
 //   }
 //   });
 // Initialize mongoose connections
-let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
+// let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
 
 //  Responsive DataBase connection
 // const connectAuthDB = async () => {
@@ -43,7 +55,7 @@ let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
 //       mongooseAuth = mongoose.createConnection(db_auth);
 //       console.log('Connected to Auth database!');
 //     } catch (error) {
-//       console.error('MongoDB Auth connection error:', error);
+//       // console.error('MongoDB Auth connection error:', error);
 //     }
 //   }
 // };
@@ -54,7 +66,7 @@ let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
 //       mongooseContent = mongoose.createConnection(db_content);
 //       console.log('Connected to Content database!');
 //     } catch (error) {
-//       console.error('MongoDB Content connection error:', error);
+//       console.error('MongoDB Content connection error:');
 //     }
 //   }
 // };
@@ -71,7 +83,7 @@ let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
 //           await mongooseAuth.close();
 //           console.log('Disconnected from Auth database!');
 //         } catch (closeError) {
-//           console.error('Error closing Auth DB connection:', closeError);
+//           // console.error('Error closing Auth DB connection:', closeError);
 //         }
 //       }
 //     }
@@ -83,8 +95,50 @@ let mongooseAuth: mongoose.Connection, mongooseContent: mongoose.Connection;
 //   };
   // The Express app is exported so that it can be used by serverless Functions.
 async function createServer(): Promise<express.Express> {
+  const helmetOptions: HelmetOptions = isProduction ? {
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"], 
+            scriptSrc: ["'self'", "https://cdn.jsdelivr.net", "https://www.google.com", "https://www.gstatic.com"],
+            styleSrc: ["'self'", "https://cdn.jsdelivr.net", "https://fonts.googleapis.com"],
+            imgSrc: ["'self'", "data:", "https://www.skalarly.com", "https://cdn.jsdelivr.net", "https://www.gstatic.com", 'blob:'], 
+            connectSrc: ["'self'", "https://www.google.com"], 
+            fontSrc: ["'self'", "https:", "data:", "https://fonts.gstatic.com"], 
+            objectSrc: ["'none'"], 
+            scriptSrcAttr: ["'none'"]
+          }   
+    },
+    frameguard: {
+        action: 'sameorigin'
+    },
+    hidePoweredBy: true,
+    dnsPrefetchControl: {
+        allow: false
+    },
+    noSniff: true
+} : {
+    contentSecurityPolicy: false, // Disable CSP in development to allow all headers
+    frameguard: {
+        action: 'sameorigin'
+    },
+    hidePoweredBy: true,
+    dnsPrefetchControl: {
+        allow: true
+    },
+    noSniff: false
+};
   const server = express();
-  server.use(cors())
+
+  // server.use(helmet(helmetOptions));
+
+  const corsOptions = isProduction ? {
+    origin: 'https://www.skalarly.com',
+    optionsSuccessStatus: 200
+} : {
+    origin: '*',
+    optionsSuccessStatus: 200
+};
+  server.use(cors(corsOptions))
 
      // Middleware
      server.use(compression());
@@ -107,27 +161,17 @@ async function createServer(): Promise<express.Express> {
     }
 }));
   // server.use(switchDatabase);
-
-
-// fix routes
-     // Backend routes
-  
-// API Routes
-// const accountManagementRoutePath = join(__filename, '../..backend/routes/account-management.js');
-// const authorizeRoutePath = join(__filename, '../../backend/routes/authorize.js');
-// const skalarsRoutePath = join(__filename, '../..backend/routes/skalars.js');
-// const canadianRoutePath = join(__filename, '../../backend/routes/canadian-schools.js');
-
-//   const accountManagementRoute = (await import(accountManagementRoutePath)).default;
-//   const authorizeRoute = (await import(authorizeRoutePath)).default;
-//   const skalarsRoute = (await import(skalarsRoutePath)).default;
-//   const canadianRoute = (await import(canadianRoutePath)).default;
+ // Backend routes
+  const accountManagementRoute = (await import(accountManagementRoutePath)).default;
+  const authorizeRoute = (await import(authorizeRoutePath)).default;
+  const skalarsRoute = (await import(skalarsRoutePath)).default;
+  const canadianRoute = (await import(canadianRoutePath)).default;
  
   // API Routes
-  // server.use("/api/authorize", authorizeRoute);
-  // server.use("/api/accountManagement", accountManagementRoute);
-  // server.use("/api/skalars", skalarsRoute);
-  // server.use("/api/canada", canadianRoute);
+  server.use("/api/authorize", authorizeRoute);
+  server.use("/api/accountManagement", accountManagementRoute);
+  server.use("/api/skalars", skalarsRoute);
+  server.use("/api/canada", canadianRoute);
 
  // All regular routes use the Angular engine
  server.get('*', async (req: Request, res: Response) => {

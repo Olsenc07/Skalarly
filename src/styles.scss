@@ -18,8 +18,13 @@
 // $random-pair: random-color-pair();
 // $firstChoice: map-get($random-pair, primary);
 // $secondChoice: map-get($random-pair, pairing);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: serif, auto;
+}
 :root {
-  --skalarly-font: 'Cormorant Garamond', serif;
   // --firstChoice: #{$firstChoice};
   // --secondChoice: #{$secondChoice};
   --firstChoice: #009ffd;
@@ -31,13 +36,6 @@
   --approved: #2a9d8f; 
   --pairingColor: #007bff; 
   --pairingColor2: #343a40; 
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  font-family: var(--skalarly-font); 
 }
 b {
 color: var(--bolder);
@@ -91,4 +89,61 @@ div.mat-mdc-text-field-wrapper {
     'opsz' 24; 
   
 }
+button, input, select, textarea {
+  font-family: serif, auto;
+}
+.mat-typography {
+  font-family: serif, auto;
+  
+  // Base mobile styles
+  & .mat-h1, & .mat-headline-5 {
+    font-family: serif, auto;
+    font-size: 2.1em ; 
+  }
 
+  & .mat-h2, & h2 {
+    font-family: 'serif', auto;
+    font-size: 1.9em; 
+  }
+
+  & h3{
+    font-family: 'serif', auto;
+    font-size: 1.7em ; 
+  }
+
+  // Tablet and up
+  @media (min-width: 601px) {
+    & .mat-h1, & .mat-headline-5 {
+      font-family: 'serif', auto;
+      font-size: 1.5em; 
+    }
+
+    & .mat-h2, & h2 {
+      font-family: 'serif', auto;
+      font-size: 1.3em; 
+    }
+
+    & h3{
+      font-family: 'serif', auto;
+      font-size: 1.1em; 
+    }
+  }
+
+  // Desktops and up
+  @media (min-width: 1025px) {
+    & .mat-h1, & .mat-headline-5 {
+      font-family: serif, auto;
+      font-size: 2.2vw; 
+    }
+
+    & .mat-h2, & h2 {
+      font-family: serif, auto;
+      font-size: 2vw; 
+    }
+
+    & h3{
+      font-family: serif, auto;
+      font-size: 1.4vw; 
+    }
+  }
+}

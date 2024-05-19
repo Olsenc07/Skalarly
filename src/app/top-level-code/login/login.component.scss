@@ -1,6 +1,12 @@
 .logo {
   display: contents;
 }
+.image-container{
+  margin: 0% 15%;
+}
+.img{
+  max-width: 75%;
+}
   button[join]:hover:after {
     content: '\2728'; 
     position: absolute;

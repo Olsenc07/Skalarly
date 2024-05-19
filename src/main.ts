@@ -1,20 +1,16 @@
 import 'zone.js';
-import {
-  bootstrapApplication,
-  provideClientHydration,
-  withHttpTransferCacheOptions
-} from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { provideRouter, withViewTransitions } from '@angular/router';
-import { importProvidersFrom } from '@angular/core';
-
 import { AppComponent } from './app/app.component';
+import { provideRouter, withViewTransitions } from '@angular/router';
+import {bootstrapApplication, provideClientHydration, withHttpTransferCacheOptions } from '@angular/platform-browser';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { routes } from './app/app-routes/app-routing.module';
+import { importProvidersFrom } from '@angular/core';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/auth-interceptor';
 import { ErrorInterceptor } from './app/assistant-level-code/custom-architecture-aids/interceptors/error-interceptor';
-import { routes } from './app/app-routes/app-routing.module';
-import { provideServerRendering } from '@angular/platform-server';
+
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -30,13 +26,11 @@ bootstrapApplication(AppComponent, {
     },
     provideRouter(routes, withViewTransitions()),
     provideAnimationsAsync(),
-    importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
-    provideServerRendering(),
     provideClientHydration(
       withHttpTransferCacheOptions({
         includePostRequests: true
-      })
-    )
+      })), 
+    importProvidersFrom(HttpClientModule, BrowserAnimationsModule),
   ]
 })
   .then((started) => {

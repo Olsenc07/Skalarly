@@ -1,5 +1,7 @@
 import  Skalar  from '../models/login.js';
-async function verifyEmail(req, res, next) {
+import { Request, Response, NextFunction } from 'express';
+
+async function verifyEmail(req: Request, res: Response, next: NextFunction) {
     try {
         const checkEmail = req.body.email; // Or req.query.email, depending on how you're sending the email
         const search = await Skalar.findOne({ email: checkEmail });

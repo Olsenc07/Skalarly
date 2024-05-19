@@ -1,5 +1,5 @@
 {
-  "name": "skalarly",
+  "name": "skalarly-fs",
   "version": "0.0.0",
   "description": "Academic Social Media",
   "type": "module",
@@ -39,16 +39,21 @@
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
     "compression": "^1.7.4",
+    "cors": "^2.8.5",
     "dotenv": "16.4.5",
     "express": "^4.19.2",
     "express-rate-limit": "^7.2.0",
+    "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "6.3.0",
     "mongoose": "^8.1.2",
+    "ngx-bootstrap": "^12.0.0",
     "ngx-image-cropper": "^7.2.1",
     "ngx-skeleton-loader": "^9.0.0",
     "rxjs": "~7.4.0",
-    "tslib": "^2.6.2"
+    "tsconfig-paths": "^4.2.0",
+    "tslib": "^2.6.2",
+    "zone.js": "^0.14.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.3.4",
@@ -71,6 +76,7 @@
     "@types/range-parser": "^1.2.7",
     "@types/send": "^0.17.4",
     "@types/serve-static": "^1.15.7",
+    "browser-sync": "^3.0.2",
     "cypress": "^13.8.1",
     "eslint": "^8.57.0",
     "eslint-plugin-cypress": "^2.15.1",

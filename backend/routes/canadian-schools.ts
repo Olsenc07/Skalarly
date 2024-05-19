@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 const router = Router();
 // Models Used
-import Signup from '../models/signup';
+import Signup from '../models/signup.js';
 // Interfaces
 import { BasicProvinceInterface, BasicInfo } from '../../shared/interfaces/basic-province-interface';
 

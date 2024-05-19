@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Skalarly": {
+    "Skalarly-FS": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -26,11 +26,14 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/assets/images"
+              "src/assets",
+              "src/favicon.ico"
             ],
             "allowedCommonJsDependencies": [
               "body-parser",
               "compression",
+              "cors",
+              "dotenv",
               "mongoose"
             ],
             "styles": [
@@ -40,7 +43,9 @@
             ],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": true,
+            "prerender": {
+              "routesFile": "routes.txt"
+            },
             "ssr": {
               "entry": "server.ts"
             }
@@ -82,12 +87,15 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "src/proxy.conf.json"
+          },
           "configurations": {
             "production": {
-              "buildTarget": "skalarly:build:production"
+              "buildTarget": "Skalarly-FS:build:production"
             },
             "development": {
-              "buildTarget": "skalarly:build:development"
+              "buildTarget": "Skalarly-FS:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -95,7 +103,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "skalarly:build"
+            "buildTarget": "Skalarly-FS:build"
           }
         },
         "lint": {
@@ -107,7 +115,10 @@
             ]
           }
         }
-      }
     }
+  }
+  },
+    "cli": {
+      "analytics": false
   }
 }
