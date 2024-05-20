@@ -14,27 +14,25 @@
   }
 }
     <div>
-@if (this.orientationService.url() !== ('/' || '/login' || '/signup' )){
+<!-- @if (this.orientationService.url() !== ('/' || '/login' || '/signup' )){
 <app-nav-bar scrollToggle (toggleHeader)="onToggleHeader($event)"></app-nav-bar>
- }
+ } -->
  <div [@fadeMargin]="marginState">
   <router-outlet></router-outlet> 
 </div>
 </div>
-  @if(this.orientationService.screen() && (this.orientationService.url() !== ('/login' || '/' ))){
+  <!-- @if(this.orientationService.screen() && (this.orientationService.url() !== ('/login' || '/' ))){
     <footer>
       <app-nav-icons>
       </app-nav-icons>
     </footer>
-    }
+    } -->
  <!-- Render as component based on path of routes -->
      <!-- <router-outlet ></router-outlet>  Secondary outlet for sidebars & later maybe modals/dialog -->
  </div>  
 }  
- @loading (minimum 300ms) { 
-<div class="initial-load">   
-  <svg >
-    <use href="#skalarly-icon"></use>
-  </svg>
-</div>
-}
+@loading (minimum 1.2s) { 
+  <div class="initial-load">   
+    <img src="../favicon.ico" alt="Neslo Logo">
+  </div>
+  }
