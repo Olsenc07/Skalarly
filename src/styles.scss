@@ -52,6 +52,10 @@ body {
   @include common.common;
   flex-grow: 1; 
   width: 100%;
+  background-image: url(src/assets/skalarly_bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
  }
  button[mat-button],button[mat-raised-button], button[mat-stroked-button]{
   min-height: 48px; 

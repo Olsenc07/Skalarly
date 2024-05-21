@@ -26,6 +26,8 @@ export class ProfileComponent {
     { name: 'Twitter', url: 'https://twitter.com/johndoe' },
     { name: 'Instagram', url: 'https://www.instagram.com/johndoe' }
   ];
+
+  // chat bot that can explain each course when clicked
   completedCourses: string[] = ['Calculus I', 'Linear Algebra', 'Data Structures'];
   pursuingCourses: string[] = ['Machine Learning', 'Artificial Intelligence', 'Software Engineering'];
 

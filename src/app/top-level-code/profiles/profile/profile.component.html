@@ -1,19 +1,19 @@
-<div class="column">
 <div class="col-12">
+  <div class="d-flex flex-row">
 <div class="left-container">
 <div class="row">
       <div class="profile-picture">
         <img src="{{ profilePic }}" alt="Profile Picture">
       </div>
-    </div>
-  <div class="row">
     <div class="column">
+      <ul>
       <h2>{{ name }}</h2>
-      <p>{{ major }}</p>
-      <p>{{ minor }}</p>
-      <p>{{ sport }}</p>
-      <p>{{ club }}</p>
+      <p><li>Major: {{ major }} </li></p>
+      <p><li>Minor: {{ minor }} </li></p>
+      <p><li>Athletics: {{ sport }} </li></p>
+      <p><li>Club: {{ club }} </li></p>
       <p>{{ bio }}</p>
+    </ul>
     </div>
   </div>
   <div class="row">
@@ -28,7 +28,8 @@
       </ul>
     </div>
   </div>
-  <div >
+  <div class="friends-container">
+  <div class="d-flex flex-column align-items-center">
       <h3>Followers</h3>
       <button mat-fab extended color="primary" type="button">
         <mat-icon class="material-symbols-outlined">
@@ -37,7 +38,7 @@
       <span>{{ followersCount }}</span>
     </button>
     </div>
-    <div >
+    <div class="d-flex flex-column align-items-center">
       <h3>Following</h3>
       <button mat-fab extended color="primary" type="button">
         <mat-icon class="material-symbols-outlined">
@@ -47,12 +48,15 @@
       </button>
   </div>
 </div>
+</div>
   <!-- middle -->
-  <mat-card class="d-flex flex-row justify-content-center align-items-center">
   <div class="row">
+  <div class="col-12">
+  <mat-card>
+  <div class="d-flex flex-row justify-content-center align-items-center">
     <div class="column">
       <h3>Completed Courses</h3>
-      <ul class="list-unstyled">
+      <ul class="list">
         @for(course of completedCourses; let i = $index; track course){
         <li >
           {{ course }}
@@ -60,9 +64,10 @@
       }
       </ul>
     </div>
+
     <div class="column">
       <h3>Pursuing Courses</h3>
-      <ul class="list-unstyled">
+      <ul class="list">
         @for(course of pursuingCourses; let i = $index; track course){
         <li>
           {{ course }}
@@ -72,6 +77,9 @@
     </div>
   </div>
   </mat-card>
+  </div>
+  </div>
+</div>
   <div class="row">
     <div class="col-12">
       <mat-tab-group>
