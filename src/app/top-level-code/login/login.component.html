@@ -1,6 +1,8 @@
-@defer { 
+<!-- @defer {  -->
+  <div class="background">
   @if(this.orientationService.screen()){
-    <div entire-page>
+    <!-- <div entire-page> -->
+      <div class="border">
         <div skalarly>
         Skalarly
         </div>
@@ -37,7 +39,8 @@
   </div>
       </div>
   } @else {
-    <div entire-page>
+    <!-- <div entire-page> -->
+      <div class="border">
     <div class="logo">
           <!-- <svg>
             <use href="#skalarly-icon"></use>
@@ -83,7 +86,8 @@
 </div>
 }
 <footer>Copyright © 2024 Skalarly</footer>
-}@placeholder(minimum 300ms) {
+</div>
+<!-- }@placeholder(minimum 300ms) {
   <div column>
     <app-skeleton-loader-login>
     </app-skeleton-loader-login>
@@ -93,4 +97,4 @@
   <span class="material-symbols-outlined">
     sync_problem
     </span>
-}
+} -->

@@ -1,13 +1,99 @@
-<p>profile works!</p>
-<!-- project this content reusably into others profile html
-use ng-content -->
-<!-- for profil epic -->
-<!-- <ngx-skeleton-loader *ngIf="!imgLoaded" appearance="circle"></ngx-skeleton-loader> -->
-   <!-- <mat-fab>
-      <mat-icon-button (click)="function1()">
-        <mat-icon>Change file</mat-icon>
-      </mat-icon-button>
-      <mat-icon-button (click)="function2()">
-        <mat-icon>Revome</mat-icon>
-      </mat-icon-button>
-    </mat-fab> -->
+<div class="col-12">
+  <div class="d-flex flex-row">
+<div class="left-container">
+<div class="row">
+      <div class="profile-picture">
+        <img src="{{ profilePic }}" alt="Profile Picture">
+      </div>
+    <div class="column">
+      <ul>
+      <h2>{{ name }}</h2>
+      <p><li>Major: {{ major }} </li></p>
+      <p><li>Minor: {{ minor }} </li></p>
+      <p><li>Athletics: {{ sport }} </li></p>
+      <p><li>Club: {{ club }} </li></p>
+      <p>{{ bio }}</p>
+    </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <h3>Social Media</h3>
+      <ul class="list-unstyled">
+        @for(link of socialMediaLinks; let i = $index; track link){
+        <li>
+          <a href="{{ link.url }}" target="_blank">{{ link.name }}</a>
+        </li>
+      }
+      </ul>
+    </div>
+  </div>
+  <div class="friends-container">
+  <div class="d-flex flex-column align-items-center">
+      <h3>Followers</h3>
+      <button mat-fab extended color="primary" type="button">
+        <mat-icon class="material-symbols-outlined">
+          group
+        </mat-icon>
+      <span>{{ followersCount }}</span>
+    </button>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <h3>Following</h3>
+      <button mat-fab extended color="primary" type="button">
+        <mat-icon class="material-symbols-outlined">
+          group_add
+        </mat-icon>
+      <span>{{ followingCount }}</span>
+      </button>
+  </div>
+</div>
+</div>
+  <!-- middle -->
+  <div class="row">
+  <div class="col-12">
+  <mat-card>
+  <div class="d-flex flex-row justify-content-center align-items-center">
+    <div class="column">
+      <h3>Completed Courses</h3>
+      <ul class="list">
+        @for(course of completedCourses; let i = $index; track course){
+        <li >
+          {{ course }}
+        </li>
+      }
+      </ul>
+    </div>
+
+    <div class="column">
+      <h3>Pursuing Courses</h3>
+      <ul class="list">
+        @for(course of pursuingCourses; let i = $index; track course){
+        <li>
+          {{ course }}
+        </li>
+      }
+      </ul>
+    </div>
+  </div>
+  </mat-card>
+  </div>
+  </div>
+</div>
+  <div class="row">
+    <div class="col-12">
+      <mat-tab-group>
+        <mat-tab label="Posts">
+          <div class="posts-container">
+            <!-- Display posts here -->
+          </div>
+        </mat-tab>
+        <mat-tab label="Showcases">
+          <div class="images-container">
+            <!-- Display images here -->
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

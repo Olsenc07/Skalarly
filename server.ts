@@ -14,7 +14,6 @@ const isProduction = process.env['NODE_ENV'] === 'production';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-console.log('wz up', __dirname);
 // static files
 const browserDistFolder = join(__dirname, '../browser');
 // SSR entry
@@ -140,14 +139,14 @@ async function createServer(): Promise<express.Express> {
 };
   server.use(cors(corsOptions))
 
-     // Middleware
-     server.use(compression());
+  // Middleware
+  server.use(compression());
 
-     server.use(express.json());
-     server.use(express.urlencoded({ extended: true }));
+  server.use(express.json());
+  server.use(express.urlencoded({ extended: true }));
       
-    server.set('view engine', 'html');
-    server.set('views', browserDistFolder);
+  server.set('view engine', 'html');
+  server.set('views', browserDistFolder);
   // Serve static files
   server.get('*.*', express.static(browserDistFolder, {
     maxAge: isProduction ? '1y' : '0', 

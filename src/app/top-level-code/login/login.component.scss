@@ -1,26 +1,41 @@
+.background{
+    background-image: url('src/assets/skalarly_bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+    height: 100vh;
+}
+.border{
+  border-radius: 25px;
+  background-color: #f5ebdae7;
+  border: groove;
+  box-shadow: 2px 1px 2px var(--secondChoice);
+  margin: 0% 15%;
+}
 .logo {
   display: contents;
 }
 .image-container{
+  display: flex;
   margin: 0% 15%;
+  justify-content: center;
 }
 .img{
   max-width: 75%;
 }
-  button[join]:hover:after {
+button[join]:hover:after {
     content: '\2728'; 
     position: absolute;
     top: 5%;
     left: 65%;
-  }
-  .hidden {
+}
+.hidden {
     visibility: hidden;
-  }
+}
 div[column] {
   display: flex;
   flex-direction: column;
-  padding: 3% 1% 0% 1%;
-  height: 100vh;
+  padding: 0% 1%;
 }
 footer{
   display: flex;

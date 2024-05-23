@@ -1,10 +1,9 @@
 @use './assistant-level-code/universal-reusable-styles/common' as common;
-@use './assistant-level-code/universal-reusable-styles/one-by-one' as loop;
 
-.content-container{
-  @include common.common(flex, space-between, column);
-  @include common.pageSize;
-}
+// .content-container{
+//   @include common.common(flex, space-between, column);
+//   @include common.pageSize;
+// }
 app-nav-bar[scrollToggle]{
   z-index: 4;
   position: fixed;
