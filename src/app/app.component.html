@@ -1,5 +1,5 @@
  @defer { 
-<div class="content-container">
+<!-- <div class="content-container"> -->
   @if(!this.orientationService.screen() && this.orientationService.url() == ('/login' || '/' )){
 @defer (on idle) { 
   @for (line of lines; let i = $index; track line){
@@ -7,20 +7,19 @@
     class="line"
     [style.top]="line.top"
     [style.left]="line.left"
-  [style.animation-delay]="i * 2 + 's'"
+    [style.animation-delay]="i * 2 + 's'"
     >
   {{line.data}}</div>
   }
   }
 }
-    <div>
+
 <!-- @if (this.orientationService.url() !== ('/' || '/login' || '/signup' )){
 <app-nav-bar scrollToggle (toggleHeader)="onToggleHeader($event)"></app-nav-bar>
  } -->
- <div [@fadeMargin]="marginState">
+<!-- [@fadeMargin]="marginState" -->
   <router-outlet></router-outlet> 
-</div>
-</div>
+
   <!-- @if(this.orientationService.screen() && (this.orientationService.url() !== ('/login' || '/' ))){
     <footer>
       <app-nav-icons>
@@ -29,7 +28,7 @@
     } -->
  <!-- Render as component based on path of routes -->
      <!-- <router-outlet ></router-outlet>  Secondary outlet for sidebars & later maybe modals/dialog -->
- </div>  
+ <!-- </div>   -->
 }  
 @loading (minimum 1.2s) { 
   <div class="initial-load">   
