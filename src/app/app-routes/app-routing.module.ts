@@ -8,14 +8,6 @@ import { inject } from '@angular/core'
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
-    path: 'connections',
-    canActivate: [() => inject(AuthGuard).canActivate],
-    loadComponent: () =>
-      import('../top-level-code/connections/connections.component').then(
-        (mod) => mod.ConnectionsComponent,
-      ),
-  },
-  {
     path: 'login',
     loadComponent: () =>
       import('../top-level-code/login/login.component').then(
@@ -60,30 +52,6 @@ export const routes: Routes = [
       import(
         '../top-level-code/feed-folder/single-feed-page/single-feed-page.component'
       ).then((mod) => mod.SingleFeedPageComponent),
-  },
-  {
-    path: 'institutions',
-    canActivate: [() => inject(AuthGuard).canActivate],
-    loadComponent: () =>
-      import('../top-level-code/institutions/institutions.component').then(
-        (mod) => mod.InstitutionsComponent,
-      ),
-  },
-  {
-    path: 'messages',
-    canActivate: [() => inject(AuthGuard).canActivate],
-    loadComponent: () =>
-      import('../top-level-code/messages/messages.component').then(
-        (mod) => mod.MessagesComponent,
-      ),
-  },
-  {
-    path: 'notifications',
-    canActivate: [() => inject(AuthGuard).canActivate],
-    loadComponent: () =>
-      import('../top-level-code/notifications/notifications.component').then(
-        (mod) => mod.NotificationsComponent,
-      ),
   },
   {
     path: 'profile',
