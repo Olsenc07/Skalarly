@@ -5,11 +5,9 @@
     background-position: center; 
     height: 100vh;
 }
-.border{
+.border-login{
   border-radius: 25px;
-  background-color: #f5ebdae7;
-  border: groove;
-  box-shadow: 2px 1px 2px var(--secondChoice);
+  background-image: linear-gradient(to bottom, transparent, #f5ebdae7, #f5ebdae7, #f5ebdae7);
   margin: 0% 15%;
 }
 .logo {

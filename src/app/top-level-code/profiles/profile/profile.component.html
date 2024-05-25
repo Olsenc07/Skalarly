@@ -1,61 +1,75 @@
 <div class="col-12">
-  <div class="d-flex flex-row">
+  <div class="d-flex flex-row justify-content-around">
 <div class="left-container">
-<div class="row">
-      <div class="profile-picture">
-        <img src="{{ profilePic }}" alt="Profile Picture">
-      </div>
-    <div class="column">
+<mat-card>  
+  <mat-card-header>
+        <mat-card-title>
+    <img mat-card-avatar src="{{ profilePic }}" alt="Profile Picture">
+        </mat-card-title>
+        <mat-card-subtitle>{{ name }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+  <div class="column">
       <ul>
-      <h2>{{ name }}</h2>
       <p><li>Major: {{ major }} </li></p>
       <p><li>Minor: {{ minor }} </li></p>
       <p><li>Athletics: {{ sport }} </li></p>
       <p><li>Club: {{ club }} </li></p>
-      <p>{{ bio }}</p>
     </ul>
+    <p class="bio">{{ bio }}</p>
     </div>
-  </div>
-  <div class="row">
-    <div class="column">
-      <h3>Social Media</h3>
-      <ul class="list-unstyled">
-        @for(link of socialMediaLinks; let i = $index; track link){
-        <li>
-          <a href="{{ link.url }}" target="_blank">{{ link.name }}</a>
-        </li>
-      }
-      </ul>
-    </div>
-  </div>
+  </mat-card-content>
+<mat-card-actions>
   <div class="friends-container">
-  <div class="d-flex flex-column align-items-center">
-      <h3>Followers</h3>
-      <button mat-fab extended color="primary" type="button">
-        <mat-icon class="material-symbols-outlined">
-          group
-        </mat-icon>
-      <span>{{ followersCount }}</span>
-    </button>
-    </div>
     <div class="d-flex flex-column align-items-center">
-      <h3>Following</h3>
-      <button mat-fab extended color="primary" type="button">
-        <mat-icon class="material-symbols-outlined">
-          group_add
-        </mat-icon>
-      <span>{{ followingCount }}</span>
+        <h3>Followers</h3>
+        <button mat-fab extended color="primary" type="button">
+          <mat-icon class="material-symbols-outlined">
+            group
+          </mat-icon>
+        <span>{{ followersCount }}</span>
       </button>
+      </div>
+      <div class="d-flex flex-column align-items-center">
+        <h3>Following</h3>
+        <button mat-fab extended color="primary" type="button">
+          <mat-icon class="material-symbols-outlined">
+            group_add
+          </mat-icon>
+        <span>{{ followingCount }}</span>
+        </button>
+    </div>
   </div>
-</div>
+</mat-card-actions>
+<mat-card-footer>
+  <h3>Social Media</h3>
+  <div class="column">
+    <ul>
+      @for(link of socialMediaLinks; let i = $index; track link){
+      <li>
+        <a href="{{ link.url }}" target="_blank">{{ link.name }}</a>
+      </li>
+    }
+    </ul>
+  </div>
+</mat-card-footer>
+</mat-card>
+  
 </div>
   <!-- middle -->
-  <div class="row">
-  <div class="col-12">
-  <mat-card>
-  <div class="d-flex flex-row justify-content-center align-items-center">
-    <div class="column">
-      <h3>Completed Courses</h3>
+  <section>
+  <mat-card class="courses-container two-column">
+    <mat-card-header>
+      <mat-card-title class="justify-content-center">
+        Education Tracker
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="course-columns">
+    <div class="courses">
+      <mat-card-subtitle>
+      <h3>Completed</h3>
+
+      </mat-card-subtitle>
       <ul class="list">
         @for(course of completedCourses; let i = $index; track course){
         <li >
@@ -65,8 +79,11 @@
       </ul>
     </div>
 
-    <div class="column">
-      <h3>Pursuing Courses</h3>
+    <div class="courses">
+      <mat-card-subtitle>
+      <h3>Pursuing</h3>
+
+      </mat-card-subtitle>
       <ul class="list">
         @for(course of pursuingCourses; let i = $index; track course){
         <li>
@@ -74,11 +91,10 @@
         </li>
       }
       </ul>
-    </div>
   </div>
+</mat-card-content>
   </mat-card>
-  </div>
-  </div>
+</section>
 </div>
   <div class="row">
     <div class="col-12">

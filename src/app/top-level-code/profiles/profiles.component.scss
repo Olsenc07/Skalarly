@@ -1,55 +1,45 @@
-.profile-picture {
-    text-align: center;
-    margin-bottom: 20px;
+.courses-container {
+    display: flex;
+    flex-direction: column;
   }
-  
-  .profile-picture img {
+.courses{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.course-columns{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;;
+}
+.profile-picture img {
     width: 150px;
     height: 150px;
     border-radius: 50%;
   }
-  .column {
-    background-color: #f9f9f9; /* Light background for contrast */
-    padding: 20px; /* Padding around the content */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+p.bio{
+    background-color: white;
+    box-shadow: 1px 1px 1px 1px grey;
+    padding: 2%;
+    margin: 2%;
+    border-radius: 8px;
+  }
+  .two-column {
+    display: flex;
+    text-align: center;
   }
   
-  .column h3 {
-    font-size: 24px; /* Larger font size for heading */
-    color: #333; /* Darker color for heading */
-    margin-bottom: 10px; /* Space below heading */
-    text-align: center; /* Center the heading */
+.two-column .courses {
+    flex: 1;
+    margin: 0 10px;
   }
   
-  .list li {
-    font-size: 18px; /* Size of list items */
+.list li {
     color: #555; /* Slightly lighter color for list items */
     padding: 8px 0; /* Padding above and below each item */
     border-bottom: 1px solid #ddd; /* Border between items */
   }
-  
-  .list li:last-child {
-    border-bottom: none; /* Remove border from the last item */
-  }
-  
-  .list li:hover {
-    background-color: #f1f1f1; /* Change background on hover */
-    cursor: pointer; /* Change cursor on hover */
-  }
-  
-  h2, p {
-    margin-bottom: 10px;
-    align-items: center;
-  }
-  
-  ul {
-    padding: 0;
-  }
-  
-  ul li {
-    margin-bottom: 5px;
-  }
+
 .list{
     display: flex;
     flex-direction: column;
@@ -57,11 +47,12 @@
     justify-content: center;
 }
 .left-container{
-    margin-left: 10%;
+  display: flex;
+  flex-direction: column;
 }
 .friends-container{
-    display: flex;
-    flex-direction: row;
-    align-items: center;;
-    justify-content: space-evenly;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
 }
